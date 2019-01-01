@@ -11,6 +11,7 @@ import com.ksu.serene.R;
 
 public class Questionnairs extends AppCompatActivity {
 
+    int step = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,19 +19,50 @@ public class Questionnairs extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
-        if (findViewById(R.id.qContainer)!= null){
+        //step = getExtras();
 
-            if( savedInstanceState == null ) {
+        if (step == 1) {
 
-                Sociodemo SocioFragment = new Sociodemo();
-                FragmentManager fm = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                fragmentTransaction.replace(R.id.qContainer, SocioFragment, null);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+            if (findViewById(R.id.qContainer) != null) {
 
-            } else return;
+                if (savedInstanceState == null) {
+
+                    Sociodemo SocioFragment = new Sociodemo();
+                    FragmentManager fm = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                    fragmentTransaction.replace(R.id.qContainer, SocioFragment, null);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+
+                }
+            }
+        } /*else {
+
+            GAD7 GadFragment = new GAD7();
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            fragmentTransaction.replace(R.id.qContainer, GadFragment, null);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }*/
+
+
+    }// end onCreate
+
+    private int getExtras() {
+
+        if (getIntent().getExtras().getString("step") != null) {
+
+        String step = getIntent().getExtras().getString("step");
+        return Integer.parseInt(step);
         }
 
+        return 1;
     }
+
+    @Override
+    public void onBackPressed(){
+
+    }
+
 }

@@ -34,10 +34,9 @@ public class GAD7 extends Fragment {
 
     private String GAD7ScaleScore;
     private RadioGroup group1, group2, group3, group4, group5, group6, group7;
-    private int score1, score2, score3, score4, score5, score6,score7, finalScore;
+    private int score1, score2, score3, score4, score5, score6,score7, finalScore, step=2;
     private String radio1, radio2, radio3, radio4, radio5, radio6, radio7;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    boolean flag;
     private Button next, back;
 
 
@@ -97,7 +96,6 @@ public class GAD7 extends Fragment {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO : back to socio DONE
                 getFragmentManager().popBackStackImmediate();
             }
         });
@@ -262,8 +260,6 @@ public class GAD7 extends Fragment {
 
     public boolean checkFields(){
 
-        flag = false;
-
         // Force the user to answer all the questions
         if(radio1.matches("")|| radio2.matches("")||radio3.matches("")||radio4.matches("")||
                 radio5.matches("")|| radio6.matches("")||radio7.matches("")){
@@ -271,11 +267,10 @@ public class GAD7 extends Fragment {
             Toast.makeText(getActivity(), "Please fill all the questions.",
                     Toast.LENGTH_SHORT).show();
 
-            return flag;
+            return false;
         }
 
-        flag = true;
-        return flag;
+        return true;
 
     }
 

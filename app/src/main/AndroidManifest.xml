@@ -20,7 +20,11 @@
         <activity android:name=".Controller.Homepage.Drafts.EditPatientTextDraftPage" />
         <activity android:name=".Controller.Homepage.Drafts.PatientTextDraftDetailPage" />
         <activity android:name=".Controller.Homepage.Drafts.AddTextDraftPage" />
-        <activity android:name=".Controller.Signup.GoogleCalendarConnection" />
+        <activity android:name=".Controller.Signup.GoogleCalendarConnection" >            <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter></activity>
         <activity
             android:name=".Controller.Signup.FitbitConnection"
             android:launchMode="singleTop">
@@ -38,11 +42,7 @@
         <activity
             android:name=".SplashScreen"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".Controller.Homepage.Patient.AddDoctor" />
         <activity android:name=".Controller.Homepage.Calendar.Add_Appointment_Page" />

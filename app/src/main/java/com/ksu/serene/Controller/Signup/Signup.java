@@ -108,7 +108,6 @@ public class Signup extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         loginTV = findViewById(R.id.loginBtn);
-        loginTV.setPaintFlags(loginTV.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         loginTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

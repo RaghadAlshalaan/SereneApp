@@ -33,6 +33,7 @@ public class GoogleCalendarConnection extends AppCompatActivity {
 
 
                 Intent i = new Intent(GoogleCalendarConnection.this, MainActivity.class);
+                i.putExtra("first","1");
                 startActivity(i);
 
             }

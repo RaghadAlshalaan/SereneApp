@@ -6,12 +6,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,19 +21,12 @@ import android.widget.ArrayAdapter;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.ksu.serene.Controller.Constants;
-import com.ksu.serene.Model.Token;
 import com.ksu.serene.R;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,7 +50,7 @@ public class Sociodemo extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
 
-        View view = inflater.inflate(R.layout.activity_sociodemo, container, false);
+        View view = inflater.inflate(R.layout.fragment_sociodemo, container, false);
 
 
         init(view);
@@ -72,6 +62,9 @@ public class Sociodemo extends Fragment {
         monthlyIncomeET.addTextChangedListener(signUpTextWatcher);
         chronicDiseaseET.addTextChangedListener(signUpTextWatcher);
 
+
+        // TODO : DO SP
+        // TODO : SAVE FRAGMENT STATUS ON DB
 
 /*        updateToken(FirebaseInstanceId.getInstance().getToken());
         SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
@@ -134,7 +127,7 @@ public class Sociodemo extends Fragment {
                 }
 
             }
-        }); // end on click next button
+        }); // end onClick next button
 
 
         return view;
@@ -223,10 +216,6 @@ public class Sociodemo extends Fragment {
             monthlyIncome = monthlyIncomeET.getText().toString().trim();
             chronicDisease = chronicDiseaseET.getText().toString().trim();
 
-            // TODO : OF ALL ANSWERED ENABLE NEXT
-            // TODO : ADD ALL FIELD REQUIRED NOTE
-            // TODO : ADD FRAGMENT NUMBER TO LAYOUT
-            // TODO : SAVE FRAGMENT STATUS ON DB
         }
 
         @Override
@@ -246,10 +235,10 @@ public class Sociodemo extends Fragment {
         monthlyIncome = monthlyIncomeET.getText().toString();
         chronicDisease = chronicDiseaseET.getText().toString();
 
-        double ageI = Double.parseDouble(age);
-        double heightI = Double.parseDouble(height);
-        double weightI = Double.parseDouble(weight);
-        double monthlyIncomeI = Double.parseDouble(monthlyIncome);
+        double ageI ;
+        double heightI ;
+        double weightI ;
+        double monthlyIncomeI;
 
         // Fields Validations
 
@@ -261,7 +250,13 @@ public class Sociodemo extends Fragment {
             return flag;
 
         }
-        else if( !age.matches("^[0-9]+") || ageI > 110 || ageI < 5 ){
+
+        ageI = Double.parseDouble(age);
+        heightI = Double.parseDouble(height);
+        weightI = Double.parseDouble(weight);
+        monthlyIncomeI = Double.parseDouble(monthlyIncome);
+
+        if( !age.matches("^[0-9]+") || ageI > 110 || ageI < 5 ){
 
             Toast.makeText(getActivity(), "Please enter valid age value",
                     Toast.LENGTH_SHORT).show();
@@ -296,8 +291,8 @@ public class Sociodemo extends Fragment {
             return flag;
         }
 
-        flag = true;
-        return flag;
+        return true;
     }
+
 
 }
