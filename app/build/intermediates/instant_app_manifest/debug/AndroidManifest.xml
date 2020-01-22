@@ -25,6 +25,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
+        <activity android:name="com.ksu.serene.WelcomePage" />
         <activity
             android:name="com.ksu.serene.MainActivity"
             android:label="@string/app_name" >
