@@ -8,7 +8,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuth.AuthStateListener;
 import com.google.firebase.auth.AuthResult;
+
 //this is the model for the login page
 public class Patient {
 
@@ -45,5 +47,9 @@ public class Patient {
                     }
                 });
         return login[0];
+    }
+
+    public boolean logout () {
+        return true;
     }
 }
