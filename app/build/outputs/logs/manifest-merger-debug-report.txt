@@ -1,16 +1,19 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:2:1-24:12
-INJECTED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:2:1-24:12
-INJECTED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:2:1-24:12
-INJECTED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:2:1-24:12
+ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:2:1-25:12
+INJECTED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:2:1-25:12
+INJECTED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:2:1-25:12
+INJECTED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:2:1-25:12
 MERGED from [androidx.navigation:navigation-ui:2.1.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/8be38408311340ef93a43308a1991214/jetified-navigation-ui-2.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.material:material:1.0.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/314e78ee411997f535ea385b0dca3a47/material-1.0.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.appcompat:appcompat:1.1.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/383837a1f189d10df3511e6927171459/appcompat-1.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] /Users/lama/.gradle/caches/transforms-2/files-2.1/7486e7b29120c3ce52d033d841b80346/constraintlayout-1.1.3/AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.navigation:navigation-fragment:2.1.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/e7a9e146a48a76deaac623845e4872bb/navigation-fragment-2.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.lifecycle:lifecycle-extensions:2.1.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/772b4d6beaeae387b384e61280b06401/lifecycle-extensions-2.1.0/AndroidManifest.xml:17:1-25:12
+MERGED from [com.google.firebase:firebase-auth:16.0.5] /Users/lama/.gradle/caches/transforms-2/files-2.1/dafac79e6a7866b541911662042fb87b/jetified-firebase-auth-16.0.5/AndroidManifest.xml:17:1-42:12
 MERGED from [com.google.firebase:firebase-analytics:17.2.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/59d1e99d856d277be6fac00a184ad0a4/firebase-analytics-17.2.0/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-flags:16.0.1] /Users/lama/.gradle/caches/transforms-2/files-2.1/975136eeddd1e2c60667a8bd0cfe944d/play-services-flags-16.0.1/AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.firebase:firebase-auth-interop:16.0.1] /Users/lama/.gradle/caches/transforms-2/files-2.1/78f5a8549dfc2b3de322e9da3a8784a6/jetified-firebase-auth-interop-16.0.1/AndroidManifest.xml:2:1-10:12
 MERGED from [com.google.android.gms:play-services-measurement:17.2.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/fdc70b0b7960929853ff7c757beb7d4f/play-services-measurement-17.2.0/AndroidManifest.xml:17:1-55:12
 MERGED from [com.google.android.gms:play-services-measurement-api:17.2.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/09e58a4d133ca5961b1e6c775805be53/play-services-measurement-api-17.2.0/AndroidManifest.xml:17:1-36:12
 MERGED from [com.google.android.gms:play-services-measurement-sdk:17.2.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/636aba860ef07bf2f219a332876c94b0/play-services-measurement-sdk-17.2.0/AndroidManifest.xml:17:1-25:12
@@ -61,33 +64,37 @@ MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/lama/.gradle/cache
 MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/e4a94d2054024c8be95b68226af78a53/documentfile-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/37caa00d68abfda0e932890140749490/localbroadcastmanager-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.print:print:1.0.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/e1d01877c650a22b3c257891754df4cc/print-1.0.0/AndroidManifest.xml:17:1-22:12
-INJECTED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:2:1-24:12
-INJECTED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:2:1-24:12
-INJECTED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:2:1-24:12
+INJECTED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:2:1-25:12
+INJECTED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:2:1-25:12
+INJECTED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:2:1-25:12
 	package
 		ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:3:5-29
 		INJECTED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml
 		INJECTED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml
 	android:versionName
 		INJECTED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml
-		ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:2:1-24:12
+		ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:2:1-25:12
 		INJECTED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml
 	android:versionCode
 		INJECTED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml
-		ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:2:1-24:12
+		ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:2:1-25:12
 		INJECTED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml
 	xmlns:android
 		ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:2:11-69
 application
-ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:5:5-22:19
+ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:5:5-23:19
 MERGED from [com.google.android.material:material:1.0.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/314e78ee411997f535ea385b0dca3a47/material-1.0.0/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.0.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/314e78ee411997f535ea385b0dca3a47/material-1.0.0/AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] /Users/lama/.gradle/caches/transforms-2/files-2.1/7486e7b29120c3ce52d033d841b80346/constraintlayout-1.1.3/AndroidManifest.xml:9:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] /Users/lama/.gradle/caches/transforms-2/files-2.1/7486e7b29120c3ce52d033d841b80346/constraintlayout-1.1.3/AndroidManifest.xml:9:5-20
 MERGED from [androidx.lifecycle:lifecycle-extensions:2.1.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/772b4d6beaeae387b384e61280b06401/lifecycle-extensions-2.1.0/AndroidManifest.xml:22:5-23:19
 MERGED from [androidx.lifecycle:lifecycle-extensions:2.1.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/772b4d6beaeae387b384e61280b06401/lifecycle-extensions-2.1.0/AndroidManifest.xml:22:5-23:19
+MERGED from [com.google.firebase:firebase-auth:16.0.5] /Users/lama/.gradle/caches/transforms-2/files-2.1/dafac79e6a7866b541911662042fb87b/jetified-firebase-auth-16.0.5/AndroidManifest.xml:23:5-40:19
+MERGED from [com.google.firebase:firebase-auth:16.0.5] /Users/lama/.gradle/caches/transforms-2/files-2.1/dafac79e6a7866b541911662042fb87b/jetified-firebase-auth-16.0.5/AndroidManifest.xml:23:5-40:19
 MERGED from [com.google.firebase:firebase-analytics:17.2.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/59d1e99d856d277be6fac00a184ad0a4/firebase-analytics-17.2.0/AndroidManifest.xml:7:5-20
 MERGED from [com.google.firebase:firebase-analytics:17.2.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/59d1e99d856d277be6fac00a184ad0a4/firebase-analytics-17.2.0/AndroidManifest.xml:7:5-20
+MERGED from [com.google.firebase:firebase-auth-interop:16.0.1] /Users/lama/.gradle/caches/transforms-2/files-2.1/78f5a8549dfc2b3de322e9da3a8784a6/jetified-firebase-auth-interop-16.0.1/AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.firebase:firebase-auth-interop:16.0.1] /Users/lama/.gradle/caches/transforms-2/files-2.1/78f5a8549dfc2b3de322e9da3a8784a6/jetified-firebase-auth-interop-16.0.1/AndroidManifest.xml:7:5-8:19
 MERGED from [com.google.android.gms:play-services-measurement:17.2.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/fdc70b0b7960929853ff7c757beb7d4f/play-services-measurement-17.2.0/AndroidManifest.xml:28:5-53:19
 MERGED from [com.google.android.gms:play-services-measurement:17.2.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/fdc70b0b7960929853ff7c757beb7d4f/play-services-measurement-17.2.0/AndroidManifest.xml:28:5-53:19
 MERGED from [com.google.android.gms:play-services-measurement-api:17.2.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/09e58a4d133ca5961b1e6c775805be53/play-services-measurement-api-17.2.0/AndroidManifest.xml:26:5-34:19
@@ -136,26 +143,30 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/lama
 		ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:6:9-35
 	android:theme
 		ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:11:9-40
+activity#com.ksu.serene.LogInPage
+ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:12:9-56
+	android:name
+		ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:12:19-44
 activity#com.ksu.serene.WelcomePage
-ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:12:9-58
+ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:13:9-49
 	android:name
-		ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:12:19-46
+		ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:13:19-46
 activity#com.ksu.serene.MainActivity
-ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:13:9-21:20
+ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:14:9-22:20
 	android:label
-		ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:15:13-45
+		ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:16:13-45
 	android:name
-		ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:14:13-41
+		ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:15:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:16:13-20:29
+ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:17:13-21:29
 action#android.intent.action.MAIN
-ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:17:17-69
+ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:18:17-69
 	android:name
-		ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:17:25-66
+		ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:18:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:19:17-77
+ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:20:17-77
 	android:name
-		ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:19:27-74
+		ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml:20:27-74
 uses-sdk
 INJECTED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml
@@ -172,8 +183,14 @@ MERGED from [androidx.navigation:navigation-fragment:2.1.0] /Users/lama/.gradle/
 MERGED from [androidx.navigation:navigation-fragment:2.1.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/e7a9e146a48a76deaac623845e4872bb/navigation-fragment-2.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.lifecycle:lifecycle-extensions:2.1.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/772b4d6beaeae387b384e61280b06401/lifecycle-extensions-2.1.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.lifecycle:lifecycle-extensions:2.1.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/772b4d6beaeae387b384e61280b06401/lifecycle-extensions-2.1.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-auth:16.0.5] /Users/lama/.gradle/caches/transforms-2/files-2.1/dafac79e6a7866b541911662042fb87b/jetified-firebase-auth-16.0.5/AndroidManifest.xml:21:5-44
+MERGED from [com.google.firebase:firebase-auth:16.0.5] /Users/lama/.gradle/caches/transforms-2/files-2.1/dafac79e6a7866b541911662042fb87b/jetified-firebase-auth-16.0.5/AndroidManifest.xml:21:5-44
 MERGED from [com.google.firebase:firebase-analytics:17.2.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/59d1e99d856d277be6fac00a184ad0a4/firebase-analytics-17.2.0/AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-analytics:17.2.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/59d1e99d856d277be6fac00a184ad0a4/firebase-analytics-17.2.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-flags:16.0.1] /Users/lama/.gradle/caches/transforms-2/files-2.1/975136eeddd1e2c60667a8bd0cfe944d/play-services-flags-16.0.1/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-flags:16.0.1] /Users/lama/.gradle/caches/transforms-2/files-2.1/975136eeddd1e2c60667a8bd0cfe944d/play-services-flags-16.0.1/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-auth-interop:16.0.1] /Users/lama/.gradle/caches/transforms-2/files-2.1/78f5a8549dfc2b3de322e9da3a8784a6/jetified-firebase-auth-interop-16.0.1/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-auth-interop:16.0.1] /Users/lama/.gradle/caches/transforms-2/files-2.1/78f5a8549dfc2b3de322e9da3a8784a6/jetified-firebase-auth-interop-16.0.1/AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-measurement:17.2.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/fdc70b0b7960929853ff7c757beb7d4f/play-services-measurement-17.2.0/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-measurement:17.2.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/fdc70b0b7960929853ff7c757beb7d4f/play-services-measurement-17.2.0/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-measurement-api:17.2.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/09e58a4d133ca5961b1e6c775805be53/play-services-measurement-api-17.2.0/AndroidManifest.xml:20:5-44
@@ -284,6 +301,38 @@ INJECTED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/Androi
 		INJECTED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml
 		ADDED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml
 		INJECTED from /Users/lama/AndroidStudioProjects/SereneSystem/app/src/main/AndroidManifest.xml
+activity#com.google.firebase.auth.internal.FederatedSignInActivity
+ADDED from [com.google.firebase:firebase-auth:16.0.5] /Users/lama/.gradle/caches/transforms-2/files-2.1/dafac79e6a7866b541911662042fb87b/jetified-firebase-auth-16.0.5/AndroidManifest.xml:24:9-31:50
+	android:excludeFromRecents
+		ADDED from [com.google.firebase:firebase-auth:16.0.5] /Users/lama/.gradle/caches/transforms-2/files-2.1/dafac79e6a7866b541911662042fb87b/jetified-firebase-auth-16.0.5/AndroidManifest.xml:26:13-46
+	android:launchMode
+		ADDED from [com.google.firebase:firebase-auth:16.0.5] /Users/lama/.gradle/caches/transforms-2/files-2.1/dafac79e6a7866b541911662042fb87b/jetified-firebase-auth-16.0.5/AndroidManifest.xml:28:13-44
+	android:exported
+		ADDED from [com.google.firebase:firebase-auth:16.0.5] /Users/lama/.gradle/caches/transforms-2/files-2.1/dafac79e6a7866b541911662042fb87b/jetified-firebase-auth-16.0.5/AndroidManifest.xml:27:13-36
+	android:permission
+		ADDED from [com.google.firebase:firebase-auth:16.0.5] /Users/lama/.gradle/caches/transforms-2/files-2.1/dafac79e6a7866b541911662042fb87b/jetified-firebase-auth-16.0.5/AndroidManifest.xml:29:13-102
+	android:theme
+		ADDED from [com.google.firebase:firebase-auth:16.0.5] /Users/lama/.gradle/caches/transforms-2/files-2.1/dafac79e6a7866b541911662042fb87b/jetified-firebase-auth-16.0.5/AndroidManifest.xml:30:13-72
+	tools:replace
+		ADDED from [com.google.firebase:firebase-auth:16.0.5] /Users/lama/.gradle/caches/transforms-2/files-2.1/dafac79e6a7866b541911662042fb87b/jetified-firebase-auth-16.0.5/AndroidManifest.xml:31:13-47
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:16.0.5] /Users/lama/.gradle/caches/transforms-2/files-2.1/dafac79e6a7866b541911662042fb87b/jetified-firebase-auth-16.0.5/AndroidManifest.xml:25:13-85
+service#com.google.firebase.components.ComponentDiscoveryService
+ADDED from [com.google.firebase:firebase-auth:16.0.5] /Users/lama/.gradle/caches/transforms-2/files-2.1/dafac79e6a7866b541911662042fb87b/jetified-firebase-auth-16.0.5/AndroidManifest.xml:33:9-39:19
+MERGED from [com.google.android.gms:play-services-measurement-api:17.2.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/09e58a4d133ca5961b1e6c775805be53/play-services-measurement-api-17.2.0/AndroidManifest.xml:27:9-33:19
+MERGED from [com.google.android.gms:play-services-measurement-api:17.2.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/09e58a4d133ca5961b1e6c775805be53/play-services-measurement-api-17.2.0/AndroidManifest.xml:27:9-33:19
+MERGED from [com.google.firebase:firebase-iid:19.0.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/957b0793de52737dcb2d552fb13bbbac/firebase-iid-19.0.0/AndroidManifest.xml:29:9-35:19
+MERGED from [com.google.firebase:firebase-iid:19.0.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/957b0793de52737dcb2d552fb13bbbac/firebase-iid-19.0.0/AndroidManifest.xml:29:9-35:19
+	android:exported
+		ADDED from [com.google.firebase:firebase-auth:16.0.5] /Users/lama/.gradle/caches/transforms-2/files-2.1/dafac79e6a7866b541911662042fb87b/jetified-firebase-auth-16.0.5/AndroidManifest.xml:35:13-37
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:16.0.5] /Users/lama/.gradle/caches/transforms-2/files-2.1/dafac79e6a7866b541911662042fb87b/jetified-firebase-auth-16.0.5/AndroidManifest.xml:34:13-84
+meta-data#com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar
+ADDED from [com.google.firebase:firebase-auth:16.0.5] /Users/lama/.gradle/caches/transforms-2/files-2.1/dafac79e6a7866b541911662042fb87b/jetified-firebase-auth-16.0.5/AndroidManifest.xml:36:13-38:85
+	android:value
+		ADDED from [com.google.firebase:firebase-auth:16.0.5] /Users/lama/.gradle/caches/transforms-2/files-2.1/dafac79e6a7866b541911662042fb87b/jetified-firebase-auth-16.0.5/AndroidManifest.xml:38:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:16.0.5] /Users/lama/.gradle/caches/transforms-2/files-2.1/dafac79e6a7866b541911662042fb87b/jetified-firebase-auth-16.0.5/AndroidManifest.xml:37:17-109
 uses-permission#android.permission.INTERNET
 ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/fdc70b0b7960929853ff7c757beb7d4f/play-services-measurement-17.2.0/AndroidManifest.xml:23:5-67
 MERGED from [com.google.android.gms:play-services-measurement-api:17.2.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/09e58a4d133ca5961b1e6c775805be53/play-services-measurement-api-17.2.0/AndroidManifest.xml:22:5-67
@@ -370,14 +419,6 @@ ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /Users/lama
 		ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/fdc70b0b7960929853ff7c757beb7d4f/play-services-measurement-17.2.0/AndroidManifest.xml:52:13-69
 	android:name
 		ADDED from [com.google.android.gms:play-services-measurement:17.2.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/fdc70b0b7960929853ff7c757beb7d4f/play-services-measurement-17.2.0/AndroidManifest.xml:49:13-87
-service#com.google.firebase.components.ComponentDiscoveryService
-ADDED from [com.google.android.gms:play-services-measurement-api:17.2.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/09e58a4d133ca5961b1e6c775805be53/play-services-measurement-api-17.2.0/AndroidManifest.xml:27:9-33:19
-MERGED from [com.google.firebase:firebase-iid:19.0.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/957b0793de52737dcb2d552fb13bbbac/firebase-iid-19.0.0/AndroidManifest.xml:29:9-35:19
-MERGED from [com.google.firebase:firebase-iid:19.0.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/957b0793de52737dcb2d552fb13bbbac/firebase-iid-19.0.0/AndroidManifest.xml:29:9-35:19
-	android:exported
-		ADDED from [com.google.android.gms:play-services-measurement-api:17.2.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/09e58a4d133ca5961b1e6c775805be53/play-services-measurement-api-17.2.0/AndroidManifest.xml:29:13-37
-	android:name
-		ADDED from [com.google.android.gms:play-services-measurement-api:17.2.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/09e58a4d133ca5961b1e6c775805be53/play-services-measurement-api-17.2.0/AndroidManifest.xml:28:13-84
 meta-data#com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar
 ADDED from [com.google.android.gms:play-services-measurement-api:17.2.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/09e58a4d133ca5961b1e6c775805be53/play-services-measurement-api-17.2.0/AndroidManifest.xml:30:13-32:85
 	android:value

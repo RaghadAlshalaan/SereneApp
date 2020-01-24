@@ -1,5 +1,6 @@
 package com.ksu.serene;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -7,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
+//this is the controller
 public class LogInPage extends AppCompatActivity {
 
     private EditText email;
@@ -28,8 +29,17 @@ public class LogInPage extends AppCompatActivity {
                 if (checkAllFields()){
                     //check the email is valid format and the email registered before
                     //check the password is correct
-                    //Intent intent = new Intent(LogInPage.this, HomePage.class);
-                    //startActivity(intent);
+                    Patient patient = new Patient();
+                    if (patient.login(email.getText().toString(), password.getText().toString())){
+                        Toast.makeText(LogInPage.this, "Authentication Success.",
+                                Toast.LENGTH_LONG).show();
+                        //Intent intent = new Intent(LogInPage.this, HomePage.class);
+                        //startActivity(intent);
+                    }
+                    else {
+                        Toast.makeText(LogInPage.this, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "All Fields Required", Toast.LENGTH_LONG).show();
