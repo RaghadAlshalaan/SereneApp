@@ -2,31 +2,75 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#4D4CA1D3"
     tools:context=".WelcomePage">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
+    <View
+        android:id="@+id/white_frame"
+        android:layout_width="412dp"
+        android:layout_height="545dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="147dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/white_frame" />
+
+    <View
+        android:id="@+id/serene_logo"
+        android:layout_width="411dp"
+        android:layout_height="180dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="-2dp"
+        android:layout_marginTop="244dp"
+        android:background="@drawable/serene_logo" />
+
+    <TextView
+        android:id="@+id/description4"
+        android:layout_width="321dp"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/serene_logo" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="43dp"
+        android:layout_marginBottom="321dp"
+        android:fontFamily="Roboto"
+        android:text="Welcome to Serene"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/LOGIN"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="300dp"
-        android:background="#FFFFFF"
-        android:text="LOG IN"
-        android:textColor="#3D8EC7" />
+        android:layout_width="129dp"
+        android:layout_height="35dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="142dp"
+        android:layout_marginBottom="229dp"
+        android:background="#4CA1D3"
+        android:ellipsize="none"
+        android:text="Login"
+        android:textColor="#FFFFFF" />
 
     <Button
         android:id="@+id/REGISTER"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="400dp"
-        android:background="#FFFFFF"
-        android:text="REGISTER"
-        android:textColor="#3D8EC7" />
+        android:layout_width="129dp"
+        android:layout_height="35dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="143dp"
+        android:layout_marginBottom="161dp"
+        android:background="#4CA1D3"
+        android:ellipsize="none"
+        android:text="Register"
+        android:textColor="#FFFFFF" />
 </RelativeLayout>

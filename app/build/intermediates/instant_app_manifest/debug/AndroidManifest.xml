@@ -136,7 +136,7 @@
             android:exported="false"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!--
-Service handling Google Sign-In user revocation. For apps that do not integrate with
+            Service handling Google Sign-In user revocation. For apps that do not integrate with
             Google Sign-In, this service will never be started.
         -->
         <service

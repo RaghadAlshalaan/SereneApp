@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.content.Intent;
 
+import com.ksu.serene.Controller.Signup;
+
 public class WelcomePage extends AppCompatActivity {
 
     private Button logIn;
@@ -31,8 +33,8 @@ public class WelcomePage extends AppCompatActivity {
         register.setOnClickListener( new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(WelcomePage.this, register.class);
-                //startActivity(intent);
+                Intent intent = new Intent(WelcomePage.this, Signup.class);
+                startActivity(intent);
             }
         });
 
