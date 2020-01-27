@@ -1,12 +1,14 @@
 package com.ksu.serene.Controller;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,10 +16,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,12 +45,15 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.ksu.serene.Model.Token;
 
 import com.ksu.serene.R;
 
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class Signup extends AppCompatActivity {
 
@@ -49,8 +64,14 @@ public class Signup extends AppCompatActivity {
     private EditText nameET, emailET, passwordET, confirmPasswordET;
     private Button signUpBtn;
     private String TAG = Signup.class.getSimpleName();
+    //image view for sign in with google
+    private ImageView signInWithGoogle ;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    //create googleAPClient object
+    private GoogleApiClient mGoogleApiClient;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +85,32 @@ public class Signup extends AppCompatActivity {
         passwordET = findViewById(R.id.passwordInput);
         confirmPasswordET = findViewById(R.id.CpasswordInput);
         signUpBtn = findViewById(R.id.reg_btn);
+        signInWithGoogle = findViewById(R.id.signup_withgoogle);
+
+        //for sign in with google need to create GoogleSigninOption object
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(Signup.this, new GoogleApiClient.OnConnectionFailedListener() {
+                    @Override
+                    public void onConnectionFailed (ConnectionResult result){
+                        Log.d(TAG , "OnConnectionFailed" + result);
+                    }
+                })
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+        //when click to sign up with google will show sign up with google page
+        signInWithGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+             public void onClick(View view) {
+                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                startActivityForResult(signInIntent, 9001);
+             }
+         }
+        );
+
 
         //Fragment fragmentOne = new GAD7();
         signUpBtn.setOnClickListener(new View.OnClickListener() {
@@ -296,5 +343,25 @@ public class Signup extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }//end initToolBar()
+
+    //for sign up with google
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 9001){
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+
+        }
+    }
+    private void handleSignInResult (GoogleSignInResult result){
+        Log.d(TAG , "handleSignInResult" + result.isSuccess());
+        if (result.isSuccess()){
+            GoogleSignInAccount account = result.getSignInAccount();
+        }
+        else {
+
+        }
+    }
+
 
 }
