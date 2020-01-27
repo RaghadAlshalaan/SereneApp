@@ -35,7 +35,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="-1dp"
         android:layout_marginLeft="-1dp"
-        android:layout_marginTop="177dp"
+        android:layout_marginTop="190dp"
         android:background="@drawable/serene_logo" />
 
     <TextView
@@ -46,7 +46,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
         android:layout_marginStart="49dp"
-        android:layout_marginBottom="354dp"
+        android:layout_marginBottom="390dp"
         android:fontFamily="Roboto"
         android:text="Welcome to Serene, if it’s your first time here, register below:"
         android:textAlignment="center"
@@ -89,7 +89,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="292dp"
+        android:layout_marginBottom="320dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="Full Name"
@@ -101,7 +101,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="241dp"
+        android:layout_marginBottom="270dp"
         android:ems="10"
         android:inputType="textEmailAddress"
         android:hint="Email"
@@ -113,7 +113,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="192dp"
+        android:layout_marginBottom="220dp"
         android:ems="10"
         android:inputType="textPassword"
         android:hint="Password"
@@ -124,7 +124,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="143dp"
+        android:layout_marginBottom="170dp"
         android:ems="10"
         android:inputType="textPassword"
         android:hint="Confirm Password"
@@ -138,10 +138,13 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="67dp"
-        android:layout_marginBottom="18dp"
+        android:layout_marginBottom="20dp"
         android:clickable="true"
         app:srcCompat="@drawable/signup_withgoogle" />
-
+ <LinearLayout
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_marginTop="670dp">
     <Button
         android:id="@+id/reg_btn"
         android:layout_width="102dp"
@@ -150,10 +153,10 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="152dp"
-        android:layout_marginBottom="110dp"
+        android:layout_marginBottom="100dp"
         android:clickable="true"
         android:fontFamily="sans-serif-medium"
-        android:text="Register"
+        android:text="Next"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -162,8 +165,17 @@
         android:typeface="normal"
         android:background="#FFFFFF"/>
 
+</LinearLayout>
+
+    <LinearLayout
+        android:id = "@+id/layout"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:orientation = "vertical">
+    </LinearLayout>
 
 </RelativeLayout>
+
 
 
 

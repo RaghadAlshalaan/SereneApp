@@ -29,6 +29,7 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
+        <activity android:name="com.ksu.serene.Controller.Sociodemo" />
         <activity android:name="com.ksu.serene.LogInPage" />
         <activity android:name="com.ksu.serene.WelcomePage" />
         <activity

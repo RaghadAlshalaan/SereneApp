@@ -3,4 +3,24 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+
+    <string-array name="employmentStatus">
+        <item>Full-time</item>
+        <item>Part-time</item>
+        <item>Student</item>
+        <item>Not employed</item>
+
+    </string-array>
+
+    <string-array name="yes_no">
+        <item>Yes</item>
+        <item>No</item>
+
+    </string-array>
+
+
+
 </resources>
+
+
