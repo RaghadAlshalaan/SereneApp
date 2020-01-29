@@ -1,5 +1,6 @@
 package com.ksu.serene.Controller;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ public class GAD7 extends Fragment {
     private Button next;
     private TextView arrow;
     private String radio1, radio2, radio3, radio4, radio5, radio6, radio7;
+    private boolean newOrOld;
 
     @Nullable
     @Override
@@ -40,7 +42,9 @@ public class GAD7 extends Fragment {
             fullName = getArguments().getString("fullName");
             email = getArguments().getString("email");
             password = getArguments().getString("password");
+
         }
+
 
         View view = inflater.inflate(R.layout.gad7_screen, container, false);
 
@@ -67,16 +71,16 @@ public class GAD7 extends Fragment {
         group1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == 0) {
+                if (checkedId == R.id.radioButton11) {
                     score1 = 0;
                     radio1="notNull";
-                } else if (checkedId == 1) {
+                } else if (checkedId == R.id.radioButton12) {
                     score1 = 1;
                     radio1="notNull";
-                } else if (checkedId == 2){
+                } else if (checkedId == R.id.radioButton13){
                     score1 = 2;
                     radio1="notNull";
-                } else if(checkedId == 3){
+                } else if(checkedId == R.id.radioButton14){
                     score1 = 3;
                     radio1="notNull";
                 }
@@ -85,16 +89,16 @@ public class GAD7 extends Fragment {
         group2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == 0) {
+                if (checkedId == R.id.radioButton21) {
                     score2 = 0;
                     radio2="notNull";
-                } else if (checkedId == 1) {
+                } else if (checkedId == R.id.radioButton22) {
                     score2 = 1;
                     radio2="notNull";
-                } else if (checkedId == 2){
+                } else if (checkedId == R.id.radioButton23){
                     score2 = 2;
                     radio2="notNull";
-                } else if(checkedId == 3){
+                } else if(checkedId == R.id.radioButton24){
                     score2 = 3;
                     radio2="notNull";
                 }
@@ -103,16 +107,16 @@ public class GAD7 extends Fragment {
         group3.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == 0) {
+                if (checkedId == R.id.radioButton31) {
                     score3 = 0;
                     radio3="notNull";
-                } else if (checkedId == 1) {
+                } else if (checkedId == R.id.radioButton32) {
                     score3 = 1;
                     radio3="notNull";
-                } else if (checkedId == 2){
+                } else if (checkedId == R.id.radioButton33){
                     score3 = 2;
                     radio3="notNull";
-                } else if(checkedId == 3){
+                } else if(checkedId == R.id.radioButton34){
                     score3 = 3;
                     radio3="notNull";
                 }
@@ -121,16 +125,16 @@ public class GAD7 extends Fragment {
         group4.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == 0) {
+                if (checkedId == R.id.radioButton41) {
                     score4 = 0;
                     radio4="notNull";
-                } else if (checkedId == 1) {
+                } else if (checkedId == R.id.radioButton42) {
                     score4 = 1;
                     radio4="notNull";
-                } else if (checkedId == 2){
+                } else if (checkedId == R.id.radioButton43){
                     score4 = 2;
                     radio4="notNull";
-                } else if(checkedId == 3){
+                } else if(checkedId == R.id.radioButton44){
                     score4 = 3;
                     radio4="notNull";
                 }
@@ -139,16 +143,16 @@ public class GAD7 extends Fragment {
         group5.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == 0) {
+                if (checkedId == R.id.radioButton51) {
                     score5 = 0;
                     radio5="notNull";
-                } else if (checkedId == 1) {
+                } else if (checkedId == R.id.radioButton52) {
                     score5 = 1;
                     radio5="notNull";
-                } else if (checkedId == 2){
+                } else if (checkedId == R.id.radioButton53){
                     score5 = 2;
                     radio5="notNull";
-                } else if(checkedId == 3){
+                } else if(checkedId == R.id.radioButton54){
                     score5 = 3;
                     radio5="notNull";
                 }
@@ -157,16 +161,16 @@ public class GAD7 extends Fragment {
         group6.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == 0) {
+                if (checkedId == R.id.radioButton61) {
                     score6 = 0;
                     radio6="notNull";
-                } else if (checkedId == 1) {
+                } else if (checkedId == R.id.radioButton62) {
                     score6 = 1;
                     radio6="notNull";
-                } else if (checkedId == 2){
+                } else if (checkedId == R.id.radioButton63){
                     score6 = 2;
                     radio6="notNull";
-                } else if(checkedId == 3){
+                } else if(checkedId == R.id.radioButton64){
                     score6 = 3;
                     radio6="notNull";
                 }
@@ -175,16 +179,16 @@ public class GAD7 extends Fragment {
         group7.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == 0) {
+                if (checkedId == R.id.radioButton71) {
                     score7 = 0;
                     radio7="notNull";
-                } else if (checkedId == 1) {
+                } else if (checkedId == R.id.radioButton72) {
                     score7 = 1;
                     radio7="notNull";
-                } else if (checkedId == 2){
+                } else if (checkedId == R.id.radioButton73){
                     score7 = 2;
                     radio7="notNull";
-                } else if(checkedId == 3){
+                } else if(checkedId == R.id.radioButton74){
                     score7 = 3;
                     radio7="notNull";
                 }
@@ -201,13 +205,13 @@ public class GAD7 extends Fragment {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //to fore the user to complete the GAD questionairre
-             // if(radio1.matches("")|| radio2.matches("")||radio3.matches("")||radio4.matches("")||
-             //           radio5.matches("")|| radio6.matches("")||radio7.matches("")){
-              //  Toast.makeText(getActivity(), "Please complete the questionairre",
-              //            Toast.LENGTH_SHORT).show();
+                //to force the user to complete the GAD questionairre
+              if(radio1.matches("")|| radio2.matches("")||radio3.matches("")||radio4.matches("")||
+                        radio5.matches("")|| radio6.matches("")||radio7.matches("")){
+                Toast.makeText(getActivity(), "Please complete the questionairre",
+                          Toast.LENGTH_SHORT).show();
 
-              //     return;}
+                   return;}
 
                 finalScore = score1 + score2 + score3 + score4 + score5 + score6 + score7;
                 GAD7Scalescore = String.valueOf(finalScore);

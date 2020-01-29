@@ -38,11 +38,13 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -54,6 +56,7 @@ import com.ksu.serene.Model.Token;
 import com.ksu.serene.R;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -67,9 +70,11 @@ public class Signup extends AppCompatActivity {
     private Button signUpBtn;
     private String fullName, password, email, confirmPassword;
     private String TAG = Signup.class.getSimpleName();
+    private boolean isNewUser;
     //image view for sign in with google
     private ImageView signInWithGoogle ;
 
+    private Task<SignInMethodQueryResult> result;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     //create googleAPClient object
     private GoogleApiClient mGoogleApiClient;
@@ -88,6 +93,7 @@ public class Signup extends AppCompatActivity {
         passwordET = findViewById(R.id.passwordInput);
         confirmPasswordET = findViewById(R.id.CpasswordInput);
         signUpBtn = findViewById(R.id.reg_btn);
+        isNewUser = true;
         signInWithGoogle = findViewById(R.id.signup_withgoogle);
 
         //for sign in with google need to create GoogleSigninOption object
@@ -126,8 +132,32 @@ public class Signup extends AppCompatActivity {
                     password = passwordET.getText().toString();
                     confirmPassword = confirmPasswordET.getText().toString();
 
+
+
+
+                  mAuth.fetchSignInMethodsForEmail(email)
+                          .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+                           @Override
+                           public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+
+                              isNewUser = task.getResult().getSignInMethods().isEmpty();
+
+                               if (isNewUser) {
+                                   //
+                               }
+                               else {
+                                   isNewUser = false;
+                                   Toast.makeText(Signup.this, "Email already exist, please go back and enter new email",
+                                           Toast.LENGTH_SHORT).show();
+                                   emailET.setText("");
+                                }
+
+                            }
+                       });
+
+
                     //empty field validation
-                    if (fullName.matches("") || password.matches("") || confirmPassword.matches("") || email.matches("")) {
+                   if (fullName.matches("") || password.matches("") || confirmPassword.matches("") || email.matches("")) {
                         Toast.makeText(Signup.this, "All fields are required",
                                 Toast.LENGTH_SHORT).show();
                         return;
@@ -159,9 +189,10 @@ public class Signup extends AppCompatActivity {
                         emailET.setText("");
                         return;
                     }
-                    else{
 
-                    }
+
+
+
 
 
                     Bundle bundle = new Bundle();
@@ -179,29 +210,11 @@ public class Signup extends AppCompatActivity {
                     fragmentTransaction.commit();
 
 
-
             }
         });
 
 
-      /*  public void checkEmail(String email){
-            mAuth.fetchSignInMethodsForEmail(email).addOnCompleteListener(new OnCompleteListener<ProviderQueryResult>() {
 
-                @Override
-                public void onComplete(@NonNull Task<ProviderQueryResult> task) {
-
-                    boolean check = !task.getResult().getProviders().isEmpty();
-
-                    if(check){
-                        Toast.makeText(Signup.this, "Email already exist!",
-                                Toast.LENGTH_SHORT).show();
-                        emailET.setText("");
-                    }
-
-                }
-            });
-
-        }*/
 
         //loginTV.setOnClickListener(new View.OnClickListener() {
          //   @Override
