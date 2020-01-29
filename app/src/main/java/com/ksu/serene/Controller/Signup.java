@@ -72,9 +72,8 @@ public class Signup extends AppCompatActivity {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     //create googleAPClient object
-    private GoogleApiClient mGoogleApiClient;
-
-
+    private GoogleApiClient mGoogleApiClient;//
+    private GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +94,7 @@ public class Signup extends AppCompatActivity {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
+
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(Signup.this, new GoogleApiClient.OnConnectionFailedListener() {
                     @Override
@@ -103,12 +103,15 @@ public class Signup extends AppCompatActivity {
                     }
                 })
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
+                .build();//
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this , gso);
         //when click to sign up with google will show sign up with google page
         signInWithGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
              public void onClick(View view) {
-                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                //Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);//
+                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
                 startActivityForResult(signInIntent, 9001);
              }
          }
@@ -220,7 +223,18 @@ public class Signup extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 9001){
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            //GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);//
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                if (account != null){
+                    //make request with firebase
+                    firebaseAuthWithGoogle(account);
+                }
+            }
+            catch (ApiException e){
+                e.printStackTrace();
+            }
 
         }
     }
@@ -232,6 +246,39 @@ public class Signup extends AppCompatActivity {
         else {
 
         }
+    }//*/
+
+    private void firebaseAuthWithGoogle (GoogleSignInAccount account){
+        Log.d("TAG" , "firebaseAuthWithGoogle: " + account.getId());
+        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken() , null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>(){
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("TAG", "signInWithCredential:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("fullName", user.getDisplayName());
+                            bundle.putString("email", user.getEmail());
+                           // bundle.putString("password", password);
+                            Fragment fragmentOne = new GAD7();
+                            fragmentOne.setArguments(bundle);
+
+
+                            FragmentManager fm = getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                            fragmentTransaction.replace(R.id.layout, fragmentOne);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+                        } else {
+                            Log.w("TAG", "signInWithCredential:failure", task.getException());
+
+                            Toast.makeText(Signup.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
 
