@@ -30,9 +30,10 @@
         android:layout_marginStart="61dp"
         android:layout_marginTop="90dp"
         android:fontFamily="@font/montserrat"
-        android:text="Home"
+        android:text="Calendar"
         android:textColor="#000000"
         android:textSize="30sp" />
+
 
     <TextView
         android:id="@+id/text1"
@@ -41,11 +42,11 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="215dp"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="506dp"
         android:fontFamily="@font/montserrat"
-        android:text="Anxiety Level (throughout the week)"
-        android:textColor="#817889"
+        android:text="Appointments"
+        android:textColor="#FF6969"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -56,26 +57,11 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="27dp"
-        android:layout_marginTop="463dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="667dp"
         android:fontFamily="@font/montserrat"
-        android:text="Improvement"
-        android:textColor="#817889"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/text3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="23dp"
-        android:layout_marginTop="601dp"
-        android:fontFamily="@font/montserrat"
-        android:text="Next Appointment"
-        android:textColor="#817889"
+        android:text="Medicine"
+        android:textColor="#4CA758"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -98,6 +84,17 @@
         android:layout_marginTop="29dp"
         android:layout_marginEnd="27dp"
         app:srcCompat="@drawable/ic_profile_icon" />
+
+    <CalendarView
+        android:id="@+id/calendarView2"
+        android:layout_width="wrap_content"
+        android:layout_height="305dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="187dp"
+        android:background="#FFFFFF" />
 
 
     <!-- arrow-left -->

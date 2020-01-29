@@ -22,7 +22,7 @@
         android:background="@drawable/white_bg" />
 
     <TextView
-        android:id="@+id/titleofscreen2"
+        android:id="@+id/back"
         android:layout_width="66dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -68,6 +68,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="318dp"
         android:layout_marginEnd="145dp"/>
+
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
@@ -100,6 +101,7 @@
         android:hint="ex; 21"
         />
 </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
