@@ -30,16 +30,24 @@
         android:theme="@style/AppTheme" >
         <activity android:name="com.ksu.serene.Controller.Sociodemo" />
         <activity android:name="com.ksu.serene.LogInPage" />
-        <activity android:name="com.ksu.serene.WelcomePage" />
-        <activity
-            android:name="com.ksu.serene.Controller.Signup"
-            android:label="@string/app_name" >
+        <activity android:name="com.ksu.serene.WelcomePage" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.ksu.serene.Controller.Signup"
+            android:label="@string/app_name" />
+        <!--
+        <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>!
+        -->
 
         <meta-data
             android:name="preloaded_fonts"
