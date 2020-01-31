@@ -25,7 +25,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="0dp"
         android:background="@drawable/white_frame" />
-
+<
     <View
         android:id="@+id/serene_logo"
         android:layout_width="411dp"
@@ -45,8 +45,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:layout_marginStart="49dp"
-        android:layout_marginBottom="390dp"
+        android:layout_marginStart="47dp"
+        android:layout_marginBottom="457dp"
         android:fontFamily="Roboto"
         android:text="Welcome to Serene, if it’s your first time here, register below:"
         android:textAlignment="center"
@@ -60,8 +60,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:layout_marginStart="55dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginStart="53dp"
+        android:layout_marginBottom="24dp"
         android:fontFamily="Roboto"
         android:text="If you already have an account, SIGN IN"
         android:textAlignment="center"
@@ -75,8 +75,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:layout_marginStart="312dp"
-        android:layout_marginBottom="-3dp"
+        android:layout_marginStart="310dp"
+        android:layout_marginBottom="12dp"
         android:fontFamily="Roboto"
         android:text="─────"
         android:textAlignment="center"
@@ -88,23 +88,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="320dp"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="397dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="Full Name"
-        android:textColor="#B1B0B0" />
-
-    <EditText
-        android:id="@+id/emailInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="270dp"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        android:hint="Email"
+        android:inputType="textPersonName"
         android:textColor="#B1B0B0" />
 
     <EditText
@@ -113,21 +101,34 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="220dp"
+        android:layout_marginBottom="297dp"
         android:ems="10"
-        android:inputType="textPassword"
         android:hint="Password"
+        android:inputType="textPassword"
         android:textColor="#B1B0B0" />
+
     <EditText
         android:id="@+id/CpasswordInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="170dp"
+        android:layout_marginBottom="247dp"
         android:ems="10"
-        android:inputType="textPassword"
         android:hint="Confirm Password"
+        android:inputType="textPassword"
+        android:textColor="#B1B0B0" />
+
+    <EditText
+        android:id="@+id/emailInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="347dp"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
         android:textColor="#B1B0B0" />
 
     <ImageView
@@ -137,8 +138,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="54dp"
-        android:layout_marginBottom="14dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginBottom="53dp"
         android:clickable="true"
         app:srcCompat="@drawable/signup_withgoogle" />
 
@@ -163,8 +164,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="148dp"
-        android:layout_marginBottom="122dp"
+        android:layout_marginStart="153dp"
+        android:layout_marginBottom="190dp"
         android:background="#FFFFFF"
         android:clickable="true"
         android:fontFamily="sans-serif-medium"
