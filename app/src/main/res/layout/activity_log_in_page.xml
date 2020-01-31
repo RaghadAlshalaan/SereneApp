@@ -90,7 +90,7 @@
         android:typeface="normal" />
 
     <TextView
-        android:id="@+id/sign_up"
+        android:id="@+id/textsign_up"
         android:layout_width="321dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -105,7 +105,7 @@
         android:textStyle="normal"/>
 
     <TextView
-        android:id="@+id/description3"
+        android:id="@+id/sign_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -117,6 +117,7 @@
         android:text="─────"
         android:textAlignment="center"
         android:textSize="18sp"
-        android:textStyle="normal" />
+        android:textStyle="normal"
+        android:clickable="true"/>
 
 </RelativeLayout>

@@ -147,8 +147,8 @@ public class Sociodemo extends Fragment {
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
-                else if(!age.matches("[0-9]")|| !height.matches("[0-9]")|| !wieght.matches("[0-9]")||
-                        !monthlyIncome.matches("[0-9]")){
+                else if(!age.matches("^[0-9]+")|| !height.matches("^[0-9]+")|| !wieght.matches("^[0-9]+")||
+                        !monthlyIncome.matches("^[0-9]+")){
                     Toast.makeText(getActivity(), "Please enter correct values",
                             Toast.LENGTH_SHORT).show();
                     return;
