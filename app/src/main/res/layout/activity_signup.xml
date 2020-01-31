@@ -25,7 +25,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="0dp"
         android:background="@drawable/white_frame" />
-<
+
     <View
         android:id="@+id/serene_logo"
         android:layout_width="411dp"
@@ -33,9 +33,11 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginStart="2dp"
         android:layout_marginLeft="2dp"
-        android:layout_marginTop="143dp"
+        android:layout_marginTop="117dp"
+        android:layout_marginEnd="0dp"
         android:background="@drawable/serene_logo" />
 
     <TextView
@@ -45,8 +47,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:layout_marginStart="47dp"
-        android:layout_marginBottom="457dp"
+        android:layout_marginStart="43dp"
+        android:layout_marginBottom="371dp"
         android:fontFamily="Roboto"
         android:text="Welcome to Serene, if it’s your first time here, register below:"
         android:textAlignment="center"
@@ -89,7 +91,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:layout_marginBottom="397dp"
+        android:layout_marginBottom="313dp"
         android:ems="10"
         android:hint="Full Name"
         android:inputType="textPersonName"
@@ -101,7 +103,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="297dp"
+        android:layout_marginBottom="213dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
@@ -113,7 +115,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="247dp"
+        android:layout_marginBottom="163dp"
         android:ems="10"
         android:hint="Confirm Password"
         android:inputType="textPassword"
@@ -125,7 +127,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="347dp"
+        android:layout_marginBottom="263dp"
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"
@@ -133,13 +135,13 @@
 
     <ImageView
         android:id="@+id/signup_withgoogle"
-        android:layout_width="290dp"
-        android:layout_height="112dp"
+        android:layout_width="213dp"
+        android:layout_height="94dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="56dp"
-        android:layout_marginBottom="53dp"
+        android:layout_marginStart="98dp"
+        android:layout_marginBottom="27dp"
         android:clickable="true"
         app:srcCompat="@drawable/signup_withgoogle" />
 
@@ -164,8 +166,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="153dp"
-        android:layout_marginBottom="190dp"
+        android:layout_marginStart="156dp"
+        android:layout_marginBottom="120dp"
         android:background="#FFFFFF"
         android:clickable="true"
         android:fontFamily="sans-serif-medium"
