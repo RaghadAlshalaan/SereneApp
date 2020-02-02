@@ -1,12 +1,14 @@
 package com.ksu.serene;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
@@ -28,6 +30,14 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 //test
         NavigationUI.setupWithNavController(navView, navController);
+
+        //set title of screen, depending on the xml file name the navhostfragment in the page is referring to
+        String title;
+        //NavHostFragment fragmentView = findViewbyId(R.id.nav_host_fragment);
+
+        TextView textElement;
+        textElement = (TextView) findViewById(R.id.titleofscreen);
+        textElement.setText("New Title!"); //test title change at runtime
     }
 
 }
