@@ -51,6 +51,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.ksu.serene.Controller.Homepage.home.HomeFragment;
 import com.ksu.serene.LogInPage;
 import com.ksu.serene.Model.Token;
 
@@ -80,6 +85,7 @@ public class Signup extends AppCompatActivity {
     //create googleAPClient object
     private GoogleApiClient mGoogleApiClient;//
     private GoogleSignInClient mGoogleSignInClient;
+    private boolean foundEmail = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -279,19 +285,45 @@ public class Signup extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Log.d("TAG", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Bundle bundle = new Bundle();
-                            bundle.putString("fullName", user.getDisplayName());
-                            bundle.putString("email", user.getEmail());
-                           // bundle.putString("password", password);
-                            Fragment fragmentOne = new GAD7();
-                            fragmentOne.setArguments(bundle);
+                            final String name = user.getDisplayName();
+                            final String email = user.getEmail();
 
-
-                            FragmentManager fm = getSupportFragmentManager();
-                            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                            fragmentTransaction.replace(R.id.layout, fragmentOne);
-                            fragmentTransaction.addToBackStack(null);
-                            fragmentTransaction.commit();
+                            //if it first time go to Que either go to home
+                            //search in firebase for same emil
+                            CollectionReference reference = FirebaseFirestore.getInstance().collection("Patient");
+                            final Query query = reference.whereEqualTo("email",email);
+                            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                                            //so here the email founded so the user sign up before go to home page
+                                            Intent intent = new Intent(Signup.this, HomeFragment.class);
+                                            intent.putExtra("Name" , name);
+                                            intent.putExtra("Email" , email);
+                                            startActivity(intent);
+                                            foundEmail = true;
+                                        }
+                                    }
+                                    else {
+                                        Log.d("TAG", "Query Failed");
+                                    }
+                                    if (!foundEmail){
+                                        // here the email not founded so go to next step of register and then save the name and email in firebase
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("fullName", name);
+                                        bundle.putString("email", email);
+                                        bundle.putString("password", "password");
+                                        Fragment fragmentOne = new GAD7();
+                                        fragmentOne.setArguments(bundle);
+                                        FragmentManager fm = getSupportFragmentManager();
+                                        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                                        fragmentTransaction.replace(R.id.layout, fragmentOne);
+                                        fragmentTransaction.addToBackStack(null);
+                                        fragmentTransaction.commit();
+                                    }
+                                }
+                            });
                         } else {
                             Log.w("TAG", "signInWithCredential:failure", task.getException());
 
@@ -301,6 +333,5 @@ public class Signup extends AppCompatActivity {
                     }
                 });
     }
-
 
 }

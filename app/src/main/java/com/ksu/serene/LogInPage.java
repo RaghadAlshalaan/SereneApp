@@ -9,9 +9,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import androidx.annotation.NonNull;
 
 import com.ksu.serene.Controller.Signup;
 import com.ksu.serene.Controller.Homepage.home.HomeFragment;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.AuthResult;
 
 //this is the controller
 public class LogInPage extends AppCompatActivity {
@@ -45,17 +51,32 @@ public class LogInPage extends AppCompatActivity {
                 if (checkAllFields()){
                     //check the email is valid format and the email registered before
                     //check the password is correct
-                    Patient patient = new Patient();
-                    if (patient.login(email.getText().toString(), password.getText().toString())){
-                        Toast.makeText(LogInPage.this, "Authentication Success.",
-                                Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(LogInPage.this, HomeFragment.class);
-                        startActivity(intent);
-                    }
-                    else {
-                        Toast.makeText(LogInPage.this, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show();
-                    }
+                    final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                    mAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString())
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        // Sign in success, update UI with the signed-in user's information
+                                        //check if email is verified
+                                        if (mAuth.getCurrentUser().isEmailVerified()) {
+                                            Toast.makeText(LogInPage.this, "Authentication Success.",
+                                                    Toast.LENGTH_LONG).show();
+                                            Intent intent = new Intent(LogInPage.this, HomeFragment.class);
+                                            startActivity(intent);
+                                        }
+                                        else {
+                                            Toast.makeText(LogInPage.this, "Your Email not verified , Plase verify your Email then try again.",
+                                                    Toast.LENGTH_LONG).show();
+                                        }
+                                    } else {
+                                        // If sign in fails, display a message to the user.
+                                        Toast.makeText(LogInPage.this, "Authentication failed. Invalid email or password",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "All Fields Required", Toast.LENGTH_LONG).show();
