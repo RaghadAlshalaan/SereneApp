@@ -18,7 +18,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Controller.Sociodemo"></activity>
         <activity android:name=".LogInPage" />
-        <activity android:name=".WelcomePage" >
+        <activity android:name=".WelcomePage"/>
+        <activity android:name=".MainActivity">
         <intent-filter>
         <action android:name="android.intent.action.MAIN" />
 

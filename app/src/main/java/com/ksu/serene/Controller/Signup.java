@@ -51,6 +51,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.ksu.serene.LogInPage;
 import com.ksu.serene.Model.Token;
 
 import com.ksu.serene.R;
@@ -64,8 +65,8 @@ public class Signup extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
-  //  private TextView loginTV;
-   // private TextInputLayout  emailIL, passwordIL;
+    private TextView loginTV;
+
     private EditText nameET, emailET, passwordET, confirmPasswordET;
     private Button signUpBtn;
     private String fullName, password, email, confirmPassword;
@@ -86,7 +87,7 @@ public class Signup extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
        // initToolBar();
         mAuth = FirebaseAuth.getInstance();
-
+        loginTV = findViewById(R.id.description2);
         nameET = findViewById(R.id.username);
         emailET = findViewById(R.id.emailInput);
         passwordET = findViewById(R.id.passwordInput);
@@ -123,7 +124,13 @@ public class Signup extends AppCompatActivity {
          }
         );
 
-
+        loginTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Signup.this,LogInPage.class);
+                startActivity(intent);
+            }
+        });
 
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,31 +143,32 @@ public class Signup extends AppCompatActivity {
                     confirmPassword = confirmPasswordET.getText().toString();
 
 
+             if(email !=null) {
 
+                 mAuth.fetchSignInMethodsForEmail(email)
+                         .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+                             @Override
+                             public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
 
-                  mAuth.fetchSignInMethodsForEmail(email)
-                          .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
-                           @Override
-                           public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+                                 isNewUser = task.getResult().getSignInMethods().isEmpty();
 
-                              isNewUser = task.getResult().getSignInMethods().isEmpty();
+                                 if (isNewUser) {
+                                     //
 
-                               if (isNewUser) {
-                                   //
-                               }
-                               else {
-                                   isNewUser = false;
-                                   Toast.makeText(Signup.this, "Email already exist, please go back and enter new email",
-                                           Toast.LENGTH_SHORT).show();
-                                   emailET.setText("");
-                                }
+                                 } else {
+                                     isNewUser = false;
+                                     Toast.makeText(Signup.this, "Email already exist, please go back and enter new email",
+                                             Toast.LENGTH_SHORT).show();
+                                     emailET.setText("");
 
-                            }
-                       });
+                                 }
 
+                             }
+                         });
+             }
 
                     //empty field validation
-                   if (fullName.matches("") || password.matches("") || confirmPassword.matches("") || email.matches("")) {
+                  else if (fullName.matches("") || password.matches("") || confirmPassword.matches("") || email.matches("")) {
                         Toast.makeText(Signup.this, "All fields are required",
                                 Toast.LENGTH_SHORT).show();
                         return;

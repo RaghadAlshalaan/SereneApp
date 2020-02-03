@@ -30,7 +30,8 @@
         android:theme="@style/AppTheme" >
         <activity android:name="com.ksu.serene.Controller.Sociodemo" />
         <activity android:name="com.ksu.serene.LogInPage" />
-        <activity android:name="com.ksu.serene.WelcomePage" >
+        <activity android:name="com.ksu.serene.WelcomePage" />
+        <activity android:name="com.ksu.serene.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

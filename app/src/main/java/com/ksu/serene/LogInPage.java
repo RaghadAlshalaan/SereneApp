@@ -1,6 +1,5 @@
 package com.ksu.serene;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -12,7 +11,7 @@ import android.widget.Toast;
 import android.content.Intent;
 
 import com.ksu.serene.Controller.Signup;
-import com.ksu.serene.ui.home.HomeFragment;
+import com.ksu.serene.Controller.Homepage.home.HomeFragment;
 
 //this is the controller
 public class LogInPage extends AppCompatActivity {

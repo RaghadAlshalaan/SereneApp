@@ -7,7 +7,7 @@
     >
 
 
-    <View
+   <View
         android:id="@+id/white_bg"
         android:layout_width="match_parent"
         android:layout_height="186dp"
@@ -64,6 +64,7 @@
         android:textColor="#4CA758"
         android:textSize="18sp"
         android:textStyle="bold" />
+
 
     <ImageView
         android:id="@+id/bell_icon"
