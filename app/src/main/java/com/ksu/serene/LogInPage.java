@@ -14,7 +14,7 @@ import com.google.android.gms.tasks.Task;
 import androidx.annotation.NonNull;
 
 import com.ksu.serene.Controller.Signup;
-import com.ksu.serene.Controller.Homepage.home.HomeFragment;
+import com.ksu.serene.Controller.Homepage.Home.HomeFragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.AuthResult;

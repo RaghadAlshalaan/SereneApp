@@ -35,10 +35,10 @@ public class MainActivity extends AppCompatActivity {
         //set title of screen, depending on the xml file name the navhostfragment in the page is referring to
         String title;
         //NavHostFragment fragmentView = findViewbyId(R.id.nav_host_fragment);
-
+/*
         TextView textElement;
         textElement = (TextView) findViewById(R.id.titleofscreen);
-        textElement.setText("New Title!"); //test title change at runtime
+        textElement.setText("New Title!"); //test title change at runtime*/
     }
 
 }
