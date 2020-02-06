@@ -52,7 +52,7 @@
             android:fontFamily="@font/montserrat"
             android:gravity="center"
             android:text="Doctor"
-            android:textAlignment="textEnd"
+            android:textAlignment="center"
             android:textColor="#66515C6F"
             android:textSize="15sp" />
 
@@ -113,7 +113,7 @@
             android:fontFamily="@font/montserrat"
             android:gravity="center"
             android:text="Language"
-            android:textAlignment="textEnd"
+            android:textAlignment="center"
             android:textColor="#66515C6F"
             android:textSize="15sp" />
 
@@ -128,20 +128,6 @@
             app:srcCompat="@drawable/ic_go_to" />
 
     </LinearLayout>
-
-    <View
-        android:id="@+id/white_bg"
-        android:layout_width="match_parent"
-        android:layout_height="124dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="-2dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="572dp"
-        android:background="@drawable/white_bg" />
 
     <TextView
         android:id="@+id/titleofscreen"
@@ -171,7 +157,7 @@
         android:textSize="30sp"
         android:textStyle="normal" />
 
-    <TextView
+   <!-- <TextView
         android:id="@+id/backArrow"
         android:layout_width="66dp"
         android:layout_height="wrap_content"
@@ -184,7 +170,7 @@
         android:text="←"
         android:textAlignment="center"
         android:textColor="#000000"
-        android:textSize="50sp" />
+        android:textSize="50sp" /> -->
 
     <TextView
         android:id="@+id/email"
@@ -200,7 +186,8 @@
         android:textColor="#515C6F"
         android:textSize="18sp" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
+
+   <!-- <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -210,17 +197,17 @@
         android:layout_marginBottom="1dp"
 
         android:background="?android:attr/windowBackground"
-        app:menu="@menu/bottom_nav_menu" />
+        app:menu="@menu/bottom_nav_menu" /> -->
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="21dp"
         android:layout_marginTop="142dp"
-        app:srcCompat="@drawable/ic_blank_profile_pic" />
+        app:srcCompat="@drawable/defaultpic" />
 
     <Button
         android:id="@+id/edit_profile_btn"
@@ -228,8 +215,9 @@
         android:layout_height="36dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="241dp"
-        android:background="#2D929191"
+        android:layout_marginTop="260dp"
+        android:background="#4CA1D3"
+        android:textColor="#ffffff"
         android:fontFamily="@font/montserrat"
         android:text="EDIT PROFILE" />
 
@@ -281,5 +269,10 @@
 
     </LinearLayout>
 
-
+    <LinearLayout
+        android:id = "@+id/layout"
+        android:layout_width = "fill_parent"
+        android:layout_height = "wrap_content"
+        android:orientation = "vertical">
+    </LinearLayout>
 </RelativeLayout>

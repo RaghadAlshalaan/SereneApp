@@ -4,21 +4,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F3F3F3"
+    android:id="@+id/layout"
     >
 
 
-    <TextView
-        android:id="@+id/titleofscreen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="30dp"
-        android:fontFamily="@font/montserrat"
-        android:text="Home"
-        android:textColor="#000000"
-        android:textSize="30sp" />
+     <!-- <View
+          android:id="@+id/white_bg"
+          android:layout_width="match_parent"
+          android:layout_height="186dp"
+          android:layout_alignParentStart="true"
+          android:layout_alignParentTop="true"
+          android:layout_alignParentEnd="true"
+          android:layout_alignParentBottom="true"
+          android:layout_marginStart="0dp"
+          android:layout_marginTop="0dp"
+          android:layout_marginEnd="0dp"
+          android:layout_marginBottom="639dp"
+          android:background="@drawable/white_bg" /> -->
+
+      <TextView
+          android:id="@+id/titleofscreen"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentStart="true"
+          android:layout_alignParentTop="true"
+          android:layout_marginStart="61dp"
+          android:layout_marginTop="60dp"
+          android:fontFamily="@font/montserrat"
+          android:text="Home"
+          android:textColor="#000000"
+          android:textSize="30sp" />
 
     <TextView
         android:id="@+id/text1"
@@ -27,8 +42,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="107dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="200dp"
         android:fontFamily="@font/montserrat"
         android:text="Anxiety Level (throughout the week)"
         android:textColor="#817889"
@@ -43,7 +58,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="27dp"
-        android:layout_marginTop="276dp"
+        android:layout_marginTop="450dp"
         android:fontFamily="@font/montserrat"
         android:text="Improvement"
         android:textColor="#817889"
@@ -57,16 +72,36 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="370dp"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="590dp"
         android:fontFamily="@font/montserrat"
         android:text="Next Appointment"
         android:textColor="#817889"
         android:textSize="18sp"
         android:textStyle="bold" />
 
+  <!--  <ImageView
+        android:id="@+id/bell_icon"
+        android:layout_width="38dp"
+        android:layout_height="35dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="39dp"
+        android:layout_marginEnd="122dp"
+        app:srcCompat="@drawable/ic_bell_icon" />
 
-    <!-- arrow-left -->
+    <ImageView
+        android:id="@+id/profile_icon"
+        android:layout_width="54dp"
+        android:layout_height="47dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="29dp"
+        android:layout_marginEnd="27dp"
+        app:srcCompat="@drawable/ic_profile_icon" />
+
+
+    -->
 
 
 </RelativeLayout>

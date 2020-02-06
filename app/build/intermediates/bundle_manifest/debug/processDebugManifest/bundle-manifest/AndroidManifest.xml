@@ -22,13 +22,14 @@
         android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/s_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/s_logo"
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
-        <activity android:name="com.ksu.serene.Controller.Sociodemo" />
+        <activity android:name="com.ksu.serene.MainActivity" />
+        <activity android:name="com.ksu.serene.Controller.Signup.Sociodemo" />
         <activity android:name="com.ksu.serene.LogInPage" />
         <activity android:name="com.ksu.serene.WelcomePage" >
             <intent-filter>
@@ -37,8 +38,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.ksu.serene.MainActivity" />
-        <activity android:name="com.ksu.serene.Controller.Signup" />
+        <activity
+            android:name="com.ksu.serene.Controller.Signup.Signup"
+            android:label="@string/app_name" />
+        <!--
+        <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>!
+        -->
 
         <meta-data
             android:name="preloaded_fonts"
@@ -127,6 +137,11 @@
                 android:name="com.google.firebase.components:com.google.firebase.iid.Registrar"
                 android:value="com.google.firebase.components.ComponentRegistrar" />
         </service>
+
+        <provider
+            android:name="com.squareup.picasso.PicassoProvider"
+            android:authorities="com.ksu.serene.com.squareup.picasso"
+            android:exported="false" />
 
         <activity
             android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"

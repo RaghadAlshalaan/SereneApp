@@ -1,4 +1,4 @@
-package com.ksu.serene.Controller;
+package com.ksu.serene.Controller.Signup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -88,7 +88,7 @@ public class Signup extends AppCompatActivity {
                 .requestEmail()
                 .build();
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
+       /* mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(Signup.this, new GoogleApiClient.OnConnectionFailedListener() {
                     @Override
                     public void onConnectionFailed (ConnectionResult result){
@@ -108,7 +108,7 @@ public class Signup extends AppCompatActivity {
                 startActivityForResult(signInIntent, 9001);
              }
          }
-        );
+        ); */
 
         loginTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,7 +129,7 @@ public class Signup extends AppCompatActivity {
                     confirmPassword = confirmPasswordET.getText().toString();
 
 
-             if(email !=null) {
+             if(email != null) {
 
                  mAuth.fetchSignInMethodsForEmail(email)
                          .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
