@@ -100,6 +100,56 @@
         android:inputType="textPersonName"
         android:hint="ex; 21"
         />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/description1"
+            android:layout_width="122dp"
+            android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="401dp"
+            android:fontFamily="@font/montserrat"
+            android:text="Wieght"
+            android:textAlignment="textStart"
+            android:textColor="#8A000000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/weight"
+            android:layout_width="93dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="392dp"
+            android:layout_marginEnd="70dp"
+            android:ems="10"
+            android:hint="ex; 56"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/kg"
+            android:layout_width="122dp"
+            android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="401dp"
+            android:fontFamily="@font/montserrat"
+            android:text="kg"
+            android:textAlignment="textStart"
+            android:textColor="#8A000000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 </LinearLayout>
 
     <LinearLayout
@@ -318,53 +368,6 @@
         android:layout_marginTop="448dp"
         android:layout_marginEnd="70dp"
      ></Spinner>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/description1"
-        android:layout_width="122dp"
-        android:layout_height="35dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="26dp"
-        android:layout_marginTop="401dp"
-        android:fontFamily="@font/montserrat"
-        android:text="Wieght"
-        android:textAlignment="textStart"
-        android:textColor="#8A000000"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-    <EditText
-        android:id="@+id/weight"
-        android:layout_width="93dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="392dp"
-        android:layout_marginEnd="70dp"
-        android:ems="10"
-        android:hint="ex; 56"
-        android:inputType="textPersonName" />
-        <TextView
-            android:id="@+id/kg"
-            android:layout_width="122dp"
-            android:layout_height="35dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="401dp"
-            android:fontFamily="@font/montserrat"
-            android:text="kg"
-            android:textAlignment="textStart"
-            android:textColor="#8A000000"
-            android:textSize="18sp"
-            android:textStyle="bold" />
     </LinearLayout>
 
     <Button
