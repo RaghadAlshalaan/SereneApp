@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -65,48 +66,50 @@ public class LogInPage extends AppCompatActivity {
         logIn.setOnClickListener( new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-
                 emailIn = email.getText().toString();
-                passwordIn =  password.getText().toString();
+                passwordIn = password.getText().toString();
+                //check all fields not empty
+                if (checkAllFields(emailIn , passwordIn)) {
 
-
-
-                mAuth.signInWithEmailAndPassword(emailIn, passwordIn)
-                        .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    checkIfEmailVerified();
-                                    // Sign in success, update UI with the signed-in user's information
-                                    Log.d(TAG, "signInWithEmail:success");
-
-                                } else {
-                                    if (task.getException() instanceof FirebaseAuthInvalidUserException) {
-                                        //there is'n user with this Email
-                                        Toast.makeText(LogInPage.this, "the email or password is wrong",
-                                                Toast.LENGTH_SHORT).show();
-
-                                    } else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                        //the password is wrong
-                                        Toast.makeText(LogInPage.this, "the email or password is wrong",
-                                                Toast.LENGTH_SHORT).show();
-
+                    mAuth.signInWithEmailAndPassword(emailIn, passwordIn)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        checkIfEmailVerified();
+                                        // Sign in success, update UI with the signed-in user's information
+                                        Log.d(TAG, "signInWithEmail:success");
 
                                     } else {
-                                        // If sign in fails, display a message to the user.
-                                        Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                        Toast.makeText(LogInPage.this, "Authentication failed.",
-                                                Toast.LENGTH_SHORT).show();
+                                        if (task.getException() instanceof FirebaseAuthInvalidUserException) {
+                                            //there is'n user with this Email
+                                            Toast.makeText(LogInPage.this, "the email or password is wrong",
+                                                    Toast.LENGTH_SHORT).show();
+
+                                        } else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                                            //the password is wrong
+                                            Toast.makeText(LogInPage.this, "the email or password is wrong",
+                                                    Toast.LENGTH_SHORT).show();
+
+                                        } else {
+                                            // If sign in fails, display a message to the user.
+                                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                                            Toast.makeText(LogInPage.this, "Authentication failed.",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
                                     }
+
+                                    // ...
                                 }
-
-                                // ...
-                            }
-                        });
-
-
+                            });
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "All Fields Required", Toast.LENGTH_LONG).show();
+                    return;
+                }
             }
         });
+
       }
 
     private void checkIfEmailVerified() {
@@ -185,6 +188,16 @@ public class LogInPage extends AppCompatActivity {
 
     }
 
+    private boolean checkAllFields (String email , String password){
+        if ( !(TextUtils.isEmpty(email)) && !(TextUtils.isEmpty(password)) ){
+            return true;
+        }
+        return false;
+    }
 
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        checkUserState();
+    }
 }

@@ -38,6 +38,18 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RecyclerviewSession"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="546dp"
+        android:background="#FFFFFF"
+        android:scrollbars="none" />
+
     <TextView
         android:id="@+id/text2"
         android:layout_width="wrap_content"
@@ -53,7 +65,17 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RecyclerviewMedicine"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="695dp"
+        android:background="#FFFFFF"
+        android:scrollbars="none" />
 
 
     <CalendarView
@@ -66,6 +88,33 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="187dp"
         android:background="#FFFFFF" />
+
+    <ImageView
+        android:id="@+id/add_calender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+    <Button
+        android:id="@+id/add_Appointment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="27dp"
+        android:clickable="true"
+        android:text="Appointment" />
+
+    <Button
+        android:id="@+id/add_Medicine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="200dp"
+        android:text="Medicine" />
 
 
     <!-- arrow-left -->

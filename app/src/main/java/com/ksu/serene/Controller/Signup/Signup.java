@@ -87,18 +87,8 @@ public class Signup extends AppCompatActivity {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-
-       /* mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(Signup.this, new GoogleApiClient.OnConnectionFailedListener() {
-                    @Override
-                    public void onConnectionFailed (ConnectionResult result){
-                        Log.d(TAG , "OnConnectionFailed" + result);
-                    }
-                })
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();//
-
         mGoogleSignInClient = GoogleSignIn.getClient(this , gso);
+
         //when click to sign up with google will show sign up with google page
         signInWithGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +98,7 @@ public class Signup extends AppCompatActivity {
                 startActivityForResult(signInIntent, 9001);
              }
          }
-        ); */
+        );
 
         loginTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -227,17 +217,18 @@ public class Signup extends AppCompatActivity {
 
     //for sign up with google
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode,  Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 9001){
             //GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);//
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
+                // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                if (account != null){
+                //if (account != null){
                     //make request with firebase
                     firebaseAuthWithGoogle(account);
-                }
+
             }
             catch (ApiException e){
                 e.printStackTrace();
@@ -245,15 +236,6 @@ public class Signup extends AppCompatActivity {
 
         }
     }
-    private void handleSignInResult (GoogleSignInResult result){
-        Log.d(TAG , "handleSignInResult" + result.isSuccess());
-        if (result.isSuccess()){
-            GoogleSignInAccount account = result.getSignInAccount();
-        }
-        else {
-
-        }
-    }//*/
 
     private void firebaseAuthWithGoogle (GoogleSignInAccount account){
         Log.d("TAG" , "firebaseAuthWithGoogle: " + account.getId());
