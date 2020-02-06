@@ -1,19 +1,14 @@
-package com.ksu.serene.Controller;
+package com.ksu.serene.Controller.Signup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -33,37 +28,22 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
-import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.ksu.serene.Controller.Homepage.home.HomeFragment;
+import com.ksu.serene.Controller.Homepage.Home.HomeFragment;
 import com.ksu.serene.LogInPage;
-import com.ksu.serene.Model.Token;
 
 import com.ksu.serene.R;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 public class Signup extends AppCompatActivity {
@@ -108,7 +88,7 @@ public class Signup extends AppCompatActivity {
                 .requestEmail()
                 .build();
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
+       /* mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(Signup.this, new GoogleApiClient.OnConnectionFailedListener() {
                     @Override
                     public void onConnectionFailed (ConnectionResult result){
@@ -128,7 +108,7 @@ public class Signup extends AppCompatActivity {
                 startActivityForResult(signInIntent, 9001);
              }
          }
-        );
+        ); */
 
         loginTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,7 +129,7 @@ public class Signup extends AppCompatActivity {
                     confirmPassword = confirmPasswordET.getText().toString();
 
 
-             if(email !=null) {
+             if(email != null) {
 
                  mAuth.fetchSignInMethodsForEmail(email)
                          .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
@@ -288,7 +268,7 @@ public class Signup extends AppCompatActivity {
                             final String name = user.getDisplayName();
                             final String email = user.getEmail();
 
-                            //if it first time go to Que either go to home
+                            //if it first time go to Que either go to Home
                             //search in firebase for same emil
                             CollectionReference reference = FirebaseFirestore.getInstance().collection("Patient");
                             final Query query = reference.whereEqualTo("email",email);
@@ -297,7 +277,7 @@ public class Signup extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                     if (task.isSuccessful()) {
                                         for (QueryDocumentSnapshot doc : task.getResult()) {
-                                            //so here the email founded so the user sign up before go to home page
+                                            //so here the email founded so the user sign up before go to Home page
                                             Intent intent = new Intent(Signup.this, HomeFragment.class);
                                             intent.putExtra("Name" , name);
                                             intent.putExtra("Email" , email);

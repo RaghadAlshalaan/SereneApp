@@ -1,4 +1,4 @@
-package com.ksu.serene.Controller.Homepage.home;
+package com.ksu.serene.Controller.Homepage.Home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -1,23 +1,38 @@
 package com.ksu.serene;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
+
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import androidx.annotation.NonNull;
-
-import com.ksu.serene.Controller.Signup;
-import com.ksu.serene.Controller.Homepage.home.HomeFragment;
-
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.ksu.serene.Controller.Signup.Signup;
+import com.ksu.serene.Controller.Homepage.Home.HomeFragment;
+import com.ksu.serene.Model.Token;
+
+import java.util.HashMap;
+import java.util.Map;
 
 //this is the controller
 public class LogInPage extends AppCompatActivity {
@@ -26,6 +41,9 @@ public class LogInPage extends AppCompatActivity {
     private EditText password;
     private Button logIn;
     private TextView signup;
+    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private String emailIn, passwordIn, mToken;
+    private String TAG = LogInPage.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,49 +65,126 @@ public class LogInPage extends AppCompatActivity {
         logIn.setOnClickListener( new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                //check all fields not empty
-                if (checkAllFields()){
-                    //check the email is valid format and the email registered before
-                    //check the password is correct
-                    final FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                    mAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString())
-                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        // Sign in success, update UI with the signed-in user's information
-                                        //check if email is verified
-                                        if (mAuth.getCurrentUser().isEmailVerified()) {
-                                            Toast.makeText(LogInPage.this, "Authentication Success.",
-                                                    Toast.LENGTH_LONG).show();
-                                            Intent intent = new Intent(LogInPage.this, HomeFragment.class);
-                                            startActivity(intent);
-                                        }
-                                        else {
-                                            Toast.makeText(LogInPage.this, "Your Email not verified , Plase verify your Email then try again.",
-                                                    Toast.LENGTH_LONG).show();
-                                        }
+
+                emailIn = email.getText().toString();
+                passwordIn =  password.getText().toString();
+
+
+
+                mAuth.signInWithEmailAndPassword(emailIn, passwordIn)
+                        .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    checkIfEmailVerified();
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Log.d(TAG, "signInWithEmail:success");
+
+                                } else {
+                                    if (task.getException() instanceof FirebaseAuthInvalidUserException) {
+                                        //there is'n user with this Email
+                                        Toast.makeText(LogInPage.this, "the email or password is wrong",
+                                                Toast.LENGTH_SHORT).show();
+
+                                    } else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                                        //the password is wrong
+                                        Toast.makeText(LogInPage.this, "the email or password is wrong",
+                                                Toast.LENGTH_SHORT).show();
+
+
                                     } else {
                                         // If sign in fails, display a message to the user.
-                                        Toast.makeText(LogInPage.this, "Authentication failed. Invalid email or password",
+                                        Log.w(TAG, "signInWithEmail:failure", task.getException());
+                                        Toast.makeText(LogInPage.this, "Authentication failed.",
                                                 Toast.LENGTH_SHORT).show();
                                     }
                                 }
-                            });
 
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "All Fields Required", Toast.LENGTH_LONG).show();
-                    return;
-                }
+                                // ...
+                            }
+                        });
+
+
             }
         });
+      }
+
+    private void checkIfEmailVerified() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user.isEmailVerified())
+        {
+            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( LogInPage.this,  new OnSuccessListener<InstanceIdResult>() {
+                @Override
+                public void onSuccess(InstanceIdResult instanceIdResult) {
+                    mToken = instanceIdResult.getToken();
+                    Log.e("Token",mToken);
+                }
+            });
+            updateToken(mToken);
+            SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("CURRENT_USERID",mAuth.getCurrentUser().getUid());
+            editor.apply();
+            // user is verified
+            Intent intent = new Intent(LogInPage.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else
+        {
+            // email is not verified, so just prompt the message to the user and restart this activity.
+            // NOTE: don't forget to log out the user.
+            Toast.makeText(LogInPage.this, "check the email link to verify account", Toast.LENGTH_SHORT).show();
+
+            FirebaseAuth.getInstance().signOut();
+
+            //restart this activity
+
+        }
+    }
+    public  void updateToken(String token){
+
+        DocumentReference userTokenDR = FirebaseFirestore.getInstance().collection("Tokens").document(mAuth.getUid());
+        Token mToken = new Token(token);
+        final Map<String, Object> tokenh = new HashMap<>();
+        tokenh.put("token",mToken.getToken());
+        // Set the "isCapital" field of the city 'DC'
+        //
+        userTokenDR
+                .update(tokenh)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error updating document", e);
+
+
+                    }
+                });
+    }
+    private void checkUserState() {
+
+        if (mAuth.getCurrentUser() != null) {
+            updateToken(FirebaseInstanceId.getInstance().getToken());
+            SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("CURRENT_USERID",mAuth.getCurrentUser().getUid());
+            editor.apply();
+            //MySharedPreference.putString(LoginActivity.this,"user_id",mAuth.getCurrentUser().getUid());
+            Intent intent = new Intent(LogInPage.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
     }
 
-    private boolean checkAllFields (){
-        if (email.getText().toString() != "" && password.getText().toString() != ""){
-            return true;
-        }
-        return false;
-    }
+
+
 }

@@ -99,90 +99,6 @@
             android:textColor="#515C6F"
             android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/blankSpace"
-            android:layout_width="148dp"
-            android:layout_height="45dp"
-            android:layout_centerVertical="true"
-            android:layout_weight="1"
-            android:fontFamily="@font/montserrat"
-            android:gravity="center"
-            android:text=""
-            android:textColor="#66515C6F"
-            android:textSize="15sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="362dp"
-        android:layout_height="54dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="451dp"
-        android:background="@drawable/white_background"
-        android:clickable="true"
-        android:focusable="auto"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/radioButton33"
-            android:layout_width="56dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:gravity="center" />
-
-        <TextView
-            android:id="@+id/customDuration"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:layout_centerVertical="true"
-            android:layout_weight="1"
-            android:fontFamily="@font/montserrat"
-            android:gravity="center"
-            android:text="Specific period"
-            android:textAlignment="center"
-            android:textColor="#515C6F"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="117dp"
-            android:layout_height="45dp"
-            android:layout_centerVertical="true"
-            android:layout_weight="1"
-            android:fontFamily="@font/montserrat"
-            android:text="(start from DD/MM/YYYY end at DD/MM/YYYY)"
-            android:textAlignment="textEnd"
-            android:textColor="#66515C6F"
-            android:textSize="10sp" />
-
-        <ImageView
-            android:id="@+id/go_to3"
-            android:layout_width="30dp"
-            android:layout_height="33dp"
-            android:layout_gravity="center"
-            android:layout_marginEnd="0dp"
-            android:layout_marginBottom="0dp"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/ic_go_to" />
-
-    </LinearLayout>
-
-    <View
-        android:id="@+id/white_bg"
-        android:layout_width="match_parent"
-        android:layout_height="107dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="-2dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="604dp"
-        android:background="@drawable/white_bg" />
 
     <TextView
         android:id="@+id/titleofscreen"
@@ -190,10 +106,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="142dp"
+        android:layout_marginStart="61dp"
+        android:layout_marginTop="60dp"
         android:fontFamily="@font/montserrat"
-        android:text="Generate Report"
+        android:text="Report"
         android:textColor="#000000"
         android:textSize="30sp" />
 
