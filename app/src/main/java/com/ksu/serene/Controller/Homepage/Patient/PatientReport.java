@@ -38,14 +38,14 @@ public class PatientReport {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.patient_report, container, false);
+        View view = inflater.inflate(R.layout.fragment_report, container, false);
 
         //identify variables (one by one) above to the actual existing elements
 
         improvement_num = view.findViewById(R.id.improvement_num);
         highestday_date = view.findViewById(R.id.highestday_date);
         mAuth = FirebaseAuth.getInstance();
-        //generate_report_btn = view.findViewById(R.id.generate_report_btn);
+        generate_report_btn = view.findViewById(R.id.generate_report_btn);
 
 
 
