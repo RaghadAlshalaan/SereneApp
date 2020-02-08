@@ -34,7 +34,7 @@
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/radioButton11"
+            android:id="@+id/radioButton1"
             android:layout_width="56dp"
             android:layout_height="wrap_content"
             android:layout_weight="0"
@@ -80,7 +80,7 @@
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/radioButton22"
+            android:id="@+id/radioButton2"
             android:layout_width="56dp"
             android:layout_height="wrap_content"
             android:layout_weight="0"
@@ -127,7 +127,7 @@
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/radioButton33"
+            android:id="@+id/radioButton3"
             android:layout_width="56dp"
             android:layout_height="wrap_content"
             android:layout_weight="0"
@@ -198,7 +198,7 @@
         android:textSize="30sp" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/generate_report_btn"
         android:layout_width="204dp"
         android:layout_height="66dp"
         android:layout_alignParentStart="true"

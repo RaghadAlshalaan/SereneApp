@@ -114,13 +114,19 @@
                 android:textStyle="bold" />
 
             <View
-                android:id="@+id/AL"
+                android:id="@+id/AL_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="30sp" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#1A000000" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -153,6 +159,12 @@
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="30sp" />
+
+            <View
+                android:id="@+id/divider1"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#1A000000" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -187,6 +199,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="30sp" />
 
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#1A000000" />
+
             <TextView
                 android:id="@+id/locationAnalysis_header"
                 android:layout_width="match_parent"
@@ -202,6 +220,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="30sp" />
 
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#1A000000" />
+
             <TextView
                 android:id="@+id/events_header"
                 android:layout_width="match_parent"
@@ -216,6 +240,12 @@
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="30sp" />
+
+            <View
+                android:id="@+id/divider4"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#1A000000" />
 
             <TextView
                 android:id="@+id/recommendations_header"
