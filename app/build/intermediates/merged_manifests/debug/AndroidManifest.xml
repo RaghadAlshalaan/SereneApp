@@ -28,7 +28,8 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
-        <activity android:name="com.ksu.serene.Controller.Sociodemo" />
+        <activity android:name="com.ksu.serene.MainActivity" />
+        <activity android:name="com.ksu.serene.Controller.Signup.Sociodemo" />
         <activity android:name="com.ksu.serene.LogInPage" />
         <activity android:name="com.ksu.serene.WelcomePage" >
             <intent-filter>
@@ -38,7 +39,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.ksu.serene.Controller.Signup"
+            android:name="com.ksu.serene.Controller.Signup.Signup"
             android:label="@string/app_name" />
         <!--
         <intent-filter>
@@ -136,6 +137,11 @@
                 android:name="com.google.firebase.components:com.google.firebase.iid.Registrar"
                 android:value="com.google.firebase.components.ComponentRegistrar" />
         </service>
+
+        <provider
+            android:name="com.squareup.picasso.PicassoProvider"
+            android:authorities="com.ksu.serene.com.squareup.picasso"
+            android:exported="false" />
 
         <activity
             android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"

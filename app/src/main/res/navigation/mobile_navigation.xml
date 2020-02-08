@@ -7,28 +7,28 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.ksu.serene.ui.home.HomeFragment"
+        android:name="com.ksu.serene.Controller.Homepage.Home.HomeFragment"
         android:label="Home"
         tools:layout="@layout/fragment_home" />
 
     <!--android:name NEEDS TO BE UPDATED-->
     <fragment
         android:id="@+id/navigation_report"
-        android:name="com.ksu.serene.ui.dashboard.DashboardFragment"
+        android:name="com.ksu.serene.Controller.Homepage.Report.reportFragment"
         android:label="Report"
         tools:layout="@layout/fragment_report" />
 
     <!--android:name NEEDS TO BE UPDATED-->
     <fragment
         android:id="@+id/navigation_drafts"
-        android:name="com.ksu.serene.ui.notifications.NotificationsFragment"
+        android:name="com.ksu.serene.Controller.Homepage.Drafts.draftsFragment"
         android:label="Drafts"
         tools:layout="@layout/fragment_drafts" />
 
     <!--android:name NEEDS TO BE UPDATED-->
     <fragment
         android:id="@+id/navigation_calendar"
-        android:name="com.ksu.serene.ui.home.HomeFragment"
+        android:name="com.ksu.serene.Controller.Homepage.Calendar.calendarFragment"
         android:label="Calendar"
         tools:layout="@layout/fragment_calendar" />
 </navigation>

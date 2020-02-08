@@ -1,19 +1,14 @@
-package com.ksu.serene.Controller;
+package com.ksu.serene.Controller.Signup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -33,39 +28,30 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
-import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.ksu.serene.Model.Token;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.ksu.serene.Controller.Homepage.Home.HomeFragment;
+import com.ksu.serene.LogInPage;
 
 import com.ksu.serene.R;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 public class Signup extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
-  //  private TextView loginTV;
-   // private TextInputLayout  emailIL, passwordIL;
+    private TextView loginTV;
+
     private EditText nameET, emailET, passwordET, confirmPasswordET;
     private Button signUpBtn;
     private String fullName, password, email, confirmPassword;
@@ -79,6 +65,7 @@ public class Signup extends AppCompatActivity {
     //create googleAPClient object
     private GoogleApiClient mGoogleApiClient;//
     private GoogleSignInClient mGoogleSignInClient;
+    private boolean foundEmail = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +73,7 @@ public class Signup extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
        // initToolBar();
         mAuth = FirebaseAuth.getInstance();
-
+        loginTV = findViewById(R.id.description2);
         nameET = findViewById(R.id.username);
         emailET = findViewById(R.id.emailInput);
         passwordET = findViewById(R.id.passwordInput);
@@ -100,18 +87,8 @@ public class Signup extends AppCompatActivity {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(Signup.this, new GoogleApiClient.OnConnectionFailedListener() {
-                    @Override
-                    public void onConnectionFailed (ConnectionResult result){
-                        Log.d(TAG , "OnConnectionFailed" + result);
-                    }
-                })
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();//
-
         mGoogleSignInClient = GoogleSignIn.getClient(this , gso);
+
         //when click to sign up with google will show sign up with google page
         signInWithGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,7 +100,13 @@ public class Signup extends AppCompatActivity {
          }
         );
 
-
+        loginTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Signup.this,LogInPage.class);
+                startActivity(intent);
+            }
+        });
 
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,31 +119,32 @@ public class Signup extends AppCompatActivity {
                     confirmPassword = confirmPasswordET.getText().toString();
 
 
+             if(email != null) {
 
+                 mAuth.fetchSignInMethodsForEmail(email)
+                         .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+                             @Override
+                             public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
 
-                  mAuth.fetchSignInMethodsForEmail(email)
-                          .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
-                           @Override
-                           public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+                                 isNewUser = task.getResult().getSignInMethods().isEmpty();
 
-                              isNewUser = task.getResult().getSignInMethods().isEmpty();
+                                 if (isNewUser) {
+                                     //
 
-                               if (isNewUser) {
-                                   //
-                               }
-                               else {
-                                   isNewUser = false;
-                                   Toast.makeText(Signup.this, "Email already exist, please go back and enter new email",
-                                           Toast.LENGTH_SHORT).show();
-                                   emailET.setText("");
-                                }
+                                 } else {
+                                     isNewUser = false;
+                                     Toast.makeText(Signup.this, "Email already exist, please go back and enter new email",
+                                             Toast.LENGTH_SHORT).show();
+                                     emailET.setText("");
 
-                            }
-                       });
+                                 }
 
+                             }
+                         });
+             }
 
                     //empty field validation
-                   if (fullName.matches("") || password.matches("") || confirmPassword.matches("") || email.matches("")) {
+                  else if (fullName.matches("") || password.matches("") || confirmPassword.matches("") || email.matches("")) {
                         Toast.makeText(Signup.this, "All fields are required",
                                 Toast.LENGTH_SHORT).show();
                         return;
@@ -233,17 +217,18 @@ public class Signup extends AppCompatActivity {
 
     //for sign up with google
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode,  Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 9001){
             //GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);//
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
+                // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                if (account != null){
+                //if (account != null){
                     //make request with firebase
                     firebaseAuthWithGoogle(account);
-                }
+
             }
             catch (ApiException e){
                 e.printStackTrace();
@@ -251,15 +236,6 @@ public class Signup extends AppCompatActivity {
 
         }
     }
-    private void handleSignInResult (GoogleSignInResult result){
-        Log.d(TAG , "handleSignInResult" + result.isSuccess());
-        if (result.isSuccess()){
-            GoogleSignInAccount account = result.getSignInAccount();
-        }
-        else {
-
-        }
-    }//*/
 
     private void firebaseAuthWithGoogle (GoogleSignInAccount account){
         Log.d("TAG" , "firebaseAuthWithGoogle: " + account.getId());
@@ -271,19 +247,45 @@ public class Signup extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Log.d("TAG", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Bundle bundle = new Bundle();
-                            bundle.putString("fullName", user.getDisplayName());
-                            bundle.putString("email", user.getEmail());
-                           // bundle.putString("password", password);
-                            Fragment fragmentOne = new GAD7();
-                            fragmentOne.setArguments(bundle);
+                            final String name = user.getDisplayName();
+                            final String email = user.getEmail();
 
-
-                            FragmentManager fm = getSupportFragmentManager();
-                            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                            fragmentTransaction.replace(R.id.layout, fragmentOne);
-                            fragmentTransaction.addToBackStack(null);
-                            fragmentTransaction.commit();
+                            //if it first time go to Que either go to Home
+                            //search in firebase for same emil
+                            CollectionReference reference = FirebaseFirestore.getInstance().collection("Patient");
+                            final Query query = reference.whereEqualTo("email",email);
+                            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                                            //so here the email founded so the user sign up before go to Home page
+                                            Intent intent = new Intent(Signup.this, HomeFragment.class);
+                                            intent.putExtra("Name" , name);
+                                            intent.putExtra("Email" , email);
+                                            startActivity(intent);
+                                            foundEmail = true;
+                                        }
+                                    }
+                                    else {
+                                        Log.d("TAG", "Query Failed");
+                                    }
+                                    if (!foundEmail){
+                                        // here the email not founded so go to next step of register and then save the name and email in firebase
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("fullName", name);
+                                        bundle.putString("email", email);
+                                        bundle.putString("password", "password");
+                                        Fragment fragmentOne = new GAD7();
+                                        fragmentOne.setArguments(bundle);
+                                        FragmentManager fm = getSupportFragmentManager();
+                                        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                                        fragmentTransaction.replace(R.id.layout, fragmentOne);
+                                        fragmentTransaction.addToBackStack(null);
+                                        fragmentTransaction.commit();
+                                    }
+                                }
+                            });
                         } else {
                             Log.w("TAG", "signInWithCredential:failure", task.getException());
 
@@ -293,6 +295,5 @@ public class Signup extends AppCompatActivity {
                     }
                 });
     }
-
 
 }

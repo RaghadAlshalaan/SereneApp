@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.content.Intent;
 
-import com.ksu.serene.Controller.Signup;
+import com.ksu.serene.Controller.Signup.Signup;
 
 public class WelcomePage extends AppCompatActivity {
 
