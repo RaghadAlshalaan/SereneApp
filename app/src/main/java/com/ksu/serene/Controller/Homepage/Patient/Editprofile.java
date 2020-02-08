@@ -1,17 +1,14 @@
 package com.ksu.serene.Controller.Homepage.Patient;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.provider.MediaStore;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,10 +18,8 @@ import com.ksu.serene.R;
 
 import java.io.IOException;
 
-import static android.app.Activity.RESULT_OK;
 
-
-public class Editprofile extends Fragment {
+public class Editprofile extends AppCompatActivity {
     private EditText name, email;
     private ImageView image;
     private Button chooseImg, save;
@@ -33,16 +28,16 @@ public class Editprofile extends Fragment {
     private String ImageName;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.editprofile);
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_editprofile, container, false);
 
-        name = view.findViewById(R.id.username);
-        email = view.findViewById(R.id.email);
-        image = view.findViewById(R.id.imageView);
-        chooseImg = view.findViewById(R.id.buttonImage);
-        save = view.findViewById(R.id.save);
+        name = findViewById(R.id.username);
+        email = findViewById(R.id.email);
+        image = findViewById(R.id.imageView);
+        chooseImg = findViewById(R.id.buttonImage);
+        save = findViewById(R.id.save);
 
 
         chooseImg.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +49,7 @@ public class Editprofile extends Fragment {
 
        //TODO get values from data base and store them
 
-        return view;
+
     }
 
     private void showFile() {
@@ -73,9 +68,9 @@ public class Editprofile extends Fragment {
             filePath = data.getData();
             ImageName = filePath.getLastPathSegment();
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), filePath);
                 image.setImageBitmap(bitmap);
-                Toast.makeText(getActivity(), "Image choosen", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Image choosen", Toast.LENGTH_LONG).show();
             } catch (IOException e) {
                 e.printStackTrace();
             }

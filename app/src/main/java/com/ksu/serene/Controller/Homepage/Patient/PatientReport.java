@@ -21,7 +21,7 @@ import com.google.firebase.auth.UserInfo;
 import com.ksu.serene.Model.MySharedPreference;
 import com.ksu.serene.R;
 
-public class PatientReport {
+public class PatientReport extends Fragment{
     //attributes that we will write into
 
     //anxiety level graph in the report
@@ -48,7 +48,7 @@ public class PatientReport {
         generate_report_btn = view.findViewById(R.id.generate_report_btn);
 
 
-
+ return view;
 
     }//end of onCreateView method
 
