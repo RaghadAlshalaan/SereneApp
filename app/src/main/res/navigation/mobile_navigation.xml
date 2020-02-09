@@ -14,7 +14,7 @@
     <!--android:name NEEDS TO BE UPDATED-->
     <fragment
         android:id="@+id/navigation_report"
-        android:name="com.ksu.serene.Controller.Homepage.Report.reportFragment"
+        android:name="com.ksu.serene.Controller.Homepage.Report.ReportFragment"
         android:label="Report"
         tools:layout="@layout/fragment_report" />
 

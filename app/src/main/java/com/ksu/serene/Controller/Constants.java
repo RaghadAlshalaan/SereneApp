@@ -5,6 +5,10 @@ public class Constants{
     public interface Keys{
 
         String DURATION = "duration";
+        String START_DATE = "startDate";
+        String END_DATE = "endDate";
+
+
 
 
 

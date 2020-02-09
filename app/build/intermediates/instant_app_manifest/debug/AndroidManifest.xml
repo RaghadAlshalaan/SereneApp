@@ -37,9 +37,11 @@
             </intent-filter>
         </activity>
         <activity android:name="com.ksu.serene.Controller.Signup.Sociodemo" />
+        <activity android:name="com.ksu.serene.Controller.Homepage.Patient.Editprofile" />
+        <activity android:name="com.ksu.serene.Controller.Homepage.Patient.EditSocio" />
         <activity android:name="com.ksu.serene.LogInPage" />
         <activity android:name="com.ksu.serene.WelcomePage" />
-        <activity android:name="com.ksu.serene.Controller.Homepage.Patient.PatientReport" />
+        <activity android:name="com.ksu.serene.Controller.Homepage.Report.PatientReport" />
         <activity
             android:name="com.ksu.serene.Controller.Signup.Signup"
             android:label="@string/app_name" />
