@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F3F3F3"
-    >
-
-
+    android:background="#F3F3F3">
     <TextView
         android:id="@+id/text1"
         android:layout_width="wrap_content"
@@ -14,175 +12,76 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="37dp"
-        android:layout_marginTop="236dp"
+        android:layout_marginTop="100dp"
         android:fontFamily="@font/montserrat"
         android:text="Duration:"
         android:textColor="#515C6F"
         android:textSize="20sp" />
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/radio_group"
+        android:layout_below="@+id/text1"
+        android:checkedButton="@id/radioButton1"
+        tools:ignore="UnknownId">
 
-    <LinearLayout
-        android:layout_width="362dp"
-        android:layout_height="54dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="322dp"
-        android:background="@drawable/white_background"
-        android:clickable="true"
-        android:focusable="auto"
-        android:orientation="horizontal">
 
-        <RadioButton
-            android:id="@+id/radioButton1"
-            android:layout_width="56dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:gravity="center" />
+            <RadioButton
+                android:id="@+id/radioButton1"
+                android:layout_width="362dp"
+                android:layout_height="54dp"
+                android:text="Last Weeks"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="20dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:background="@drawable/white_background"
+                android:focusable="auto"
+                />
 
-        <TextView
-            android:id="@+id/last2weeks"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:layout_centerVertical="true"
-            android:layout_weight="1"
-            android:fontFamily="@font/montserrat"
-            android:gravity="center"
-            android:text="Last two weeks"
-            android:textAlignment="center"
-            android:textColor="#515C6F"
-            android:textSize="15sp" />
-        <TextView
-            android:id="@+id/blankSpace2"
-            android:layout_width="148dp"
-            android:layout_height="45dp"
-            android:layout_centerVertical="true"
-            android:layout_weight="1"
-            android:fontFamily="@font/montserrat"
-            android:gravity="center"
-            android:text=""
-            android:textColor="#66515C6F"
-            android:textSize="15sp" />
 
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="362dp"
-        android:layout_height="54dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="384dp"
-        android:background="@drawable/white_background"
-        android:clickable="true"
-        android:focusable="auto"
-        android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/radioButton2"
+                android:layout_width="362dp"
+                android:layout_height="54dp"
+                android:text="Last Weeks"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="20dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:background="@drawable/white_background"
+                android:focusable="auto"/>
 
-        <RadioButton
-            android:id="@+id/radioButton2"
-            android:layout_width="56dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:gravity="center" />
 
-        <TextView
-            android:id="@+id/lastMonth"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:layout_centerVertical="true"
-            android:layout_weight="1"
-            android:fontFamily="@font/montserrat"
-            android:gravity="center"
-            android:text="Last month"
-            android:textAlignment="center"
-            android:textColor="#515C6F"
-            android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/blankSpace"
-            android:layout_width="148dp"
-            android:layout_height="45dp"
-            android:layout_centerVertical="true"
-            android:layout_weight="1"
-            android:fontFamily="@font/montserrat"
-            android:gravity="center"
-            android:text=""
-            android:textColor="#66515C6F"
-            android:textSize="15sp" />
+            <RadioButton
+                android:id="@+id/radioButton3"
+                android:layout_width="362dp"
+                android:layout_height="54dp"
+                android:text="Specific period"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="20dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:background="@drawable/white_background"
+                android:focusable="auto" />
 
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/go_to3"
+                android:layout_width="70dp"
+                android:layout_height="33dp"
+                android:layout_marginEnd="0dp"
 
-    <LinearLayout
-        android:layout_width="362dp"
-        android:layout_height="54dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="451dp"
-        android:background="@drawable/white_background"
-        android:clickable="true"
-        android:focusable="auto"
-        android:orientation="horizontal">
+                app:srcCompat="@drawable/ic_go_to"/>
 
-        <RadioButton
-            android:id="@+id/radioButton3"
-            android:layout_width="56dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:gravity="center" />
 
-        <TextView
-            android:id="@+id/customDuration"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:layout_centerVertical="true"
-            android:layout_weight="1"
-            android:fontFamily="@font/montserrat"
-            android:gravity="center"
-            android:text="Specific period"
-            android:textAlignment="center"
-            android:textColor="#515C6F"
-            android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="117dp"
-            android:layout_height="45dp"
-            android:layout_centerVertical="true"
-            android:layout_weight="1"
-            android:fontFamily="@font/montserrat"
-            android:text="(start from DD/MM/YYYY end at DD/MM/YYYY)"
-            android:textAlignment="textEnd"
-            android:textColor="#66515C6F"
-            android:textSize="10sp" />
+    </RadioGroup>
 
-        <ImageView
-            android:id="@+id/go_to3"
-            android:layout_width="30dp"
-            android:layout_height="33dp"
-            android:layout_gravity="center"
-            android:layout_marginEnd="0dp"
-            android:layout_marginBottom="0dp"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/ic_go_to" />
-
-    </LinearLayout>
-
-    <View
-        android:id="@+id/white_bg"
-        android:layout_width="match_parent"
-        android:layout_height="107dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="-2dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="604dp"
-        android:background="@drawable/white_bg" />
 
     <TextView
         android:id="@+id/titleofscreen"
@@ -191,11 +90,74 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="36dp"
-        android:layout_marginTop="142dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/montserrat"
         android:text="Generate Report"
         android:textColor="#000000"
         android:textSize="30sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/radio_group"
+        tools:ignore="UnknownId">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start"
+                android:layout_alignParentLeft="true"
+                ></TextView>
+
+            <TextView
+                android:id="@+id/start_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="DD/MM/YYYY"
+                android:layout_alignParentRight="true"
+                ></TextView>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/start"
+                android:text="start"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="end"
+                android:layout_alignParentLeft="true"
+                ></TextView>
+
+            <TextView
+                android:id="@+id/end_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="DD/MM/YYYY"
+                android:layout_alignParentRight="true"
+                ></TextView>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/end"
+                android:text="end">
+            </Button>
+
+        </LinearLayout>
+    </LinearLayout>
 
     <Button
         android:id="@+id/generate_report_btn"
@@ -209,7 +171,8 @@
         android:background="#4CA1D3"
         android:ellipsize="none"
         android:text="Generate report"
-        android:textColor="#FFFFFF" />
+        android:textColor="#FFFFFF"
+        tools:ignore="InvalidId" />
 
 
 </RelativeLayout>

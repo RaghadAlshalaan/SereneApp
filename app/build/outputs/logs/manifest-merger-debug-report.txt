@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:2:1-43:12
-INJECTED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:2:1-43:12
-INJECTED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:2:1-43:12
-INJECTED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:2:1-43:12
+ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:2:1-45:12
+INJECTED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:2:1-45:12
+INJECTED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:2:1-45:12
+INJECTED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:2:1-45:12
 MERGED from [androidx.navigation:navigation-ui:2.1.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/ae0a3b50bb50e59e1ad1b1e151ac258f/jetified-navigation-ui-2.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [com.firebaseui:firebase-ui-auth:3.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/0c10b75990874b4a6959cbe848a01797/jetified-firebase-ui-auth-3.0.0/AndroidManifest.xml:2:1-76:12
 MERGED from [com.google.android.material:material:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/3295b8d0bda86d39fcda21b87c31a4e7/material-1.0.0/AndroidManifest.xml:17:1-24:12
@@ -14,6 +14,8 @@ MERGED from [com.firebaseui:firebase-ui-firestore:3.0.0] /Users/raghadaziz/.grad
 MERGED from [com.firebaseui:firebase-ui-common:3.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/5f807ed81a337eb70f7f9257d3cb4c66/jetified-firebase-ui-common-3.0.0/AndroidManifest.xml:2:1-12:12
 MERGED from [androidx.lifecycle:lifecycle-extensions:2.1.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/486320ed2cbdfe9bc12d5f6c5498811e/lifecycle-extensions-2.1.0/AndroidManifest.xml:17:1-25:12
 MERGED from [com.google.firebase:firebase-auth:19.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/b3776fa670e70706ea5916fa94ccab84/firebase-auth-19.0.0/AndroidManifest.xml:17:1-42:12
+MERGED from [com.squareup.picasso:picasso:2.71828] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/f92665fe0347c31b846518c7ccb9b0d9/jetified-picasso-2.71828/AndroidManifest.xml:2:1-14:12
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/c7900f9b040b4cdfc018d9ff8e59dd26/legacy-support-v4-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [com.google.firebase:firebase-analytics:17.2.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/0cdc461fe40d52bebec476e42f5654a3/firebase-analytics-17.2.0/AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.firebase:firebase-firestore:21.1.1] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/692241741cbe8d3e8c92a4874bfe3c88/jetified-firebase-firestore-21.1.1/AndroidManifest.xml:2:1-26:12
 MERGED from [com.google.firebase:firebase-storage:19.1.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/bf65a5c92e5afb304d99f97463e3800e/firebase-storage-19.1.0/AndroidManifest.xml:15:1-39:12
@@ -36,7 +38,6 @@ MERGED from [com.google.android.gms:play-services-stats:17.0.0] /Users/raghadazi
 MERGED from [com.google.firebase:firebase-measurement-connector:18.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/3b311680b5f1ad0d5bfb60b120b90b98/firebase-measurement-connector-18.0.0/AndroidManifest.xml:17:1-25:12
 MERGED from [com.google.android.gms:play-services-ads-identifier:17.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/28433a571bef51b3c8d5a59e4d2bfaab/play-services-ads-identifier-17.0.0/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.gms:play-services-basement:17.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/fa915e7a3f325b8d9d19d3f9ad879381/jetified-play-services-basement-17.0.0/AndroidManifest.xml:17:1-28:12
-MERGED from [androidx.legacy:legacy-support-v4:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/c7900f9b040b4cdfc018d9ff8e59dd26/legacy-support-v4-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.fragment:fragment:1.1.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/ce4ce388f070e7043e7faf2537f9f4e5/fragment-1.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.appcompat:appcompat-resources:1.1.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/f61bf784d1be7301bbea8bf839cf5b8e/appcompat-resources-1.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.recyclerview:recyclerview:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/f4606398f715cba7340c81c71582ce19/recyclerview-1.0.0/AndroidManifest.xml:17:1-22:12
@@ -45,6 +46,7 @@ MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /Users/raghadaziz/.gr
 MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/f330e45c03470d275232a067b7f3089b/drawerlayout-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/6fd1b24342c4c048116fe3fde4ca9371/legacy-support-core-utils-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.transition:transition:1.0.1] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/1ce0fb9322f033f19ec5cd07267b1fc1/transition-1.0.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.media:media:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/3b2ab9d5476ec4c3b398148b0ab6681b/media-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.loader:loader:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/613f5b4ea4ae1b7984d896c2c3c29c82/loader-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/a8ea34bfede5b807a1a2d831c22e62fd/viewpager-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.navigation:navigation-runtime:2.1.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/37d25a088768712b18fce6197ac4061d/navigation-runtime-2.1.0/AndroidManifest.xml:17:1-24:12
@@ -57,7 +59,6 @@ MERGED from [androidx.customview:customview:1.0.0] /Users/raghadaziz/.gradle/cac
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/da2b584d8f100583a8ab43ee835869eb/swiperefreshlayout-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/603a9a2dcae3ebea3ed24012192dd9dd/asynclayoutinflater-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.navigation:navigation-common:2.1.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/57faaea13dd517fd4c7a0c78255a6500/navigation-common-2.1.0/AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.media:media:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/3b2ab9d5476ec4c3b398148b0ab6681b/media-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.core:core:1.1.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/2111d963c95cc6e94705fb367f0a0943/core-1.1.0/AndroidManifest.xml:17:1-26:12
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/fd064047dcc5c760ea467e29ddd27dd5/cursoradapter-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.cardview:cardview:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/954eb4de376a16100305e40e836d40c1/cardview-1.0.0/AndroidManifest.xml:17:1-22:12
@@ -70,6 +71,7 @@ MERGED from [androidx.arch.core:core-runtime:2.1.0] /Users/raghadaziz/.gradle/ca
 MERGED from [androidx.savedstate:savedstate:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/0c941d6820f951830db1838fc989db31/savedstate-1.0.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/0be6e0442721491acd10ff0f0bef9761/lifecycle-viewmodel-2.1.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/6b67bedd4974e34662f82886747b126b/localbroadcastmanager-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.exifinterface:exifinterface:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/230313de9faf5048d07def2904a74dff/exifinterface-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/0e75880822db093dee974fe8bfb42759/versionedparcelable-1.1.0/AndroidManifest.xml:17:1-27:12
 MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/248f34d6e745ff7b377a47dfdb400c77/interpolator-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/6bb6cee3325dcdf5ab46767b08e4cd0f/documentfile-1.0.0/AndroidManifest.xml:17:1-22:12
@@ -77,20 +79,20 @@ MERGED from [androidx.print:print:1.0.0] /Users/raghadaziz/.gradle/caches/transf
 MERGED from [com.google.firebase:firebase-database-collection:17.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/29c3f8c32dedf212f02b17edfab0c9ff/firebase-database-collection-17.0.0/AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.firebase:protolite-well-known-types:17.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/7959410a2b1c2f20979f298fe7ed7b3b/protolite-well-known-types-17.0.0/AndroidManifest.xml:2:1-11:12
 MERGED from [io.grpc:grpc-android:1.21.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/b92c94eadc675028abb15aeef2a4506c/grpc-android-1.21.0/AndroidManifest.xml:2:1-13:12
-INJECTED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:2:1-43:12
-INJECTED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:2:1-43:12
-INJECTED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:2:1-43:12
+INJECTED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:2:1-45:12
+INJECTED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:2:1-45:12
+INJECTED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:2:1-45:12
 	package
 		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:3:5-29
 		INJECTED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml
 		INJECTED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml
 	android:versionName
 		INJECTED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml
-		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:2:1-43:12
+		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:2:1-45:12
 		INJECTED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml
 	android:versionCode
 		INJECTED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml
-		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:2:1-43:12
+		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:2:1-45:12
 		INJECTED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml
 	xmlns:android
 		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:2:11-69
@@ -155,7 +157,7 @@ ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidMa
 	android:name
 		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:10:22-76
 application
-ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:12:5-41:19
+ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:12:5-43:19
 MERGED from [com.firebaseui:firebase-ui-auth:3.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/0c10b75990874b4a6959cbe848a01797/jetified-firebase-ui-auth-3.0.0/AndroidManifest.xml:15:5-74:19
 MERGED from [com.firebaseui:firebase-ui-auth:3.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/0c10b75990874b4a6959cbe848a01797/jetified-firebase-ui-auth-3.0.0/AndroidManifest.xml:15:5-74:19
 MERGED from [com.google.android.material:material:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/3295b8d0bda86d39fcda21b87c31a4e7/material-1.0.0/AndroidManifest.xml:22:5-20
@@ -166,6 +168,8 @@ MERGED from [androidx.lifecycle:lifecycle-extensions:2.1.0] /Users/raghadaziz/.g
 MERGED from [androidx.lifecycle:lifecycle-extensions:2.1.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/486320ed2cbdfe9bc12d5f6c5498811e/lifecycle-extensions-2.1.0/AndroidManifest.xml:22:5-23:19
 MERGED from [com.google.firebase:firebase-auth:19.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/b3776fa670e70706ea5916fa94ccab84/firebase-auth-19.0.0/AndroidManifest.xml:23:5-40:19
 MERGED from [com.google.firebase:firebase-auth:19.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/b3776fa670e70706ea5916fa94ccab84/firebase-auth-19.0.0/AndroidManifest.xml:23:5-40:19
+MERGED from [com.squareup.picasso:picasso:2.71828] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/f92665fe0347c31b846518c7ccb9b0d9/jetified-picasso-2.71828/AndroidManifest.xml:7:5-12:19
+MERGED from [com.squareup.picasso:picasso:2.71828] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/f92665fe0347c31b846518c7ccb9b0d9/jetified-picasso-2.71828/AndroidManifest.xml:7:5-12:19
 MERGED from [com.google.firebase:firebase-analytics:17.2.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/0cdc461fe40d52bebec476e42f5654a3/firebase-analytics-17.2.0/AndroidManifest.xml:7:5-20
 MERGED from [com.google.firebase:firebase-analytics:17.2.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/0cdc461fe40d52bebec476e42f5654a3/firebase-analytics-17.2.0/AndroidManifest.xml:7:5-20
 MERGED from [com.google.firebase:firebase-firestore:21.1.1] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/692241741cbe8d3e8c92a4874bfe3c88/jetified-firebase-firestore-21.1.1/AndroidManifest.xml:16:5-24:19
@@ -224,40 +228,48 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/ragh
 		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:13:9-35
 	android:theme
 		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:18:9-40
-activity#com.ksu.serene.Controller.Sociodemo
-ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:19:9-67
+activity#com.ksu.serene.MainActivity
+ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:19:9-25:20
 	android:name
-		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:19:19-55
-activity#com.ksu.serene.LogInPage
-ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:20:9-47
-	android:name
-		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:20:19-44
-activity#com.ksu.serene.WelcomePage
-ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:21:9-27:16
-	android:name
-		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:21:19-46
+		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:19:19-47
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:22:9-26:21
+ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:20:13-24:29
 action#android.intent.action.MAIN
-ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:23:9-61
+ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:21:17-69
 	android:name
-		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:23:17-58
+		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:21:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:25:9-69
+ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:23:17-77
 	android:name
-		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:25:19-66
-activity#com.ksu.serene.Controller.Signup
-ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:28:9-30:47
+		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:23:27-74
+activity#com.ksu.serene.Controller.Signup.Sociodemo
+ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:26:9-74
+	android:name
+		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:26:19-62
+activity#com.ksu.serene.LogInPage
+ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:27:9-47
+	android:name
+		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:27:19-44
+activity#com.ksu.serene.WelcomePage
+ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:28:9-58
+	android:name
+		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:28:19-46
+activity#com.ksu.serene.Controller.Homepage.Patient.PatientReport
+ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:29:9-88
+	android:name
+		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:29:19-76
+activity#com.ksu.serene.Controller.Signup.Signup
+ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:30:9-32:47
 	android:label
-		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:30:13-45
+		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:32:13-45
 	android:name
-		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:29:13-46
+		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:31:13-53
 meta-data#preloaded_fonts
-ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:38:9-40:57
+ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:40:9-42:57
 	android:resource
-		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:40:13-54
+		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:42:13-54
 	android:name
-		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:39:13-43
+		ADDED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml:41:13-43
 uses-sdk
 INJECTED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/raghadaziz/Desktop/GP2/Serene/SereneApp/app/src/main/AndroidManifest.xml
@@ -282,6 +294,10 @@ MERGED from [androidx.lifecycle:lifecycle-extensions:2.1.0] /Users/raghadaziz/.g
 MERGED from [androidx.lifecycle:lifecycle-extensions:2.1.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/486320ed2cbdfe9bc12d5f6c5498811e/lifecycle-extensions-2.1.0/AndroidManifest.xml:20:5-44
 MERGED from [com.google.firebase:firebase-auth:19.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/b3776fa670e70706ea5916fa94ccab84/firebase-auth-19.0.0/AndroidManifest.xml:21:5-44
 MERGED from [com.google.firebase:firebase-auth:19.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/b3776fa670e70706ea5916fa94ccab84/firebase-auth-19.0.0/AndroidManifest.xml:21:5-44
+MERGED from [com.squareup.picasso:picasso:2.71828] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/f92665fe0347c31b846518c7ccb9b0d9/jetified-picasso-2.71828/AndroidManifest.xml:5:5-44
+MERGED from [com.squareup.picasso:picasso:2.71828] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/f92665fe0347c31b846518c7ccb9b0d9/jetified-picasso-2.71828/AndroidManifest.xml:5:5-44
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/c7900f9b040b4cdfc018d9ff8e59dd26/legacy-support-v4-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/c7900f9b040b4cdfc018d9ff8e59dd26/legacy-support-v4-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [com.google.firebase:firebase-analytics:17.2.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/0cdc461fe40d52bebec476e42f5654a3/firebase-analytics-17.2.0/AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-analytics:17.2.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/0cdc461fe40d52bebec476e42f5654a3/firebase-analytics-17.2.0/AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-firestore:21.1.1] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/692241741cbe8d3e8c92a4874bfe3c88/jetified-firebase-firestore-21.1.1/AndroidManifest.xml:7:5-9:41
@@ -326,8 +342,6 @@ MERGED from [com.google.android.gms:play-services-ads-identifier:17.0.0] /Users/
 MERGED from [com.google.android.gms:play-services-ads-identifier:17.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/28433a571bef51b3c8d5a59e4d2bfaab/play-services-ads-identifier-17.0.0/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-basement:17.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/fa915e7a3f325b8d9d19d3f9ad879381/jetified-play-services-basement-17.0.0/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-basement:17.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/fa915e7a3f325b8d9d19d3f9ad879381/jetified-play-services-basement-17.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.legacy:legacy-support-v4:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/c7900f9b040b4cdfc018d9ff8e59dd26/legacy-support-v4-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.legacy:legacy-support-v4:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/c7900f9b040b4cdfc018d9ff8e59dd26/legacy-support-v4-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.fragment:fragment:1.1.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/ce4ce388f070e7043e7faf2537f9f4e5/fragment-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.fragment:fragment:1.1.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/ce4ce388f070e7043e7faf2537f9f4e5/fragment-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.appcompat:appcompat-resources:1.1.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/f61bf784d1be7301bbea8bf839cf5b8e/appcompat-resources-1.1.0/AndroidManifest.xml:20:5-22:41
@@ -344,6 +358,8 @@ MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/raghadaziz/
 MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/6fd1b24342c4c048116fe3fde4ca9371/legacy-support-core-utils-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.transition:transition:1.0.1] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/1ce0fb9322f033f19ec5cd07267b1fc1/transition-1.0.1/AndroidManifest.xml:20:5-44
 MERGED from [androidx.transition:transition:1.0.1] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/1ce0fb9322f033f19ec5cd07267b1fc1/transition-1.0.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/3b2ab9d5476ec4c3b398148b0ab6681b/media-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/3b2ab9d5476ec4c3b398148b0ab6681b/media-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.loader:loader:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/613f5b4ea4ae1b7984d896c2c3c29c82/loader-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.loader:loader:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/613f5b4ea4ae1b7984d896c2c3c29c82/loader-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/a8ea34bfede5b807a1a2d831c22e62fd/viewpager-1.0.0/AndroidManifest.xml:20:5-44
@@ -368,8 +384,6 @@ MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /Users/ragh
 MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/603a9a2dcae3ebea3ed24012192dd9dd/asynclayoutinflater-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.navigation:navigation-common:2.1.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/57faaea13dd517fd4c7a0c78255a6500/navigation-common-2.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.navigation:navigation-common:2.1.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/57faaea13dd517fd4c7a0c78255a6500/navigation-common-2.1.0/AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.media:media:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/3b2ab9d5476ec4c3b398148b0ab6681b/media-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.media:media:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/3b2ab9d5476ec4c3b398148b0ab6681b/media-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.core:core:1.1.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/2111d963c95cc6e94705fb367f0a0943/core-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.core:core:1.1.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/2111d963c95cc6e94705fb367f0a0943/core-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/fd064047dcc5c760ea467e29ddd27dd5/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
@@ -394,6 +408,8 @@ MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] /Users/raghadaziz/.gr
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/0be6e0442721491acd10ff0f0bef9761/lifecycle-viewmodel-2.1.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/6b67bedd4974e34662f82886747b126b/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/6b67bedd4974e34662f82886747b126b/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.exifinterface:exifinterface:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/230313de9faf5048d07def2904a74dff/exifinterface-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.exifinterface:exifinterface:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/230313de9faf5048d07def2904a74dff/exifinterface-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/0e75880822db093dee974fe8bfb42759/versionedparcelable-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/0e75880822db093dee974fe8bfb42759/versionedparcelable-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/248f34d6e745ff7b377a47dfdb400c77/interpolator-1.0.0/AndroidManifest.xml:20:5-44
@@ -574,6 +590,14 @@ ADDED from [com.google.firebase:firebase-auth:19.0.0] /Users/raghadaziz/.gradle/
 		ADDED from [com.google.firebase:firebase-auth:19.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/b3776fa670e70706ea5916fa94ccab84/firebase-auth-19.0.0/AndroidManifest.xml:38:17-82
 	android:name
 		ADDED from [com.google.firebase:firebase-auth:19.0.0] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/b3776fa670e70706ea5916fa94ccab84/firebase-auth-19.0.0/AndroidManifest.xml:37:17-109
+provider#com.squareup.picasso.PicassoProvider
+ADDED from [com.squareup.picasso:picasso:2.71828] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/f92665fe0347c31b846518c7ccb9b0d9/jetified-picasso-2.71828/AndroidManifest.xml:8:9-11:40
+	android:authorities
+		ADDED from [com.squareup.picasso:picasso:2.71828] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/f92665fe0347c31b846518c7ccb9b0d9/jetified-picasso-2.71828/AndroidManifest.xml:10:13-72
+	android:exported
+		ADDED from [com.squareup.picasso:picasso:2.71828] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/f92665fe0347c31b846518c7ccb9b0d9/jetified-picasso-2.71828/AndroidManifest.xml:11:13-37
+	android:name
+		ADDED from [com.squareup.picasso:picasso:2.71828] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/f92665fe0347c31b846518c7ccb9b0d9/jetified-picasso-2.71828/AndroidManifest.xml:9:13-64
 meta-data#com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar
 ADDED from [com.google.firebase:firebase-firestore:21.1.1] /Users/raghadaziz/.gradle/caches/transforms-2/files-2.1/692241741cbe8d3e8c92a4874bfe3c88/jetified-firebase-firestore-21.1.1/AndroidManifest.xml:20:13-22:85
 	android:value
