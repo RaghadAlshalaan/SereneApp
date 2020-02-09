@@ -1,4 +1,4 @@
-package com.ksu.serene.Controller.Homepage.Patient;
+package com.ksu.serene.Controller.Homepage.Report;
 
 //import all widget types we're going to write into
 

@@ -17,7 +17,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.ksu.serene.Controller.Constants;
-import com.ksu.serene.Controller.Homepage.Patient.PatientReport;
 import com.ksu.serene.R;
 
 public class reportFragment extends Fragment {
@@ -47,6 +46,14 @@ public class reportFragment extends Fragment {
             public void onClick(View v) {
                 //show dialog
                 dateDialog.show();
+                dateDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        startDate.setText(dateDialog.getDay()+"/"+dateDialog.getMonth()+"/"+dateDialog.getYear());
+
+                    }
+                });
+
             }
         });
 
@@ -64,10 +71,7 @@ public class reportFragment extends Fragment {
                     }
                 });
 
-
             }
-
-
         });
         generate_report.setOnClickListener(new View.OnClickListener() {
             @Override
