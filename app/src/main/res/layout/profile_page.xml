@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="#F3F3F3"
-    >
+    tools:context=".Controller.Homepage.Patient.PatientProfile">
 
 
     <LinearLayout
@@ -220,6 +221,17 @@
         android:textColor="#ffffff"
         android:fontFamily="@font/montserrat"
         android:text="EDIT PROFILE" />
+    <Button
+        android:id="@+id/log_out_btn"
+        android:layout_width="119dp"
+        android:layout_height="36dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="600dp"
+        android:background="#E14E67"
+        android:textColor="#ffffff"
+        android:fontFamily="@font/montserrat"
+        android:text="Log out" />
 
     <LinearLayout
         android:layout_width="362dp"

@@ -24,6 +24,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Controller.Signup.Sociodemo"></activity>
+       <activity android:name=".Controller.Homepage.Patient.Editprofile"></activity>
+        <activity android:name=".Controller.Homepage.Patient.EditSocio"></activity>
         <activity android:name=".LogInPage" />
         <activity android:name=".WelcomePage"></activity>
         <activity android:name=".Controller.Homepage.Patient.PatientReport"></activity>
