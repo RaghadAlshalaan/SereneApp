@@ -2,6 +2,7 @@ package com.ksu.serene.Model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 
 public class MySharedPreference {
 /*
@@ -53,6 +54,7 @@ to read
         SharedPreferences.Editor editor = getInstance(context).edit();
         editor.putBoolean(key, value).commit();
     }//end putBoolean
+
 
 
     //------------pull data-----------

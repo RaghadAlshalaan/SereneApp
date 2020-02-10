@@ -16,9 +16,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ksu.serene.Controller.Signup.Signup;
 import com.ksu.serene.Controller.Signup.Sociodemo;
@@ -39,12 +42,15 @@ import java.util.Map;
 
 public class PatientProfile extends Fragment {
 
-    private ImageView image, SocioArrow;
-    private TextView name, email;
+    private ImageView image, SocioArrow, doctorArrow;
+    private TextView name, email, doctor;
     private String nameDb, emailDb, imageDb;
     private FirebaseAuth mAuth;
     private Button editProfile, logOut;
     private String TAG = PatientProfile.class.getSimpleName();
+    private FirebaseFirestore db = com.google.firebase.firestore.FirebaseFirestore.getInstance();
+    private Intent intentd;
+
 
 
 
@@ -61,6 +67,8 @@ public class PatientProfile extends Fragment {
         editProfile = view.findViewById(R.id.edit_profile_btn);
         SocioArrow = view.findViewById(R.id.go_to1);
         logOut = view.findViewById(R.id.log_out_btn);
+        doctorArrow = view.findViewById(R.id.go_to2);
+        doctor = view.findViewById(R.id.doctor_text2);
 
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +83,19 @@ public class PatientProfile extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(),EditSocio.class);
                 getActivity().startActivity(intent);
+            }
+        });
+
+        doctorArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (db.collection("Doctor").document(mAuth.getUid()).get()!= null) {
+                    intentd = new Intent(getActivity(), MyDoctor.class);
+                    getActivity().startActivity(intentd);
+                } else {
+                       Intent intent = new Intent(getActivity(),AddDoctor.class);
+                       getActivity().startActivity(intent);
+                }
             }
         });
       logOut.setOnClickListener(new View.OnClickListener() {
@@ -92,32 +113,35 @@ public class PatientProfile extends Fragment {
         return view;
     }
 
-    //TODO get image from database
+
 
     public void displayName(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
+
             nameDb = user.getDisplayName();
             emailDb = user.getEmail();
-         //   imageDb = user.getPhotoUrl().toString();
+           // imageDb = user.getPhotoUrl().toString();
             // If the above were null, iterate the provider data
             // and set with the first non null data
             for (UserInfo userInfo : user.getProviderData()) {
                 if (nameDb == null && userInfo.getDisplayName() != null && emailDb == null && userInfo.getEmail() != null
-                         ) {
+                     ) {
                     nameDb = userInfo.getDisplayName();
                     emailDb = userInfo.getEmail();
-                  //  imageDb = userInfo.getPhotoUrl().toString();
+                   // imageDb = userInfo.getPhotoUrl().toString();
                     MySharedPreference.putString(getContext(), "name", nameDb);
                     MySharedPreference.putString(getContext(), "email", emailDb);
-                    MySharedPreference.putString(getContext(), "image", imageDb);
+                   // MySharedPreference.putString(getContext(), "Image", imageDb);
 
                 }
             }
+            if(nameDb!=null)
             name.setText(nameDb);
+            if(emailDb !=null)
             email.setText(emailDb);
-          //  if(imageDb !=null)
-           // Picasso.get().load(imageDb).into(image);
+           //if(imageDb !=null)
+            //Picasso.get().load(imageDb).into(image);
 
 
         }//end if
@@ -125,19 +149,42 @@ public class PatientProfile extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        if (db.collection("Doctor").document(mAuth.getUid()).get()!= null) {
+            DocumentReference docRef = db.collection("Doctor").document(mAuth.getUid());
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document != null) {
+                           doctor.setText(document.getString("name"));
+                        } else {
+                            Log.d("LOGGER", "No such document");
+                        }
+                    } else {
+                        Log.d("LOGGER", "get failed with ", task.getException());
+                    }
+                }
+            });
+        }
         if (!MySharedPreference.getString(getContext(), "name", "").equals("")) {
             name.setText(MySharedPreference.getString(getContext(), "name", ""));
-        } else if (!MySharedPreference.getString(getContext(), "email", "").equals("")) {
-            email.setText(MySharedPreference.getString(getContext(), "email", ""));
-        } //else if (!MySharedPreference.getString(getContext(), "image", "").equals("")) {
-          //  imageDb = MySharedPreference.getString(getContext(), "image", "");
-          //  if(imageDb !=null)
-          //  Picasso.get().load(imageDb).into(image);
-       // }
-        else {
+        }
 
+        if (!MySharedPreference.getString(getContext(), "Image", "").equals("")) {
+            imageDb = MySharedPreference.getString(getContext(), "Image", "");
+            if(imageDb !=null)
+                Picasso.get().load(imageDb).into(image);
+        }
+        if (!MySharedPreference.getString(getContext(), "email", "").equals("")) {
+            email.setText(MySharedPreference.getString(getContext(), "email", ""));
+        }
+        else {
             displayName();
         }
+
+
+
     }
 
     public void signOut() {
