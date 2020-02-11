@@ -15,7 +15,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "461213981433-erl7tslgnbq7f0sgsod8bahdj1e7kua2.apps.googleusercontent.com",
+          "client_id": "461213981433-hf5k56ejrvsjed145vasv1e1aon8sbfv.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -28,7 +28,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "461213981433-erl7tslgnbq7f0sgsod8bahdj1e7kua2.apps.googleusercontent.com",
+              "client_id": "461213981433-hf5k56ejrvsjed145vasv1e1aon8sbfv.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -44,7 +44,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "461213981433-erl7tslgnbq7f0sgsod8bahdj1e7kua2.apps.googleusercontent.com",
+          "client_id": "461213981433-9mbbu63md5f0jf44r27n960oks0tgb1a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ksu.serene",
+            "certificate_hash": "a5ab0933d9a2d28725572cd851d75468e2729ca6"
+          }
+        },
+        {
+          "client_id": "461213981433-hf5k56ejrvsjed145vasv1e1aon8sbfv.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -57,7 +65,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "461213981433-erl7tslgnbq7f0sgsod8bahdj1e7kua2.apps.googleusercontent.com",
+              "client_id": "461213981433-hf5k56ejrvsjed145vasv1e1aon8sbfv.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

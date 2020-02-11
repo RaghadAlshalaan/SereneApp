@@ -181,7 +181,7 @@ public class Sociodemo extends Fragment {
                                             }
                                         }
                                     });
-                            // Create a new user with a first and last name
+                            // Create a new user
                             final Map<String, Object> user = new HashMap<>();
                             user.put("email", email);
                             user.put("name", fullName);

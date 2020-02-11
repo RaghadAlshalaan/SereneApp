@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Controller.Homepage.Patient.MyDoctor">
+
+    <View
+        android:id="@+id/white_bg1"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="575dp"
+        android:background="@drawable/white_bg" />
+
+
+    <TextView
+        android:id="@+id/titleofscreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="61dp"
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/montserrat"
+        android:text="My Doctor"
+        android:textColor="#000000"
+        android:textSize="30sp" />
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="-10dp">
+
+        <TextView
+            android:id="@+id/fullName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="200dp"
+            android:fontFamily="@font/montserrat"
+            android:text="Name"
+            android:textColor="#817889"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="240dp"
+            android:layout_marginLeft="-30dp"
+            android:ems="12"
+            android:hint="Name"
+            android:inputType="textPersonName"
+            android:textColor="#B1B0B0"
+            android:textSize="18sp"></TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="-0dp">
+
+        <TextView
+            android:id="@+id/emailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="288dp"
+            android:fontFamily="@font/montserrat"
+            android:text="Email"
+            android:textColor="#817889"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="330dp"
+            android:layout_marginLeft="-30dp"
+            android:hint="Email"
+            android:inputType="textPersonName"
+            android:textColor="#B1B0B0"
+            android:ems="12"
+
+            android:textSize="18sp"></TextView>
+
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <ToggleButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="420dp"
+            android:layout_marginLeft="260dp">
+
+        </ToggleButton>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:text="Enable automatic report"
+            android:textColor="#817889"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="420dp"
+            android:layout_marginLeft="-260dp">
+
+        </TextView>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <Button
+            android:id="@+id/delete"
+            android:layout_width="98dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="151dp"
+            android:layout_marginBottom="50dp"
+            android:background="#E14E67"
+            android:ellipsize="none"
+            android:text="Delete Doctor"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="500dp"
+            android:layout_marginLeft="75dp"/>
+
+
+    </LinearLayout>
+
+</FrameLayout>

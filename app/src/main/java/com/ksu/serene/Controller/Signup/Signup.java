@@ -62,6 +62,8 @@ public class Signup extends AppCompatActivity {
 
     private Task<SignInMethodQueryResult> result;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
     //create googleAPClient object
     private GoogleApiClient mGoogleApiClient;//
     private GoogleSignInClient mGoogleSignInClient;
@@ -82,23 +84,25 @@ public class Signup extends AppCompatActivity {
         isNewUser = true;
         signInWithGoogle = findViewById(R.id.signup_withgoogle);
 
-        //for sign in with google need to create GoogleSigninOption object
+//for sign in with google need to create GoogleSigninOption object
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this , gso);
 
-        //when click to sign up with google will show sign up with google page
+//when click to sign up with google will show sign up with google page
         signInWithGoogle.setOnClickListener(new View.OnClickListener() {
-            @Override
-             public void onClick(View view) {
-                //Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);//
-                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                startActivityForResult(signInIntent, 9001);
-             }
-         }
+                                                @Override
+                                                public void onClick(View view) {
+                                                    //Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);//
+                                                    Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                                                    startActivityForResult(signInIntent, 9001);
+                                                }
+                                            }
         );
+
+
 
         loginTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -214,7 +218,6 @@ public class Signup extends AppCompatActivity {
 
     }//end onCreate()
 
-
     //for sign up with google
     @Override
     protected void onActivityResult(int requestCode, int resultCode,  Intent data) {
@@ -226,8 +229,8 @@ public class Signup extends AppCompatActivity {
                 // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 //if (account != null){
-                    //make request with firebase
-                    firebaseAuthWithGoogle(account);
+                //make request with firebase
+                firebaseAuthWithGoogle(account);
 
             }
             catch (ApiException e){
@@ -295,5 +298,8 @@ public class Signup extends AppCompatActivity {
                     }
                 });
     }
+
+
+
 
 }
