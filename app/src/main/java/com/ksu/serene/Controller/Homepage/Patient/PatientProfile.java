@@ -23,6 +23,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.ksu.serene.Controller.Signup.Signup;
 import com.ksu.serene.Controller.Signup.Sociodemo;
 import com.ksu.serene.Model.Token;
@@ -49,7 +52,6 @@ public class PatientProfile extends Fragment {
     private Button editProfile, logOut;
     private String TAG = PatientProfile.class.getSimpleName();
     private FirebaseFirestore db = com.google.firebase.firestore.FirebaseFirestore.getInstance();
-    private Intent intentd;
 
 
 
@@ -89,15 +91,47 @@ public class PatientProfile extends Fragment {
         doctorArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (db.collection("Doctor").document(mAuth.getUid()).get()!= null) {
-                    intentd = new Intent(getActivity(), MyDoctor.class);
-                    getActivity().startActivity(intentd);
-                } else {
-                       Intent intent = new Intent(getActivity(),AddDoctor.class);
-                       getActivity().startActivity(intent);
-                }
+
+                db.collection("Doctor")
+                        .whereEqualTo("patientID", mAuth.getUid())
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    if(!task.getResult().isEmpty()){
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            if(document.exists()) {
+                                                Intent intent = new Intent(getActivity(), MyDoctor.class);
+                                                getActivity().startActivity(intent);
+                                            }
+                                        }
+                                    }
+                                    else{
+                                        Intent intent = new Intent(getActivity(), AddDoctor.class);
+                                        getActivity().startActivity(intent);
+                                    }
+                                }
+                                else {
+
+                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                }
+                            }
+                        });
+
+
+
+
+
             }
         });
+
+
+
+
+
+
+
       logOut.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
@@ -149,24 +183,31 @@ public class PatientProfile extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (db.collection("Doctor").document(mAuth.getUid()).get()!= null) {
-            DocumentReference docRef = db.collection("Doctor").document(mAuth.getUid());
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document != null) {
-                           doctor.setText(document.getString("name"));
-                        } else {
-                            Log.d("LOGGER", "No such document");
-                        }
-                    } else {
-                        Log.d("LOGGER", "get failed with ", task.getException());
-                    }
-                }
-            });
-        }
+
+             db.collection("Doctor")
+                     .whereEqualTo("patientID", mAuth.getUid())
+                     .get()
+                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                         @Override
+                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                             if (task.isSuccessful()) {
+                                 if(!task.getResult().isEmpty()){
+                                 for (QueryDocumentSnapshot document : task.getResult()) {
+                                     if(document.exists()) {
+                                         doctor.setText(document.getString("name"));
+                                     }} }
+                                     else{
+                                         doctor.setText("No Doctor");
+                                     }
+                                 }
+                              else {
+
+                                 Log.d(TAG, "Error getting documents: ", task.getException());
+                             }
+                         }
+                     });
+
+
         if (!MySharedPreference.getString(getContext(), "name", "").equals("")) {
             name.setText(MySharedPreference.getString(getContext(), "name", ""));
         }

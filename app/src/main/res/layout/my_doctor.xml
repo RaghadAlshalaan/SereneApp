@@ -30,7 +30,20 @@
 
 
 
-
+    <TextView
+        android:id="@+id/edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="250dp"
+        android:fontFamily="@font/montserrat"
+        android:text="Edit Doctor"
+        android:textColor="#817889"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -64,6 +77,18 @@
             android:inputType="textPersonName"
             android:textColor="#B1B0B0"
             android:textSize="18sp"></TextView>
+        <EditText
+            android:id="@+id/nameET"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="240dp"
+            android:layout_marginLeft="-60dp"
+            android:ems="12"
+            android:hint="Name"
+            android:inputType="textPersonName"
+            android:textColor="#B1B0B0"></EditText>
 
     </LinearLayout>
 
@@ -71,6 +96,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="-0dp">
+
+
 
         <TextView
             android:id="@+id/emailText"
@@ -100,6 +127,26 @@
             android:ems="12"
 
             android:textSize="18sp"></TextView>
+        <EditText
+            android:id="@+id/emailET"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="330dp"
+            android:layout_marginLeft="-60dp"
+            android:ems="12"
+            android:hint="Email"
+            android:inputType="textPersonName"
+            android:textColor="#B1B0B0"></EditText>
+        <ImageView
+            android:id="@+id/check"
+            android:layout_width="25dp"
+            android:layout_height="50dp"
+            android:src="@drawable/correct"
+            android:layout_marginTop="287dp"
+            android:layout_marginLeft="-320dp"
+            ></ImageView>
 
 
     </LinearLayout>
@@ -150,5 +197,17 @@
 
 
     </LinearLayout>
+    <Button
+        android:id="@+id/save"
+        android:layout_width="98dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="151dp"
+        android:layout_marginBottom="50dp"
+        android:background="#4CA1D3"
+        android:ellipsize="none"
+        android:text="Save"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="500dp"
+        android:layout_marginLeft="75dp"/>
 
 </FrameLayout>

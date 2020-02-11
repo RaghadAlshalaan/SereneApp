@@ -26,6 +26,7 @@ import com.ksu.serene.R;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 
 public class AddDoctor extends AppCompatActivity {
@@ -35,6 +36,8 @@ public class AddDoctor extends AppCompatActivity {
     private FirebaseFirestore db = com.google.firebase.firestore.FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth;
     private String TAG = AddDoctor.class.getSimpleName();
+    private Random r = new Random();
+
 
 
     @Override
@@ -62,16 +65,20 @@ public class AddDoctor extends AppCompatActivity {
     }
 
     public void addDoctor(final String name, final String email){
+
+
         final Map<String, Object> user = new HashMap<>();
         user.put("name", name);
         user.put("email", email);
+        user.put("patientID",mAuth.getUid());
         db.collection("Doctor")
-                .document(mAuth.getUid())
+                .document(String.valueOf(r.nextInt(999999 - 111 + 1) + 111))
                 .set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot added successfully");
+
                        sendEmail(name, email);
                     }
                 });
@@ -79,7 +86,7 @@ public class AddDoctor extends AppCompatActivity {
 
     }
     public void sendEmail(String name,String email){
-        Intent i = new Intent(Intent.ACTION_SEND);
+         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("message/rfc822");
         i.putExtra(Intent.EXTRA_EMAIL  , new String[]{email});
         i.putExtra(Intent.EXTRA_SUBJECT, "Serene system");
