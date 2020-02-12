@@ -139,7 +139,7 @@
                     android:layout_marginStart="20sp"
                     android:layout_weight="1"
                     android:fontFamily="@font/montserrat"
-                    android:text="Improvement (in %)"
+                    android:text="@string/improvement_in"
                     android:textColor="#817889"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -150,7 +150,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:fontFamily="@font/montserrat"
-                    android:text="%"
+                    android:text="@string/percentage"
                     android:textColor="#4CA758"
                     android:textSize="22sp" />
             </LinearLayout>
@@ -177,7 +177,7 @@
                     android:layout_marginStart="20sp"
                     android:layout_weight="1"
                     android:fontFamily="@font/montserrat"
-                    android:text="Highest Day of Anxiety"
+                    android:text="@string/highest_day_of_anxiety"
                     android:textColor="#817889"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -188,7 +188,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:fontFamily="@font/montserrat"
-                    android:text="(date here)"
+                    android:inputType="date"
+                    android:text="@string/date_here"
                     android:textColor="#817889"
                     android:textSize="18sp" />
 
