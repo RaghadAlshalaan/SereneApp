@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">سيرين</string>
+    <string name="highest_day_of_anxiety">"أعلى يوم من القلق "</string>
+    <string name="improvement_in">التحسينات</string>
+    <string name="allFields">"جميع الحقول مطلوبة "</string>
+    <string name="emailFormat">الرجاء إدخال تنسيق البريد الإلكتروني الصحيح</string>
+    <string name="full">"موظف بدوام كامل "</string>
+    <string name="image">"الصورة المختارة "</string>
+    <string name="incomeFormat">"الرجاء إدخال تنسيق الدخل الصحيح "</string>
+    <string name="nameFormat">"الرجاء إدخال تنسيق الاسم الصحيح "</string>
+    <string name="no">لا</string>
+    <string name="none">عاطل عن العمل</string>
+    <string name="part">"موظف بدوام جزئي "</string>
+    <string name="passwordChar">"كلمة المرور أقل من 8 أحرف ، يرجى المحاولة مرة أخرى "</string>
+    <string name="passwordMatch">"كلمة المرور غير متطابقة ، يرجى المحاولة مرة أخرى "</string>
+    <string name="passwordNotUpdated">"لم يتم تحديث كلمة المرور ، يرجى المحاولة مرة أخرى "</string>
+    <string name="passwordSame">"لا يمكنك استخدام نفس كلمة المرور "</string>
+    <string name="passwordUpdate">"تم تحديث كلمة المرور "</string>
+    <string name="questionnaire">"يرجى ملء الاستبيان "</string>
+    <string name="selectPic">اختر صورة</string>
+    <string name="student">طالب</string>
+    <string name="wrongPassword">"لقد أدخلت كلمة مرور خاطئة "</string>
+    <string name="yes">نعم</string>
+    <string name="auth">"المصادقة فشلت "</string>
+    <string name="emailVerify">"تحقق من رابط البريد الإلكتروني للتحقق من الحساب "</string>
+    <string name="emailpassWrong">"البريد الإلكتروني أو كلمة المرور خاطئة "</string>
+</resources>

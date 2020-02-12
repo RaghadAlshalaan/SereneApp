@@ -1,30 +1,62 @@
 <resources>
     <string name="app_name">Serene</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_home" translatable="false">Home</string>
+    <string name="title_dashboard" translatable="false">Dashboard</string>
+    <string name="title_notifications" translatable="false">Notifications</string>
+
+
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="improvement_in">Improvement (in %)</string>
+    <string name="percentage" translatable="false">%</string>
+    <string name="highest_day_of_anxiety">Highest Day of Anxiety</string>
+    <string name="date_here" translatable="false">(date here)</string>
+    <string name="allFields">"All fields are required "</string>
+    <string name="passwordMatch">"Password does not match, please try again "</string>
+    <string name="nameFormat">Please enter correct name format</string>
+    <string name="passwordChar">Password is less than 8 characters, please try again </string>
+    <string name="emailFormat">"Please enter correct email format "</string>
+    <string name="questionnaire">Please complete the questionnaire </string>
+    <string name="incomeFormat">Please enter correct income format </string>
+    <string name="selectPic">Select Picture </string>
+    <string name="image">"Image chosen "</string>
+    <string name="passwordUpdate">Password updated </string>
+    <string name="passwordNotUpdated">Password is not updated, please try again </string>
+    <string name="wrongPassword">you have entered a wrong password </string>
+    <string name="passwordSame">You cannot use the same password </string>
+    <string name="emailpassWrong">The email or password is wrong</string>
+    <string name="auth">Authentication failed</string>
+    <string name="emailVerify">Check email link to verify account</string>
+
+
+
+
+
+    <string name="full">Full-time</string>
+    <string name="part">Part-time</string>
+    <string name="student">Student</string>
+    <string name="none">Not employed</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
 
 
     <string-array name="employmentStatus">
-        <item>Full-time</item>
-        <item>Part-time</item>
-        <item>Student</item>
-        <item>Not employed</item>
+        <item>@string/full</item>
+        <item>@string/part</item>
+        <item>@string/student</item>
+        <item>@string/none</item>
 
     </string-array>
 
     <string-array name="yes_no">
-        <item>Yes</item>
-        <item>No</item>
+        <item>@string/yes</item>
+        <item>@string/no</item>
 
     </string-array>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="improvement_in">Improvement (in %)</string>
-    <string name="percentage">%</string>
-    <string name="highest_day_of_anxiety">Highest Day of Anxiety</string>
-    <string name="date_here">(date here)</string>
+
+
 
 
 </resources>

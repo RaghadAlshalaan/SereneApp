@@ -16,6 +16,9 @@
         android:roundIcon="@drawable/s_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Controller.Homepage.Patient.AddDoctor">
+        </activity>
+        <activity android:name=".Controller.Homepage.Patient.MyDoctor"></activity>
         <activity android:name=".Controller.Homepage.Calendar.Add_Medicine_Page"></activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".Controller.Signup.Sociodemo" />

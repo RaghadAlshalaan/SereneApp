@@ -137,18 +137,18 @@ public class Sociodemo extends Fragment {
                 if(age.matches("") || height.matches("")  || wieght.matches("")|| employmentStatus.matches("") ||
                         maritalStatus.matches("") || monthlyIncome.matches("") ||
                         cigaretteSmoke.matches("") || chronicDisease.matches("")){
-                    Toast.makeText(getActivity(), "Please complete the questionairre",
+                    Toast.makeText(getActivity(), R.string.questionnaire,
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else if(!age.matches("^[0-9]+")|| !height.matches("^[0-9]+")|| !wieght.matches("^[0-9]+")||
                         !monthlyIncome.matches("^[0-9]+")){
-                    Toast.makeText(getActivity(), "Please enter correct values",
+                    Toast.makeText(getActivity(), R.string.incomeFormat,
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else if(!chronicDisease.matches("^[ A-Za-z]+$")){
-                    Toast.makeText(getActivity(), "Please enter correct values",
+                    Toast.makeText(getActivity(), R.string.nameFormat,
                             Toast.LENGTH_SHORT).show();
                     return;
                 }

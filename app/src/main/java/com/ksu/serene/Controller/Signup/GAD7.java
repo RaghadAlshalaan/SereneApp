@@ -204,7 +204,7 @@ public class GAD7 extends Fragment {
                 //to force the user to complete the GAD questionairre
               if(radio1.matches("")|| radio2.matches("")||radio3.matches("")||radio4.matches("")||
                         radio5.matches("")|| radio6.matches("")||radio7.matches("")){
-                Toast.makeText(getActivity(), "Please complete the questionairre",
+                Toast.makeText(getActivity(), R.string.questionnaire,
                           Toast.LENGTH_SHORT).show();
 
                    return;}
