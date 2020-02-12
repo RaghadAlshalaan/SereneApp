@@ -2,6 +2,7 @@ package com.ksu.serene.Controller.Homepage.Report;
 
 //import all widget types we're going to write into
 
+import java.util.Date;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;

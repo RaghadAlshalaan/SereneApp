@@ -15,6 +15,7 @@ MERGED from [com.firebaseui:firebase-ui-common:3.0.0] C:\Users\Dell\.gradle\cach
 MERGED from [androidx.lifecycle:lifecycle-extensions:2.1.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\486320ed2cbdfe9bc12d5f6c5498811e\lifecycle-extensions-2.1.0\AndroidManifest.xml:17:1-25:12
 MERGED from [com.google.firebase:firebase-auth:19.0.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\b3776fa670e70706ea5916fa94ccab84\firebase-auth-19.0.0\AndroidManifest.xml:17:1-42:12
 MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\2ea00530c6fffcfd38175253366cd23b\jetified-picasso-2.71828\AndroidManifest.xml:2:1-14:12
+MERGED from [com.github.bumptech.glide:glide:4.8.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\965605430ac991c15ee3af7c3f7fa4e5\jetified-glide-4.8.0\AndroidManifest.xml:2:1-12:12
 MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\c7900f9b040b4cdfc018d9ff8e59dd26\legacy-support-v4-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [com.google.firebase:firebase-analytics:17.2.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\0cdc461fe40d52bebec476e42f5654a3\firebase-analytics-17.2.0\AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.firebase:firebase-firestore:21.1.1] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\7950dc2661aeaa9ff1a1e912295f9d52\jetified-firebase-firestore-21.1.1\AndroidManifest.xml:2:1-26:12
@@ -72,6 +73,7 @@ MERGED from [androidx.savedstate:savedstate:1.0.0] C:\Users\Dell\.gradle\caches\
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\0be6e0442721491acd10ff0f0bef9761\lifecycle-viewmodel-2.1.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\6b67bedd4974e34662f82886747b126b\localbroadcastmanager-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.exifinterface:exifinterface:1.0.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\230313de9faf5048d07def2904a74dff\exifinterface-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\695be05993ed37b3a46c220674ed50d4\jetified-gifdecoder-4.8.0\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\0e75880822db093dee974fe8bfb42759\versionedparcelable-1.1.0\AndroidManifest.xml:17:1-27:12
 MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\248f34d6e745ff7b377a47dfdb400c77\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\6bb6cee3325dcdf5ab46767b08e4cd0f\documentfile-1.0.0\AndroidManifest.xml:17:1-22:12
@@ -170,6 +172,8 @@ MERGED from [com.google.firebase:firebase-auth:19.0.0] C:\Users\Dell\.gradle\cac
 MERGED from [com.google.firebase:firebase-auth:19.0.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\b3776fa670e70706ea5916fa94ccab84\firebase-auth-19.0.0\AndroidManifest.xml:23:5-40:19
 MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\2ea00530c6fffcfd38175253366cd23b\jetified-picasso-2.71828\AndroidManifest.xml:7:5-12:19
 MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\2ea00530c6fffcfd38175253366cd23b\jetified-picasso-2.71828\AndroidManifest.xml:7:5-12:19
+MERGED from [com.github.bumptech.glide:glide:4.8.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\965605430ac991c15ee3af7c3f7fa4e5\jetified-glide-4.8.0\AndroidManifest.xml:10:5-20
+MERGED from [com.github.bumptech.glide:glide:4.8.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\965605430ac991c15ee3af7c3f7fa4e5\jetified-glide-4.8.0\AndroidManifest.xml:10:5-20
 MERGED from [com.google.firebase:firebase-analytics:17.2.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\0cdc461fe40d52bebec476e42f5654a3\firebase-analytics-17.2.0\AndroidManifest.xml:7:5-20
 MERGED from [com.google.firebase:firebase-analytics:17.2.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\0cdc461fe40d52bebec476e42f5654a3\firebase-analytics-17.2.0\AndroidManifest.xml:7:5-20
 MERGED from [com.google.firebase:firebase-firestore:21.1.1] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\7950dc2661aeaa9ff1a1e912295f9d52\jetified-firebase-firestore-21.1.1\AndroidManifest.xml:16:5-24:19
@@ -212,6 +216,8 @@ MERGED from [androidx.core:core:1.1.0] C:\Users\Dell\.gradle\caches\transforms-2
 MERGED from [androidx.core:core:1.1.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\2111d963c95cc6e94705fb367f0a0943\core-1.1.0\AndroidManifest.xml:24:5-89
 MERGED from [androidx.lifecycle:lifecycle-process:2.1.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\9bab3d44ebb62246fc73baa0d2138365\lifecycle-process-2.1.0\AndroidManifest.xml:22:5-28:19
 MERGED from [androidx.lifecycle:lifecycle-process:2.1.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\9bab3d44ebb62246fc73baa0d2138365\lifecycle-process-2.1.0\AndroidManifest.xml:22:5-28:19
+MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\695be05993ed37b3a46c220674ed50d4\jetified-gifdecoder-4.8.0\AndroidManifest.xml:9:5-20
+MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\695be05993ed37b3a46c220674ed50d4\jetified-gifdecoder-4.8.0\AndroidManifest.xml:9:5-20
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\0e75880822db093dee974fe8bfb42759\versionedparcelable-1.1.0\AndroidManifest.xml:24:5-25:19
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\0e75880822db093dee974fe8bfb42759\versionedparcelable-1.1.0\AndroidManifest.xml:24:5-25:19
 	android:appComponentFactory
@@ -228,56 +234,58 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\De
 		ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:13:9-35
 	android:theme
 		ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:18:9-40
-activity#com.ksu.serene.Controller.Homepage.Patient.AddDoctor
-ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:19:9-20:20
-	android:name
-		ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:19:19-72
-activity#com.ksu.serene.Controller.Homepage.Patient.MyDoctor
-ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:21:9-83
-	android:name
-		ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:21:19-71
-activity#com.ksu.serene.Controller.Homepage.Calendar.Add_Medicine_Page
-ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:22:9-93
-	android:name
-		ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:22:19-81
 activity#com.ksu.serene.MainActivity
-ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:23:9-50
+ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:19:9-25:20
 	android:name
-		ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:23:19-47
-activity#com.ksu.serene.Controller.Signup.Sociodemo
-ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:24:9-65
-	android:name
-		ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:24:19-62
-activity#com.ksu.serene.Controller.Homepage.Patient.Editprofile
-ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:25:9-77
-	android:name
-		ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:25:19-74
-activity#com.ksu.serene.Controller.Homepage.Patient.EditSocio
-ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:26:9-75
-	android:name
-		ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:26:19-72
-activity#com.ksu.serene.LogInPage
-ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:27:9-47
-	android:name
-		ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:27:19-44
-activity#com.ksu.serene.Controller.Signup.Signup
-ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:28:9-61
-	android:name
-		ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:28:19-59
-activity#com.ksu.serene.WelcomePage
-ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:29:9-35:16
-	android:name
-		ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:29:19-46
+		ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:19:19-47
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:30:9-34:25
+ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:20:13-24:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:31:13-65
+ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:21:17-69
 	android:name
-		ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:31:21-62
+		ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:21:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:33:13-73
+ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:23:17-77
 	android:name
-		ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:33:23-70
+		ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:23:27-74
+activity#com.ksu.serene.Controller.Signup.Sociodemo
+ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:26:9-74
+	android:name
+		ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:26:19-62
+activity#com.ksu.serene.Controller.Homepage.Patient.Editprofile
+ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:27:8-85
+	android:name
+		ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:27:18-73
+activity#com.ksu.serene.Controller.Homepage.Patient.EditSocio
+ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:28:9-84
+	android:name
+		ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:28:19-72
+activity#com.ksu.serene.Controller.Homepage.Patient.AddDoctor
+ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:29:9-84
+	android:name
+		ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:29:19-72
+activity#com.ksu.serene.Controller.Homepage.Patient.MyDoctor
+ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:30:9-83
+	android:name
+		ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:30:19-71
+activity#com.ksu.serene.LogInPage
+ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:31:9-47
+	android:name
+		ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:31:19-44
+activity#com.ksu.serene.WelcomePage
+ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:32:9-58
+	android:name
+		ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:32:19-46
+activity#com.ksu.serene.Controller.Homepage.Report.PatientReport
+ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:33:9-87
+	android:name
+		ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:33:19-75
+activity#com.ksu.serene.Controller.Signup.Signup
+ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:34:9-36:47
+	android:label
+		ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:36:13-45
+	android:name
+		ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:35:13-53
 meta-data#preloaded_fonts
 ADDED from C:\Users\Dell\StudioProjects\SereneSystem\app\src\main\AndroidManifest.xml:44:9-46:57
 	android:resource
@@ -310,6 +318,8 @@ MERGED from [com.google.firebase:firebase-auth:19.0.0] C:\Users\Dell\.gradle\cac
 MERGED from [com.google.firebase:firebase-auth:19.0.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\b3776fa670e70706ea5916fa94ccab84\firebase-auth-19.0.0\AndroidManifest.xml:21:5-44
 MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\2ea00530c6fffcfd38175253366cd23b\jetified-picasso-2.71828\AndroidManifest.xml:5:5-44
 MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\2ea00530c6fffcfd38175253366cd23b\jetified-picasso-2.71828\AndroidManifest.xml:5:5-44
+MERGED from [com.github.bumptech.glide:glide:4.8.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\965605430ac991c15ee3af7c3f7fa4e5\jetified-glide-4.8.0\AndroidManifest.xml:6:5-8:41
+MERGED from [com.github.bumptech.glide:glide:4.8.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\965605430ac991c15ee3af7c3f7fa4e5\jetified-glide-4.8.0\AndroidManifest.xml:6:5-8:41
 MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\c7900f9b040b4cdfc018d9ff8e59dd26\legacy-support-v4-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\c7900f9b040b4cdfc018d9ff8e59dd26\legacy-support-v4-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [com.google.firebase:firebase-analytics:17.2.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\0cdc461fe40d52bebec476e42f5654a3\firebase-analytics-17.2.0\AndroidManifest.xml:5:5-44
@@ -424,6 +434,8 @@ MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\User
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\6b67bedd4974e34662f82886747b126b\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.exifinterface:exifinterface:1.0.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\230313de9faf5048d07def2904a74dff\exifinterface-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.exifinterface:exifinterface:1.0.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\230313de9faf5048d07def2904a74dff\exifinterface-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\695be05993ed37b3a46c220674ed50d4\jetified-gifdecoder-4.8.0\AndroidManifest.xml:5:5-7:41
+MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\695be05993ed37b3a46c220674ed50d4\jetified-gifdecoder-4.8.0\AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\0e75880822db093dee974fe8bfb42759\versionedparcelable-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\0e75880822db093dee974fe8bfb42759\versionedparcelable-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\Dell\.gradle\caches\transforms-2\files-2.1\248f34d6e745ff7b377a47dfdb400c77\interpolator-1.0.0\AndroidManifest.xml:20:5-44
