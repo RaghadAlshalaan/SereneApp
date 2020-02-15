@@ -28,9 +28,6 @@
     <string name="emailVerify">Check email link to verify account</string>
 
 
-
-
-
     <string name="full">Full-time</string>
     <string name="part">Part-time</string>
     <string name="student">Student</string>
@@ -38,7 +35,6 @@
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
-
 
 
     <string-array name="employmentStatus">
@@ -54,9 +50,6 @@
         <item>@string/no</item>
 
     </string-array>
-
-
-
 
 
 </resources>

@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
 //test
         NavigationUI.setupWithNavController(navView, navController);
 
+        // TODO: Edit Title name
        /*
         //set title of screen, depending on the xml file name the navhostfragment in the page is referring to
         String title;
