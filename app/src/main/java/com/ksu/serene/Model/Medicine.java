@@ -12,4 +12,12 @@ public class Medicine extends Reminder {
         this.doze = doze;
         this.period = period;
     }
+
+    public int getDoze() {
+        return doze;
+    }
+
+    public int getPeriod() {
+        return period;
+    }
 }

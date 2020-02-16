@@ -16,28 +16,29 @@
         android:roundIcon="@drawable/s_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Controller.Homepage.Calendar.Add_Medicine_Page"></activity>
+        <activity android:name=".Controller.Homepage.Calendar.add_Appointment"></activity>
+        <activity android:name=".Controller.Homepage.Calendar.Add_Medicine_Page" />
         <activity android:name=".MainActivity" />
         <activity android:name=".Controller.Signup.Sociodemo" />
         <activity android:name=".Controller.Homepage.Patient.Editprofile" />
         <activity android:name=".Controller.Homepage.Patient.EditSocio" />
         <activity android:name=".LogInPage" />
-        <activity android:name=".Controller.Signup.Signup"/>
+        <activity android:name=".Controller.Signup.Signup" />
         <activity android:name=".WelcomePage">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
-    <!--
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!--
 <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
     </activity>!
-    -->
+        -->
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
