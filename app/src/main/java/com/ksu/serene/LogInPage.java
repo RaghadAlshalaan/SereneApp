@@ -180,7 +180,9 @@ public class LogInPage extends AppCompatActivity {
             SharedPreferences.Editor editor = sp.edit();
             editor.putString("CURRENT_USERID",mAuth.getCurrentUser().getUid());
             editor.apply();
+
             //MySharedPreference.putString(LoginActivity.this,"user_id",mAuth.getCurrentUser().getUid());
+
             Intent intent = new Intent(LogInPage.this, MainActivity.class);
             startActivity(intent);
             finish();

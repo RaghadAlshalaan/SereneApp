@@ -11,21 +11,18 @@
         android:label="Home"
         tools:layout="@layout/fragment_home" />
 
-    <!--android:name NEEDS TO BE UPDATED-->
     <fragment
         android:id="@+id/navigation_report"
         android:name="com.ksu.serene.Controller.Homepage.Report.ReportFragment"
         android:label="Report"
         tools:layout="@layout/fragment_report" />
 
-    <!--android:name NEEDS TO BE UPDATED-->
     <fragment
         android:id="@+id/navigation_drafts"
         android:name="com.ksu.serene.Controller.Homepage.Drafts.draftsFragment"
         android:label="Drafts"
         tools:layout="@layout/fragment_drafts" />
 
-    <!--android:name NEEDS TO BE UPDATED-->
     <fragment
         android:id="@+id/navigation_calendar"
         android:name="com.ksu.serene.Controller.Homepage.Calendar.calendarFragment"
