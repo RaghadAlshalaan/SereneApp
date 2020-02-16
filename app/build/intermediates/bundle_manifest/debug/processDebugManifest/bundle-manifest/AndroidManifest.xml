@@ -28,6 +28,7 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
+        <activity android:name="com.ksu.serene.add_Appointment" />
         <activity android:name="com.ksu.serene.Controller.Homepage.Calendar.Add_Medicine_Page" />
         <activity android:name="com.ksu.serene.MainActivity" />
         <activity android:name="com.ksu.serene.Controller.Signup.Sociodemo" />
