@@ -24,6 +24,7 @@
         <activity android:name=".Controller.Signup.Sociodemo" />
         <activity android:name=".Controller.Homepage.Patient.Editprofile" />
         <activity android:name=".Controller.Homepage.Patient.EditSocio" />
+        <activity android:name=".Controller.Homepage.Report.PatientReport"/>
         <activity android:name=".LogInPage" />
         <activity android:name=".Controller.Signup.Signup"/>
         <activity android:name=".WelcomePage">

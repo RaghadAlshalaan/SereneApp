@@ -69,7 +69,7 @@
         android:layout_marginTop="318dp"
         android:layout_marginEnd="145dp"/>
 
-<LinearLayout
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
     <TextView
@@ -101,58 +101,69 @@
         android:hint="ex; 21"
         />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/description1"
-            android:layout_width="122dp"
-            android:layout_height="35dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="401dp"
+            android:id="@+id/cm"
+            android:layout_width="wrap_content"
+            android:layout_height="39dp"
+            android:layout_marginStart="327dp"
+            android:layout_marginTop="343dp"
+            android:layout_marginRight="50dp"
             android:fontFamily="@font/montserrat"
-            android:text="Wieght"
+            android:text="cm"
             android:textAlignment="textStart"
             android:textColor="#8A000000"
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/weight"
-            android:layout_width="93dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="392dp"
-            android:layout_marginEnd="70dp"
-            android:ems="10"
-            android:hint="ex; 56"
-            android:inputType="textPersonName" />
-
         <TextView
             android:id="@+id/kg"
-            android:layout_width="122dp"
+            android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="401dp"
+            android:layout_marginStart="310dp"
+            android:layout_marginTop="394dp"
             android:fontFamily="@font/montserrat"
             android:text="kg"
             android:textAlignment="textStart"
             android:textColor="#8A000000"
             android:textSize="18sp"
             android:textStyle="bold" />
-    </LinearLayout>
-</LinearLayout>
+    </RelativeLayout>
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/description1"
+        android:layout_width="122dp"
+        android:layout_height="35dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="401dp"
+        android:fontFamily="@font/montserrat"
+        android:text="Weight"
+        android:textAlignment="textStart"
+        android:textColor="#8A000000"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/weight"
+        android:layout_width="93dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="392dp"
+        android:layout_marginEnd="70dp"
+        android:ems="10"
+        android:hint="ex; 56"
+        android:inputType="textPersonName" />
+</RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <TextView
@@ -182,25 +193,9 @@
         android:hint="ex; 160"
         android:ems="10"
         android:inputType="textPersonName" />
-        <TextView
-            android:id="@+id/cm"
-            android:layout_width="122dp"
-            android:layout_height="35dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_centerInParent="true"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="351dp"
-            android:fontFamily="@font/montserrat"
-            android:text="cm"
-            android:textAlignment="textStart"
-            android:textColor="#8A000000"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginRight="50dp"/>
-    </LinearLayout>
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <TextView
@@ -228,9 +223,9 @@
         android:layout_marginTop="599dp"
         android:layout_marginEnd="70dp"
          ></Spinner>
-    </LinearLayout>
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <TextView
@@ -261,8 +256,8 @@
         android:ems="10"
         android:hint="ex; Diabetes"
         android:inputType="textPersonName" />
-    </LinearLayout>
-<LinearLayout
+    </RelativeLayout>
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
@@ -292,6 +287,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="ex; 5000"/>
+
     <TextView
         android:id="@+id/sar"
         android:layout_width="122dp"
@@ -308,9 +304,9 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
-</LinearLayout>
+</RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <TextView
@@ -338,9 +334,9 @@
         android:layout_marginTop="497dp"
         android:layout_marginEnd="71dp"
          ></Spinner>
-    </LinearLayout>
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <TextView
@@ -368,7 +364,7 @@
         android:layout_marginTop="448dp"
         android:layout_marginEnd="70dp"
      ></Spinner>
-    </LinearLayout>
+    </RelativeLayout>
 
     <Button
         android:id="@+id/button"

@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:2:1-49:12
-INJECTED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:2:1-49:12
-INJECTED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:2:1-49:12
-INJECTED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:2:1-49:12
+ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:2:1-50:12
+INJECTED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:2:1-50:12
+INJECTED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:2:1-50:12
+INJECTED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:2:1-50:12
 MERGED from [androidx.navigation:navigation-ui:2.1.0] C:\Users\Lamia\.gradle\caches\transforms-2\files-2.1\0635d71b4179113853b72e2956c7175e\jetified-navigation-ui-2.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [com.firebaseui:firebase-ui-auth:3.0.0] C:\Users\Lamia\.gradle\caches\transforms-2\files-2.1\a820b23cc6cbd0c30d8094a95c9f92ec\jetified-firebase-ui-auth-3.0.0\AndroidManifest.xml:2:1-76:12
 MERGED from [com.google.android.material:material:1.0.0] C:\Users\Lamia\.gradle\caches\transforms-2\files-2.1\3295b8d0bda86d39fcda21b87c31a4e7\material-1.0.0\AndroidManifest.xml:17:1-24:12
@@ -81,20 +81,20 @@ MERGED from [androidx.print:print:1.0.0] C:\Users\Lamia\.gradle\caches\transform
 MERGED from [com.google.firebase:firebase-database-collection:17.0.0] C:\Users\Lamia\.gradle\caches\transforms-2\files-2.1\29c3f8c32dedf212f02b17edfab0c9ff\firebase-database-collection-17.0.0\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.firebase:protolite-well-known-types:17.0.0] C:\Users\Lamia\.gradle\caches\transforms-2\files-2.1\7959410a2b1c2f20979f298fe7ed7b3b\protolite-well-known-types-17.0.0\AndroidManifest.xml:2:1-11:12
 MERGED from [io.grpc:grpc-android:1.21.0] C:\Users\Lamia\.gradle\caches\transforms-2\files-2.1\b92c94eadc675028abb15aeef2a4506c\grpc-android-1.21.0\AndroidManifest.xml:2:1-13:12
-INJECTED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:2:1-49:12
-INJECTED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:2:1-49:12
-INJECTED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:2:1-49:12
+INJECTED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:2:1-50:12
+INJECTED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:2:1-50:12
+INJECTED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:2:1-50:12
 	package
 		ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:3:5-29
 		INJECTED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml
 	android:versionName
 		INJECTED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:2:1-49:12
+		ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:2:1-50:12
 		INJECTED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml
 	android:versionCode
 		INJECTED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:2:1-49:12
+		ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:2:1-50:12
 		INJECTED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:2:11-69
@@ -159,7 +159,7 @@ ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifes
 	android:name
 		ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:10:22-76
 application
-ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:12:5-47:19
+ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:12:5-48:19
 MERGED from [com.firebaseui:firebase-ui-auth:3.0.0] C:\Users\Lamia\.gradle\caches\transforms-2\files-2.1\a820b23cc6cbd0c30d8094a95c9f92ec\jetified-firebase-ui-auth-3.0.0\AndroidManifest.xml:15:5-74:19
 MERGED from [com.firebaseui:firebase-ui-auth:3.0.0] C:\Users\Lamia\.gradle\caches\transforms-2\files-2.1\a820b23cc6cbd0c30d8094a95c9f92ec\jetified-firebase-ui-auth-3.0.0\AndroidManifest.xml:15:5-74:19
 MERGED from [com.google.android.material:material:1.0.0] C:\Users\Lamia\.gradle\caches\transforms-2\files-2.1\3295b8d0bda86d39fcda21b87c31a4e7\material-1.0.0\AndroidManifest.xml:22:5-20
@@ -262,34 +262,38 @@ activity#com.ksu.serene.Controller.Homepage.Patient.EditSocio
 ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:26:9-75
 	android:name
 		ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:26:19-72
+activity#com.ksu.serene.Controller.Homepage.Report.PatientReport
+ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:27:9-77
+	android:name
+		ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:27:19-75
 activity#com.ksu.serene.LogInPage
-ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:27:9-47
+ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:28:9-47
 	android:name
-		ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:27:19-44
+		ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:28:19-44
 activity#com.ksu.serene.Controller.Signup.Signup
-ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:28:9-61
+ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:29:9-61
 	android:name
-		ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:28:19-59
+		ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:29:19-59
 activity#com.ksu.serene.WelcomePage
-ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:29:9-35:16
+ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:30:9-36:16
 	android:name
-		ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:29:19-46
+		ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:30:19-46
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:30:9-34:25
+ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:31:9-35:25
 action#android.intent.action.MAIN
-ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:31:13-65
+ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:32:13-65
 	android:name
-		ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:31:21-62
+		ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:32:21-62
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:33:13-73
+ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:34:13-73
 	android:name
-		ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:33:23-70
+		ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:34:23-70
 meta-data#preloaded_fonts
-ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:44:9-46:57
+ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:45:9-47:57
 	android:resource
-		ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:46:13-54
+		ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:47:13-54
 	android:name
-		ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:45:13-43
+		ADDED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml:46:13-43
 uses-sdk
 INJECTED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\Lamia\Documents\GitHub\SereneApp\app\src\main\AndroidManifest.xml

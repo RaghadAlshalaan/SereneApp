@@ -101,13 +101,15 @@ private void init (){
                                 Glide.with(PatientReport.this)
                                         .load(img + "")
                                         .into(ALGraph);
+
                                 //highest day
-                                String date = doc.get(0).get("highestDay").toString();
-                                highestday_date.setText(date);
-                                /*
-                                Timestamp date = doc.get(0).get("highestDay");
-                                highestday_date.setText(date.toString());
-                                 */
+
+                                /*String date = doc.get(0).get("highestDay").toString();
+                                highestday_date.setText(date);*/
+
+                                Timestamp date = (Timestamp)doc.get(0).get("highestDay");
+                                highestday_date.setText(date+"");
+
 
 
 
