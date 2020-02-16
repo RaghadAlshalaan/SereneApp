@@ -1,107 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F3F3F3"
     android:id="@+id/layout"
+    android:orientation="vertical"
     >
 
 
-     <!-- <View
-          android:id="@+id/white_bg"
-          android:layout_width="match_parent"
-          android:layout_height="186dp"
-          android:layout_alignParentStart="true"
-          android:layout_alignParentTop="true"
-          android:layout_alignParentEnd="true"
-          android:layout_alignParentBottom="true"
-          android:layout_marginStart="0dp"
-          android:layout_marginTop="0dp"
-          android:layout_marginEnd="0dp"
-          android:layout_marginBottom="639dp"
-          android:background="@drawable/white_bg" /> -->
-
-      <TextView
-          android:id="@+id/titleofscreen"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_alignParentStart="true"
-          android:layout_alignParentTop="true"
-          android:layout_marginStart="61dp"
-          android:layout_marginTop="60dp"
-          android:fontFamily="@font/montserrat"
-          android:text="Home"
-          android:textColor="#000000"
-          android:textSize="30sp" />
-
     <TextView
-        android:id="@+id/text1"
+        android:id="@+id/titleofscreen"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="200dp"
+        android:layout_height="50dp"
         android:fontFamily="@font/montserrat"
-        android:text="Anxiety Level (throughout the week)"
-        android:textColor="#817889"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:paddingTop="10dp"
+        android:text="Home"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textColor="#000000"
+        android:textSize="25dp" />
 
-    <TextView
-        android:id="@+id/text2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="27dp"
-        android:layout_marginTop="450dp"
-        android:fontFamily="@font/montserrat"
-        android:text="Improvement"
-        android:textColor="#817889"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
+            android:text="Anxiety Level"
+            android:textColor="#817889"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
+            android:text="(Throughout the week)"
+            android:textColor="#817889"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/AnxietyLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
+            android:text="Improvement"
+            android:layout_weight="1"
+            android:textColor="#817889"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:id="@+id/text22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
+            android:layout_weight="1"
+            android:text="30%"
+            android:textColor="@color/colorAccent"
+            android:textSize="35dp"
+            android:layout_marginTop="15dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="vertical"
+        android:padding="20dp">
 
     <TextView
         android:id="@+id/text3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="23dp"
-        android:layout_marginTop="590dp"
         android:fontFamily="@font/montserrat"
         android:text="Next Appointment"
         android:textColor="#817889"
         android:textSize="18sp"
-        android:textStyle="bold" />
-
-  <!--  <ImageView
-        android:id="@+id/bell_icon"
-        android:layout_width="38dp"
-        android:layout_height="35dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="39dp"
-        android:layout_marginEnd="122dp"
-        app:srcCompat="@drawable/ic_bell_icon" />
-
-    <ImageView
-        android:id="@+id/profile_icon"
-        android:layout_width="54dp"
-        android:layout_height="47dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="29dp"
-        android:layout_marginEnd="27dp"
-        app:srcCompat="@drawable/ic_profile_icon" />
+        android:textStyle="bold"
+        android:layout_marginBottom="15dp"/>
 
 
-    -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="#F3F3F3">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:layout_weight="4"
+                android:orientation="horizontal">
 
-</RelativeLayout>
+                <TextView
+                    android:id="@+id/doctor_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="Dr.Name"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/session_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="100dp"
+                    android:layout_weight="1"
+                    android:text="MM DD" />
+
+                <TextView
+                    android:id="@+id/session_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="(hh:mmam/pm)" />
+            </LinearLayout>
+        </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+</LinearLayout>

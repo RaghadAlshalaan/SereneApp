@@ -149,33 +149,33 @@ public class Signup extends AppCompatActivity {
 
                     //empty field validation
                   else if (fullName.matches("") || password.matches("") || confirmPassword.matches("") || email.matches("")) {
-                        Toast.makeText(Signup.this, "All fields are required",
+                        Toast.makeText(Signup.this, R.string.allFields,
                                 Toast.LENGTH_SHORT).show();
                         return;
                     } //name validity only characters no numbers
                     else if (!fullName.matches("^[ A-Za-z]+$")) {
-                        Toast.makeText(Signup.this, "Please enter full name",
+                        Toast.makeText(Signup.this, R.string.nameFormat,
                                 Toast.LENGTH_SHORT).show();
                         nameET.setText("");
                         return;
                     }
                     //if the passwordET doesn't match show dialog otherwise create account
                     else if (!password.equals(confirmPassword)) {
-                        Toast.makeText(Signup.this, "Password does not match, please try again",
+                        Toast.makeText(Signup.this, R.string.passwordMatch,
                                 Toast.LENGTH_SHORT).show();
                         passwordET.setText("");
                         confirmPasswordET.setText("");
                         return;
                     } //if password is less than 8, show message
                     else if (password.length() < 8) {
-                        Toast.makeText(Signup.this, "Password is less than 8 characters, please try again",
+                        Toast.makeText(Signup.this, R.string.passwordChar,
                                 Toast.LENGTH_SHORT).show();
                         passwordET.setText("");
                         confirmPasswordET.setText("");
                         return;
                     } //email format
                     else if (!email.matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")){
-                        Toast.makeText(Signup.this, "Please enter full name",
+                        Toast.makeText(Signup.this, R.string.emailFormat,
                                 Toast.LENGTH_SHORT).show();
                         emailET.setText("");
                         return;

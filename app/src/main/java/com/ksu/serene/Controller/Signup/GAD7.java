@@ -64,7 +64,7 @@ public class GAD7 extends Fragment {
 
         //we will allow the user to only check one radio button, hence to calculate the GAD score, i added the radio string to
         //check if the radio group has been selected
-       /* group1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        group1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.radioButton11) {
@@ -117,7 +117,7 @@ public class GAD7 extends Fragment {
                     radio3="notNull";
                 }
             }
-        }); */
+        });
         group4.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -204,7 +204,7 @@ public class GAD7 extends Fragment {
                 //to force the user to complete the GAD questionairre
               if(radio1.matches("")|| radio2.matches("")||radio3.matches("")||radio4.matches("")||
                         radio5.matches("")|| radio6.matches("")||radio7.matches("")){
-                Toast.makeText(getActivity(), "Please complete the questionairre",
+                Toast.makeText(getActivity(), R.string.questionnaire,
                           Toast.LENGTH_SHORT).show();
 
                    return;}

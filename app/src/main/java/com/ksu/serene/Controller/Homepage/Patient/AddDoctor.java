@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -18,10 +19,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.ksu.serene.R;
 
 import java.util.HashMap;
@@ -44,7 +50,7 @@ public class AddDoctor extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_doctor);
-        // Inflate the layout for this fragment
+
         getSupportActionBar().hide();
 
         mAuth = FirebaseAuth.getInstance();
@@ -55,6 +61,18 @@ public class AddDoctor extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!email.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")){
+                    Toast.makeText(AddDoctor.this, R.string.emailFormat,
+                            Toast.LENGTH_SHORT).show();
+                    email.setText("");
+                    return;
+                }
+                else if (!name.getText().toString().matches("^[ A-Za-z]+$")) {
+                    Toast.makeText(AddDoctor.this, R.string.nameFormat,
+                            Toast.LENGTH_SHORT).show();
+                    name.setText("");
+                    return;}
+
                  addDoctor(name.getText().toString(), email.getText().toString());
 
             }
@@ -67,21 +85,47 @@ public class AddDoctor extends AppCompatActivity {
     public void addDoctor(final String name, final String email){
 
 
-        final Map<String, Object> user = new HashMap<>();
-        user.put("name", name);
-        user.put("email", email);
-        user.put("patientID",mAuth.getUid());
         db.collection("Doctor")
-                .document(String.valueOf(r.nextInt(999999 - 111 + 1) + 111))
-                .set(user)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                .whereEqualTo("email", email)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot added successfully");
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if(!task.getResult().isEmpty()){
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    if(document.exists()) {
+                                        DocumentReference d= document.getReference();
+                                        d.update("patientID"+mAuth.getUid().substring(0,5),mAuth.getUid());
 
-                       sendEmail(name, email);
+                                    }
+                                }
+                            }
+                            else{
+                                final Map<String, Object> user = new HashMap<>();
+                                user.put("name", name);
+                                user.put("email", email);
+                                user.put("patientID"+mAuth.getUid().substring(0,5),mAuth.getUid());
+                                db.collection("Doctor")
+                                        .document(String.valueOf(r.nextInt(999999 - 111 + 1) + 111))
+                                        .set(user)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d(TAG, "DocumentSnapshot added successfully");
+
+                                                sendEmail(name, email);
+                                            }
+                                        });
+                            }
+
+                        }
+                        else {
+
+                        }
                     }
                 });
+
 
 
     }

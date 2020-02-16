@@ -2,11 +2,10 @@ package com.ksu.serene.Controller.Homepage.Report;
 
 //import all widget types we're going to write into
 
+import java.util.Date;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,9 +16,7 @@ import com.bumptech.glide.Glide;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,15 +36,10 @@ import com.ksu.serene.R;
 import java.util.List;
 
 public class PatientReport extends AppCompatActivity {
-    //attributes that we will write into
-
-    //anxiety level graph in the report
-    //private View AL_view;
 
     //improvement_num : calculated improvement throughout AL graph, highestday_date= date of highest day of AL in graph
     private TextView improvement_num, highestday_date;
     private String duration;
-
 
     private String nameDb, emailDb, imageDb; //database info..?
     private FirebaseAuth mAuth;
@@ -70,12 +62,14 @@ public class PatientReport extends AppCompatActivity {
         getExtras();
         Toast.makeText(getBaseContext(), duration, Toast.LENGTH_SHORT).show();
 
+        lastGeneratedPatientReport();
+
 
     }//onCreate
 private void init (){
     ALGraph = findViewById(R.id.AL_graph);
-    improvementNum = findViewById(R.id.improvement_num);
-    highestday_date = findViewById(R.id.highestday_date);
+    improvement_num = (TextView)findViewById(R.id.improvement_num);
+    highestday_date = (TextView)findViewById(R.id.highestday_date);
 
 
 }
@@ -85,10 +79,11 @@ private void init (){
                 .whereEqualTo("patientID", userId)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
-                            // assume that the patient has only on Doc contains his info
+                            // assume that the patient has only one Doc contains his info
                             int counter = 0;
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 counter++;
@@ -106,9 +101,15 @@ private void init (){
                                 Glide.with(PatientReport.this)
                                         .load(img + "")
                                         .into(ALGraph);
+
                                 //highest day
-                                String date = doc.get(0).get("highestDay").toString();
-                                highestday_date.setText(date);
+
+                                /*String date = doc.get(0).get("highestDay").toString();
+                                highestday_date.setText(date);*/
+
+                                Timestamp date = (Timestamp)doc.get(0).get("highestDay");
+                                highestday_date.setText(date+"");
+
 
 
 

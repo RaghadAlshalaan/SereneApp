@@ -96,7 +96,7 @@ public class Editprofile extends AppCompatActivity {
                         && !confirmPass.getText().toString().equals("") &&(oldPass.getText().toString().length()<8
                         ||newPass.getText().toString().length()<8
                         || confirmPass.getText().toString().length()<8)){
-                    Toast.makeText(Editprofile.this, "Password is less than 8 characters, please try again",
+                    Toast.makeText(Editprofile.this, R.string.passwordChar,
                             Toast.LENGTH_SHORT).show();
                     oldPass.setText("");
                     newPass.setText("");
@@ -169,7 +169,7 @@ public class Editprofile extends AppCompatActivity {
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), filePath);
                 image.setImageBitmap(bitmap);
-                Toast.makeText(this, "Image choosen", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.image, Toast.LENGTH_LONG).show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -272,7 +272,7 @@ public class Editprofile extends AppCompatActivity {
     public void changePassword(String oldPassword, final String newPassword, String confirmNewPassword) {
         //if the new password doesn't match show message otherwise change password
         if (!newPassword.equals(confirmNewPassword)) {
-            Toast.makeText(Editprofile.this, "Password does not match, please try again",
+            Toast.makeText(Editprofile.this, R.string.passwordMatch,
                     Toast.LENGTH_SHORT).show();
             newPass.setText("");
             confirmPass.setText("");
@@ -306,15 +306,15 @@ public class Editprofile extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(Editprofile.this, "Password updated", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(Editprofile.this, R.string.passwordUpdate, Toast.LENGTH_LONG).show();
 
                                     } else {
-                                        Toast.makeText(Editprofile.this, "the password is not updated, please try again", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(Editprofile.this, R.string.passwordNotUpdated, Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
                         } else {
-                            Toast.makeText(Editprofile.this, "You have entered a wrong password", Toast.LENGTH_LONG).show();
+                            Toast.makeText(Editprofile.this, R.string.wrongPassword, Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -323,7 +323,7 @@ public class Editprofile extends AppCompatActivity {
     public boolean checkPassword(String oldPassword, String newPassword) {
 
         if (oldPassword.equals(newPassword)) {
-            Toast.makeText(Editprofile.this, "you can't use the same password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Editprofile.this, R.string.passwordSame, Toast.LENGTH_SHORT).show();
             oldPass.setText("");
             newPass.setText("");
             confirmPass.setText("");

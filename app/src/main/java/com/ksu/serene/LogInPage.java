@@ -83,18 +83,18 @@ public class LogInPage extends AppCompatActivity {
                                     } else {
                                         if (task.getException() instanceof FirebaseAuthInvalidUserException) {
                                             //there is'n user with this Email
-                                            Toast.makeText(LogInPage.this, "the email or password is wrong",
+                                            Toast.makeText(LogInPage.this, R.string.emailpassWrong,
                                                     Toast.LENGTH_SHORT).show();
 
                                         } else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                             //the password is wrong
-                                            Toast.makeText(LogInPage.this, "the email or password is wrong",
+                                            Toast.makeText(LogInPage.this, R.string.emailpassWrong,
                                                     Toast.LENGTH_SHORT).show();
 
                                         } else {
                                             // If sign in fails, display a message to the user.
                                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                            Toast.makeText(LogInPage.this, "Authentication failed.",
+                                            Toast.makeText(LogInPage.this, R.string.auth,
                                                     Toast.LENGTH_SHORT).show();
                                         }
                                     }
@@ -104,7 +104,7 @@ public class LogInPage extends AppCompatActivity {
                             });
                 }
                 else {
-                    Toast.makeText(getApplicationContext(), "All Fields Required", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), R.string.allFields, Toast.LENGTH_LONG).show();
                     return;
                 }
             }
@@ -138,7 +138,7 @@ public class LogInPage extends AppCompatActivity {
         {
             // email is not verified, so just prompt the message to the user and restart this activity.
             // NOTE: don't forget to log out the user.
-            Toast.makeText(LogInPage.this, "check the email link to verify account", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LogInPage.this, R.string.emailVerify, Toast.LENGTH_SHORT).show();
 
             FirebaseAuth.getInstance().signOut();
 
@@ -180,7 +180,9 @@ public class LogInPage extends AppCompatActivity {
             SharedPreferences.Editor editor = sp.edit();
             editor.putString("CURRENT_USERID",mAuth.getCurrentUser().getUid());
             editor.apply();
+
             //MySharedPreference.putString(LoginActivity.this,"user_id",mAuth.getCurrentUser().getUid());
+
             Intent intent = new Intent(LogInPage.this, MainActivity.class);
             startActivity(intent);
             finish();
