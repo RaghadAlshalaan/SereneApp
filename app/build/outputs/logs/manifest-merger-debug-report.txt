@@ -234,58 +234,62 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/lama
 		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:13:9-35
 	android:theme
 		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:18:9-40
-activity#com.ksu.serene.add_Appointment
-ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:19:9-62
+activity#com.ksu.serene.PatientMedicineDetail
+ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:19:9-68
 	android:name
-		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:19:19-50
+		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:19:19-56
+activity#com.ksu.serene.Controller.Homepage.Calendar.add_Appointment
+ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:20:9-82
+	android:name
+		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:20:19-79
 activity#com.ksu.serene.Controller.Homepage.Calendar.Add_Medicine_Page
-ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:20:9-84
+ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:21:9-84
 	android:name
-		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:20:19-81
+		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:21:19-81
 activity#com.ksu.serene.MainActivity
-ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:21:9-50
+ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:22:9-50
 	android:name
-		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:21:19-47
+		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:22:19-47
 activity#com.ksu.serene.Controller.Signup.Sociodemo
-ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:22:9-65
+ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:23:9-65
 	android:name
-		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:22:19-62
+		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:23:19-62
 activity#com.ksu.serene.Controller.Homepage.Patient.Editprofile
-ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:23:9-77
+ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:24:9-77
 	android:name
-		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:23:19-74
+		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:24:19-74
 activity#com.ksu.serene.Controller.Homepage.Patient.EditSocio
-ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:24:9-75
+ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:25:9-75
 	android:name
-		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:24:19-72
+		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:25:19-72
 activity#com.ksu.serene.LogInPage
-ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:25:9-47
+ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:26:9-47
 	android:name
-		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:25:19-44
+		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:26:19-44
 activity#com.ksu.serene.Controller.Signup.Signup
-ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:26:9-62
+ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:27:9-62
 	android:name
-		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:26:19-59
+		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:27:19-59
 activity#com.ksu.serene.WelcomePage
-ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:27:9-33:20
+ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:28:9-34:20
 	android:name
-		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:27:19-46
+		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:28:19-46
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:28:13-32:29
+ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:29:13-33:29
 action#android.intent.action.MAIN
-ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:29:17-69
+ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:30:17-69
 	android:name
-		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:29:25-66
+		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:30:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:31:17-77
+ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:32:17-77
 	android:name
-		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:31:27-74
+		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:32:27-74
 meta-data#preloaded_fonts
-ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:42:9-44:57
+ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:43:9-45:57
 	android:resource
-		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:44:13-54
+		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:45:13-54
 	android:name
-		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:43:13-43
+		ADDED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml:44:13-43
 uses-sdk
 INJECTED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/lama/AndroidStudioProjects/SereneApp/app/src/main/AndroidManifest.xml
@@ -312,8 +316,8 @@ MERGED from [com.google.firebase:firebase-auth:19.0.0] /Users/lama/.gradle/cache
 MERGED from [com.google.firebase:firebase-auth:19.0.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/b3776fa670e70706ea5916fa94ccab84/firebase-auth-19.0.0/AndroidManifest.xml:21:5-44
 MERGED from [com.squareup.picasso:picasso:2.71828] /Users/lama/.gradle/caches/transforms-2/files-2.1/0ae90a745e9fe582ad4ba2e513e5cb5b/jetified-picasso-2.71828/AndroidManifest.xml:5:5-44
 MERGED from [com.squareup.picasso:picasso:2.71828] /Users/lama/.gradle/caches/transforms-2/files-2.1/0ae90a745e9fe582ad4ba2e513e5cb5b/jetified-picasso-2.71828/AndroidManifest.xml:5:5-44
-MERGED from [com.github.bumptech.glide:glide:4.8.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/07020a75caf1de85d16589d92969ad8d/jetified-glide-4.8.0/AndroidManifest.xml:6:5-8:41
-MERGED from [com.github.bumptech.glide:glide:4.8.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/07020a75caf1de85d16589d92969ad8d/jetified-glide-4.8.0/AndroidManifest.xml:6:5-8:41
+MERGED from [com.github.bumptech.glide:glide:4.11.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/ee7bc7e1d92be071116be85dd3393e2e/glide-4.11.0/AndroidManifest.xml:6:5-8:41
+MERGED from [com.github.bumptech.glide:glide:4.11.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/ee7bc7e1d92be071116be85dd3393e2e/glide-4.11.0/AndroidManifest.xml:6:5-8:41
 MERGED from [androidx.legacy:legacy-support-v4:1.0.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/c7900f9b040b4cdfc018d9ff8e59dd26/legacy-support-v4-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.legacy:legacy-support-v4:1.0.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/c7900f9b040b4cdfc018d9ff8e59dd26/legacy-support-v4-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [com.google.firebase:firebase-analytics:17.2.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/0cdc461fe40d52bebec476e42f5654a3/firebase-analytics-17.2.0/AndroidManifest.xml:5:5-44
@@ -428,8 +432,8 @@ MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/6b67bedd4974e34662f82886747b126b/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.exifinterface:exifinterface:1.0.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/230313de9faf5048d07def2904a74dff/exifinterface-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.exifinterface:exifinterface:1.0.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/230313de9faf5048d07def2904a74dff/exifinterface-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/cbde1bd80dd698934fae1ca298c7e1fb/jetified-gifdecoder-4.8.0/AndroidManifest.xml:5:5-7:41
-MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/cbde1bd80dd698934fae1ca298c7e1fb/jetified-gifdecoder-4.8.0/AndroidManifest.xml:5:5-7:41
+MERGED from [com.github.bumptech.glide:gifdecoder:4.11.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/4007dbb0ce6c4b05366ce6a30fcabccc/gifdecoder-4.11.0/AndroidManifest.xml:5:5-7:41
+MERGED from [com.github.bumptech.glide:gifdecoder:4.11.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/4007dbb0ce6c4b05366ce6a30fcabccc/gifdecoder-4.11.0/AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/0e75880822db093dee974fe8bfb42759/versionedparcelable-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/0e75880822db093dee974fe8bfb42759/versionedparcelable-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/lama/.gradle/caches/transforms-2/files-2.1/248f34d6e745ff7b377a47dfdb400c77/interpolator-1.0.0/AndroidManifest.xml:20:5-44
