@@ -22,14 +22,23 @@
         android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
-        android:icon="@drawable/s_logo"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/s_logo"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
-        <activity android:name="com.ksu.serene.Controller.Homepage.Patient.AddDoctor" >
+        <activity android:name="com.ksu.serene.Controller.Homepage.Calendar.Add_Appointment_Page" />
+        <activity
+            android:name="com.ksu.serene.SplashScreen"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+        <activity android:name="com.ksu.serene.Controller.Homepage.Patient.AddDoctor" />
         <activity android:name="com.ksu.serene.Controller.Homepage.Patient.MyDoctor" />
         <activity android:name="com.ksu.serene.Controller.Homepage.Calendar.Add_Medicine_Page" />
         <activity android:name="com.ksu.serene.MainActivity" />

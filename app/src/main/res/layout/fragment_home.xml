@@ -4,13 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F3F3F3"
+    android:background="@drawable/layout_rounded_bg"
     android:id="@+id/layout"
     android:orientation="vertical"
     >
 
 
-    <TextView
+<!--    <TextView
         android:id="@+id/titleofscreen"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
@@ -19,12 +19,12 @@
         android:text="Home"
         android:gravity="center"
         android:layout_gravity="center"
-        android:textColor="#000000"
-        android:textSize="25dp" />
+        android:textColor="@color/black"
+        android:textSize="25sp" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="280dp"
         android:orientation="vertical"
         android:padding="20dp">
 
@@ -50,9 +50,19 @@
         <ImageView
             android:id="@+id/AnxietyLevel"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:layout_gravity="center"
+            android:src="@drawable/test_anxiety_level_graph"/>
 
     </LinearLayout>
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="330dp"
+        android:layout_gravity="center"
+        android:layout_height="2dp"
+        android:background="#1A000000" />
 
     <LinearLayout
         android:layout_width="match_parent"

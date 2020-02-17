@@ -28,17 +28,19 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        // t
+
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_report, R.id.navigation_drafts, R.id.navigation_calendar)
                 .build();
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-//test
+
         NavigationUI.setupWithNavController(navView, navController);
 
         // TODO: Edit Title name
+
        /*
         //set title of screen, depending on the xml file name the navhostfragment in the page is referring to
         String title;

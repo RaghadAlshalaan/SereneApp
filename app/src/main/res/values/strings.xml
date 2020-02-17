@@ -35,6 +35,10 @@
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="appointments">Appointments</string>
+    <string name="calendar">Calendar</string>
+    <string name="medicine">Medicine</string>
+    <string name="appointment">Appointment</string>
 
 
     <string-array name="employmentStatus">
