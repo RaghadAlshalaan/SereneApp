@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -11,7 +12,13 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.ksu.serene.Model.TherapySession;
 import com.ksu.serene.R;
 
@@ -19,8 +26,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class add_Appointment extends AppCompatActivity {
@@ -105,7 +115,10 @@ public class add_Appointment extends AppCompatActivity {
                         //if (SaveNewMed (AppName.getText().toString(),Date.getText().toString() ,  Time.getText().toString() , Integer.parseInt(Dose.getText().toString()))) {
                         //update calender view color From Start to finish days
                         //search about it
-                        Toast.makeText(add_Appointment.this, "The Appointment Reminder added Successfully to your Calender", Toast.LENGTH_LONG).show();
+                        if (SaveNewApp (AppName.getText().toString() , Date.getText().toString(), Time.getText().toString()))
+                            Toast.makeText(add_Appointment.this, "The Appointment Reminder added Successfully to your Calender", Toast.LENGTH_LONG).show();
+                        else
+                            Toast.makeText(add_Appointment.this, "The Appointment Reminder did not add ", Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -168,10 +181,33 @@ public class add_Appointment extends AppCompatActivity {
             e.printStackTrace();
         }
         String patientID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        //TherapySession newApp = new TherapySession()
+        //store the newApp obj in firestore
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String AppID = db.collection("PatientSessions").document().getId();
+        TherapySession newApp = new TherapySession(AppID, AppName, AD , (java.sql.Time) AT);
+        Map<String, Object> App = new HashMap<>();
+        App.put("date", newApp.getDay()+"");
+        App.put("name", newApp.getName());
+        App.put("patinetID", patientID);
+        App.put("time", newApp.getTime() + "");
+
+// Add a new document with a generated ID
+        db.collection("PatientSessions").document()
+                .set(App)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(add_Appointment.this, "The App added successfully", Toast.LENGTH_LONG);
+                            added = true;
+                        } else {
+                            Toast.makeText(add_Appointment.this, "The App did not add", Toast.LENGTH_LONG);
+                            added = false;
+                        }
+                    }
+                });
         return added;
     }
-
 
 }
 

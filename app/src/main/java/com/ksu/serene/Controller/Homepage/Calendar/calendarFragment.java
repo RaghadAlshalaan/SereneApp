@@ -1,6 +1,6 @@
 package com.ksu.serene.Controller.Homepage.Calendar;
 
-import android.media.Image;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -91,14 +91,14 @@ public class calendarFragment extends Fragment {
         //retrieve Patient Session data
         recyclerViewSession = (RecyclerView) root.findViewById(R.id.RecyclerviewSession);
         listAppointements = new ArrayList<>();
-        adapterSession = new PatientSessionsAdapter(listAppointements);
+        adapterSession = new PatientSessionsAdapter(listAppointements );
 
         //get the current date used to retrieve all appointments and medicine for the next coming
         calendar = Calendar.getInstance();
         date = calendar.getTime();
 
         //search in cloud firestore for patient sessions
-        CollectionReference referenceSession = FirebaseFirestore.getInstance().collection("patientsessions");
+        CollectionReference referenceSession = FirebaseFirestore.getInstance().collection("PatientSessions");
         final Query queryPatientSession = referenceSession.whereEqualTo("patientID",patientId);
         queryPatientSession.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -130,11 +130,17 @@ public class calendarFragment extends Fragment {
         //retrieve Mediciens data
         recyclerViewMedicine = (RecyclerView) root.findViewById(R.id.RecyclerviewMedicine);
         listMedicines = new ArrayList<>();
-        adapterMedicines = new PatientMedicineAdapter(listMedicines);
+        adapterMedicines = new PatientMedicineAdapter(listMedicines, new PatientMedicineAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Medicine item) {
+                Intent intent = new Intent(getContext(), PatientMedicineDetail.class);
+                intent.putExtra("MedicineID", item.getId());
+            }
+        });
         calendar = Calendar.getInstance();
         date = calendar.getTime();
         //search in firebase for patientsessions
-        CollectionReference referenceMedicine = FirebaseFirestore.getInstance().collection("the patientmedic");
+        CollectionReference referenceMedicine = FirebaseFirestore.getInstance().collection("PatientMedicin");
         final Query queryPatientMedicine = referenceMedicine.whereEqualTo("patientID",patientId);
         queryPatientMedicine.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override

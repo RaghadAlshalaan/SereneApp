@@ -12,6 +12,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentReference;
@@ -209,48 +211,49 @@ public class Add_Medicine_Page extends AppCompatActivity {
     private boolean SaveNewMed (String MName , String FDay, String EDay, String Time, int MD ) {
         // Medicine(String id, String name, Date day, Time time, int doze, int period)
         //the perios is the (TD - FD0+1
-        SimpleDateFormat TimeFormat = new SimpleDateFormat ("hh : mm");
+        SimpleDateFormat TimeFormat = new SimpleDateFormat("hh : mm");
         //convert string to date to used in compare
         try {
             StartD = DateFormat.parse(FDay);
             FinishD = DateFormat.parse(EDay);
             MTime = TimeFormat.parse(Time);
-        }
-        catch (ParseException e) {
+        } catch (ParseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        int period = Integer.parseInt(((FinishD.getTime() - StartD.getTime()) +1)+ "" ) ;
+        int period = Integer.parseInt(((FinishD.getTime() - StartD.getTime()) + 1) + "");
         String patientID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        Medicine newMedicine = new Medicine (patientID,MName, StartD , (java.sql.Time) MTime, MD , period );
-        //store the newMed obj in firestore
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        // Create a new user with a first and last name
+        String medID = db.collection("PatientMedicin").document().getId();
+
+        Medicine newMedicine = new Medicine(medID, MName, StartD, (java.sql.Time) MTime, MD, period);
+        //store the newMed obj in firestore
+
         Map<String, Object> med = new HashMap<>();
-        med.put("day", newMedicine.getDay()+"");
+        med.put("day", newMedicine.getDay() + "");
         med.put("doze", newMedicine.getDoze() + "");
         med.put("name", newMedicine.getName());
-        med.put("patinetID", newMedicine.getId());
+        med.put("patinetID", patientID);
         med.put("period", newMedicine.getPeriod() + "");
-        med.put("name", newMedicine.getTime()+ "");
+        med.put("time", newMedicine.getTime() + "");
 
 // Add a new document with a generated ID
-        db.collection("the patientmedic")
-                .add(med)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        db.collection("PatientMedicin").document()
+                .set(med)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d("TAG", "DocumentSnapshot added with ID: " + documentReference.getId());
-                        added = true;
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("TAG", "Error adding document", e);
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            //Log.d("TAG", "DocumentSnapshot added with ID: " + documentReference.getId());
+                            Toast.makeText(Add_Medicine_Page.this, "The Med added successfully", Toast.LENGTH_LONG);
+                            added = true;
+                        } else {
+                            Toast.makeText(Add_Medicine_Page.this, "The Med did not add", Toast.LENGTH_LONG);
+                            added = false;
+                        }
                     }
                 });
+
         return added;
 
     }
