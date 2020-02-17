@@ -226,11 +226,12 @@ public class Add_Medicine_Page extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String medID = db.collection("PatientMedicin").document().getId();
 
-        Medicine newMedicine = new Medicine(medID, MName, StartD, (java.sql.Time) MTime, MD, period);
+        Medicine newMedicine = new Medicine(medID, MName, StartD, FinishD,(java.sql.Time) MTime, MD, period);
         //store the newMed obj in firestore
 
         Map<String, Object> med = new HashMap<>();
-        med.put("day", newMedicine.getDay() + "");
+        med.put("Fday", newMedicine.getDay() + "");
+        med.put("Lday", newMedicine.getLastDay()+ "");
         med.put("doze", newMedicine.getDoze() + "");
         med.put("name", newMedicine.getName());
         med.put("patinetID", patientID);
