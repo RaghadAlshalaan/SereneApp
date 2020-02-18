@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F0F0F0"
-    tools:context=".Controller.Homepage.Calendar.Add_Medicine_Page">
+    tools:context=".Controller.Homepage.Calendar.add_Appointment">
 
     <View
         android:id="@+id/white_bg"
@@ -14,7 +14,7 @@
         android:background="@drawable/white_bg" />
 
     <TextView
-        android:id="@+id/Add_Medicine_Page"
+        android:id="@+id/add_Appointment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -22,13 +22,13 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="40dp"
         android:fontFamily="@font/montserrat"
-        android:text="Add Medicine"
+        android:text="add Appointment"
         android:textColor="#000000"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/NameMedicientextView"
+        android:id="@+id/NameAppointmenttextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/white_bg"
@@ -36,63 +36,39 @@
         android:layout_marginTop="50dp"
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="10dp"
-        android:text="Name of Medicine"
+        android:text="Name of Appointment"
         android:textSize="18sp" />
 
     <EditText
-        android:id="@+id/MedicineName"
+        android:id="@+id/AppointmentName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/NameMedicientextView"
+        android:layout_below="@id/NameAppointmenttextView"
         android:layout_marginStart="90dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="40dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="" />
 
     <TextView
-        android:id="@+id/intakeDaysTV"
+        android:id="@+id/AppointmentDateTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/MedicineName"
+        android:layout_below="@id/AppointmentName"
         android:layout_marginStart="50dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:text="Days of intake"
+        android:text="Appointment Date"
         android:textSize="18sp" />
 
     <EditText
-        android:id="@+id/MedicineDaysFrom"
+        android:id="@+id/Appointment_Date"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/intakeDaysTV"
+        android:layout_below="@id/AppointmentDateTV"
         android:layout_marginStart="90dp"
-        android:layout_marginBottom="10dp"
-        android:ems="10"
-        android:hint="DD/MM/YY"
-        android:inputType="textPersonName"
-        android:text="" />
-
-    <TextView
-        android:id="@+id/D"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="-"
-        android:layout_below="@id/intakeDaysTV"
-        android:layout_toRightOf="@id/MedicineDaysFrom"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"/>
-
-    <EditText
-        android:id="@+id/MedicineDaysTill"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/intakeDaysTV"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_toRightOf="@id/D"
+        android:layout_marginBottom="40dp"
         android:ems="10"
         android:hint="DD/MM/YY"
         android:inputType="textPersonName"
@@ -104,14 +80,14 @@
         android:layout_height="wrap_content"
         android:text="Time of the Day"
         android:layout_marginStart="50dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:textSize="18sp"
-        android:layout_below="@id/MedicineDaysFrom"/>
+        android:layout_below="@id/Appointment_Date"/>
 
     <EditText
-        android:id="@+id/MedicineTime"
+        android:id="@+id/Appointment_Time"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -127,9 +103,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="AM"
-        android:layout_toRightOf="@id/MedicineTime"
+        android:layout_toRightOf="@id/Appointment_Time"
         android:layout_below="@id/TimetextView"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="30dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"/>
     <CheckBox
@@ -137,48 +113,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="PM"
-        android:layout_toRightOf="@id/MedicineTime"
+        android:layout_toRightOf="@id/Appointment_Time"
         android:layout_below="@id/AM"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="30dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"/>
-
-
-    <TextView
-        android:id="@+id/DosetextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Dose"
-        android:textSize="18sp"
-        android:layout_below="@id/MedicineTime"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"/>
-
-    <EditText
-        android:id="@+id/MedicineDose"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text=""
-        android:layout_below="@id/DosetextView"
-        android:layout_marginStart="90dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"/>
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="tablets"
-        android:layout_below="@id/DosetextView"
-        android:layout_toRightOf="@id/MedicineDose"
-        android:layout_marginTop="20dp"/>
 
     <Button
-        android:id="@+id/ConfirmAddedMedicine"
+        android:id="@+id/ConfirmAddedAppointment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

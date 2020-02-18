@@ -19,12 +19,12 @@ public class PatientMedicineAdapter  extends RecyclerView.Adapter<PatientMedicin
     }
 
     private List<Medicine> mAdapter;
-    //private final OnItemClickListener listener;
+    private final OnItemClickListener listener;
 
-    public PatientMedicineAdapter(List<Medicine> mAdapter){//, OnItemClickListener listener) {
+    public PatientMedicineAdapter(List<Medicine> mAdapter, OnItemClickListener listener) {
         //super(options);
         this.mAdapter = mAdapter;
-        //this.listener = listener;
+        this.listener = listener;
     }
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -59,6 +59,7 @@ public class PatientMedicineAdapter  extends RecyclerView.Adapter<PatientMedicin
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        holder.bind(mAdapter.get(position), listener);
         Medicine medicine = mAdapter.get(position);
         holder.medicineName.setText(medicine.getName());
         holder.date.setText(medicine.getDay()+" ");

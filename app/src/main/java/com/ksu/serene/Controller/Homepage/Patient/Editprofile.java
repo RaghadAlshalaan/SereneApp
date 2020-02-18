@@ -1,7 +1,9 @@
 package com.ksu.serene.Controller.Homepage.Patient;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.Continuation;
@@ -41,6 +44,7 @@ import com.ksu.serene.Controller.Signup.GAD7;
 import com.ksu.serene.Controller.Signup.Signup;
 import com.ksu.serene.Model.MySharedPreference;
 import com.ksu.serene.R;
+import com.ksu.serene.WelcomePage;
 
 import java.io.IOException;
 
@@ -56,6 +60,7 @@ public class Editprofile extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String TAG = Editprofile.class.getSimpleName();
     private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private TextView delete;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,6 +76,7 @@ public class Editprofile extends AppCompatActivity {
         oldPass = findViewById(R.id.oldPassword);
         newPass = findViewById(R.id.newPassword);
         confirmPass = findViewById(R.id.reNewPassword);
+        delete = findViewById(R.id.delete);
 
 
         chooseImg.setOnClickListener(new View.OnClickListener() {
@@ -109,10 +115,44 @@ public class Editprofile extends AppCompatActivity {
 
 
 
+
             }
         });
 
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               AlertDialog.Builder dialog = new AlertDialog.Builder(Editprofile.this);
+                dialog.setTitle("Are you sure?");
+                dialog.setMessage("Deleting this account will result in completely removing your " +
+                        "account from the system and you won't be able to access the app.");
+                dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mAuth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful()){
+                                    Toast.makeText(Editprofile.this, "Account deleted",
+                                            Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(Editprofile.this, WelcomePage.class);
+                                    startActivity(intent);
 
+                                }
+                                else{
+                                    Toast.makeText(Editprofile.this, task.getException().getMessage(),
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                });
+                dialog.setNegativeButton("Cancel",null);
+
+                AlertDialog alertDialog =  dialog.create();
+                alertDialog.show();
+            }
+        });
 
     }
 
@@ -217,6 +257,8 @@ public class Editprofile extends AppCompatActivity {
 
                                                 });
                                         Log.d(TAG, "DocumentSnapshot successfully updated!");
+                       Toast.makeText(Editprofile.this, "Changes updated!",
+                               Toast.LENGTH_SHORT).show();
                                    }
 
                           }
@@ -250,7 +292,8 @@ public class Editprofile extends AppCompatActivity {
                                             Log.d(TAG, "User profile updated.");
 
                                             MySharedPreference.putString(Editprofile.this, "name", newName);
-
+                                            Toast.makeText(Editprofile.this, "Changes updated!",
+                                                    Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });

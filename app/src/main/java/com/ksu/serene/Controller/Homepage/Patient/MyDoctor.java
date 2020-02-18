@@ -1,6 +1,8 @@
 package com.ksu.serene.Controller.Homepage.Patient;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,6 +34,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.ksu.serene.Controller.Signup.Signup;
 import com.ksu.serene.Model.MySharedPreference;
 import com.ksu.serene.R;
+import com.ksu.serene.WelcomePage;
 
 
 public class MyDoctor extends AppCompatActivity {
@@ -69,31 +72,50 @@ public class MyDoctor extends AppCompatActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db.collection("Doctor")
-                        .whereEqualTo("patientID"+mAuth.getUid().substring(0,5), mAuth.getUid())
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    if(!task.getResult().isEmpty()){
-                                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                            if(document.exists()) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(MyDoctor.this);
+                dialog.setTitle("Are you sure?");
+                dialog.setMessage("After deleting this doctor he or she will no longer be linked with your account " +
+                        "and we will disable sending periodic reports to them.");
+                dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        db.collection("Doctor")
+                                .whereEqualTo("patientID"+mAuth.getUid().substring(0,5), mAuth.getUid())
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            if(!task.getResult().isEmpty()){
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    if(document.exists()) {
 
-                                                DocumentReference d= document.getReference();
-                                                d.update("patientID"+mAuth.getUid().substring(0,5), FieldValue.delete());
+                                                        DocumentReference d= document.getReference();
+                                                        d.update("patientID"+mAuth.getUid().substring(0,5), FieldValue.delete());
 
 
+                                                    }
+                                                }
                                             }
+                                            Toast.makeText(MyDoctor.this, "Doctor deleted",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                        else {
+                                            Toast.makeText(MyDoctor.this, task.getException().getMessage(),
+                                                    Toast.LENGTH_SHORT).show();
                                         }
                                     }
+                                }); //end dialog onComplete
+                    }
 
-                                }
-                                else {
 
-                                }
-                            }
-                        });
+
+                });// end dialog onclick
+                dialog.setNegativeButton("Cancel",null);
+
+                AlertDialog alertDialog =  dialog.create();
+                alertDialog.show();
+
             }
         });
 
@@ -211,7 +233,8 @@ public class MyDoctor extends AppCompatActivity {
                                         DocumentReference d= document.getReference();
                                         d.update("name",name);
                                         d.update("email",email);
-
+                                        Toast.makeText(MyDoctor.this, "Changes updated!",
+                                                Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             }

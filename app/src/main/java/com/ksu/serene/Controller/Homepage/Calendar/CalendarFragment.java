@@ -1,12 +1,15 @@
 package com.ksu.serene.Controller.Homepage.Calendar;
 
-import android.media.Image;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -14,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,12 +33,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class calendarFragment extends Fragment {
+public class CalendarFragment extends Fragment implements View.OnClickListener {
 
-    //set for layout.xml
-    private ImageView add;
-    private Button add_app;
-    private Button add_med;
+
     //set for patient's appointments
     private String patientId;
     private RecyclerView recyclerViewSession;
@@ -47,43 +48,32 @@ public class calendarFragment extends Fragment {
     private RecyclerView recyclerViewMedicine;
     private List<Medicine> listMedicines;
     private PatientMedicineAdapter adapterMedicines;
+    // Add Buttons
+    FloatingActionButton addButton, addMedicine, addAppointment;
+    TextView TV_appointment, TV_medicine;
+    private Animation fab_clock, fab_anti_clock;
+    private boolean isFABOpen;
+
+
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_calendar, container, false);
+
         //set for layout.xml
-        add = (ImageView)  root.findViewById(R.id.add_calender);
-        add_app = (Button)  root.findViewById(R.id.add_Appointment);
-        add_med = (Button)  root.findViewById(R.id.add_Medicine);
-        add_app.setVisibility(View.INVISIBLE);
-        add_med.setVisibility(View.INVISIBLE);
+        addButton = root.findViewById(R.id.addButton);
+        addMedicine = root.findViewById(R.id.add_Appointment);
+        addAppointment= root.findViewById(R.id.add_Medicine);
+        addButton.setOnClickListener(this);
+        addMedicine.setOnClickListener(this);
+        addAppointment.setOnClickListener(this);
+        TV_appointment = root.findViewById(R.id.TV_appointment);
+        TV_medicine = root.findViewById(R.id.TV_medicine);
+        isFABOpen = false;
+        fab_clock = AnimationUtils.loadAnimation( getContext(), R.anim.fab_rotate_clock );
+        fab_anti_clock = AnimationUtils.loadAnimation( getContext(), R.anim.fab_rotate_anticlock );
 
-        //when the add image click will show all add buttons
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                add_app.setVisibility(View.VISIBLE);
-                add_med.setVisibility(View.VISIBLE);
-            }
-        });
-
-        //when the add appointment click will show add appointment page
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Intent intent = new Intent (calendarFragment.class , addAppointment.class)
-                //startActivity(intent);
-            }
-        });
-
-        //when the add medicine click will show add medicine page
-        add_app.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Intent intent = new Intent (calendarFragment.class , addMedicine.class)
-                //startActivity(intent);
-            }
-        });
 
         //retrieve the id of patient used for searching
         patientId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -91,14 +81,20 @@ public class calendarFragment extends Fragment {
         //retrieve Patient Session data
         recyclerViewSession = (RecyclerView) root.findViewById(R.id.RecyclerviewSession);
         listAppointements = new ArrayList<>();
-        adapterSession = new PatientSessionsAdapter(listAppointements);
+        adapterSession = new PatientSessionsAdapter(listAppointements, new PatientSessionsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(TherapySession item) {
+                Intent intent = new Intent(getContext(), PatientAppointmentDetail.class);
+                intent.putExtra("AppointmentID", item.getId());
+            }
+        });
 
         //get the current date used to retrieve all appointments and medicine for the next coming
         calendar = Calendar.getInstance();
         date = calendar.getTime();
 
         //search in cloud firestore for patient sessions
-        CollectionReference referenceSession = FirebaseFirestore.getInstance().collection("patientsessions");
+        CollectionReference referenceSession = FirebaseFirestore.getInstance().collection("PatientSessions");
         final Query queryPatientSession = referenceSession.whereEqualTo("patientID",patientId);
         queryPatientSession.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -125,16 +121,24 @@ public class calendarFragment extends Fragment {
                 }
             }
         });
+
         recyclerViewSession.setAdapter(adapterSession);
 
-        //retrieve Mediciens data
-        recyclerViewMedicine = (RecyclerView) root.findViewById(R.id.RecyclerviewMedicine);
+        //retrieve Medicines data
+        recyclerViewMedicine = root.findViewById(R.id.RecyclerViewMedicine);
         listMedicines = new ArrayList<>();
-        adapterMedicines = new PatientMedicineAdapter(listMedicines);
+        adapterMedicines = new PatientMedicineAdapter(listMedicines, new PatientMedicineAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Medicine item) {
+                Intent intent = new Intent(getContext(), PatientMedicineDetail.class);
+                intent.putExtra("MedicineID", item.getId());
+            }
+        });
         calendar = Calendar.getInstance();
         date = calendar.getTime();
+
         //search in firebase for patientsessions
-        CollectionReference referenceMedicine = FirebaseFirestore.getInstance().collection("the patientmedic");
+        CollectionReference referenceMedicine = FirebaseFirestore.getInstance().collection("PatientMedicin");
         final Query queryPatientMedicine = referenceMedicine.whereEqualTo("patientID",patientId);
         queryPatientMedicine.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -165,4 +169,67 @@ public class calendarFragment extends Fragment {
 
         return root;
     }
+
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+
+            case R.id.addButton:
+                if (!isFABOpen) {
+                    showFABMenu();
+                } else {
+                    closeFABMenu();
+                }
+                break;
+
+            case R.id.add_Appointment:
+                Intent i = new Intent( getContext(), add_Appointment.class);
+                startActivity(i);
+                break;
+
+            case R.id.add_Medicine:
+                Intent intent = new Intent( getContext(), Add_Medicine_Page.class);
+                startActivity(intent);
+                break;
+
+            default:
+                break;
+        }//end switch
+    }//end onClick
+
+
+    private void showFABMenu() {
+
+        isFABOpen = true;
+
+        addButton.startAnimation(fab_clock);
+
+        addAppointment.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
+        addMedicine.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
+
+        TV_appointment.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
+        TV_medicine.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
+        TV_appointment.setVisibility(View.VISIBLE);
+        TV_medicine.setVisibility(View.VISIBLE);
+
+    }
+
+    private void closeFABMenu() {
+
+        isFABOpen = false;
+
+        addButton.startAnimation(fab_anti_clock);
+
+        TV_medicine.setVisibility(View.INVISIBLE);
+        TV_appointment.setVisibility(View.INVISIBLE);
+
+        addMedicine.animate().translationY(0);
+        addAppointment.animate().translationY(0);
+        TV_medicine.animate().translationY(0);
+        TV_appointment.animate().translationY(0);
+
+    }
+
 }

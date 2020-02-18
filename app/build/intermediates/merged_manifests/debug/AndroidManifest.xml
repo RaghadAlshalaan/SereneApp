@@ -39,12 +39,13 @@
         </activity>
         <activity android:name="com.ksu.serene.Controller.Homepage.Patient.AddDoctor" />
         <activity android:name="com.ksu.serene.Controller.Homepage.Patient.MyDoctor" />
+        <activity android:name="com.ksu.serene.PatientMedicineDetail" />
+        <activity android:name="com.ksu.serene.Controller.Homepage.Calendar.add_Appointment" />
         <activity android:name="com.ksu.serene.Controller.Homepage.Calendar.Add_Medicine_Page" />
         <activity android:name="com.ksu.serene.MainActivity" />
         <activity android:name="com.ksu.serene.Controller.Signup.Sociodemo" />
         <activity android:name="com.ksu.serene.Controller.Homepage.Patient.Editprofile" />
         <activity android:name="com.ksu.serene.Controller.Homepage.Patient.EditSocio" />
-        <activity android:name="com.ksu.serene.Controller.Homepage.Report.PatientReport" />
         <activity android:name="com.ksu.serene.LogInPage" />
         <activity android:name="com.ksu.serene.Controller.Signup.Signup" />
         <activity android:name="com.ksu.serene.WelcomePage" >
