@@ -2,6 +2,7 @@ package com.ksu.serene.Controller.Homepage.Report;
 
 //import all widget types we're going to write into
 
+import java.util.ArrayList;
 import java.util.Date;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -16,7 +17,8 @@ import com.bumptech.glide.Glide;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -49,8 +51,10 @@ public class PatientReport extends AppCompatActivity {
     private String userId = "6I5l8TvCxjWG3Jwxxpb4FcuDsGA2";
     public FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private ImageView ALGraph ;
-    private TextView improvementNum;
-    private TextView Highestday_date;
+    private TextView improvementNum, Highestday_date, location_name, numOfDays, location_AL;
+    private RecyclerView recyclerView;
+    private Adapter adapter;
+    ArrayList<String> items;
 
 
 
@@ -62,7 +66,11 @@ public class PatientReport extends AppCompatActivity {
         getExtras();
         Toast.makeText(getBaseContext(), duration, Toast.LENGTH_SHORT).show();
 
+
+
+
         lastGeneratedPatientReport();
+        location();
 
 
     }//onCreate
@@ -70,7 +78,9 @@ private void init (){
     ALGraph = findViewById(R.id.AL_graph);
     improvement_num = (TextView)findViewById(R.id.improvement_num);
     highestday_date = (TextView)findViewById(R.id.highestday_date);
-
+    location_name = (TextView)findViewById(R.id.location_name);
+    location_AL = (TextView)findViewById(R.id.location_AL);
+    recyclerView = findViewById(R.id.recycleView);
 
 }
 
@@ -135,6 +145,62 @@ private void init (){
     }//recommendation
 
     private void location() {
+
+        items = new ArrayList<>();
+        items.add("First CardView Item");
+        items.add("Second CardView Item");
+        items.add("Third CardView Item");
+        items.add("Fourth CardView Item");
+        items.add("Fifth CardView Item");
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new Adapter(this,items);
+        recyclerView.setAdapter(adapter);
+
+
+
+        Task<QuerySnapshot> docRef = firebaseFirestore.collection("PatientLocations")
+                .whereEqualTo("patientID", userId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            int counter = 0;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                counter++;
+                            }// count locations belonging to this patient
+
+                            for (int i=0; i<counter; i++){
+
+                                List<DocumentSnapshot> doc = task.getResult().getDocuments();
+                                //DocumentSnapshot[] y = doc.toArray(new DocumentSnapshot[0]);
+                                //capture each location
+
+                                //location name
+                                String locationName = doc.get(i).get("name").toString();
+                                location_name.setText(locationName);
+
+
+                                //location anxiety level
+
+                                String loc_AL = doc.get(i).get("anxietyLevel").toString();
+                                highestday_date.setText(loc_AL);
+
+
+
+                            }//if
+
+
+                        }//if
+                    }// onComplete
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });//addOnCompleteListener
 
     }//location
 
