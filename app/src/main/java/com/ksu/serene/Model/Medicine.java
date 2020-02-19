@@ -8,7 +8,7 @@ public class Medicine extends Reminder {
     private int period;
     private Date LastDay;
 
-    public Medicine(String id, String name, Date day,Date LastDay ,Time time, int doze, int period) {
+    public Medicine(String id, String name, Date day,Date LastDay ,Date time, int doze, int period) {
         super(id, name, day, time);
         this.doze = doze;
         this.period = period;
