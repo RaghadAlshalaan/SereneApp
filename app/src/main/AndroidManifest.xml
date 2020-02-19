@@ -25,6 +25,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter></activity>
         <activity android:name=".Controller.Homepage.Patient.AddDoctor"></activity>
+        <activity android:name=".Controller.Homepage.Calendar.Add_Appointment_Page"/>
+
         <activity android:name=".Controller.Homepage.Patient.MyDoctor" />
         <activity android:name=".Controller.Homepage.Calendar.Add_Medicine_Page" />
         <activity android:name=".MainActivity" />

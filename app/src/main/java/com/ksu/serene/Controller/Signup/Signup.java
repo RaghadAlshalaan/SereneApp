@@ -2,13 +2,18 @@ package com.ksu.serene.Controller.Signup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,11 +33,17 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -43,12 +54,263 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.ksu.serene.Controller.Homepage.Home.HomeFragment;
 import com.ksu.serene.LogInPage;
 
+import com.ksu.serene.Model.Token;
 import com.ksu.serene.R;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Signup extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
+    private TextView loginTV, Error;
+
+    private EditText nameET, emailET, passwordET, confirmPasswordET;
+    private Button signupBtn;
+    private String TAG = Signup.class.getSimpleName();
+
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_signup);
+
+        getSupportActionBar().hide();
+
+        mAuth = FirebaseAuth.getInstance();
+
+        loginTV = findViewById(R.id.loginBtn);
+        loginTV.setPaintFlags(loginTV.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        loginTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                login();
+            }
+        });
+
+        Error = findViewById(R.id.Error);
+        Error.setText("");
+
+        nameET = findViewById(R.id.username);
+        emailET = findViewById(R.id.emailInput);
+        passwordET = findViewById(R.id.passwordInput);
+        confirmPasswordET = findViewById(R.id.CpasswordInput);
+        signupBtn = findViewById(R.id.signupBtn);
+
+        signupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                createUserAccount(emailET.getText().toString(), passwordET.getText().toString(), confirmPasswordET.getText().toString(), nameET.getText().toString());
+            }
+        });
+
+        nameET.addTextChangedListener(signUpTextWatcher);
+        emailET.addTextChangedListener(signUpTextWatcher);
+        passwordET.addTextChangedListener(signUpTextWatcher);
+        confirmPasswordET.addTextChangedListener(signUpTextWatcher);
+
+
+    }//end onCreate()
+
+
+    private TextWatcher signUpTextWatcher = new TextWatcher() {
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            String nameInput = nameET.getText().toString().trim();
+            String emailInput = emailET.getText().toString().trim();
+            String passwordInput = passwordET.getText().toString().trim();
+            String confirmPasswordInput = confirmPasswordET.getText().toString().trim();
+
+            if(!nameInput.equals("") & !emailInput.equals("") & !passwordInput.equals("") & !confirmPasswordInput.equals("")){
+
+                signupBtn.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent));
+
+                signupBtn.setEnabled(true);
+            }else{
+                signupBtn.setBackgroundTintList(getResources().getColorStateList(R.color.Grey));
+
+                signupBtn.setEnabled(false);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
+
+    public void createUserAccount(final String email, String password, String confirmPassword, final String name) {
+
+        //if the passwordET doesn't match show dialog otherwise create account
+        if (!name.matches("^[ A-Za-z]+$")) {
+            Error.setText("Failed:\n - Enter valid name.\n Please try again");
+            nameET.setText("");
+            return;
+        }
+        if (!password.equals(confirmPassword)) {
+            Error.setText("Failed:\n - Password does't match.\n Please try again");
+            return;
+        }
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "createUserWithEmail:success");
+                            FirebaseUser userf = mAuth.getCurrentUser();
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
+                            userf.updateProfile(profileUpdates)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Log.d(TAG, "User profile updated.");
+                                            }
+                                        }
+                                    });
+
+                            userf.updateEmail(email)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Log.d(TAG, "User email address updated.");
+                                            }
+                                        }
+                                    });
+                            // Create a new user with a first and last name
+                            Map<String, Object> user = new HashMap<>();
+                            user.put("email", email);
+                            user.put("name", name);
+
+                            // Add a new document with a generated ID
+                            db.collection("Patient")
+                                    .document(mAuth.getUid())
+                                    .set(user)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d(TAG, "DocumentSnapshot added with" );
+                                            //add token
+                                            Token mToken = new Token("");
+
+                                            // Add a new document with a generated ID
+                                            db.collection("Tokens")
+                                                    .document(mAuth.getUid())
+                                                    .set(mToken)
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
+                                                            Log.d(TAG, "DocumentSnapshot added with" );
+                                                        }
+                                                    })
+                                                    .addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Log.w(TAG, "Error writing document", e);
+                                                        }
+                                                    });
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w(TAG, "Error writing document", e);
+                                        }
+                                    });
+
+                            sendVerificationEmail();
+
+                        } else {
+                            if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                                Error.setText("Failed:\n - Email already used by another account.\nPlease try again");
+
+                            } else if (task.getException() instanceof FirebaseAuthWeakPasswordException) {
+                                Error.setText("Failed:\n - Password must be at least 8 characters.\nPlease try again");
+
+                            } else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                                Error.setText("Failed:\n - Incorrect Email format.\nPlease try again");
+
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Error.setText("Failed:\n - Authentication Failed.\nPlease try again");
+                            }
+                        }
+                    }
+                });
+
+    }// end create user
+
+    private void sendVerificationEmail() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        user.sendEmailVerification()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            // email sent
+                            showDialog("Account Created! An email has been sent to activate your account.");
+                        } else {
+                            // email not sent, so display message and restart the activity
+                            Log.d(TAG, "There is problem the email doesn't send: ");
+
+                        }
+                    }
+                });
+    }
+
+    public void showDialog(String msg) {
+
+        androidx.appcompat.app.AlertDialog.Builder alertDialog = new AlertDialog.Builder(Signup.this);
+        alertDialog.setMessage(msg);
+        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                //TODO : go to registration steps
+
+                signupBtn.setVisibility(View.GONE);
+
+                Fragment fragmentOne = new Sociodemo();
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                fragmentTransaction.replace(R.id.layout, fragmentOne);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
+
+            }
+        });
+
+        //TODO : REMOVED
+        alertDialog.show();
+
+    }//end showDialog()
+
+    private void login(){
+
+        //Login button
+        Intent i = new Intent(this, LogInPage.class);
+        startActivity(i);
+        finish();
+
+    }
+
+
+   /* private FirebaseAuth mAuth;
 
     private TextView loginTV;
 
@@ -58,7 +320,10 @@ public class Signup extends AppCompatActivity {
     private String TAG = Signup.class.getSimpleName();
     private boolean isNewUser;
     //image view for sign in with google
+
+
     private ImageView signInWithGoogle ;
+    // TODO : MOVE SIGN UP WITH GOOGLE TO WELCOME PAGE
 
     private Task<SignInMethodQueryResult> result;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -75,12 +340,12 @@ public class Signup extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
        // initToolBar();
         mAuth = FirebaseAuth.getInstance();
-        loginTV = findViewById(R.id.description2);
+        loginTV = findViewById(R.id.loginBtn);
         nameET = findViewById(R.id.username);
         emailET = findViewById(R.id.emailInput);
         passwordET = findViewById(R.id.passwordInput);
         confirmPasswordET = findViewById(R.id.CpasswordInput);
-        signUpBtn = findViewById(R.id.reg_btn);
+        signUpBtn = findViewById(R.id.signupBtn);
         isNewUser = true;
         signInWithGoogle = findViewById(R.id.signup_withgoogle);
 
@@ -180,9 +445,6 @@ public class Signup extends AppCompatActivity {
                         emailET.setText("");
                         return;
                     }
-
-
-
 
 
 
@@ -298,7 +560,7 @@ public class Signup extends AppCompatActivity {
                     }
                 });
     }
-
+*/
 
 
 
