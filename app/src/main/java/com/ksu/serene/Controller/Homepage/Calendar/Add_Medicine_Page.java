@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class Add_Medicine_Page extends AppCompatActivity {
 
     private EditText MedicineName;
-    private EditText Days;
+    private EditText FromDay;
     private EditText Time;
     private EditText Dose;
     private Button Confirm;
@@ -23,7 +23,7 @@ public class Add_Medicine_Page extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add__medicine__page);
         MedicineName = (EditText) findViewById(R.id.MedicineName);
-        Days = (EditText) findViewById(R.id.MedicineDays);
+        FromDay = (EditText) findViewById(R.id.MedicineDays);
         Time = (EditText) findViewById(R.id.MedicineTime);
         Dose = (EditText) findViewById(R.id.MedicineDose);
         Confirm = (Button) findViewById(R.id.ConfirmAddedMedicine);

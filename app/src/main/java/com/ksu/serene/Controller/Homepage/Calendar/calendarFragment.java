@@ -109,6 +109,7 @@ public class calendarFragment extends Fragment {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     TherapySession session = document.toObject(TherapySession.class);
                                     listAppointements.add(session);
+
                                 }
                                 adapterSession.notifyDataSetChanged();
                             }
