@@ -1,5 +1,6 @@
 package com.ksu.serene.Controller.Homepage.Calendar;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
@@ -11,9 +12,11 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,25 +33,42 @@ import com.ksu.serene.Model.TherapySession;
 import com.ksu.serene.R;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.util.List;
+import java.util.Locale;
+import java.util.Date;
 
 public class CalendarFragment extends Fragment implements View.OnClickListener{
 
-
+    private Context context = this.getContext();
     //set for patient's appointments
     private String patientId;
     private RecyclerView recyclerViewSession;
+    private RecyclerView.LayoutManager ApplayoutManager;
     private List<TherapySession> listAppointements;
     private PatientSessionsAdapter adapterSession;
-    //retrieve the current date
-    private Calendar calendar;
-    private Date date;
+    private String AppID;
+    private String AppName;
+    private String AppDay;
+    private String AppTime;
+    private Date ADay;
+    private Date ATime;
     //set for patient's medicines
     private RecyclerView recyclerViewMedicine;
+    private RecyclerView.LayoutManager MlayoutManager;
     private List<Medicine> listMedicines;
     private PatientMedicineAdapter adapterMedicines;
+    private String MID;
+    private String MName;
+    private String MFDay;
+    private String MLDay;
+    private String MTime;
+    private int MDose;
+    private int MPeriod;
+    private Date FDay;
+    private Date LDay;
+    private Date time;
     // Add Buttons
     FloatingActionButton addButton, addMedicine, addAppointment;
     TextView TV_appointment, TV_medicine;
@@ -79,82 +99,10 @@ public class CalendarFragment extends Fragment implements View.OnClickListener{
         //retrieve the id of patient used for searching
         patientId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        //retrieve Patient Session data
-        recyclerViewSession = (RecyclerView) root.findViewById(R.id.RecyclerviewSession);
-        listAppointements = new ArrayList<>();
-        adapterSession = new PatientSessionsAdapter(listAppointements);
+        SetAppRecyView (root);
+        SetMedRecyView (root);
 
-        //get the current date used to retrieve all appointments and medicine for the next coming
-        calendar = Calendar.getInstance();
-        date = calendar.getTime();
 
-        //search in cloud firestore for patient sessions
-        CollectionReference referenceSession = FirebaseFirestore.getInstance().collection("patientsessions");
-        final Query queryPatientSession = referenceSession.whereEqualTo("patientID",patientId);
-        queryPatientSession.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()) {
-                    final Query queryPatientSessionAfterToday = queryPatientSession.whereGreaterThan("date" , date).orderBy("date" , Query.Direction.ASCENDING);
-                    queryPatientSessionAfterToday.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                   /*if(i==2) {
-                                       break;
-                                   }
-                                   else {*/
-                                    TherapySession session = document.toObject(TherapySession.class);
-                                    listAppointements.add(session);
-                                    //i++;}
-                                }
-                                adapterSession.notifyDataSetChanged();
-                            }
-                        }
-                    });
-                }
-            }
-        });
-
-        recyclerViewSession.setAdapter(adapterSession);
-
-        //retrieve Medicines data
-        recyclerViewMedicine = root.findViewById(R.id.RecyclerViewMedicine);
-        listMedicines = new ArrayList<>();
-        adapterMedicines = new PatientMedicineAdapter(listMedicines);
-        calendar = Calendar.getInstance();
-        date = calendar.getTime();
-
-        //search in firebase for patient sessions
-        CollectionReference referenceMedicine = FirebaseFirestore.getInstance().collection("the patientmedic");
-        final Query queryPatientMedicine = referenceMedicine.whereEqualTo("patientID",patientId);
-        queryPatientMedicine.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()) {
-                    final Query queryPatientMedicineAfterToday = queryPatientMedicine.whereGreaterThan("date" , date).orderBy("date" , Query.Direction.ASCENDING);
-                    queryPatientMedicineAfterToday.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                   /*if(i==2) {
-                                       break;
-                                   }
-                                   else {*/
-                                    Medicine medicine = document.toObject(Medicine.class);
-                                    listMedicines.add(medicine);
-                                    //i++;}
-                                }
-                                adapterMedicines.notifyDataSetChanged();
-                            }
-                        }
-                    });
-                }
-            }
-        });
-        recyclerViewMedicine.setAdapter(adapterMedicines);
 
         return root;
     }
@@ -220,4 +168,96 @@ public class CalendarFragment extends Fragment implements View.OnClickListener{
         TV_appointment.animate().translationY(0);
 
     }
+
+    private void SetAppRecyView (View root) {
+        final SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yy", Locale.US);
+        final SimpleDateFormat TimeFormat = new SimpleDateFormat ("hh : mm");
+        //retrieve Patient Session data
+        recyclerViewSession = (RecyclerView) root.findViewById(R.id.RecyclerviewSession);
+        ApplayoutManager = new LinearLayoutManager(context);
+        recyclerViewSession.setLayoutManager(ApplayoutManager);
+        listAppointements = new ArrayList<>();
+        adapterSession = new PatientSessionsAdapter(listAppointements);
+
+        //search in cloud firestore for patient sessions
+        CollectionReference referenceSession = FirebaseFirestore.getInstance().collection("PatientSessions");
+
+        final Query queryPatientSession = referenceSession.whereEqualTo("patientID",patientId);
+        queryPatientSession.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        AppID = document.getId().toString();
+                        AppName = document.get("name").toString();
+                        AppDay = document.get("date").toString();
+                        AppTime = document.get("time").toString();
+                        //convert string to date to used in compare
+                        try {
+                            ADay = DateFormat.parse(AppDay);
+                            ATime = TimeFormat.parse(AppTime);
+                        }
+                        catch (ParseException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                        listAppointements.add(new TherapySession(AppID, AppName, ADay, ATime));
+
+                    }
+                    adapterSession.notifyDataSetChanged();
+                }
+            }
+        });
+        recyclerViewSession.setAdapter(adapterSession);
+    }
+
+
+    private void SetMedRecyView (View root) {
+        final SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yy", Locale.US);
+        final SimpleDateFormat TimeFormat = new SimpleDateFormat ("hh : mm");
+
+        //retrieve Mediciens data
+        recyclerViewMedicine = (RecyclerView) root.findViewById(R.id.RecyclerViewMedicine);
+        MlayoutManager = new LinearLayoutManager(context);
+        recyclerViewMedicine.setLayoutManager(MlayoutManager);
+        listMedicines = new ArrayList<>();
+        adapterMedicines = new PatientMedicineAdapter(listMedicines);
+
+        //search in firebase for patientsessions
+        CollectionReference referenceMedicine = FirebaseFirestore.getInstance().collection("PatientMedicin");
+
+        final Query queryPatientMedicine = referenceMedicine.whereEqualTo("patinetID",patientId);
+        queryPatientMedicine.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        //Medicine medicine = document.toObject(Medicine.class);
+                        //listMedicines.add(medicine);
+                        MID = document.getId().toString();
+                        MName = document.get("name").toString();
+                        MFDay = document.get("Fday").toString();
+                        MLDay = document.get("Lday").toString();
+                        MTime = document.get("time").toString();
+                        MDose = Integer.parseInt(document.get("doze").toString());
+                        MPeriod = Integer.parseInt(document.get("period").toString());
+                        //convert string to date to used in compare
+                        try {
+                            FDay = DateFormat.parse(MFDay);
+                            LDay = DateFormat.parse(MLDay);
+                            time = TimeFormat.parse(MTime);
+                        }
+                        catch (ParseException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                        listMedicines.add(new Medicine(MID, MName, FDay, LDay, time, MDose, MPeriod));
+                    }
+                    adapterMedicines.notifyDataSetChanged();
+                }
+            }
+        });
+        recyclerViewMedicine.setAdapter(adapterMedicines);
+    }
+
 }
