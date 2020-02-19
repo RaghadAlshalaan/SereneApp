@@ -320,12 +320,12 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
 
     }
 
-    private boolean checkAllFields (String email , String password){
+/*    private boolean checkAllFields (String email , String password){
         if ( !(TextUtils.isEmpty(email)) && !(TextUtils.isEmpty(password)) ){
             return true;
         }
         return false;
-    }
+    }*/
 
     @Override
     protected void onStart() {
