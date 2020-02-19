@@ -52,9 +52,9 @@ public class calendarFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_calendar, container, false);
         //set for layout.xml
-        add = (ImageView)  root.findViewById(R.id.add_calender);
-        add_app = (Button)  root.findViewById(R.id.add_Appointment);
-        add_med = (Button)  root.findViewById(R.id.add_Medicine);
+        add = root.findViewById(R.id.add_calender);
+        add_app = root.findViewById(R.id.add_Appointment);
+        add_med = root.findViewById(R.id.add_Medicine);
         add_app.setVisibility(View.INVISIBLE);
         add_med.setVisibility(View.INVISIBLE);
 
