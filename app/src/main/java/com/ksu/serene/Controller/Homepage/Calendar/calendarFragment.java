@@ -110,13 +110,8 @@ public class calendarFragment extends Fragment {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                   /*if(i==2) {
-                                       break;
-                                   }
-                                   else {*/
                                     TherapySession session = document.toObject(TherapySession.class);
                                     listAppointements.add(session);
-                                    //i++;}
                                 }
                                 adapterSession.notifyDataSetChanged();
                             }
