@@ -96,6 +96,9 @@
     <string name="improvement">Improvement</string>
     <string name="throughout_the_week">(Throughout the week)</string>
     <string name="anxiety_level">Anxiety Level</string>
+    <string name="connect_to_fitbit">Connect to Fitbit</string>
+    <string name="fitbit_desc">Serene wants to connect with your Fitbit account in order to acccess your data and behave correctly.</string>
+    <string name="finish">Finish</string>
 
 
     <string-array name="employmentStatus">

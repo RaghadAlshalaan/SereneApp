@@ -1,5 +1,6 @@
 package com.ksu.serene.Controller.Signup;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -208,9 +209,52 @@ public class GAD7 extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if(uploadGAD()){
-                    //TODO : go to fitbit
+                if(radio1.matches("")|| radio2.matches("")||radio3.matches("")||radio4.matches("")||
+                        radio5.matches("")|| radio6.matches("")||radio7.matches("")){
+
+                    Toast.makeText(getActivity(), "GAD: Please fill all the questions.",
+                            Toast.LENGTH_SHORT).show();
+
+                    return ;
                 }
+
+                //Calculate the final score
+
+                finalScore = score1 + score2 + score3 + score4 + score5 + score6 + score7;
+                GAD7ScaleScore = String.valueOf(finalScore);
+
+
+                // Upload GAD score to user document in DB
+
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                final String userEmail = user.getEmail();
+
+                final Map<String, Object> userInfo = new HashMap<>();
+                userInfo.put("GAD-7ScaleScore", GAD7ScaleScore);
+
+
+                db.collection("Patient").whereEqualTo("email", userEmail)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (DocumentSnapshot document : task.getResult()) {
+                                        String id = document.getId();
+
+                                        db.collection("Patient")
+                                                .document(id).update(userInfo);
+                                    }
+
+                                    Intent i = new Intent(getActivity(),FitbitConnection.class);
+                                    getActivity().startActivity(i);
+
+                                } else System.out.println( "Error getting documents: ");
+
+                            }
+                        });
+
+
 
             }
         });
@@ -233,7 +277,7 @@ public class GAD7 extends Fragment {
 
         // Force the user to answer all the questions
 
-        if(radio1.matches("")|| radio2.matches("")||radio3.matches("")||radio4.matches("")||
+        /*if(radio1.matches("")|| radio2.matches("")||radio3.matches("")||radio4.matches("")||
                 radio5.matches("")|| radio6.matches("")||radio7.matches("")){
 
             Toast.makeText(getActivity(), "GAD: Please fill all the questions.",
@@ -275,7 +319,7 @@ public class GAD7 extends Fragment {
 
                     }
                 });
-
+*/
         return flag;
 
     }

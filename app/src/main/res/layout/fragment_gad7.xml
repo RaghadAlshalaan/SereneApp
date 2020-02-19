@@ -30,7 +30,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/white_bg"
-
         android:background="@drawable/layout_rounded_bg"
         android:gravity="center"
         android:orientation="vertical">
@@ -472,23 +471,20 @@
                 android:id="@+id/backBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="33dp"
+                android:layout_marginStart="10dp"
                 android:background="@android:color/transparent"
                 android:backgroundTint="#00FFFFFF"
                 android:text="@string/back"
-                android:textColor="@color/black"
-                android:layout_marginStart="10dp"
-                />
+                android:textColor="@color/black" />
 
-        <Button
-            android:id="@+id/nextBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:text="@string/next"
-            android:textColor="@color/black"
-            android:layout_marginStart="200dp"
-            />
-
+            <Button
+                android:id="@+id/nextBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="200dp"
+                android:background="@android:color/transparent"
+                android:text="@string/next"
+                android:textColor="@color/black" />
 
 
         </LinearLayout>
