@@ -104,11 +104,8 @@ public class calendarFragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()) {
-                    final Query queryPatientSessionAfterToday = queryPatientSession.whereGreaterThan("date" , date).orderBy("date" , Query.Direction.ASCENDING);
-                    queryPatientSessionAfterToday.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
+                    //final Query queryPatientSessionAfterToday = queryPatientSession.whereGreaterThan("date" , date).orderBy("date" , Query.Direction.ASCENDING);queryPatientSessionAfterToday.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        //@Overridepublic void onComplete(@NonNull Task<QuerySnapshot> task) {if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     TherapySession session = document.toObject(TherapySession.class);
                                     listAppointements.add(session);
@@ -117,9 +114,6 @@ public class calendarFragment extends Fragment {
                             }
                         }
                     });
-                }
-            }
-        });
         recyclerViewSession.setAdapter(adapterSession);
 
         //retrieve Mediciens data
