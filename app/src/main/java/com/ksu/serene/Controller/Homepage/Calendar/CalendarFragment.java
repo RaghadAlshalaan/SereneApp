@@ -177,7 +177,14 @@ public class CalendarFragment extends Fragment implements View.OnClickListener{
         ApplayoutManager = new LinearLayoutManager(context);
         recyclerViewSession.setLayoutManager(ApplayoutManager);
         listAppointements = new ArrayList<>();
-        adapterSession = new PatientSessionsAdapter(listAppointements);
+        adapterSession = new PatientSessionsAdapter(listAppointements, new PatientSessionsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(TherapySession item) {
+                Intent intent = new Intent(getContext() , PatientAppointmentDetailPage.class);
+                intent.putExtra("AppointmentID" , item.getId());
+                startActivity(intent);
+            }
+        });
 
         //search in cloud firestore for patient sessions
         CollectionReference referenceSession = FirebaseFirestore.getInstance().collection("PatientSessions");
@@ -221,7 +228,14 @@ public class CalendarFragment extends Fragment implements View.OnClickListener{
         MlayoutManager = new LinearLayoutManager(context);
         recyclerViewMedicine.setLayoutManager(MlayoutManager);
         listMedicines = new ArrayList<>();
-        adapterMedicines = new PatientMedicineAdapter(listMedicines);
+        adapterMedicines = new PatientMedicineAdapter(listMedicines, new PatientMedicineAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Medicine item) {
+                Intent intent = new Intent(getContext() , PatientMedicineDetailPage.class);
+                intent.putExtra("MedicineID", item.getId());
+                startActivity(intent);
+            }
+        });
 
         //search in firebase for patientsessions
         CollectionReference referenceMedicine = FirebaseFirestore.getInstance().collection("PatientMedicin");

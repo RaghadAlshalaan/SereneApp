@@ -16,8 +16,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Controller.Signup.GoogleCalendarConnection"></activity>
-        <activity android:name=".Controller.Signup.FitbitConnection"
+        <activity android:name=".Controller.Signup.GoogleCalendarConnection" />
+        <activity
+            android:name=".Controller.Signup.FitbitConnection"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -28,7 +29,8 @@
                 <data
                     android:host="callback"
                     android:scheme="auth" />
-            </intent-filter></activity>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".SplashScreen"
             android:theme="@style/AppTheme.NoActionBar">
@@ -40,8 +42,10 @@
         </activity>
         <activity android:name=".Controller.Homepage.Patient.AddDoctor" />
         <activity android:name=".Controller.Homepage.Calendar.Add_Appointment_Page" />
+        <activity android:name=".Controller.Homepage.Calendar.PatientAppointmentDetailPage" />
         <activity android:name=".Controller.Homepage.Patient.MyDoctor" />
         <activity android:name=".Controller.Homepage.Calendar.Add_Medicine_Page" />
+        <activity android:name=".Controller.Homepage.Calendar.PatientMedicineDetailPage" />
         <activity android:name=".MainActivity" />
         <activity android:name=".Controller.Signup.Sociodemo" />
         <activity android:name=".Controller.Homepage.Patient.Editprofile" />
