@@ -67,11 +67,11 @@ public class AddDoctor extends AppCompatActivity {
                     email.setText("");
                     return;
                 }
-                else if (!name.getText().toString().matches("^[ A-Za-z]+$")) {
+               /* else if (!name.getText().toString().matches("^[ A-Za-z]+$")) {
                     Toast.makeText(AddDoctor.this, R.string.nameFormat,
                             Toast.LENGTH_SHORT).show();
                     name.setText("");
-                    return;}
+                    return;} */
 
                  addDoctor(name.getText().toString(), email.getText().toString());
 
@@ -114,11 +114,13 @@ public class AddDoctor extends AppCompatActivity {
                                             public void onSuccess(Void aVoid) {
                                                 Log.d(TAG, "DocumentSnapshot added successfully");
 
-                                                sendEmail(name, email);
+
                                             }
                                         });
                             }
-
+                            Toast.makeText(AddDoctor.this, "Doctor Added",
+                                    Toast.LENGTH_SHORT).show();
+                            sendEmail(name, email);
                         }
                         else {
 
