@@ -19,12 +19,12 @@ public class PatientSessionsAdapter  extends RecyclerView.Adapter<PatientSession
     }
 
     private List<TherapySession> mAdapter;
-    private final OnItemClickListener listener;
+    //private final OnItemClickListener listener;
 
-    public PatientSessionsAdapter(List<TherapySession> mAdapter, OnItemClickListener listener) {
+    public PatientSessionsAdapter(List<TherapySession> mAdapter){//, OnItemClickListener listener) {
         //super(options);
         this.mAdapter = mAdapter;
-        this.listener = listener;
+        //this.listener = listener;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -60,7 +60,7 @@ public class PatientSessionsAdapter  extends RecyclerView.Adapter<PatientSession
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.bind(mAdapter.get(position) , listener);
+        //holder.bind(mAdapter.get(position) , listener);
         TherapySession session = mAdapter.get(position);
         holder.doctorName.setText(session.getName());
         holder.date.setText(session.getDay()+" ");

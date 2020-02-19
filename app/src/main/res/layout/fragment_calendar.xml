@@ -1,110 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/layout_rounded_bg"
-    android:id="@+id/layout"
-    android:orientation="vertical"
+    android:background="#F3F3F3"
     >
+
+
 
 
     <TextView
         android:id="@+id/titleofscreen"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="61dp"
+        android:layout_marginTop="60dp"
         android:fontFamily="@font/montserrat"
-        android:paddingTop="10dp"
-        android:text="@string/calendar"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:textColor="@color/black"
-        android:textSize="25sp" />
+        android:text="Calendar"
+        android:textColor="#000000"
+        android:textSize="30sp" />
 
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="330dp"
-        android:layout_gravity="center"
-        android:layout_height="2dp"
-        android:background="#1A000000" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="10dp">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="506dp"
+        android:fontFamily="@font/montserrat"
+        android:text="Appointments"
+        android:textColor="#FF6969"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
-        <CalendarView
-            android:id="@+id/calendarView2"
-            android:layout_width="wrap_content"
-            android:layout_height="300dp"
-            android:background="@color/white" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RecyclerviewSession"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="546dp"
+        android:background="#FFFFFF"
+        android:scrollbars="none" />
 
-
-    </LinearLayout>
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/text2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:paddingBottom="20dp"
-        android:paddingRight="20dp"
-        android:paddingLeft="20dp">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="667dp"
+        android:fontFamily="@font/montserrat"
+        android:text="Medicine"
+        android:textColor="#4CA758"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/text1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:fontFamily="@font/montserrat"
-            android:text="@string/appointments"
-            android:textColor="@color/Error"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/RecyclerviewSession"
-            android:layout_width="wrap_content"
-            android:layout_height="70dp"
-            android:layout_below="@+id/text1"
-            android:layout_marginStart="31dp"
-            android:layout_marginTop="5dp"
-            android:background="@color/white"
-            android:scrollbars="none" />
-
-        <TextView
-            android:id="@+id/text2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/RecyclerviewSession"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/montserrat"
-            android:text="@string/medicine"
-            android:textColor="#4CA758"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/RecyclerViewMedicine"
-            android:layout_width="wrap_content"
-            android:layout_height="70dp"
-            android:layout_below="@+id/text2"
-            android:layout_marginStart="31dp"
-            android:layout_marginTop="5dp"
-            android:background="@color/white"
-            android:scrollbars="none" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RecyclerviewMedicine"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="695dp"
+        android:background="#FFFFFF"
+        android:scrollbars="none" />
 
 
-        <include
-            layout="@layout/add_medicine_appointment_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+    <CalendarView
+        android:id="@+id/calendarView2"
+        android:layout_width="wrap_content"
+        android:layout_height="305dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="187dp"
+        android:background="#FFFFFF" />
 
-    </RelativeLayout>
+    <ImageView
+        android:id="@+id/add_calender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+    <Button
+        android:id="@+id/add_Appointment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="27dp"
+        android:clickable="true"
+        android:text="Appointment" />
+
+    <Button
+        android:id="@+id/add_Medicine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="200dp"
+        android:text="Medicine" />
 
 
-</LinearLayout>
+    <!-- arrow-left -->
+
+
+</RelativeLayout>

@@ -13,7 +13,7 @@ import com.ksu.serene.R;
 
 import com.google.android.material.tabs.TabLayout;
 
-public class DraftsFragment extends Fragment {
+public class draftsFragment extends Fragment {
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,

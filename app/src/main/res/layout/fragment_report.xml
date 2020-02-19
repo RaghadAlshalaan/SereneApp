@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/layout_rounded_bg"
+    android:background="#F3F3F3"
     android:id="@+id/layout"
     android:orientation="vertical">
 
@@ -18,13 +18,12 @@
         android:text="Generate Report"
         android:gravity="center"
         android:layout_gravity="center"
-        android:textColor="@color/black"
-        android:textSize="25sp" />
+        android:textColor="#000000"
+        android:textSize="25dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:orientation="vertical"
         android:padding="20dp">
 
@@ -35,7 +34,6 @@
         android:fontFamily="@font/montserrat"
         android:text="Duration:"
         android:textColor="#515C6F"
-        android:layout_marginBottom="10dp"
         android:textSize="20sp" />
 
     <RadioGroup
@@ -50,10 +48,8 @@
                 android:id="@+id/radioButton1"
                 android:layout_width="362dp"
                 android:layout_height="54dp"
-                android:fontFamily="@font/montserrat"
                 android:text="Last Two Weeks"
                 android:layout_margin="5dp"
-                android:textSize="15sp"
                 android:background="@drawable/white_background"
                 android:focusable="auto"
                 />
@@ -63,10 +59,8 @@
                 android:id="@+id/radioButton2"
                 android:layout_width="362dp"
                 android:layout_height="54dp"
-                android:fontFamily="@font/montserrat"
                 android:text="Last Month"
                 android:layout_margin="5dp"
-                android:textSize="15sp"
                 android:background="@drawable/white_background"
                 android:focusable="auto"/>
 
@@ -75,9 +69,7 @@
                 android:id="@+id/radioButton3"
                 android:layout_width="362dp"
                 android:layout_height="54dp"
-                android:fontFamily="@font/montserrat"
                 android:text="Specific period"
-                android:textSize="15sp"
                 android:layout_margin="5dp"
                 android:background="@drawable/white_background"
                 android:focusable="auto" />

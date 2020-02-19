@@ -28,7 +28,6 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.ksu.serene.Controller.Email.GMailSender;
 import com.ksu.serene.R;
 
 import java.util.HashMap;
@@ -59,8 +58,6 @@ public class AddDoctor extends AppCompatActivity {
         email = findViewById(R.id.email);
         confirm = findViewById(R.id.confirm);
 
-
-
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,11 +67,11 @@ public class AddDoctor extends AppCompatActivity {
                     email.setText("");
                     return;
                 }
-               /* else if (!name.getText().toString().matches("^[ A-Za-z]+$")) {
+                else if (!name.getText().toString().matches("^[ A-Za-z]+$")) {
                     Toast.makeText(AddDoctor.this, R.string.nameFormat,
                             Toast.LENGTH_SHORT).show();
                     name.setText("");
-                    return;}*/
+                    return;}
 
                  addDoctor(name.getText().toString(), email.getText().toString());
 
@@ -117,12 +114,11 @@ public class AddDoctor extends AppCompatActivity {
                                             public void onSuccess(Void aVoid) {
                                                 Log.d(TAG, "DocumentSnapshot added successfully");
 
-                                                 }
+                                                sendEmail(name, email);
+                                            }
                                         });
                             }
-                            Toast.makeText(AddDoctor.this, "Doctor Added",
-                                    Toast.LENGTH_SHORT).show();
-                            sendEmail(name, email);
+
                         }
                         else {
 
@@ -134,20 +130,7 @@ public class AddDoctor extends AppCompatActivity {
 
     }
     public void sendEmail(String name,String email){
-
-        try {
-            GMailSender sender = new GMailSender("almosahah@gmail.com", "swe444app");
-            sender.sendMail("Welcome to serene" + name,
-                    "This is Body",
-                    "almosahah@gmail.com",
-                    email);
-        } catch (Exception e) {
-           Toast.makeText(AddDoctor.this,"SendMail" + e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-
-
-
-         /*Intent i = new Intent(Intent.ACTION_SEND);
+         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("message/rfc822");
         i.putExtra(Intent.EXTRA_EMAIL  , new String[]{email});
         i.putExtra(Intent.EXTRA_SUBJECT, "Serene system");
@@ -156,6 +139,6 @@ public class AddDoctor extends AppCompatActivity {
             startActivity(Intent.createChooser(i, "Send mail..."));
         } catch (android.content.ActivityNotFoundException ex) {
             Toast.makeText(AddDoctor.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
-        }*/
+        }
     }
 }
