@@ -135,27 +135,16 @@ public class calendarFragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()) {
-                    final Query queryPatientMedicineAfterToday = queryPatientMedicine.whereGreaterThan("date" , date).orderBy("date" , Query.Direction.ASCENDING);
-                    queryPatientMedicineAfterToday.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
+                    //final Query queryPatientMedicineAfterToday = queryPatientMedicine.whereGreaterThan("date" , date).orderBy("date" , Query.Direction.ASCENDING);queryPatientMedicineAfterToday.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        //@Overridepublic void onComplete(@NonNull Task<QuerySnapshot> task) {if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                   /*if(i==2) {
-                                       break;
-                                   }
-                                   else {*/
                                     Medicine medicine = document.toObject(Medicine.class);
                                     listMedicines.add(medicine);
-                                    //i++;}
                                 }
                                 adapterMedicines.notifyDataSetChanged();
                             }
                         }
                     });
-                }
-            }
-        });
         recyclerViewMedicine.setAdapter(adapterMedicines);
 
         return root;
