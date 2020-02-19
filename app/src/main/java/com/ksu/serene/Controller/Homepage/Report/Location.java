@@ -1,9 +1,15 @@
 package com.ksu.serene.Controller.Homepage.Report;
 
+import java.sql.Time;
+import java.util.Date;
+
 public class Location {
     private String name;
     private int timesVisited;
     private String AL_level;
+    private long latitude, longitude;
+    private Time arrivalTime, leaveTime;
+    private Date date;
 
     public Location(String name, String AL_level){
         this.name = name;

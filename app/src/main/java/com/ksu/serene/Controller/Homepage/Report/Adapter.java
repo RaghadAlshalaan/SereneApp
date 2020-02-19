@@ -11,18 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ksu.serene.R;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     private LayoutInflater layoutInflater;
-    private List<String> data;
+    private List<Location> locations;
 
-    Adapter(Context context, List<String> data){
+    Adapter(Context context, List<Location> locations){
         this.layoutInflater = LayoutInflater.from(context);
-        this.data = data;
+        this.locations = locations;
 
     }
 
@@ -35,18 +33,18 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        //bind the textviews with data received
+        //bind the textviews with locations received
 
-        String location = data.get(i);
-        viewHolder.location_name.setText(location);
+        String location_name = locations.get(i).getName();
+        viewHolder.location_name.setText(location_name);
 
-        String level = data.get(i);
+        String level = locations.get(i).getAL_level();
         viewHolder.location_AL.setText(level);
     }
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return locations.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

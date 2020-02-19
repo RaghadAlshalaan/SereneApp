@@ -2,8 +2,9 @@ package com.ksu.serene.Controller.Homepage.Report;
 
 //import all widget types we're going to write into
 
+import java.util.*;
 import java.util.ArrayList;
-import java.util.Date;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,7 +28,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -35,7 +35,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.ksu.serene.Controller.Constants;
 import com.ksu.serene.R;
 
-import java.util.List;
+
+
+import static java.util.concurrent.TimeUnit.DAYS;
 
 public class PatientReport extends AppCompatActivity {
 
@@ -54,7 +56,7 @@ public class PatientReport extends AppCompatActivity {
     private TextView improvementNum, Highestday_date, location_name, numOfDays, location_AL;
     private RecyclerView recyclerView;
     private Adapter adapter;
-    ArrayList<String> items;
+    ArrayList<Location> locations;
 
 
 
@@ -68,21 +70,19 @@ public class PatientReport extends AppCompatActivity {
 
 
 
-
         lastGeneratedPatientReport();
         location();
 
 
     }//onCreate
-private void init (){
-    ALGraph = findViewById(R.id.AL_graph);
-    improvement_num = (TextView)findViewById(R.id.improvement_num);
-    highestday_date = (TextView)findViewById(R.id.highestday_date);
-    location_name = (TextView)findViewById(R.id.location_name);
-    location_AL = (TextView)findViewById(R.id.location_AL);
-    recyclerView = findViewById(R.id.recycleView);
-
-}
+    private void init (){
+        ALGraph = findViewById(R.id.AL_graph);
+        improvement_num = (TextView)findViewById(R.id.improvement_num);
+        highestday_date = (TextView)findViewById(R.id.highestday_date);
+        //location_name = (TextView)findViewById(R.id.location_name);
+        //location_AL = (TextView)findViewById(R.id.location_AL);
+        recyclerView = findViewById(R.id.recycleView);
+    }
 
     private void lastGeneratedPatientReport() {
         Task<QuerySnapshot> docRef = firebaseFirestore.collection("LastGeneratePatientReport")
@@ -146,17 +146,9 @@ private void init (){
 
     private void location() {
 
-        items = new ArrayList<>();
-        items.add("First CardView Item");
-        items.add("Second CardView Item");
-        items.add("Third CardView Item");
-        items.add("Fourth CardView Item");
-        items.add("Fifth CardView Item");
+        locations = new ArrayList<Location>();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new Adapter(this,items);
-        recyclerView.setAdapter(adapter);
-
 
 
         Task<QuerySnapshot> docRef = firebaseFirestore.collection("PatientLocations")
@@ -166,31 +158,52 @@ private void init (){
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            int counter = 0;
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                counter++;
-                            }// count locations belonging to this patient
 
-                            for (int i=0; i<counter; i++){
+
+                        if(task.isSuccessful()){
+                            int i = 0;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
 
                                 List<DocumentSnapshot> doc = task.getResult().getDocuments();
-                                //DocumentSnapshot[] y = doc.toArray(new DocumentSnapshot[0]);
-                                //capture each location
 
-                                //location name
+                                //check for location date if it's within selected duration
+
+                                /*Date loc_date = ((Timestamp)doc.get(i).get("arrivalTime")).toDate();
+                                Date today = new Date();//today
+                                switch(duration){
+                                    case "2week":
+                                        if (daysBetween(loc_date,today)<15)
+                                            break; //get out of switch
+                                        else
+                                            continue;//iterate to next location
+
+                                    case "month":
+                                        if (daysBetween(loc_date,today)<31)
+                                            break;
+                                        else
+                                            continue;//iterate to next location
+
+                                    case "custom":
+
+                                        //check for dates..
+
+                                        break;
+
+                                }//end of switch*/
+
                                 String locationName = doc.get(i).get("name").toString();
-                                location_name.setText(locationName);
-
-
-                                //location anxiety level
-
                                 String loc_AL = doc.get(i).get("anxietyLevel").toString();
-                                highestday_date.setText(loc_AL);
+                                locations.add(new Location(locationName, loc_AL));
+
+                                i++;
+
+                            }// for every location belonging to this patient (for loop)
 
 
+                            recyclerView.setHasFixedSize(true);
+                            adapter = new Adapter(PatientReport.this, locations);
+                            recyclerView.setAdapter(adapter);
 
-                            }//if
 
 
                         }//if
@@ -203,6 +216,11 @@ private void init (){
                 });//addOnCompleteListener
 
     }//location
+
+    private static long daysBetween(Date one, Date two) {
+        long difference =  (one.getTime()-two.getTime())/86400000;
+        return Math.abs(difference);
+    }//end of daysbetween method
 
     private void events(){
 
@@ -217,5 +235,26 @@ private void init (){
             endDate = intent.getExtras().getString(Constants.Keys.END_DATE);
         }//if
     }//getExtras
+
+
+
+
+    /*private class LocationViewHolder extends RecyclerView.ViewHolder {
+
+        TextView location_name, location_AL;
+
+
+        public LocationViewHolder(View itemView) {
+            super(itemView);
+            location_name = (TextView) itemView.findViewById(R.id.location_name);
+            location_AL = (TextView) itemView.findViewById(R.id.location_AL);
+        }
+    }//end of private class
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        adapter.startListening();
+    }*/
 
 }//end of class
