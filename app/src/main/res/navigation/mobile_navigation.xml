@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/navigation_calendar"
-        android:name="com.ksu.serene.Controller.Homepage.Calendar.calendarFragment"
+        android:name="com.ksu.serene.Controller.Homepage.Calendar.CalendarFragment"
         android:label="Calendar"
         tools:layout="@layout/fragment_calendar" />
 </navigation>

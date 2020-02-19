@@ -22,7 +22,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.ksu.serene.Model.Medicine;
 import com.ksu.serene.R;
 
-import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -101,7 +100,7 @@ public class Add_Medicine_Page extends AppCompatActivity {
         Time = (EditText) findViewById(R.id.MedicineTime);
         Dose = (EditText) findViewById(R.id.MedicineDose);
         Confirm = (Button) findViewById(R.id.ConfirmAddedMedicine);
-
+        calendar = Calendar.getInstance();
         //when day edit text click show calender view to choose the start and end days
         //the start day when click
         FromDay.setOnClickListener(new View.OnClickListener() {
@@ -226,17 +225,17 @@ public class Add_Medicine_Page extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String medID = db.collection("PatientMedicin").document().getId();
 
-        Medicine newMedicine = new Medicine(medID, MName, StartD, FinishD,(java.sql.Time) MTime, MD, period);
+        Medicine newMedicine = new Medicine(medID, MName, StartD, FinishD,MTime, MD, period);
         //store the newMed obj in firestore
 
         Map<String, Object> med = new HashMap<>();
-        med.put("Fday", newMedicine.getDay() + "");
-        med.put("Lday", newMedicine.getLastDay()+ "");
-        med.put("doze", newMedicine.getDoze() + "");
+        med.put("Fday", newMedicine.getDay().toString());
+        med.put("Lday", newMedicine.getLastDay().toString());
+        med.put("doze", newMedicine.getDoze() + " ");
         med.put("name", newMedicine.getName());
         med.put("patinetID", patientID);
         med.put("period", newMedicine.getPeriod() + "");
-        med.put("time", newMedicine.getTime() + "");
+        med.put("time", newMedicine.getTime().toString());
 
 // Add a new document with a generated ID
         db.collection("PatientMedicin").document()

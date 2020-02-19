@@ -7,9 +7,9 @@ public class Reminder {
     private String id;
     private String name;
     private Date day;
-    private Time time;
+    private Date time;
 
-    public Reminder(String id, String name, Date day, Time time) {
+    public Reminder(String id, String name, Date day, Date time) {
         this.id = id;
         this.name = name;
         this.day = day;
@@ -40,7 +40,7 @@ public class Reminder {
         this.day = day;
     }
 
-    public Time getTime() {
+    public Date getTime() {
         return time;
     }
 

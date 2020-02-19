@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@drawable/main_background"
+tools:context=".Controller.Signup.GoogleCalendarConnection">
+
+
+
+
+<View
+    android:id="@+id/white_bg"
+    android:layout_width="match_parent"
+    android:layout_height="130dp"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentTop="true" />
+
+<TextView
+    android:id="@+id/titleofscreen"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fontFamily="@font/montserrat"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="50dp"
+    android:text="Google Calendar"
+    android:gravity="center"
+    android:textColor="#000000"
+    android:textSize="25sp" />
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/white_bg"
+    android:background="@drawable/layout_rounded_bg"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="370dp"
+        android:layout_height="85dp"
+        android:fontFamily="@font/montserrat"
+        android:gravity="center"
+        android:text="Serene wants to connect to your google calendar to get your events in order to perform correctly."
+        android:layout_marginTop="30dp"
+        android:textColor="@color/Grey"
+        android:textSize="15sp" />
+
+
+    <LinearLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="20dp"
+        android:gravity="center"
+        android:paddingEnd="10dp">
+
+        <ImageView
+            android:id="@+id/fitbitLogo"
+            android:layout_width="300dp"
+            android:layout_height="150dp"
+            android:layout_marginBottom="30dp"
+            android:src="@drawable/google_calendar" />
+
+        <Button
+            android:id="@+id/connectFitbit"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:background="#4CA1D3"
+            android:fontFamily="@font/montserrat"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Connect Google Calendar"
+            android:textColor="#ffffff" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="31dp"
+            android:fontFamily="@font/montserrat"
+            android:padding="10dp"
+            android:text="Status: "
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp" />
+
+    </LinearLayout><!--End main layout-->
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="130dp">
+
+
+        <Button
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:backgroundTint="#00FFFFFF"
+            android:text="@string/back" />
+
+        <Button
+            android:id="@+id/finishBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="200dp"
+            android:background="@android:color/transparent"
+            android:text="@string/finish" />
+
+
+
+    </LinearLayout>
+</LinearLayout>
+
+</RelativeLayout>
