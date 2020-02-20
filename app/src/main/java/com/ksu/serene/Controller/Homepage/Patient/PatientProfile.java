@@ -45,11 +45,11 @@ import java.util.Map;
 
 public class PatientProfile extends Fragment {
 
-    private ImageView image, SocioArrow, doctorArrow;
+    private ImageView image, SocioArrow, doctorArrow, editProfile;
     private TextView name, email, doctor;
     private String nameDb, emailDb, imageDb;
     private FirebaseAuth mAuth;
-    private Button editProfile, logOut;
+    private Button  logOut;
     private String TAG = PatientProfile.class.getSimpleName();
     private FirebaseFirestore db = com.google.firebase.firestore.FirebaseFirestore.getInstance();
 

@@ -96,6 +96,7 @@ tools:context=".Controller.Signup.GoogleCalendarConnection">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:layout_marginTop="130dp">
 
 
@@ -105,19 +106,31 @@ tools:context=".Controller.Signup.GoogleCalendarConnection">
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:backgroundTint="#00FFFFFF"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="@string/back" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:text="4 / 4"/>
 
         <Button
             android:id="@+id/finishBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="200dp"
+            android:layout_weight="1"
+            android:gravity="center"
             android:background="@android:color/transparent"
             android:text="@string/finish" />
 
 
-
     </LinearLayout>
+
+
 </LinearLayout>
 
 </RelativeLayout>
