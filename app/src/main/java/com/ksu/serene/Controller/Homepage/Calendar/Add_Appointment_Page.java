@@ -2,6 +2,7 @@ package com.ksu.serene.Controller.Homepage.Calendar;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.ksu.serene.MainActivity;
 import com.ksu.serene.Model.TherapySession;
 import com.ksu.serene.R;
 
@@ -35,7 +37,7 @@ public class Add_Appointment_Page extends AppCompatActivity {
     private EditText Date;
     private EditText Time;
     private Button Confirm;
-    private Calendar calendar;
+    private Calendar calendar ;
     private SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yy", Locale.US);
 
     //for  day
@@ -75,6 +77,7 @@ public class Add_Appointment_Page extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_appointment_page);
+        calendar = Calendar.getInstance();
         AppName = (EditText) findViewById(R.id.AppName);
         Date = (EditText) findViewById(R.id.AppDate);
         Time = (EditText) findViewById(R.id.AppTime);
@@ -115,6 +118,8 @@ public class Add_Appointment_Page extends AppCompatActivity {
                             Toast.makeText(Add_Appointment_Page.this, "The Appointment Reminder added Successfully to your Calender", Toast.LENGTH_LONG).show();
                         else
                             Toast.makeText(Add_Appointment_Page.this, "The Appointment Reminder did not add ", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(Add_Appointment_Page.this , MainActivity.class);
+                        startActivity(intent);
                     }
                 }
             }
@@ -164,13 +169,13 @@ public class Add_Appointment_Page extends AppCompatActivity {
     }
 
     //save new appointment in firestore
-    private boolean SaveNewApp (String AppName , String Date , String Time) {
+    private boolean SaveNewApp (String AppName , String date , String time) {
         SimpleDateFormat TimeFormat = new SimpleDateFormat ("hh : mm");
         Date CurrentDate = new Date();
         //convert string to date to used in make TherapySession obj
         try {
-            AD = DateFormat.parse(Date);
-            AT = TimeFormat.parse(Time);
+            AD = DateFormat.parse(date);
+            AT = TimeFormat.parse(time);
         }
         catch (ParseException e) {
             // TODO Auto-generated catch block
@@ -180,7 +185,7 @@ public class Add_Appointment_Page extends AppCompatActivity {
         //store the newApp obj in firestore
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String AppID = db.collection("PatientSessions").document().getId();
-        TherapySession newApp = new TherapySession(AppID, AppName, AD , AT);
+        TherapySession newApp = new TherapySession(AppID, AppName, date , time);
         Map<String, Object> App = new HashMap<>();
         App.put("date", newApp.getDay().toString());
         App.put("name", newApp.getName());
@@ -194,10 +199,10 @@ public class Add_Appointment_Page extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(Add_Appointment_Page.this, "The App added successfully", Toast.LENGTH_LONG);
+                            //Toast.makeText(Add_Appointment_Page.this, "The App added successfully", Toast.LENGTH_LONG);
                             added = true;
                         } else {
-                            Toast.makeText(Add_Appointment_Page.this, "The App did not add", Toast.LENGTH_LONG);
+                            //Toast.makeText(Add_Appointment_Page.this, "The App did not add", Toast.LENGTH_LONG);
                             added = false;
                         }
                     }

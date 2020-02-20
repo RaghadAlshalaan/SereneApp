@@ -161,7 +161,7 @@
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="number"
         android:text=""
         android:layout_below="@id/DosetextView"
         android:layout_marginStart="90dp"

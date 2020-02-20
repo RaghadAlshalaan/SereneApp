@@ -2,6 +2,7 @@ package com.ksu.serene.Controller.Homepage.Calendar;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.ksu.serene.MainActivity;
 import com.ksu.serene.Model.Medicine;
 import com.ksu.serene.R;
 
@@ -146,6 +148,11 @@ public class Add_Medicine_Page extends AppCompatActivity {
                             //update calender view color From Start to finish days
                             //search about it
                             Toast.makeText(Add_Medicine_Page.this,"The Medicine Reminder added Successfully to your Calender", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(Add_Medicine_Page.this , MainActivity.class);
+                            startActivity(intent);
+                        }
+                        else {
+                            Toast.makeText(Add_Medicine_Page.this, "The Med did not add", Toast.LENGTH_LONG);
                         }
                     }
 
@@ -225,13 +232,13 @@ public class Add_Medicine_Page extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String medID = db.collection("PatientMedicin").document().getId();
 
-        Medicine newMedicine = new Medicine(medID, MName, StartD, FinishD,MTime, MD, period);
+        Medicine newMedicine = new Medicine(medID, MName, FDay, EDay, Time, MD, period);
         //store the newMed obj in firestore
 
         Map<String, Object> med = new HashMap<>();
-        med.put("Fday", newMedicine.getDay().toString());
-        med.put("Lday", newMedicine.getLastDay().toString());
-        med.put("doze", newMedicine.getDoze() + " ");
+        med.put("Fday", newMedicine.getDay());
+        med.put("Lday", newMedicine.getLastDay());
+        med.put("doze", newMedicine.getDoze()+"");
         med.put("name", newMedicine.getName());
         med.put("patinetID", patientID);
         med.put("period", newMedicine.getPeriod() + "");
@@ -245,10 +252,10 @@ public class Add_Medicine_Page extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             //Log.d("TAG", "DocumentSnapshot added with ID: " + documentReference.getId());
-                            Toast.makeText(Add_Medicine_Page.this, "The Med added successfully", Toast.LENGTH_LONG);
+                           // Toast.makeText(Add_Medicine_Page.this, "The Med added successfully", Toast.LENGTH_LONG);
                             added = true;
                         } else {
-                            Toast.makeText(Add_Medicine_Page.this, "The Med did not add", Toast.LENGTH_LONG);
+                           // Toast.makeText(Add_Medicine_Page.this, "The Med did not add", Toast.LENGTH_LONG);
                             added = false;
                         }
                     }
