@@ -3,9 +3,9 @@ import java.util.Date;
 public class Draft {
     private String id;
     private String title;
-    private Date date;
+    private String date;
 
-    public Draft(String id, String title, Date date) {
+    public Draft(String id, String title, String date) {
         this.id = id;
         this.title = title;
         this.date = date;
@@ -19,7 +19,7 @@ public class Draft {
         return title;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 

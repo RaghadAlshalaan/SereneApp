@@ -74,8 +74,8 @@ public class CalendarFragment extends Fragment implements View.OnClickListener{
     TextView TV_appointment, TV_medicine;
     private Animation fab_clock, fab_anti_clock;
     private boolean isFABOpen;
-
-
+    private Button AddMed;
+    private Button AddApp;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -94,7 +94,24 @@ public class CalendarFragment extends Fragment implements View.OnClickListener{
         isFABOpen = false;
         fab_clock = AnimationUtils.loadAnimation( getContext(), R.anim.fab_rotate_clock );
         fab_anti_clock = AnimationUtils.loadAnimation( getContext(), R.anim.fab_rotate_anticlock );
+        AddMed = root.findViewById(R.id.Add_Med);
+        AddApp = root.findViewById(R.id.Add_App);
 
+        AddMed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), Add_Medicine_Page.class);
+                startActivity(intent);
+            }
+        });
+
+        AddApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), Add_Appointment_Page.class);
+                startActivity(intent);
+            }
+        });
 
         //retrieve the id of patient used for searching
         patientId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -208,7 +225,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener{
                             // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
-                        listAppointements.add(new TherapySession(AppID, AppName, ADay, ATime));
+                        listAppointements.add(new TherapySession(AppID, AppName, AppDay, AppTime));
 
                     }
                     adapterSession.notifyDataSetChanged();
@@ -265,7 +282,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener{
                             // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
-                        listMedicines.add(new Medicine(MID, MName, FDay, LDay, time, MDose, MPeriod));
+                        listMedicines.add(new Medicine(MID, MName, MFDay, MLDay, MTime, MDose, MPeriod));
                     }
                     adapterMedicines.notifyDataSetChanged();
                 }

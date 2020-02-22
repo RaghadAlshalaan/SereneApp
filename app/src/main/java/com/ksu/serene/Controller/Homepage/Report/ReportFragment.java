@@ -68,6 +68,7 @@ public class ReportFragment extends Fragment {
                             startMonth = Integer.parseInt(dateDialog.getMonth());
                             startYear = Integer.parseInt(dateDialog.getYear());
                             startDateTxt.setText(startDate);
+
                         }
 
 

@@ -2,10 +2,12 @@ package com.ksu.serene.Controller.Homepage.Drafts;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.ksu.serene.R;
 
@@ -51,6 +53,7 @@ public class textDraft extends Fragment {
     private String Texttimestap;
     private Date TDDate;
     final SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yy", Locale.US);
+    private Button add;
 
     public textDraft() {
         // Required empty public constructor
@@ -64,26 +67,46 @@ public class textDraft extends Fragment {
         View root =  inflater.inflate(R.layout.fragment_text_draft, container, false);
         //retrieve the id of patient used for searching
         patientId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        add = root.findViewById(R.id.Add_Text);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), AddTextDraftPage.class);
+                startActivity(intent);
+            }
+        });
 
-        //retrieve Patient Text draft data
+        SetDraftRecyView ( root);
+
+        return root;
+    }
+
+
+
+    private void SetDraftRecyView (View root) {
+        final SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yy", Locale.US);
+        //retrieve Patient Session data
         recyclerViewDraft = (RecyclerView) root.findViewById(R.id.Recyclerview_Text_Draft);
         layoutManager = new LinearLayoutManager(context);
         recyclerViewDraft.setLayoutManager(layoutManager);
         listTextDrafts = new ArrayList<>();
         adapterTextDraft = new textDraftAdapter(listTextDrafts);
+
         //search in cloud firestore for patient sessions
-        CollectionReference referenceSession = FirebaseFirestore.getInstance().collection("textdraft");
-        final Query queryPatientTextDraft = referenceSession.whereEqualTo("patientID",patientId);
-        queryPatientTextDraft.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        CollectionReference reference = FirebaseFirestore.getInstance().collection("TextDraft");
+
+        final Query queryPatientDraft = reference.whereEqualTo("patientID",patientId);
+        queryPatientDraft.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        TextID = document.getId();
+                        TextID = document.getId().toString();
                         TextTitle = document.get("title").toString();
-                        TextDate = document.get("date").toString();
+                        TextDate = document.get("day").toString();
                         TextMessage = document.get("text").toString();
                         Texttimestap = document.get("timestamp").toString();
+                        //convert string to date to used in compare
                         try {
                             TDDate = DateFormat.parse(TextDate);
                         }
@@ -91,16 +114,14 @@ public class textDraft extends Fragment {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
-                        listTextDrafts.add(new TextDraft(TextID, TextTitle, TDDate, TextMessage, Texttimestap));
+                        listTextDrafts.add(new TextDraft(TextID, TextTitle, TextDate, TextMessage, Texttimestap));
+
                     }
                     adapterTextDraft.notifyDataSetChanged();
                 }
             }
         });
-        //this line make crash i will solve it :)
         recyclerViewDraft.setAdapter(adapterTextDraft);
-
-        return root;
     }
 
 }
