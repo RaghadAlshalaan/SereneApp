@@ -152,7 +152,7 @@ public class Add_Medicine_Page extends AppCompatActivity {
                             startActivity(intent);
                         }
                         else {
-                            Toast.makeText(Add_Medicine_Page.this, "The Med did not add", Toast.LENGTH_LONG);
+                            Toast.makeText(Add_Medicine_Page.this, "The Med did not add", Toast.LENGTH_LONG).show();
                         }
                     }
 

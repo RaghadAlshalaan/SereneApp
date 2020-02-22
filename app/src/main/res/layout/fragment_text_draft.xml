@@ -18,4 +18,13 @@
         android:background="#FFFFFF"
         android:scrollbars="none" />
 
+    <Button
+        android:id="@+id/Add_Text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Recyclerview_Text_Draft"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="160dp"
+        android:text="Add Text Draft" />
+
 </RelativeLayout>

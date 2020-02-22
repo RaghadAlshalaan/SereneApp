@@ -4,7 +4,7 @@ public class TextDraft extends Draft {
     private String message;
     private String timestap;
 
-    public TextDraft(String id, String title, Date date , String message , String timestap) {
+    public TextDraft(String id, String title, String date , String message , String timestap) {
         super(id, title, date);
         this.message = message;
         this.timestap = timestap;

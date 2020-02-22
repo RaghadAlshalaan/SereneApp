@@ -1,25 +1,27 @@
 package com.ksu.serene.Controller.Homepage.Drafts;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.ksu.serene.Model.TextDraft;
+import com.ksu.serene.Model.VoiceDraft;
 import com.ksu.serene.R;
-
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-public class textDraftAdapter extends RecyclerView.Adapter<textDraftAdapter.MyViewHolder> {
+
+import java.util.List;
+
+public class voiceDraftAdapter extends RecyclerView.Adapter<voiceDraftAdapter.MyViewHolder> {
     public interface OnItemClickListener {
-        void onItemClick(TextDraft item);
+        void onItemClick(VoiceDraft voiceDraft);
     }
 
-    private List<TextDraft> mAdapter;
+    private List<VoiceDraft> mAdapter;
     //private final OnItemClickListener listener;
 
-    public textDraftAdapter(List<TextDraft> mAdapter){//, OnItemClickListener listener) {
+    public voiceDraftAdapter(List<VoiceDraft> mAdapter){//, OnItemClickListener listener) {
         //super(options);
         this.mAdapter = mAdapter;
         //this.listener = listener;
@@ -27,19 +29,17 @@ public class textDraftAdapter extends RecyclerView.Adapter<textDraftAdapter.MyVi
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView Title;
-        TextView Subj;
 
         public MyViewHolder (View v) {
             super(v);
-            Title = (TextView) itemView.findViewById(R.id.text_title_name);
-            Subj = (TextView) itemView.findViewById(R.id.text_draft_sub);
+            Title = (TextView) itemView.findViewById(R.id.title_audio);
         }
 
-        public void bind (final TextDraft textDraft , final textDraftAdapter.OnItemClickListener listener){
+        public void bind (final VoiceDraft voiceDraft , final voiceDraftAdapter.OnItemClickListener listener){
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.onItemClick(textDraft);
+                    listener.onItemClick(voiceDraft);
                 }
             });
         }
@@ -49,22 +49,18 @@ public class textDraftAdapter extends RecyclerView.Adapter<textDraftAdapter.MyVi
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v;
-        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.text_draft_raw , parent , false);
+        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.voice_draft_row , parent , false);
         return new MyViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull textDraftAdapter.MyViewHolder holder, int position) {
-        TextDraft textDraft = mAdapter.get(position);
+    public void onBindViewHolder(@NonNull voiceDraftAdapter.MyViewHolder holder, int position) {
+        VoiceDraft textDraft = mAdapter.get(position);
         holder.Title.setText(textDraft.getTitle());
-        holder.Subj.setText(textDraft.getMessage());
     }
 
     @Override
     public int getItemCount() {
         return mAdapter.size();
     }
-
-
 }
-

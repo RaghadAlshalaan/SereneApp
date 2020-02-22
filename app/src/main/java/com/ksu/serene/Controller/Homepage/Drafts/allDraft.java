@@ -58,26 +58,35 @@ public class allDraft extends Fragment {
         //retrieve the id of patient used for searching
         patientId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        //retrieve Patient Text draft data
+        SetTextDraftRecyView ( root);
+
+        return root;
+    }
+
+    private void SetTextDraftRecyView (View root) {
+        final SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yy", Locale.US);
+        //retrieve Patient text draft data
         recyclerViewTextDraft = (RecyclerView) root.findViewById(R.id.Recyclerview_All_Draft);
         TextDraftlayoutManager = new LinearLayoutManager(context);
         recyclerViewTextDraft.setLayoutManager(TextDraftlayoutManager);
         listTextDrafts = new ArrayList<>();
         adapterTextDraft = new textDraftAdapter(listTextDrafts);
-        final SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yy", Locale.US);
+
         //search in cloud firestore for patient sessions
-        CollectionReference referenceSession = FirebaseFirestore.getInstance().collection("TextDraft");
-        final Query queryPatientTextDraft = referenceSession.whereEqualTo("patientID",patientId);
-        queryPatientTextDraft.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        CollectionReference reference = FirebaseFirestore.getInstance().collection("TextDraft");
+
+        final Query queryPatientDraft = reference.whereEqualTo("patientID",patientId);
+        queryPatientDraft.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        TextID = document.getId();
+                        TextID = document.getId().toString();
                         TextTitle = document.get("title").toString();
-                        TextDate = document.get("date").toString();
+                        TextDate = document.get("day").toString();
                         TextMessage = document.get("text").toString();
                         Texttimestap = document.get("timestamp").toString();
+                        //convert string to date to used in compare
                         try {
                             TDDate = DateFormat.parse(TextDate);
                         }
@@ -85,15 +94,14 @@ public class allDraft extends Fragment {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
-                        listTextDrafts.add(new TextDraft(TextID, TextTitle, TDDate, TextMessage, Texttimestap));
+                        listTextDrafts.add(new TextDraft(TextID, TextTitle, TextDate, TextMessage, Texttimestap));
+
                     }
                     adapterTextDraft.notifyDataSetChanged();
                 }
             }
         });
         recyclerViewTextDraft.setAdapter(adapterTextDraft);
-
-        return root;
     }
 
 }
