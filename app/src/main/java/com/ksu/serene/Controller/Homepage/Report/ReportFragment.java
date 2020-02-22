@@ -63,7 +63,7 @@ public class ReportFragment extends Fragment {
                     public void onDismiss(DialogInterface dialog) {
                         // validate user choice (end> start , not null)
                         if (dateDialog.getDay() != null && dateDialog.getMonth() != null && dateDialog.getYear() != null) {
-                            startDate = dateDialog.getDay() + "/" + dateDialog.getMonth() + "/" + dateDialog.getYear();
+                            startDate = dateDialog.getDay() + "/" + (Integer.parseInt(dateDialog.getMonth())+1) + "/" + dateDialog.getYear();
                             startDay = Integer.parseInt(dateDialog.getDay());
                             startMonth = Integer.parseInt(dateDialog.getMonth());
                             startYear = Integer.parseInt(dateDialog.getYear());
@@ -96,7 +96,7 @@ public class ReportFragment extends Fragment {
                         public void onDismiss(DialogInterface dialog) {
                             if (dateDialog.getDay() != null && dateDialog.getMonth() != null && dateDialog.getYear() != null) {
 
-                                endDate = dateDialog.getDay() + "/" + dateDialog.getMonth() + "/" + dateDialog.getYear();
+                                endDate = dateDialog.getDay() + "/" +(Integer.parseInt(dateDialog.getMonth())+1) + "/" + dateDialog.getYear();
                                 endDateTxt.setText(endDate);
                             }
 

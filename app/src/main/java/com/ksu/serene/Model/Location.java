@@ -1,4 +1,4 @@
-package com.ksu.serene.Controller.Homepage.Report;
+package com.ksu.serene.Model;
 
 import java.sql.Time;
 import java.util.Date;
@@ -11,9 +11,17 @@ public class Location {
     private Time arrivalTime, leaveTime;
     private Date date;
 
+    private long daysBetween;
+
     public Location(String name, String AL_level){
         this.name = name;
         this.AL_level = AL_level;
+    }//constructor
+
+    public Location(String name, String AL_level, long daysBetween){
+        this.name = name;
+        this.AL_level = AL_level;
+        this.daysBetween = daysBetween;
     }//constructor
 
 
@@ -31,5 +39,9 @@ public class Location {
 
     public void setAL_level(String AL_level) {
         this.AL_level = AL_level;
+    }
+
+    public long getDaysBetween() {
+        return daysBetween;
     }
 }

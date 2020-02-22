@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ksu.serene.Model.Location;
 import com.ksu.serene.R;
 
 import java.util.List;
@@ -40,6 +41,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
         String level = locations.get(i).getAL_level();
         viewHolder.location_AL.setText(level);
+
+        long daysBetween = locations.get(i).getDaysBetween();
+        viewHolder.daysBetween.setText(daysBetween+"");
     }
 
     @Override
@@ -49,13 +53,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView location_name, location_AL;
+        TextView location_name, location_AL, daysBetween;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
             location_name = (TextView)itemView.findViewById(R.id.location_name);
             location_AL = (TextView)itemView.findViewById(R.id.location_AL);
+            daysBetween = (TextView)itemView.findViewById(R.id.numOfDays);
         }
     }
 }

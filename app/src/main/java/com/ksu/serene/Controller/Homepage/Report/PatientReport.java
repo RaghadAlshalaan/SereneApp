@@ -2,6 +2,8 @@ package com.ksu.serene.Controller.Homepage.Report;
 
 //import all widget types we're going to write into
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.ArrayList;
 
@@ -33,11 +35,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ksu.serene.Controller.Constants;
+import com.ksu.serene.Model.Location;
 import com.ksu.serene.R;
-
-
-
-import static java.util.concurrent.TimeUnit.DAYS;
 
 public class PatientReport extends AppCompatActivity {
 
@@ -66,7 +65,10 @@ public class PatientReport extends AppCompatActivity {
         setContentView(R.layout.patient_report);
         init();
         getExtras();
-        Toast.makeText(getBaseContext(), duration, Toast.LENGTH_SHORT).show();
+        if (duration.equals("custom")){
+        Toast.makeText(getBaseContext(), startDate, Toast.LENGTH_SHORT).show();
+        }else
+            Toast.makeText(getBaseContext(), duration, Toast.LENGTH_SHORT).show();
 
 
 
@@ -117,8 +119,8 @@ public class PatientReport extends AppCompatActivity {
                                 /*String date = doc.get(0).get("highestDay").toString();
                                 highestday_date.setText(date);*/
 
-                                Timestamp date = (Timestamp)doc.get(0).get("highestDay");
-                                highestday_date.setText(date+"");
+                                String date = ((Timestamp)doc.get(0).get("highestDay")).toDate().toString();
+                                highestday_date.setText(date);
 
 
 
@@ -146,6 +148,8 @@ public class PatientReport extends AppCompatActivity {
 
     private void location() {
 
+
+
         locations = new ArrayList<Location>();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -161,6 +165,7 @@ public class PatientReport extends AppCompatActivity {
 
 
                         if(task.isSuccessful()){
+                            boolean locationFound = false;
                             int i = 0;
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
@@ -168,34 +173,59 @@ public class PatientReport extends AppCompatActivity {
 
                                 //check for location date if it's within selected duration
 
-                                /*Date loc_date = ((Timestamp)doc.get(i).get("arrivalTime")).toDate();
+                                Date loc_date = ((Timestamp)doc.get(i).get("arrivalTime")).toDate();//date received
                                 Date today = new Date();//today
                                 switch(duration){
                                     case "2week":
-                                        if (daysBetween(loc_date,today)<15)
-                                            break; //get out of switch
-                                        else
-                                            continue;//iterate to next location
+                                        if (daysBetween(loc_date,today)<15) {
+                                            locationFound = true;
+                                            break; //get out of switch and proceed to save other attributes
+                                        }
+                                        else{
+                                            locationFound = false;
+                                            break;
+                                        }
 
                                     case "month":
-                                        if (daysBetween(loc_date,today)<31)
+                                        if (daysBetween(loc_date,today)<31){
+                                            locationFound = true;
                                             break;
-                                        else
-                                            continue;//iterate to next location
+                                        }
+                                        else{
+                                            locationFound = false;
+                                            break;
+                                        }
 
                                     case "custom":
+                                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                                        Date startDate1 = null, endDate1 = null;
+                                        try {
+                                            startDate1 = formatter.parse(startDate);
+                                            endDate1 = formatter.parse(endDate);
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
 
-                                        //check for dates..
+                                        if (startDate1.compareTo(loc_date)*loc_date.compareTo(endDate1)>=0){//if date is between startdate and enddate
+                                            locationFound = true;
+                                            break;
+                                        }
+                                        else{
+                                            locationFound = false;
+                                            break;
+                                        }
 
-                                        break;
+                                }//end of switch
 
-                                }//end of switch*/
+                                if (locationFound) {
 
-                                String locationName = doc.get(i).get("name").toString();
-                                String loc_AL = doc.get(i).get("anxietyLevel").toString();
-                                locations.add(new Location(locationName, loc_AL));
+                                    String locationName = doc.get(i).get("name").toString();
+                                    String loc_AL = doc.get(i).get("anxietyLevel").toString();
+                                    locations.add(new Location(locationName, loc_AL, daysBetween(loc_date, today)));
+                                }
 
                                 i++;
+
 
                             }// for every location belonging to this patient (for loop)
 
@@ -236,25 +266,5 @@ public class PatientReport extends AppCompatActivity {
         }//if
     }//getExtras
 
-
-
-
-    /*private class LocationViewHolder extends RecyclerView.ViewHolder {
-
-        TextView location_name, location_AL;
-
-
-        public LocationViewHolder(View itemView) {
-            super(itemView);
-            location_name = (TextView) itemView.findViewById(R.id.location_name);
-            location_AL = (TextView) itemView.findViewById(R.id.location_AL);
-        }
-    }//end of private class
-
-    @Override
-    protected void onStop(){
-        super.onStop();
-        adapter.startListening();
-    }*/
 
 }//end of class
