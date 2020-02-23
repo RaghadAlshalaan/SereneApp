@@ -67,7 +67,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="500dp"
-        android:layout_margin="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:background="@drawable/layout_rounded_bg"
         android:elevation="15dp"
         android:gravity="center_horizontal"
@@ -85,10 +86,10 @@
 
             <ImageView
                 android:id="@+id/social_demo_icon"
-                android:layout_width="wrap_content"
+                android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_gravity="center"
-                android:layout_weight="3"
+                android:layout_marginStart="15dp"
                 app:srcCompat="@drawable/ic_report_icon" />
 
             <TextView
@@ -97,9 +98,10 @@
                 android:layout_height="45dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/montserrat"
-                android:gravity="center"
-                android:text="@string/social_demographic_information"
-                android:textAlignment="center"
+                android:text="@string/demographic_information"
+                android:gravity="center_vertical"
+                android:paddingStart="10dp"
+                android:layout_gravity="center"
                 android:textColor="#515C6F"
                 android:textSize="15sp" />
 
@@ -127,18 +129,17 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_gravity="center"
-                android:layout_weight="1"
+                android:layout_marginStart="15dp"
                 app:srcCompat="@drawable/ic_doctor_icon" />
 
             <TextView
                 android:id="@+id/doctor_text"
                 android:layout_width="wrap_content"
                 android:layout_height="45dp"
-                android:layout_weight="1"
                 android:fontFamily="@font/montserrat"
-                android:gravity="center"
-                android:text="@string/doctor"
-                android:textAlignment="center"
+                android:gravity="center_vertical"
+                android:paddingStart="10dp"
+                android:layout_gravity="center"                android:text="@string/doctor"
                 android:textColor="#515C6F"
                 android:textSize="15sp" />
 
@@ -148,7 +149,10 @@
                 android:layout_height="45dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/montserrat"
-                android:gravity="center"
+                android:gravity="center_vertical"
+                android:textAlignment="textEnd"
+                android:paddingEnd="10dp"
+                android:layout_gravity="center"
                 android:text="@string/doctor"
                 android:textColor="#66515C6F"
                 android:textSize="15sp" />
@@ -174,23 +178,20 @@
 
             <ImageView
                 android:id="@+id/language_icon"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_gravity="center"
-                android:layout_marginEnd="-2dp"
-                android:layout_marginBottom="0dp"
-                android:layout_weight="1"
+                android:layout_marginStart="15dp"
                 app:srcCompat="@drawable/ic_language_icon" />
 
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="45dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/montserrat"
-                android:gravity="center"
+                android:gravity="center_vertical"
+                android:paddingStart="10dp"
+                android:layout_gravity="center"                android:fontFamily="@font/montserrat"
                 android:text="@string/language"
-                android:textAlignment="center"
                 android:textColor="#515C6F"
                 android:textSize="15sp" />
 
@@ -200,9 +201,10 @@
                 android:layout_height="45dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/montserrat"
-                android:gravity="center"
-                android:text="@string/language"
-                android:textAlignment="center"
+                android:gravity="center_vertical"
+                android:textAlignment="textEnd"
+                android:paddingEnd="10dp"
+                android:layout_gravity="center"                android:text="@string/language"
                 android:textColor="#66515C6F"
                 android:textSize="15sp" />
 

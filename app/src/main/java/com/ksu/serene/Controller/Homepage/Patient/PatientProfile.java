@@ -1,5 +1,6 @@
 package com.ksu.serene.Controller.Homepage.Patient;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -62,24 +64,17 @@ public class PatientProfile extends Fragment {
 
         View view = inflater.inflate(R.layout.profile_page, container, false);
 
-        image = view.findViewById(R.id.imageView);
-        email = view.findViewById(R.id.email);
-        name = view.findViewById(R.id.full_name);
-        mAuth = FirebaseAuth.getInstance();
-        editProfile = view.findViewById(R.id.edit_profile_btn);
-        SocioArrow = view.findViewById(R.id.go_to1);
-        logOut = view.findViewById(R.id.log_out_btn);
-        doctorArrow = view.findViewById(R.id.go_to2);
-        doctor = view.findViewById(R.id.doctor_text2);
+        init(view);
 
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(),Editprofile.class);
                 getActivity().startActivity(intent);
-            }
+                 }
 
-    });
+        });
+
         SocioArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,72 +87,85 @@ public class PatientProfile extends Fragment {
             @Override
             public void onClick(View v) {
 
-                db.collection("Doctor")
-                        .whereEqualTo("patientID"+mAuth.getUid().substring(0,5), mAuth.getUid())
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    if(!task.getResult().isEmpty()){
-                                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                            if(document.exists()) {
-                                                Intent intent = new Intent(getActivity(), MyDoctor.class);
-                                                getActivity().startActivity(intent);
-                                            }
-                                        }
-                                    }
-                                    else{
-                                        Intent intent = new Intent(getActivity(), AddDoctor.class);
-                                        getActivity().startActivity(intent);
-                                    }
-                                }
-                                else {
-
-                                    Log.d(TAG, "Error getting documents: ", task.getException());
-                                }
-                            }
-                        });
-
-
-
-
+                checkDoctorAvailability();
 
             }
         });
 
 
 
-
-
-
-
       logOut.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-              signOut();
+              logoutDialog();
           }
       });
 
 
-    //display current user name and email
-
+        //TODO : display current user name and email
 
 
         return view;
     }
 
+    private void init(View view) {
+
+        image = view.findViewById(R.id.imageView);
+        email = view.findViewById(R.id.email);
+        name = view.findViewById(R.id.full_name);
+        mAuth = FirebaseAuth.getInstance();
+        editProfile = view.findViewById(R.id.edit_profile_btn);
+        SocioArrow = view.findViewById(R.id.go_to1);
+        logOut = view.findViewById(R.id.log_out_btn);
+        doctorArrow = view.findViewById(R.id.go_to2);
+        doctor = view.findViewById(R.id.doctor_text2);
+
+    }
+
+
+    private void checkDoctorAvailability() {
+
+        db.collection("Doctor")
+                .whereEqualTo("patientID"+mAuth.getUid().substring(0,5), mAuth.getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if(!task.getResult().isEmpty()){
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    if(document.exists()) {
+                                        Intent intent = new Intent(getActivity(), MyDoctor.class);
+                                        getActivity().startActivity(intent);
+                                    }
+                                }
+                            }
+                            else{
+
+                                Intent intent = new Intent(getActivity(), AddDoctor.class);
+                                getActivity().startActivity(intent);
+                            }
+                        }
+                        else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
 
 
     public void displayName(){
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
 
             nameDb = user.getDisplayName();
             emailDb = user.getEmail();
-           // imageDb = user.getPhotoUrl().toString();
+
+            // imageDb = user.getPhotoUrl().toString();
             // If the above were null, iterate the provider data
             // and set with the first non null data
+
             for (UserInfo userInfo : user.getProviderData()) {
                 if (nameDb == null && userInfo.getDisplayName() != null && emailDb == null && userInfo.getEmail() != null
                      ) {
@@ -170,16 +178,19 @@ public class PatientProfile extends Fragment {
 
                 }
             }
-            if(nameDb!=null)
+            if(nameDb != null)
             name.setText(nameDb);
-            if(emailDb !=null)
+
+            if(emailDb != null)
             email.setText(emailDb);
-           //if(imageDb !=null)
-            //Picasso.get().load(imageDb).into(image);
+
+            // if(imageDb !=null)
+            // Picasso.get().load(imageDb).into(image);
 
 
         }//end if
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -224,17 +235,47 @@ public class PatientProfile extends Fragment {
             displayName();
         }
 
+    }// end onResume
 
 
-    }
+    public void logoutDialog() {
 
-    public void signOut() {
-        // to delete the token after logout to not send him notification if he is logout
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+
+        //set dialog msg
+        alertDialog.setMessage("Are you sure you want to logout ?");
+
+        //set Yes Btn
+        alertDialog.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int i) {
+                        logout();
+                    }//end of OnClick
+                }//end of OnClickListener
+            );//end setPositiveButton
+
+        //set Cancel Button
+        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.cancel();
+                    }//end onClick
+                }//end OnClickListener
+            );//end setNegativeButton
+
+        alertDialog.show();
+
+    }//end logoutDialog
+
+
+    public void logout() {
+
+        // to delete the token after logout & avoid send him notification if he is logout
         DocumentReference userTokenDR = FirebaseFirestore.getInstance().collection("Tokens").document(mAuth.getUid());
         Token mToken = new Token("");
+
         final Map<String, Object> tokenh = new HashMap<>();
         tokenh.put("token",mToken);
-// Set the "isCapital" field of the city 'DC'
+
         userTokenDR
                 .update("token", "")
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

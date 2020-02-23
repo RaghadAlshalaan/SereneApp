@@ -95,13 +95,12 @@
 
     <Button
         android:id="@+id/loginBtn"
-        android:layout_width="160dp"
+        android:layout_width="250dp"
         android:layout_height="35dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="100dp"
-        android:background="@color/white"
-        android:backgroundTint="@color/Grey"
+        android:background="@drawable/off_button"
         android:enabled="false"
         android:fontFamily="@font/montserrat"
         android:padding="3dp"

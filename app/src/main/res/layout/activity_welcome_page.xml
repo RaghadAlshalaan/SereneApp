@@ -43,23 +43,23 @@
 
     <Button
         android:id="@+id/login"
-        android:layout_width="213dp"
+        android:layout_width="250dp"
         android:layout_height="35dp"
         android:layout_below="@+id/description4"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="35dp"
-        android:background="@color/colorAccent"
+        android:background="@drawable/main_button"
         android:text="@string/login"
         android:textColor="#FFFFFF" />
 
     <Button
         android:id="@+id/register"
-        android:layout_width="213dp"
+        android:layout_width="250dp"
         android:layout_height="35dp"
         android:layout_below="@+id/login"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:background="@color/colorAccent"
+        android:background="@drawable/main_button"
         android:text="@string/register"
         android:textColor="@color/white" />
 

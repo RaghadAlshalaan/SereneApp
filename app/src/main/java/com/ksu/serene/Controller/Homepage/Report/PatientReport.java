@@ -49,7 +49,7 @@ public class PatientReport extends AppCompatActivity {
     private Button generate_report_btn;
     private String startDate;
     private String endDate;
-    private String userId = "6I5l8TvCxjWG3Jwxxpb4FcuDsGA2";
+    private String userId = "6I5l8TvCxjWG3Jwxxpb4FcuDsGA2"; // TODO : REMOVE THIS
     public FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private ImageView ALGraph ;
     private TextView improvementNum, Highestday_date, location_name, numOfDays, location_AL;
@@ -63,6 +63,7 @@ public class PatientReport extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.patient_report);
+
         init();
         getExtras();
         if (duration.equals("custom")){
@@ -75,14 +76,14 @@ public class PatientReport extends AppCompatActivity {
         lastGeneratedPatientReport();
         location();
 
-
     }//onCreate
+
     private void init (){
         ALGraph = findViewById(R.id.AL_graph);
-        improvement_num = (TextView)findViewById(R.id.improvement_num);
-        highestday_date = (TextView)findViewById(R.id.highestday_date);
-        //location_name = (TextView)findViewById(R.id.location_name);
-        //location_AL = (TextView)findViewById(R.id.location_AL);
+        improvement_num = findViewById(R.id.improvement_num);
+        highestday_date = findViewById(R.id.highestday_date);
+        //location_name = findViewById(R.id.location_name);
+        //location_AL = findViewById(R.id.location_AL);
         recyclerView = findViewById(R.id.recycleView);
     }
 
