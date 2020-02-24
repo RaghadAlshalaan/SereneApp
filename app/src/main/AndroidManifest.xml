@@ -20,11 +20,7 @@
         <activity android:name=".Controller.Homepage.Drafts.EditPatientTextDraftPage" />
         <activity android:name=".Controller.Homepage.Drafts.PatientTextDraftDetailPage" />
         <activity android:name=".Controller.Homepage.Drafts.AddTextDraftPage" />
-        <activity android:name=".Controller.Signup.GoogleCalendarConnection" >            <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter></activity>
+        <activity android:name=".Controller.Signup.GoogleCalendarConnection" />
         <activity
             android:name=".Controller.Signup.FitbitConnection"
             android:launchMode="singleTop">
@@ -39,10 +35,15 @@
                     android:scheme="auth" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".SplashScreen"
             android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".Controller.Homepage.Patient.AddDoctor" />
         <activity android:name=".Controller.Homepage.Calendar.Add_Appointment_Page" />
@@ -57,21 +58,9 @@
         <activity android:name=".Controller.Homepage.Report.PatientReport" />
         <activity android:name=".LogInPage" />
         <activity android:name=".Controller.Signup.Signup" />
-        <activity android:name=".WelcomePage">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".WelcomePage" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <!--
-<intent-filter>
-            <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>!
-        -->
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
