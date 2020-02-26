@@ -31,7 +31,6 @@ public class GoogleCalendarConnection extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
                 Intent i = new Intent(GoogleCalendarConnection.this, MainActivity.class);
                 i.putExtra("first","1");
                 startActivity(i);
@@ -39,13 +38,14 @@ public class GoogleCalendarConnection extends AppCompatActivity {
             }
         });
 
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO : back to gad
-                getFragmentManager().popBackStackImmediate();
+                GoogleCalendarConnection.super.onBackPressed();
             }
         });
+
 
 
 

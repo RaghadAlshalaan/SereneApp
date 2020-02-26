@@ -56,8 +56,7 @@ public class FitbitConnection extends AppCompatActivity implements View.OnClickL
         back.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-        // TODO : back to gad
-        getFragmentManager().popBackStackImmediate();
+                FitbitConnection.super.onBackPressed();
         }
         });
 
