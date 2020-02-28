@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,27 +23,43 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.SignInMethodQueryResult;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.ksu.serene.Controller.Constants;
 import com.ksu.serene.Controller.Homepage.Home.HomeFragment;
+import com.ksu.serene.Controller.Signup.Questionnairs;
 import com.ksu.serene.Controller.Signup.Signup;
 import com.ksu.serene.Controller.Signup.Sociodemo;
+import com.ksu.serene.Model.Token;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class WelcomePage extends AppCompatActivity {
 
     private Button logIn;
     private Button register;
     private ImageView signInWithGoogle;
+
+    private String TAG = WelcomePage.class.getSimpleName();
 
 
     //create googleAPClient object
@@ -144,6 +162,7 @@ public class WelcomePage extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             final String name = user.getDisplayName();
                             final String email = user.getEmail();
+                            final String password = "google";
 
                             //if it first time go to Que either go to Home
                             //search in firebase for same emil
@@ -156,7 +175,6 @@ public class WelcomePage extends AppCompatActivity {
                                         for (QueryDocumentSnapshot doc : task.getResult()) {
                                             //so here the email founded so the user sign up before go to Home page
 
-                                            // TODO : GO TO QUETIONAIRS
                                             Intent intent = new Intent(WelcomePage.this, HomeFragment.class);
                                             intent.putExtra("Name" , name);
                                             intent.putExtra("Email" , email);
@@ -170,17 +188,76 @@ public class WelcomePage extends AppCompatActivity {
                                     if (!foundEmail){
                                         // TODO : EDIT CODE HERE
                                         // here the email not founded so go to next step of register and then save the name and email in firebase
-                                        Bundle bundle = new Bundle();
-                                        bundle.putString("fullName", name);
-                                        bundle.putString("email", email);
-                                        bundle.putString("password", "password");
-                                        Fragment fragmentOne = new Sociodemo();
-                                        fragmentOne.setArguments(bundle);
-                                        FragmentManager fm = getSupportFragmentManager();
-                                        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                                        fragmentTransaction.replace(R.id.layout, fragmentOne);
-                                        fragmentTransaction.addToBackStack(null);
-                                        fragmentTransaction.commit();
+                                        mAuth.createUserWithEmailAndPassword(email, password)
+                                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                                        if (task.isSuccessful()){
+                                                            Toast.makeText(WelcomePage.this, "success", Toast.LENGTH_LONG);
+
+                                                            FirebaseUser userf = mAuth.getCurrentUser();
+
+                                                            // Create a new user with a first and last name
+                                                            Map<String, Object> user = new HashMap<>();
+                                                            user.put("email", email);
+                                                            user.put("name", name);
+
+                                                            // Add a new document with a generated ID
+                                                            db.collection("Patient")
+                                                                    .document(mAuth.getUid())
+                                                                    .set(user)
+                                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                        @Override
+                                                                        public void onSuccess(Void aVoid) {
+                                                                            Log.d(TAG, "DocumentSnapshot added with" );
+                                                                            //add token
+                                                                            Token mToken = new Token("");
+
+                                                                            // Add a new document with a generated ID
+                                                                            db.collection("Tokens")
+                                                                                    .document(mAuth.getUid())
+                                                                                    .set(mToken)
+                                                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                                        @Override
+                                                                                        public void onSuccess(Void aVoid) {
+                                                                                            Log.d(TAG, "DocumentSnapshot added with" );
+                                                                                        }
+                                                                                    })
+                                                                                    .addOnFailureListener(new OnFailureListener() {
+                                                                                        @Override
+                                                                                        public void onFailure(@NonNull Exception e) {
+                                                                                            Log.w(TAG, "Error writing document", e);
+                                                                                        }
+                                                                                    });
+                                                                        }
+                                                                    })
+                                                                    .addOnFailureListener(new OnFailureListener() {
+                                                                        @Override
+                                                                        public void onFailure(@NonNull Exception e) {
+                                                                            Log.w(TAG, "Error writing document", e);
+                                                                        }
+                                                                    });
+
+                                                            updateToken(FirebaseInstanceId.getInstance().getToken());
+                                                            SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+                                                            SharedPreferences.Editor editor = sp.edit();
+                                                            editor.putString("CURRENT_USERID",mAuth.getCurrentUser().getUid());
+                                                            editor.apply();
+
+
+                                                            Intent i = new Intent( WelcomePage.this, Questionnairs.class );
+                                                            startActivity(i);
+                                                            finish();
+                                                        }
+
+                                                    }
+                                                });
+
+
+
+
+
+
                                     }
                                 }
                             });
@@ -193,5 +270,26 @@ public class WelcomePage extends AppCompatActivity {
                     }
                 });
     }
+    public  void updateToken(String token){
 
+        DocumentReference userTokenDR = FirebaseFirestore.getInstance().collection("Tokens").document(mAuth.getUid());
+        Token mToken = new Token(token);
+        final Map<String, Object> tokenU = new HashMap<>();
+        tokenU.put("token",mToken.getToken());
+
+        userTokenDR
+                .update(tokenU)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error updating document", e);
+                    }
+                });
+    }
 }

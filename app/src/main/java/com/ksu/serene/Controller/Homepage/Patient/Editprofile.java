@@ -78,6 +78,7 @@ public class Editprofile extends AppCompatActivity {
         confirmPass = findViewById(R.id.reNewPassword);
         delete = findViewById(R.id.delete);
 
+        // TODO : REMOVE CHANGE PASSWORD IF GOOGLE SIGN IN
 
         chooseImg.setOnClickListener(new View.OnClickListener() {
             @Override
