@@ -79,6 +79,7 @@ public class PatientReport extends AppCompatActivity {
     }//onCreate
 
     private void init (){
+        mAuth = FirebaseAuth.getInstance();
         ALGraph = findViewById(R.id.AL_graph);
         improvement_num = findViewById(R.id.improvement_num);
         highestday_date = findViewById(R.id.highestday_date);
@@ -154,7 +155,7 @@ public class PatientReport extends AppCompatActivity {
         locations = new ArrayList<Location>();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        userId = mAuth.getCurrentUser().getUid();
 
         Task<QuerySnapshot> docRef = firebaseFirestore.collection("PatientLocations")
                 .whereEqualTo("patientID", userId)
