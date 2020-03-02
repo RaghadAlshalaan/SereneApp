@@ -1,52 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_background"
-    >
+    android:background="@drawable/main_background">
 
-
-    <View
-        android:id="@+id/white_bg"
-        android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
 
     <TextView
         android:id="@+id/titleofscreen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:text="@string/gad_7_scale"
         android:gravity="center"
+        android:padding="30dp"
+        android:text="@string/gad_7_scale"
         android:textColor="#000000"
-        android:textSize="25sp" />
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/white_bg"
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/titleofscreen"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="1dp"
         android:background="@drawable/layout_rounded_bg"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleofscreen">
 
 
         <TextView
             android:id="@+id/description"
-            android:layout_width="370dp"
-            android:layout_height="85dp"
-            android:layout_marginTop="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"
             android:gravity="center"
+            android:padding="30dp"
             android:text="@string/gad7_description"
             android:textColor="@color/Grey"
             android:textSize="15sp" />
 
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/mainLayoutQs"
@@ -54,7 +61,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:paddingStart="30dp"
-            android:paddingTop="20dp"
             android:paddingEnd="10dp">
 
 
@@ -460,8 +466,7 @@
             </LinearLayout>
 
 
-        </LinearLayout> <!--End main layout-->
-
+        </LinearLayout> </ScrollView><!--End main layout-->
 
 
     </LinearLayout>
@@ -471,7 +476,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent">
 
 
         <Button
@@ -502,4 +511,4 @@
     </LinearLayout>
 
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -235,10 +235,6 @@ public class Sociodemo extends Fragment {
         monthlyIncome = monthlyIncomeET.getText().toString();
         chronicDisease = chronicDiseaseET.getText().toString();
 
-        double ageI ;
-        double heightI ;
-        double weightI ;
-        double monthlyIncomeI;
 
         // Fields Validations
 
@@ -251,40 +247,80 @@ public class Sociodemo extends Fragment {
 
         }
 
-        ageI = Double.parseDouble(age);
-        heightI = Double.parseDouble(height);
-        weightI = Double.parseDouble(weight);
-        monthlyIncomeI = Double.parseDouble(monthlyIncome);
 
-        if( !age.matches("^[0-9]+") || ageI > 110 || ageI < 5 ){
+        // CHECK AGE
+        if( !age.matches("^[0-9]+") ){
+
+            Toast.makeText(getActivity(), "Please enter valid age value",
+                    Toast.LENGTH_SHORT).show();
+            return flag;}
+
+        double ageI = Double.parseDouble(age);
+
+        if ((ageI > 110) || (ageI < 5)){
 
             Toast.makeText(getActivity(), "Please enter valid age value",
                     Toast.LENGTH_SHORT).show();
             return flag;
 
         }
-        else if(!height.matches("^[0-9]+") || heightI < 50 || heightI > 300 ){
+
+
+        // CHECK HEIGHT
+        if( !height.matches("^[0-9]+") ){
+
+            Toast.makeText(getActivity(), "Please enter valid height value",
+                    Toast.LENGTH_SHORT).show();
+            return flag;}
+
+        double heightI = Double.parseDouble(height);
+
+        if ((heightI > 300) || (heightI < 50)){
 
             Toast.makeText(getActivity(), "Please enter valid height value",
                     Toast.LENGTH_SHORT).show();
             return flag;
 
         }
-        else if(!weight.matches("^[0-9]+") || weightI < 20 || weightI > 300 ){
+
+
+        // CHECK WEIGHT
+        if( !weight.matches("^[0-9]+") ){
+
+            Toast.makeText(getActivity(), "Please enter valid weight value",
+                    Toast.LENGTH_SHORT).show();
+            return flag;}
+
+        double weightI = Double.parseDouble(weight);
+
+        if ((weightI > 300) || (weightI < 20)){
 
             Toast.makeText(getActivity(), "Please enter valid weight value",
                     Toast.LENGTH_SHORT).show();
             return flag;
 
         }
-        else if(!monthlyIncome.matches("^[0-9]+") || monthlyIncomeI < 0 || monthlyIncomeI > 5000000 ){
+
+
+        // CHECK MONTHLY INCOME
+        if( !monthlyIncome.matches("^[0-9]+") ){
+
+            Toast.makeText(getActivity(), "Please enter valid monthly income value",
+                    Toast.LENGTH_SHORT).show();
+            return flag;}
+
+        double monthlyIncomeI = Double.parseDouble(weight);
+
+        if ((monthlyIncomeI > 5000000) || (monthlyIncomeI < 0)){
 
             Toast.makeText(getActivity(), "Please enter valid monthly income value",
                     Toast.LENGTH_SHORT).show();
             return flag;
 
         }
-        else if(!chronicDisease.matches("^[ A-Za-z]+$")){
+
+        // CHECK CHRONIC DISEASE
+        if( !chronicDisease.matches("^[ A-Za-z]+$")){
 
             Toast.makeText(getActivity(), "Only letters accepted in chronic disease field",
                     Toast.LENGTH_SHORT).show();
