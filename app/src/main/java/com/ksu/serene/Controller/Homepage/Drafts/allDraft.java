@@ -66,7 +66,7 @@ public class allDraft extends Fragment {
     private void SetTextDraftRecyView (View root) {
         final SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yy", Locale.US);
         //retrieve Patient text draft data
-        recyclerViewTextDraft = (RecyclerView) root.findViewById(R.id.Recyclerview_All_Draft);
+        recyclerViewTextDraft = root.findViewById(R.id.Recyclerview_All_Draft);
         TextDraftlayoutManager = new LinearLayoutManager(context);
         recyclerViewTextDraft.setLayoutManager(TextDraftlayoutManager);
         listTextDrafts = new ArrayList<>();

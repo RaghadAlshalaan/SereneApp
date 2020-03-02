@@ -72,8 +72,6 @@ public class WelcomePage extends AppCompatActivity {
     private Task<SignInMethodQueryResult> result;
 
 
-
-
     // TODO : SIGN UP WITH GOOGLE
 
     @Override
@@ -105,34 +103,37 @@ public class WelcomePage extends AppCompatActivity {
         });
 
 
-        // For sign in with google need to create GoogleSigninOption object
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this , gso);
-
-        // When click to sign up with google will show sign up with google page
-        signInWithGoogle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                //Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);//
-                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                startActivityForResult(signInIntent, 9001);
-
-            }
-        });
+//        // For sign in with google need to create GoogleSigninOption object
+//
+//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestIdToken(getString(R.string.default_web_client_id))
+//                .requestEmail()
+//                .build();
+//        mGoogleSignInClient = GoogleSignIn.getClient(this , gso);
+//
+//        // When click to sign up with google will show sign up with google page
+//        signInWithGoogle.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                //Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);//
+//                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+//                startActivityForResult(signInIntent, 9001);
+//
+//            }
+//        });
 
 
     }// End onCreate
 
-    //for sign up with google
+/*    //for sign up with google
     @Override
     protected void onActivityResult(int requestCode, int resultCode,  Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == 9001){
+
             //GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);//
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
@@ -148,16 +149,19 @@ public class WelcomePage extends AppCompatActivity {
             }
 
         }
-    }
+    }*/
 
-    private void firebaseAuthWithGoogle (GoogleSignInAccount account){
+   /* private void firebaseAuthWithGoogle (GoogleSignInAccount account){
+
         Log.d("TAG" , "firebaseAuthWithGoogle: " + account.getId());
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken() , null);
+
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>(){
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+
                             Log.d("TAG", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             final String name = user.getDisplayName();
@@ -173,8 +177,9 @@ public class WelcomePage extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                     if (task.isSuccessful()) {
                                         for (QueryDocumentSnapshot doc : task.getResult()) {
-                                            //so here the email founded so the user sign up before go to Home page
+                                            //so here the email founded so the user sign in before go to Home page
 
+                                            // TODO : LOGIN ??
                                             Intent intent = new Intent(WelcomePage.this, HomeFragment.class);
                                             intent.putExtra("Name" , name);
                                             intent.putExtra("Email" , email);
@@ -253,14 +258,10 @@ public class WelcomePage extends AppCompatActivity {
                                                     }
                                                 });
 
-
-
-
-
-
                                     }
                                 }
                             });
+
                         } else {
                             Log.w("TAG", "signInWithCredential:failure", task.getException());
 
@@ -269,8 +270,9 @@ public class WelcomePage extends AppCompatActivity {
                         }
                     }
                 });
-    }
-    public  void updateToken(String token){
+    }*/
+
+/*    public  void updateToken(String token){
 
         DocumentReference userTokenDR = FirebaseFirestore.getInstance().collection("Tokens").document(mAuth.getUid());
         Token mToken = new Token(token);
@@ -291,5 +293,5 @@ public class WelcomePage extends AppCompatActivity {
                         Log.w(TAG, "Error updating document", e);
                     }
                 });
-    }
+    }*/
 }

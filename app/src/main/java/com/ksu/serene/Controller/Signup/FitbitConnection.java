@@ -28,69 +28,68 @@ public class FitbitConnection extends AppCompatActivity implements View.OnClickL
         private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
 
-
         @Override
         protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fitbit_connection);
 
-        getSupportActionBar().hide();
+                getSupportActionBar().hide();
 
 
-        next = findViewById(R.id.nextBtn);
-        back = findViewById(R.id.backBtn);
+                next = findViewById(R.id.nextBtn);
+                back = findViewById(R.id.backBtn);
 
 
 
-        next.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
+                next.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
 
-        Intent i = new Intent(FitbitConnection.this, GoogleCalendarConnection.class);
-        startActivity(i);
+                Intent i = new Intent(FitbitConnection.this, GoogleCalendarConnection.class);
+                startActivity(i);
+
+                }
+                });
+
+                back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                        FitbitConnection.super.onBackPressed();
+                }
+                });
+
+                connectFitbit = findViewById(R.id.connectFitbit);
+                connectFitbit.setOnClickListener(this);
+
+                statusTV = findViewById(R.id.status);
+
+                //get user email (get extra)
+                getExtras();
+
 
         }
-        });
-
-        back.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-                FitbitConnection.super.onBackPressed();
-        }
-        });
-
-        connectFitbit = findViewById(R.id.connectFitbit);
-        connectFitbit.setOnClickListener(this);
-
-        statusTV = findViewById(R.id.status);
-
-        //get use email (get extra)
-        getExtras();
-
-
-        }
 
         @Override
         public void onClick(View v) {
-        switch (v.getId()) {
-        case R.id.connectFitbit:
+                switch (v.getId()) {
+                case R.id.connectFitbit:
 
-        FitbitAuthentication FA = new FitbitAuthentication();
+                FitbitAuthentication FA = new FitbitAuthentication();
 
-        StringBuilder oauthUrl = new StringBuilder().append(FA.getUrl())
-        .append("&client_id=").append(FA.getClientId()) // the client id from the api console registration
-        .append("&redirect_uri=").append(FA.getRedirect_uri())
-        .append("&scope=").append(FA.getScope()) // scope is the api permissions we are requesting
-        .append("&expires_in=").append(FA.getExpires_in());
+                StringBuilder oauthUrl = new StringBuilder().append(FA.getUrl())
+                .append("&client_id=").append(FA.getClientId()) // the client id from the api console registration
+                .append("&redirect_uri=").append(FA.getRedirect_uri())
+                .append("&scope=").append(FA.getScope()) // scope is the api permissions we are requesting
+                .append("&expires_in=").append(FA.getExpires_in());
 
-        openFitbitCustomTab(oauthUrl.toString());
-        break;
+                openFitbitCustomTab(oauthUrl.toString());
+                break;
 
 
-        default:
-        break;
-        }//end switch
+                default: break;
+
+                }//end switch
         }
 
     private void getExtras() {
@@ -120,14 +119,14 @@ public class FitbitConnection extends AppCompatActivity implements View.OnClickL
 
         }
 
-//Method to handle the callback and get the access token for the user
+
+        //Method to handle the callback and get the access token for the user
         @Override
         protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
-/*
-        String access_token = intent.getData().getQueryParameter("access_token");
-*/
+        //String access_token = intent.getData().getQueryParameter("access_token");
+
         Uri uri = intent.getData();
 
         String access_token = uri.toString();
@@ -137,9 +136,6 @@ public class FitbitConnection extends AppCompatActivity implements View.OnClickL
         Log.w("FITBIT", "onNavigationEvent: HERE = " + access_token);
 
 
-
-
-        // save on DB or SP by user email
 
         if (!access_token.equals("The+user+denied+the+request.")) {
         statusTV.setText("Status : Connected!");
@@ -152,25 +148,15 @@ public class FitbitConnection extends AppCompatActivity implements View.OnClickL
                 editor.apply();
 
 
-                // toast :)
-/*        Toast.makeText(getApplicationContext(), "Fitbit Connected Successfully ", Toast.LENGTH_SHORT).show();
-
-        Intent intentLogin = new Intent(FitbitConnection.this, LogInPage.class);
-        startActivity(intentLogin);
-        finish();*/
-
         } else {
         statusTV.setText("Status : Not Connected, Please try again");
 
-        // toast :(
         Toast.makeText(getApplicationContext(), "Fail Connecting to Fitbit, please try again!", Toast.LENGTH_SHORT).show();
 
         // refresh activity
         }
 
         }
-
-        // on resume refresh?
 
 
 }

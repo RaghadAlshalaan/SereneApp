@@ -216,6 +216,10 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
                     if (task.isSuccessful()) {
                         checkIfEmailVerified();
 
+                        Intent intent = new Intent(LogInPage.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "signInWithEmail:success");
 
@@ -243,6 +247,7 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
 
     private void checkIfEmailVerified() {
 
+        // TODO : MOVE IT TO MAIN PAGE
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user.isEmailVerified())
@@ -260,20 +265,12 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
             SharedPreferences.Editor editor = sp.edit();
             editor.putString("CURRENT_USERID",mAuth.getCurrentUser().getUid());
             editor.apply();
-            // user is verified
-            Intent intent = new Intent(LogInPage.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+
         }
         else
         {
-            // email is not verified, so just prompt the message to the user and restart this activity.
-            // NOTE: don't forget to log out the user.
-/*            Toast.makeText(LogInPage.this, R.string.emailVerify, Toast.LENGTH_SHORT).show();
-            FirebaseAuth.getInstance().signOut();*/
 
-            //TODO : restart this activity? REMOVE IT?
-
+            //TODO : MOVE TO MAIN PAGE & add to notification list (PLEASE VERIFY YOUR EMAIL)
 
         }
 

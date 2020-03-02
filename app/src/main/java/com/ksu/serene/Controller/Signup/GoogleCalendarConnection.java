@@ -12,7 +12,8 @@ import com.ksu.serene.R;
 
 public class GoogleCalendarConnection extends AppCompatActivity {
 
-    private Button finish, back;
+
+    private Button finish, back, connect;
 
 
     @Override
@@ -22,19 +23,18 @@ public class GoogleCalendarConnection extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
+        connect = findViewById(R.id.connectCalendar);
         finish = findViewById(R.id.finishBtn);
         back = findViewById(R.id.backBtn);
-
 
 
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent i = new Intent(GoogleCalendarConnection.this, MainActivity.class);
                 i.putExtra("first","1");
                 startActivity(i);
-
+                finish();
             }
         });
 
@@ -45,8 +45,6 @@ public class GoogleCalendarConnection extends AppCompatActivity {
                 GoogleCalendarConnection.super.onBackPressed();
             }
         });
-
-
 
 
     }
