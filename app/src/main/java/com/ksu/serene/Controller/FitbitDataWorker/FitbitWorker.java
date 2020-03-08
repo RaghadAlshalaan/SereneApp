@@ -1,70 +1,51 @@
-package com.ksu.serene.Controller.Homepage.Home;
+package com.ksu.serene.Controller.FitbitDataWorker;
 
-import android.annotation.SuppressLint;
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.work.Worker;
+import androidx.work.WorkerParameters;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.ksu.serene.R;
+import com.ksu.serene.Controller.Homepage.Home.HomeFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
-import java.sql.Blob;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import static com.firebase.ui.auth.ui.phone.SubmitConfirmationCodeFragment.TAG;
+public class FitbitWorker extends Worker {
 
-public class HomeFragment extends Fragment {
-
-
-    private TextView data;
-    private Button retrieve;
-
-    String dataRetrieved;
+    // The result key:
+    private String WORK_RESULT = "result";
 
 
     // FITBIT API
@@ -76,115 +57,127 @@ public class HomeFragment extends Fragment {
     private static String clientId;
     private static String clientSecret;
 
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
     static FirebaseStorage storage;
 
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
-
-        init (root);
-
-
-        return root;
+    public FitbitWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
+        super(context, workerParams);
     }
 
-    private void init(View root) {
-        retrieve = root.findViewById(R.id.fitbitRetrieve);
-        data = root.findViewById(R.id.data);
-
-        storage = FirebaseStorage.getInstance();
 
 
-        // parse Preference file
-        SharedPreferences sp = getActivity().getSharedPreferences("user_details", Context.MODE_PRIVATE);
-
-        // get values from Map
-        final String access_token = sp.getString("FITBIT_ACCESS_TOKEN", "");
-
-       /* retrieve.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("LongLogTag")
-            @Override
-            public void onClick(View v) {
-
-                // TODO : THIS IS THE FUNCTION TO BE REPEATED
+    /**
+     * This will be called whenever work manager run the work.
+     */
+    @NonNull
+    @Override
+    public Result doWork() {
 
 
-                // GET DATE OF YESTERDAY in format ( YYYY-MM-DD )
-                Calendar cal = Calendar.getInstance();
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                cal.add(Calendar.DATE, -1);
-                String date = dateFormat.format(cal.getTime());
-                data.setText(date);
+        // Step 1 : GET USER ACCESS TOKEN FROM DB
+        final String userEmail = user.getEmail();
 
-                final String[] category =
-                        {
-                                "heartrate",
-                                "activity",
-                                "sleep"
-                        };
-                String[] uriRequests =
-                        {
-                                "https://api.fitbit.com/1/user/-/activities/heart/date/"+date+"/1d/1min.json",
-                                "https://api.fitbit.com/1/user/-/activities/steps/date/"+date+"/1d/1min.json",
-                                "https://api.fitbit.com/1.2/user/-/sleep/date/"+date+".json"
-                        };
+        db.collection("Patient")
+                .whereEqualTo("email", userEmail)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if(!task.getResult().isEmpty()){
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    if(document.exists()) {
 
-                for ( int i = 0 ; i < 3 ; i ++ ){
+                                        accessToken = document.getString("fitbit_access_token");
 
-                    // Request the data from Fitbit API
-                    dataRetrieved = getData(uriRequests[i] ,access_token);
-
-
-                    final String filename = date+"-"+category[i]+".json";
-                    String fileContents = dataRetrieved;
-
-                    // Create JSON file to be uploaded
-                    FileOutputStream outputStream;
-
-                    try{
-
-                        outputStream = getContext().openFileOutput(filename, Context.MODE_PRIVATE);
-                        outputStream.write(fileContents.getBytes());
-                        outputStream.close();
-
-                    }catch(IOException e){
-                        e.printStackTrace();
-                    }
-
-                    File file = new File(getContext().getFilesDir(), date+"-"+category[i]+".json");
-
-
-                    // Upload file to Firebase storage inside the usedId folder
-                    String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-                    StorageReference storageRef = storage.getReference();
-
-                    StorageReference filePath = storageRef.child(userId).child("fitbitData").child(date).child(date+"-"+category[i]+".json");
-
-                    Uri uri = Uri.fromFile(file);
-
-                    UploadTask uploadTask = filePath.putFile(uri);
-
-
-                    uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                            Log.e("FINALLY",  filename +" FILE UPLOADED SUCCESSFULLY");
+                                    }
+                                }
+                            }
 
                         }
-                    });
+                        else {
+
+                        }
+                    }
+                });
+
+
+        // Step 2 : GET DATE OF YESTERDAY in format ( YYYY-MM-DD )
+        Calendar cal = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        cal.add(Calendar.DATE, -1);
+        String date = dateFormat.format(cal.getTime());
+
+        final String[] category =
+                {
+                        "heartrate",
+                        "activity",
+                        "sleep"
+                };
+        String[] uriRequests =
+                {
+                        "https://api.fitbit.com/1/user/-/activities/heart/date/"+date+"/1d/1min.json",
+                        "https://api.fitbit.com/1/user/-/activities/steps/date/"+date+"/1d/1min.json",
+                        "https://api.fitbit.com/1.2/user/-/sleep/date/"+date+".json"
+                };
+
+        for ( int i = 0 ; i < 3 ; i ++ ){
+
+            // Request the data from Fitbit API
+            String dataRetrieved = getData(uriRequests[i] ,accessToken);
+
+            // Generate file name
+            final String filename = date+"-"+category[i]+".json";
+            String fileContents = dataRetrieved;
+
+            // Create JSON file to be uploaded
+            FileOutputStream outputStream;
+
+            try{
+
+                outputStream = getApplicationContext().openFileOutput(filename, Context.MODE_PRIVATE);
+                outputStream.write(fileContents.getBytes());
+                outputStream.close();
+
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+
+            File file = new File(getApplicationContext().getFilesDir(), date+"-"+category[i]+".json");
+
+
+            // Upload file to Firebase storage inside the usedId folder
+            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+            StorageReference storageRef = storage.getReference();
+
+            StorageReference filePath = storageRef.child(userId).child("fitbitData").child(date).child(date+"-"+category[i]+".json");
+
+            Uri uri = Uri.fromFile(file);
+
+            UploadTask uploadTask = filePath.putFile(uri);
+
+
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                    Log.e("DONE: ",  filename +" FILE UPLOADED SUCCESSFULLY");
 
                 }
+            });
+
+        }
 
 
-            }
-        });*/
+        return null;
     }
 
-/*
+
     // This method retrieves data from api and returns resulting json string
     public static String getData(String url, String aToken){
 
@@ -195,7 +188,7 @@ public class HomeFragment extends Fragment {
         isRevoke = false;
 
         try {
-            return new RetrieveDataFromApi().execute().get();
+            return new FitbitWorker.RetrieveDataFromApi().execute().get();
         }
         catch(InterruptedException e){
             Log.e("ERROR", e.getMessage(), e);
@@ -231,7 +224,7 @@ public class HomeFragment extends Fragment {
         clientSecret = secret;
 
         try {
-            new RetrieveDataFromApi().execute().get();
+            new FitbitWorker.RetrieveDataFromApi().execute().get();
         }
         catch(InterruptedException e){
             Log.e("ERROR", e.getMessage(), e);
@@ -292,7 +285,6 @@ public class HomeFragment extends Fragment {
             }
 
         }
-    }*/
-
+    }
 
 }

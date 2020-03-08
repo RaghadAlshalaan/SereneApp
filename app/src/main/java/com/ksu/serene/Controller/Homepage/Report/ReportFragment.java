@@ -43,7 +43,6 @@ public class ReportFragment extends Fragment {
     private int startYear;
 
 
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -51,7 +50,7 @@ public class ReportFragment extends Fragment {
         root = inflater.inflate(R.layout.fragment_report, container, false);
 
         init();
-// by default
+        // by default
         datePicker.setVisibility(LinearLayout.GONE);
         start.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,6 +142,7 @@ public class ReportFragment extends Fragment {
                 final Intent intent = new Intent(getContext(), PatientReport.class);
 
                 intent.putExtra(Constants.Keys.DURATION, duration);
+
                 if (duration.equals("custom")) {
                     if (startDate != null && endDate != null) {
                         intent.putExtra(Constants.Keys.START_DATE, startDate);

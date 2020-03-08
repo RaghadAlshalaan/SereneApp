@@ -8,14 +8,18 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -44,6 +48,7 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -51,6 +56,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.ksu.serene.Controller.Constants;
 import com.ksu.serene.Controller.Homepage.Home.HomeFragment;
 import com.ksu.serene.LogInPage;
 
@@ -64,7 +71,6 @@ import java.util.Map;
 public class Signup extends AppCompatActivity {
 
     private TextView loginTV, Error;
-
     private EditText nameET, emailET, passwordET, confirmPasswordET;
     private Button signupBtn;
     private String TAG = Signup.class.getSimpleName();
@@ -81,10 +87,35 @@ public class Signup extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
+        // Change status bar color
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(this.getResources().getColor(R.color.colorAccent));
+
+        init();
+
+        signupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                createUserAccount(emailET.getText().toString(), passwordET.getText().toString(), confirmPasswordET.getText().toString(), nameET.getText().toString());
+            }
+        });
+
+        nameET.addTextChangedListener(signUpTextWatcher);
+        emailET.addTextChangedListener(signUpTextWatcher);
+        passwordET.addTextChangedListener(signUpTextWatcher);
+        confirmPasswordET.addTextChangedListener(signUpTextWatcher);
+
+    }//end onCreate()
+
+
+    private void init(){
+
         mAuth = FirebaseAuth.getInstance();
 
         loginTV = findViewById(R.id.loginBtn);
-        loginTV.setPaintFlags(loginTV.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         loginTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,32 +132,20 @@ public class Signup extends AppCompatActivity {
         confirmPasswordET = findViewById(R.id.CpasswordInput);
         signupBtn = findViewById(R.id.signupBtn);
 
-        signupBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                createUserAccount(emailET.getText().toString(), passwordET.getText().toString(), confirmPasswordET.getText().toString(), nameET.getText().toString());
-            }
-        });
-
-        nameET.addTextChangedListener(signUpTextWatcher);
-        emailET.addTextChangedListener(signUpTextWatcher);
-        passwordET.addTextChangedListener(signUpTextWatcher);
-        confirmPasswordET.addTextChangedListener(signUpTextWatcher);
-
-
-    }//end onCreate()
+    }
 
 
     private TextWatcher signUpTextWatcher = new TextWatcher() {
 
         @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
         }
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            Error.setText("");
+
             String nameInput = nameET.getText().toString().trim();
             String emailInput = emailET.getText().toString().trim();
             String passwordInput = passwordET.getText().toString().trim();
@@ -134,34 +153,42 @@ public class Signup extends AppCompatActivity {
 
             if(!nameInput.equals("") & !emailInput.equals("") & !passwordInput.equals("") & !confirmPasswordInput.equals("")){
 
-                signupBtn.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent));
+                signupBtn.setBackground(getResources().getDrawable(R.drawable.main_button));
 
                 signupBtn.setEnabled(true);
+
             }else{
-                signupBtn.setBackgroundTintList(getResources().getColorStateList(R.color.Grey));
+
+                signupBtn.setBackground(getResources().getDrawable(R.drawable.off_button));
 
                 signupBtn.setEnabled(false);
             }
         }
 
         @Override
-        public void afterTextChanged(Editable editable) {
+        public void afterTextChanged(Editable s) {
 
         }
+
     };
 
     public void createUserAccount(final String email, String password, String confirmPassword, final String name) {
 
-        //if the passwordET doesn't match show dialog otherwise create account
         if (!name.matches("^[ A-Za-z]+$")) {
-            Error.setText("Failed:\n - Enter valid name.\n Please try again");
             nameET.setText("");
+            Error.setText("* Enter valid name.");
+
             return;
         }
+
         if (!password.equals(confirmPassword)) {
-            Error.setText("Failed:\n - Password does't match.\n Please try again");
+            passwordET.setText("");
+            confirmPasswordET.setText("");
+            Error.setText("* Password doesn't match.");
+
             return;
         }
+
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -172,6 +199,7 @@ public class Signup extends AppCompatActivity {
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser userf = mAuth.getCurrentUser();
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
+
                             userf.updateProfile(profileUpdates)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
@@ -191,6 +219,7 @@ public class Signup extends AppCompatActivity {
                                             }
                                         }
                                     });
+
                             // Create a new user with a first and last name
                             Map<String, Object> user = new HashMap<>();
                             user.put("email", email);
@@ -232,37 +261,77 @@ public class Signup extends AppCompatActivity {
                                         }
                                     });
 
+                            updateToken(FirebaseInstanceId.getInstance().getToken());
+                            SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sp.edit();
+                            editor.putString("CURRENT_USERID",mAuth.getCurrentUser().getUid());
+                            editor.apply();
+
+                            Intent i = new Intent( Signup.this, Questionnairs.class );
+                            startActivity(i);
                             sendVerificationEmail();
+                            finish();
 
                         } else {
+
                             if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                                Error.setText("Failed:\n - Email already used by another account.\nPlease try again");
+                                Error.setText("* Email already used by another account.");
 
                             } else if (task.getException() instanceof FirebaseAuthWeakPasswordException) {
-                                Error.setText("Failed:\n - Password must be at least 8 characters.\nPlease try again");
+                                Error.setText("* Password must be at least 8 characters.");
 
                             } else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                Error.setText("Failed:\n - Incorrect Email format.\nPlease try again");
+                                Error.setText("* Incorrect Email format.");
 
                             } else {
                                 // If sign in fails, display a message to the user.
-                                Error.setText("Failed:\n - Authentication Failed.\nPlease try again");
+                                Error.setText("* Sign in Failed, Please try again");
                             }
+
                         }
                     }
                 });
 
     }// end create user
 
+
+    public  void updateToken(String token){
+
+        DocumentReference userTokenDR = FirebaseFirestore.getInstance().collection("Tokens").document(mAuth.getUid());
+        Token mToken = new Token(token);
+        final Map<String, Object> tokenU = new HashMap<>();
+        tokenU.put("token",mToken.getToken());
+
+        userTokenDR
+                .update(tokenU)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error updating document", e);
+                    }
+                });
+    }
+
     private void sendVerificationEmail() {
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
         user.sendEmailVerification()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             // email sent
-                            showDialog("Account Created! An email has been sent to activate your account.");
+
+                            //showDialog("Account Created! An email has been sent to activate your account.");
+                            // TODO : HOME PAGE WITH SMART WATCH INFO
+
                         } else {
                             // email not sent, so display message and restart the activity
                             Log.d(TAG, "There is problem the email doesn't send: ");
@@ -272,33 +341,6 @@ public class Signup extends AppCompatActivity {
                 });
     }
 
-    public void showDialog(String msg) {
-
-        androidx.appcompat.app.AlertDialog.Builder alertDialog = new AlertDialog.Builder(Signup.this);
-        alertDialog.setMessage(msg);
-        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-                //TODO : go to registration steps
-
-                signupBtn.setVisibility(View.GONE);
-
-                Fragment fragmentOne = new Sociodemo();
-                FragmentManager fm = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                fragmentTransaction.replace(R.id.layout, fragmentOne);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-
-
-            }
-        });
-
-        //TODO : REMOVED
-        alertDialog.show();
-
-    }//end showDialog()
 
     private void login(){
 
@@ -349,14 +391,15 @@ public class Signup extends AppCompatActivity {
         isNewUser = true;
         signInWithGoogle = findViewById(R.id.signup_withgoogle);
 
-//for sign in with google need to create GoogleSigninOption object
+        //for sign in with google need to create GoogleSigninOption object
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this , gso);
 
-//when click to sign up with google will show sign up with google page
+
+        //when click to sign up with google will show sign up with google page
         signInWithGoogle.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {

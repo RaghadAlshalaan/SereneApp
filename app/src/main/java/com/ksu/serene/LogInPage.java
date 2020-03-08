@@ -12,6 +12,8 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -32,6 +34,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.ksu.serene.Controller.Constants;
 import com.ksu.serene.Controller.Signup.Signup;
 import com.ksu.serene.Model.Token;
 
@@ -48,7 +51,7 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
     private Button loginBtn;
     private TextView signup , Error;
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private String emailIn, passwordIn, mToken;
+    private String mToken;
     private String TAG = LogInPage.class.getSimpleName();
     private TextView forgotPassword;
 
@@ -61,6 +64,22 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
 
         getSupportActionBar().hide();
 
+        // Change status bar color
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(this.getResources().getColor(R.color.colorAccent));
+
+        init();
+
+        email.addTextChangedListener(loginTextWatcher);
+        password.addTextChangedListener(loginTextWatcher);
+
+
+    }// end onCreate
+
+    private void init() {
+
         email = findViewById(R.id.Email);
         password = findViewById(R.id.Password);
         loginBtn = findViewById(R.id.loginBtn);
@@ -72,14 +91,7 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
         signup.setOnClickListener ( this );
         loginBtn.setOnClickListener( this );
 
-        // TODO: do the same as sign up button
-
-        email.addTextChangedListener(loginTextWatcher);
-        password.addTextChangedListener(loginTextWatcher);
-
-
-
-    }// end onCreate
+    }
 
 
     private TextWatcher loginTextWatcher = new TextWatcher() {
@@ -91,18 +103,19 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            Error.setText("");
 
             String emailInput = email.getText().toString().trim();
             String passwordInput = password.getText().toString().trim();
 
             if( !emailInput.equals("") & !passwordInput.equals("") ){
 
-                loginBtn.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent));
+                loginBtn.setBackground(getResources().getDrawable(R.drawable.main_button));
 
                 loginBtn.setEnabled(true);
 
             }else{
-                loginBtn.setBackgroundTintList(getResources().getColorStateList(R.color.Grey));
+                loginBtn.setBackground(getResources().getDrawable(R.drawable.off_button));
 
                 loginBtn.setEnabled(false);
             }
@@ -208,41 +221,41 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
 
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            checkIfEmailVerified();
+                    if (task.isSuccessful()) {
+                        checkIfEmailVerified();
 
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
+                        Intent intent = new Intent(LogInPage.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+
+                        // Sign in success, update UI with the signed-in user's information
+                        //Log.d(TAG, "signInWithEmail:success");
+
+                    } else {
+
+                        if (task.getException() instanceof FirebaseAuthInvalidUserException) {
+                            //there is'n user with this Email
+                            Error.setText("* There is not user with this Email, Please try again!");
+
+                        } else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                            //the password is wrong
+                            Error.setText("* Wrong Password, Please try again!");
 
                         } else {
-
-                            if (task.getException() instanceof FirebaseAuthInvalidUserException) {
-                                //there is'n user with this Email
-                                Error.setText("Failed:\n - There is not user with this Email.\nPlease try again");
-
-
-                            } else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                //the password is wrong
-                                Error.setText("Failed:\n - Wrong Password.\nPlease try again");
-
-
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                Toast.makeText(LogInPage.this, R.string.auth,
-                                        Toast.LENGTH_SHORT).show();
-                            }
-
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(LogInPage.this, R.string.auth,
+                                    Toast.LENGTH_SHORT).show();
                         }
 
                     }
-                });
-
-
-
+                }
+            });
     }
 
     private void checkIfEmailVerified() {
+
+        // TODO : MOVE IT TO MAIN PAGE
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user.isEmailVerified())
@@ -254,28 +267,21 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
                     Log.e("Token",mToken);
                 }
             });
+
             updateToken(mToken);
-            SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+            SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sp.edit();
             editor.putString("CURRENT_USERID",mAuth.getCurrentUser().getUid());
             editor.apply();
-            // user is verified
-            Intent intent = new Intent(LogInPage.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+
         }
         else
         {
-            // email is not verified, so just prompt the message to the user and restart this activity.
-            // NOTE: don't forget to log out the user.
-            Toast.makeText(LogInPage.this, R.string.emailVerify, Toast.LENGTH_SHORT).show();
 
-            FirebaseAuth.getInstance().signOut();
-
-            //TODO : restart this activity? REMOVE IT?
-
+            //TODO : MOVE TO MAIN PAGE & add to notification list (PLEASE VERIFY YOUR EMAIL)
 
         }
+
     }// end checkIfEmailVerified
 
     public  void updateToken(String token){
@@ -297,6 +303,7 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+
                         Log.w(TAG, "Error updating document", e);
                     }
                 });
@@ -311,8 +318,6 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
             editor.putString("CURRENT_USERID",mAuth.getCurrentUser().getUid());
             editor.apply();
 
-            //MySharedPreference.putString(LoginActivity.this,"user_id",mAuth.getCurrentUser().getUid());
-
             Intent intent = new Intent(LogInPage.this, MainActivity.class);
             startActivity(intent);
             finish();
@@ -320,14 +325,6 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
 
     }
 
-/*
-    private boolean checkAllFields (String email , String password){
-        if ( !(TextUtils.isEmpty(email)) && !(TextUtils.isEmpty(password)) ){
-            return true;
-        }
-        return false;
-    }
-*/
 
     @Override
     protected void onStart() {

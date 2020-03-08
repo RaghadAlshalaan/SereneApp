@@ -15,7 +15,7 @@
         android:layout_height="50dp"
         android:fontFamily="@font/montserrat"
         android:paddingTop="10dp"
-        android:text="Generate Report"
+        android:text="@string/generate_report"
         android:gravity="center"
         android:layout_gravity="center"
         android:textColor="@color/black"
@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"
-            android:text="Duration:"
+            android:text="@string/duration"
             android:textColor="#515C6F"
             android:layout_marginBottom="10dp"
             android:textSize="20sp" />
@@ -51,7 +51,7 @@
                 android:layout_width="362dp"
                 android:layout_height="54dp"
                 android:fontFamily="@font/montserrat"
-                android:text="Last Two Weeks"
+                android:text="@string/last_two_weeks"
                 android:layout_margin="5dp"
                 android:textSize="15sp"
                 android:background="@drawable/white_background"
@@ -64,7 +64,7 @@
                 android:layout_width="362dp"
                 android:layout_height="54dp"
                 android:fontFamily="@font/montserrat"
-                android:text="Last Month"
+                android:text="@string/last_month"
                 android:layout_margin="5dp"
                 android:textSize="15sp"
                 android:background="@drawable/white_background"
@@ -76,7 +76,7 @@
                 android:layout_width="362dp"
                 android:layout_height="54dp"
                 android:fontFamily="@font/montserrat"
-                android:text="Specific period"
+                android:text="@string/specific_period"
                 android:textSize="15sp"
                 android:layout_margin="5dp"
                 android:background="@drawable/white_background"
@@ -104,7 +104,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Start"
+                    android:text="@string/start"
                     />
 
                 <TextView
@@ -117,7 +117,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/start"
-                    android:text="Start"/>
+                    android:text="@string/start"/>
 
             </LinearLayout>
 
@@ -131,7 +131,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="End"
+                    android:text="@string/end"
                     />
 
                 <TextView
@@ -144,7 +144,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/end"
-                    android:text="End">
+                    android:text="@string/end">
                 </Button>
 
             </LinearLayout>
@@ -159,7 +159,7 @@
         android:background="#4CA1D3"
         android:layout_gravity="center"
 
-        android:text="Generate Report"
+        android:text="@string/generate_report"
         android:textColor="#FFFFFF"
         tools:ignore="InvalidId" />
 

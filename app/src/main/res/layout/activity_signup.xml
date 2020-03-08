@@ -101,13 +101,12 @@
 
     <Button
         android:id="@+id/signupBtn"
-        android:layout_width="160dp"
+        android:layout_width="250dp"
         android:layout_height="35dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="100dp"
-        android:background="#FFFFFF"
-        android:backgroundTint="@color/Grey"
+        android:background="@drawable/off_button"
         android:enabled="false"
         android:fontFamily="@font/montserrat"
         android:padding="3dp"
@@ -270,11 +269,6 @@
           android:textSize="18sp"
           android:typeface="normal" />-->
 
-    <LinearLayout
-        android:id="@+id/layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" />
 
 </RelativeLayout>
 

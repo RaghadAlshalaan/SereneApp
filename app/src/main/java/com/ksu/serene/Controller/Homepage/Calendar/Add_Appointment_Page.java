@@ -77,11 +77,12 @@ public class Add_Appointment_Page extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_appointment_page);
+
         calendar = Calendar.getInstance();
-        AppName = (EditText) findViewById(R.id.AppName);
-        Date = (EditText) findViewById(R.id.AppDate);
-        Time = (EditText) findViewById(R.id.AppTime);
-        Confirm = (Button) findViewById(R.id.ConfirmAddApp);
+        AppName = findViewById(R.id.AppName);
+        Date = findViewById(R.id.AppDate);
+        Time = findViewById(R.id.AppTime);
+        Confirm = findViewById(R.id.ConfirmAddApp);
 
         //when day edit text click show calender view to choose the start and end days
         //the start day when click
@@ -106,7 +107,7 @@ public class Add_Appointment_Page extends AppCompatActivity {
         Confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //chack all filed filled
+                //check all filed filled
                 if (checkFields(AppName.getText().toString())) {
                     //check the day and time in future or the day now but time in future
                     if (checkDayandTime(Date.getText().toString(), Time.getText().toString())) {
@@ -114,12 +115,15 @@ public class Add_Appointment_Page extends AppCompatActivity {
                         //if (SaveNewMed (AppName.getText().toString(),Date.getText().toString() ,  Time.getText().toString() , Integer.parseInt(Dose.getText().toString()))) {
                         //update calender view color From Start to finish days
                         //search about it
-                        if (SaveNewApp (AppName.getText().toString() , Date.getText().toString(), Time.getText().toString()))
+                        if (SaveNewApp (AppName.getText().toString() , Date.getText().toString(), Time.getText().toString())){
                             Toast.makeText(Add_Appointment_Page.this, "The Appointment Reminder added Successfully to your Calender", Toast.LENGTH_LONG).show();
+
+                            Intent intent = new Intent(Add_Appointment_Page.this , MainActivity.class);
+                            startActivity(intent);
+                        }
                         else
                             Toast.makeText(Add_Appointment_Page.this, "The Appointment Reminder did not add ", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(Add_Appointment_Page.this , MainActivity.class);
-                        startActivity(intent);
+
                     }
                 }
             }

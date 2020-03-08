@@ -8,9 +8,8 @@ public class Constants{
         String START_DATE = "startDate";
         String END_DATE = "endDate";
 
-
-
-
+        String USER_DETAILS = "user_details";
+        String REGISTRATION_STEP = "registration_step";
 
 
     }
