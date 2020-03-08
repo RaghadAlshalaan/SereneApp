@@ -69,7 +69,8 @@ public class GAD7 extends Fragment {
                     userInfo.put("GAD-7ScaleScore", GAD7ScaleScore);
 
 
-                    db.collection("Patient").whereEqualTo("email", userEmail)
+                    db.collection("Patient")
+                            .whereEqualTo("email", userEmail)
                             .get()
                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                 @Override

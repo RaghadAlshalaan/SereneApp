@@ -21,7 +21,7 @@ public class draftsFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_drafts, container, false);
 
-        ViewPager viewPager = (ViewPager) root.findViewById(R.id.ViewPagerDraft);
+        ViewPager viewPager = root.findViewById(R.id.ViewPagerDraft);
         //setUpViewPager
         draftPageAdpater pageAdpater = new draftPageAdpater(getChildFragmentManager());
         pageAdpater.addFragment(new allDraft() , "ALL");
@@ -29,7 +29,7 @@ public class draftsFragment extends Fragment {
         pageAdpater.addFragment(new voiceDraft() , "VOICE");
         viewPager.setAdapter(pageAdpater);
 
-        TabLayout tabs = (TabLayout) root.findViewById(R.id.TabLayoutDraft);
+        TabLayout tabs = root.findViewById(R.id.TabLayoutDraft);
         tabs.setupWithViewPager(viewPager);
         return root;
     }

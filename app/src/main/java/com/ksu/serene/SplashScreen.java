@@ -128,19 +128,22 @@ public class SplashScreen extends AppCompatActivity implements View.OnClickListe
                         startActivity(intent);
                         finish();
 
-
                 }
+
                 break;
         }
 
     }
 
     private boolean checkUserLogin() {
+
         mAuth = FirebaseAuth.getInstance();
+
         if (mAuth.getCurrentUser() != null) {
             return true;
         } else
             return false;
+
     }
 
 }

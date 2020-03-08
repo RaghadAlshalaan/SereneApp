@@ -12,6 +12,8 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -61,6 +63,12 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
         setContentView(R.layout.activity_log_in_page);
 
         getSupportActionBar().hide();
+
+        // Change status bar color
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(this.getResources().getColor(R.color.colorAccent));
 
         init();
 
@@ -221,7 +229,7 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
                         finish();
 
                         // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "signInWithEmail:success");
+                        //Log.d(TAG, "signInWithEmail:success");
 
                     } else {
 
@@ -295,6 +303,7 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+
                         Log.w(TAG, "Error updating document", e);
                     }
                 });

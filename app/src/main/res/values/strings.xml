@@ -1,31 +1,21 @@
 <resources>
     <string name="app_name">Serene</string>
-    <string name="title_home" translatable="false">Home</string>
-    <string name="title_dashboard" translatable="false">Dashboard</string>
-    <string name="title_notifications" translatable="false">Notifications</string>
 
 
-    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="improvement_in">Improvement (in %)</string>
     <string name="percentage" translatable="false">%</string>
     <string name="highest_day_of_anxiety">Highest Day of Anxiety</string>
     <string name="date_here" translatable="false">(date here)</string>
-    <string name="allFields">"All fields are required "</string>
     <string name="passwordMatch">"Password does not match, please try again "</string>
     <string name="nameFormat">Please enter correct name format</string>
     <string name="passwordChar">Password is less than 8 characters, please try again </string>
     <string name="emailFormat">"Please enter correct email format "</string>
-    <string name="questionnaire">Please complete the questionnaire </string>
-    <string name="incomeFormat">Please enter correct income format </string>
-    <string name="selectPic">Select Picture </string>
     <string name="image">"Image chosen "</string>
     <string name="passwordUpdate">Password updated </string>
     <string name="passwordNotUpdated">Password is not updated, please try again </string>
     <string name="wrongPassword">you have entered a wrong password </string>
     <string name="passwordSame">You cannot use the same password </string>
-    <string name="emailpassWrong">The email or password is wrong</string>
     <string name="auth">Authentication failed</string>
-    <string name="emailVerify">Check email link to verify account</string>
 
 
     <string name="full">Full-time</string>
@@ -41,9 +31,7 @@
     <string name="appointment">Appointment</string>
     <string name="logout">Logout</string>
     <string name="doctor">Doctor</string>
-    <string name="social_demographic_information">Social-Demographic Information</string>
     <string name="language">Language</string>
-    <string name="edit_profile">EDIT PROFILE</string>
     <string name="full_name">Full Name</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
@@ -68,7 +56,6 @@
     <string name="ex_diabetes">ex; Diabetes</string>
     <string name="chronic_diseases">Chronic Diseases</string>
     <string name="sr">SR</string>
-    <string name="ex_2000">ex; 2000</string>
     <string name="monthly_income">Monthly Income</string>
     <string name="kg">kg</string>
     <string name="weight">Weight</string>
@@ -76,7 +63,6 @@
     <string name="cm">cm</string>
     <string name="ex_160">ex; 160</string>
     <string name="height">Height</string>
-    <string name="ex_21">ex; 21</string>
     <string name="cigarette_smoker">Cigarette Smoker</string>
     <string name="employment_status">Employment Status</string>
     <string name="gad_7_scale">GAD-7 Scale</string>
@@ -104,6 +90,13 @@
     <string name="connect_google_calendar">Connect Google Calendar</string>
     <string name="status_not_connected">Status: Not Connected</string>
     <string name="success">Success</string>
+    <string name="generate_report">Generate Report</string>
+    <string name="duration">Duration:</string>
+    <string name="last_two_weeks">Last Two Weeks</string>
+    <string name="last_month">Last Month</string>
+    <string name="specific_period">Specific Period</string>
+    <string name="start">Start</string>
+    <string name="end">End</string>
 
 
     <string-array name="employmentStatus">

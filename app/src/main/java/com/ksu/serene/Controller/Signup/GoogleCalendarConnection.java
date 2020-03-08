@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import com.ksu.serene.MainActivity;
@@ -22,6 +24,12 @@ public class GoogleCalendarConnection extends AppCompatActivity {
         setContentView(R.layout.activity_google_calendar_connection);
 
         getSupportActionBar().hide();
+
+        // Change status bar color
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(this.getResources().getColor(R.color.colorAccent));
 
         connect = findViewById(R.id.connectCalendar);
         finish = findViewById(R.id.finishBtn);

@@ -18,6 +18,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -84,6 +86,12 @@ public class Signup extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         getSupportActionBar().hide();
+
+        // Change status bar color
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(this.getResources().getColor(R.color.colorAccent));
 
         init();
 
@@ -166,15 +174,18 @@ public class Signup extends AppCompatActivity {
 
     public void createUserAccount(final String email, String password, String confirmPassword, final String name) {
 
-        //if the passwordET doesn't match show dialog otherwise create account
         if (!name.matches("^[ A-Za-z]+$")) {
-            Error.setText("* Enter valid name.");
             nameET.setText("");
+            Error.setText("* Enter valid name.");
+
             return;
         }
 
         if (!password.equals(confirmPassword)) {
+            passwordET.setText("");
+            confirmPasswordET.setText("");
             Error.setText("* Password doesn't match.");
+
             return;
         }
 
