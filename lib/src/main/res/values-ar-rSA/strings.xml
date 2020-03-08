@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">مسجل الصوت</string>
+    <string name="aar_save">حفظ</string>
+    <string name="aar_paused">إيقاف مؤقت</string>
+    <string name="aar_recording">تسجيل</string>
+    <string name="aar_playing">إستماع</string>
+    <string name="voice_draft_title">عنوان المسودة الصوتية</string>
+    <string name="OK">حسنًا</string>
+    <string name="no_title">من فضلك، أدخل عنواناً للمسودة</string>
+    <string name="cancel">إلغاء</string>
+    <string name="cancel_recording_msg">هل تريد إلغاء التسجيل حقاً؟</string>
+</resources>

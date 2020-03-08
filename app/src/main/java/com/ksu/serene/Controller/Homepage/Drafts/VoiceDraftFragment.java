@@ -9,21 +9,19 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.ksu.serene.Model.TextDraft;
 import com.ksu.serene.Model.VoiceDraft;
 import com.ksu.serene.R;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -34,7 +32,7 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class voiceDraft extends Fragment {
+public class VoiceDraftFragment extends Fragment {
 
     Context context = this.getContext();
     //set for patient's Text Draft
@@ -42,62 +40,72 @@ public class voiceDraft extends Fragment {
     private RecyclerView recyclerViewDraft;
     private RecyclerView.LayoutManager layoutManager;
     private List<VoiceDraft> listVoiceDrafts;
-    private voiceDraftAdapter adapterVoiceDraft;
+    public VoiceDraftAdapter adapterVoiceDraft;
     private String VoiceID;
     private String VoiceTitle;
     private String VoiceDate;
     private String VoiceAudio;
-    private String Voicetimestap;
-
-
-    public voiceDraft() {
-        // Required empty public constructor
-    }
+    private Timestamp Voicetimestap;
+    private View root;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_voice_draft, container, false);
-
+        root = inflater.inflate(R.layout.fragment_voice_draft, container, false);
         patientId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        layoutManager = new LinearLayoutManager(root.getContext());
+        listVoiceDrafts = new ArrayList<>();
+        adapterVoiceDraft = new VoiceDraftAdapter(getContext() ,listVoiceDrafts);
+
+        recyclerViewDraft = (RecyclerView) root.findViewById(R.id.Recyclerview_Voice_Draft);
+        recyclerViewDraft.setLayoutManager(layoutManager);
+
+        recyclerViewDraft.setAdapter(adapterVoiceDraft);
 
         return root;
-    }
+    }// onCreateView()
 
-    private void SetAudioDraftRecyView (View root) {
-        final SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yy", Locale.US);
-        //retrieve Patient text draft data
-        recyclerViewDraft = (RecyclerView) root.findViewById(R.id.Recyclerview_Voice_Draft);
-        layoutManager = new LinearLayoutManager(context);
-        recyclerViewDraft.setLayoutManager(layoutManager);
-        listVoiceDrafts = new ArrayList<>();
-        adapterVoiceDraft = new voiceDraftAdapter(listVoiceDrafts);
+    private void retrieveVoiceDraft() {
 
-        //search in cloud firestore for patient sessions
         CollectionReference reference = FirebaseFirestore.getInstance().collection("AudioDraft");
-
         final Query queryPatientDraft = reference.whereEqualTo("patientID",patientId);
         queryPatientDraft.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        VoiceID = document.getId().toString();
+
+                        VoiceID = document.getId();
                         VoiceTitle = document.get("title").toString();
-                        VoiceDate = document.get("day").toString();
                         VoiceAudio = document.get("audio").toString();
-                        Voicetimestap = document.get("timestamp").toString();
+                        Voicetimestap = (Timestamp) document.get("timestamp");
 
-                        listVoiceDrafts.add(new VoiceDraft(VoiceID, VoiceTitle, VoiceDate, VoiceAudio, Voicetimestap));
+                        VoiceDate = getDateFormat(Voicetimestap);
+                        listVoiceDrafts.add(new VoiceDraft(VoiceID, VoiceTitle, VoiceDate, VoiceAudio));
+                        adapterVoiceDraft.notifyDataSetChanged();
 
-                    }
-                    adapterVoiceDraft.notifyDataSetChanged();
-                }
-            }
+                    }// for
+                }// if
+            }// onComplete
         });
-        recyclerViewDraft.setAdapter(adapterVoiceDraft);
-    }
+    }// retrieveVoiceDraft
 
-}
+
+    private String getDateFormat(Timestamp timeStamp){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timeStamp.getSeconds()*1000);
+        int mYear = calendar.get(Calendar.YEAR);
+        int mMonth = calendar.get(Calendar.MONTH);
+        int mDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+        return mDay+"/"+mMonth+"/"+mYear;
+    }// getDateFormat
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        retrieveVoiceDraft();
+    }// onResume
+
+}// class

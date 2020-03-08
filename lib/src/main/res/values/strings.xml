@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name" translatable="false">AndroidAudioRecorder</string>
+    <string name="aar_save">Save</string>
+    <string name="aar_paused">Paused</string>
+    <string name="aar_recording">Recording</string>
+    <string name="aar_playing">Playing</string>
+    <string name="voice_draft_title">Voice Draft Title</string>
+    <string name="OK">ok</string>
+    <string name="no_title">Please, enter a draft title</string>
+    <string name="cancel">cancel</string>
+    <string name="cancel_recording_msg">Do you want to cancel recording?</string>
+</resources>

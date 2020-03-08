@@ -5,10 +5,10 @@ public class VoiceDraft extends Draft {
     private String audio;
     private String timestamp;
 
-    public VoiceDraft(String id, String title, String date, String audio, String timestamp) {
+    public VoiceDraft(String id, String title, String date, String audio) {
         super(id, title, date);
         this.audio = audio;
-        this.timestamp = timestamp;
+        this.timestamp = date;
     }
 
     public String getAudio() {

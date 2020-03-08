@@ -32,6 +32,8 @@
     <string name="part">Part-time</string>
     <string name="student">Student</string>
     <string name="none">Not employed</string>
+    <string name="cancel">Cancel</string>
+
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -99,6 +101,7 @@
     <string name="connect_to_fitbit">Connect to Fitbit</string>
     <string name="fitbit_desc">Serene wants to connect with your Fitbit account in order to acccess your data and behave correctly.</string>
     <string name="finish">Finish</string>
+    <string name="delete">delete</string>
 
 
     <string-array name="employmentStatus">

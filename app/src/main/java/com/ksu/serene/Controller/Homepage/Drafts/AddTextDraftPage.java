@@ -11,18 +11,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.ksu.serene.MainActivity;
-import com.ksu.serene.Model.TextDraft;
 import com.ksu.serene.R;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class AddTextDraftPage extends AppCompatActivity {
@@ -30,27 +26,28 @@ public class AddTextDraftPage extends AppCompatActivity {
     private EditText Title;
     private EditText Subj;
     private Button Add;
+    private String titleTxt;
     private boolean Added = false;
+    private String draftId;
+    private String patientID;
+    private FirebaseFirestore db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_text_draft_page);
         Title = findViewById(R.id.TitleText);
-        Subj = findViewById(R.id.SubjText);
+        Subj = findViewById(R.id.draftMsg);
         Add = findViewById(R.id.ConfirmTextDraft);
+
+        patientID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        db = FirebaseFirestore.getInstance();
 
         Add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (CheckFields(Title.getText().toString(), Subj.getText().toString())){
-                    if (SaveTextDraft(Title.getText().toString(), Subj.getText().toString())) {
-                        Toast.makeText(AddTextDraftPage.this, "Saved Successfully", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(AddTextDraftPage.this, MainActivity.class);
-                        startActivity(intent);
-                    }
-                    else {
-                        Toast.makeText(AddTextDraftPage.this, "Did not Saved Successfully, Something wrong try again", Toast.LENGTH_LONG).show();
-                    }
+                    SaveTextDraft(Title.getText().toString(), Subj.getText().toString());
+
                 }
             }
         });
@@ -66,40 +63,47 @@ public class AddTextDraftPage extends AppCompatActivity {
         }
     }
 
-    private boolean SaveTextDraft (String TitleDraft, String Message) {
-        Date CurrentDate = new Date();
-        String day = CurrentDate.toString();
+    private void SaveTextDraft (String TitleDraft, String Message) {
 
-        String patientID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String TextDraftID = db.collection("TextDraft").document().getId();
+        draftId = getDraftID();
 
-        TextDraft newDraft = new TextDraft(TextDraftID, TitleDraft, day, Message, "3");
 
         Map<String, Object> draft = new HashMap<>();
-        draft.put("text", newDraft.getMessage());
-        draft.put("timestamp", newDraft.getTimestap());
-        draft.put("title", newDraft.getTitle());
+        draft.put("text", Message);
+        draft.put("timestamp", FieldValue.serverTimestamp());
+        draft.put("title", TitleDraft);
         draft.put("patinetID", patientID);
-        draft.put("day", newDraft.getDate());
 
-        db.collection("TextDraft").document()
-                .set(draft)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
+        db.collection("TextDraft").document(draftId).set(draft)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            //Log.d("TAG", "DocumentSnapshot added with ID: " + documentReference.getId());
-                            // Toast.makeText(Add_Medicine_Page.this, "The Med added successfully", Toast.LENGTH_LONG);
-                            Added = true;
-                        } else {
-                            // Toast.makeText(Add_Medicine_Page.this, "The Med did not add", Toast.LENGTH_LONG);
-                            Added = false;
-                        }
+                    public void onSuccess(Void aVoid) {
+                        //todo: progress bar
+                        Toast.makeText(AddTextDraftPage.this, "Saved Successfully", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(AddTextDraftPage.this, TextDraftFragment.class);
+                        startActivity(intent);
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
                     }
                 });
 
-        return Added;
-
     }
+
+
+    private String getDraftID() {
+        titleTxt = Title.getText().toString();
+        String id = titleTxt;
+        id = id.toLowerCase();
+        id = id.replace(" ", "_");
+        int Min = 010101;
+        int Max = 999999;
+        int random = Min + (int) (Math.random() * ((Max - Min) + 1));
+        return id.concat(random + "");
+    }
+
 }

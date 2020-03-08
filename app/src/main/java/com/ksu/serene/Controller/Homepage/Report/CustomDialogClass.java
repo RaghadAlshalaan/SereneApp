@@ -2,6 +2,8 @@ package com.ksu.serene.Controller.Homepage.Report;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -26,6 +28,7 @@ public class CustomDialogClass extends Dialog {
         // TODO Auto-generated constructor stub
         this.c = a;
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

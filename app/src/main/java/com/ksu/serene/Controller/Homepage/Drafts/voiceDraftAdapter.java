@@ -1,66 +1,138 @@
 package com.ksu.serene.Controller.Homepage.Drafts;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.ksu.serene.Model.VoiceDraft;
 import com.ksu.serene.R;
+
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
+import static com.firebase.ui.auth.ui.phone.SubmitConfirmationCodeFragment.TAG;
 
-public class voiceDraftAdapter extends RecyclerView.Adapter<voiceDraftAdapter.MyViewHolder> {
-    public interface OnItemClickListener {
-        void onItemClick(VoiceDraft voiceDraft);
+public class VoiceDraftAdapter extends RecyclerView.Adapter<VoiceDraftAdapter.MyViewHolder> {
+
+    private LayoutInflater inflater;
+    private Context context;
+    private List<VoiceDraft> voiceDrafts;
+    private View view;
+    private VoiceDraftAdapter.MyViewHolder holder;
+    private RelativeLayout relativeLayout;
+    private VoiceDraft mRecentlyDeletedItem;
+    private int mRecentlyDeletedItemPosition;
+    private int position;
+    public FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+
+    public VoiceDraftAdapter() {
+
     }
 
-    private List<VoiceDraft> mAdapter;
-    //private final OnItemClickListener listener;
-
-    public voiceDraftAdapter(List<VoiceDraft> mAdapter){//, OnItemClickListener listener) {
-        //super(options);
-        this.mAdapter = mAdapter;
-        //this.listener = listener;
-    }
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-
-        TextView Title;
-
-        public MyViewHolder (View v) {
-            super(v);
-            Title = (TextView) itemView.findViewById(R.id.title_audio);
-        }
-
-        public void bind (final VoiceDraft voiceDraft , final voiceDraftAdapter.OnItemClickListener listener){
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    listener.onItemClick(voiceDraft);
-                }
-            });
-        }
-    }
-
-    @NonNull
-    @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v;
-        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.voice_draft_row , parent , false);
-        return new MyViewHolder(v);
+    public VoiceDraftAdapter(Context context, List<VoiceDraft> voiceDrafts) {
+        this.context = context;
+        this.voiceDrafts = voiceDrafts;
+        inflater = LayoutInflater.from(context);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull voiceDraftAdapter.MyViewHolder holder, int position) {
-        VoiceDraft textDraft = mAdapter.get(position);
-        holder.Title.setText(textDraft.getTitle());
+    public VoiceDraftAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        view = inflater.inflate(R.layout.text_draft_raw, parent, false);
+        holder = new VoiceDraftAdapter.MyViewHolder(view);
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        VoiceDraft voiceDraft = voiceDrafts.get(position);
+        holder.title.setText(voiceDrafts.get(position).getTitle());
+        holder.date.setText(voiceDrafts.get(position).getDate());
+
+        // here to set the item view
     }
 
     @Override
     public int getItemCount() {
-        return mAdapter.size();
+        return voiceDrafts.size();
     }
-}
+
+    //View holder class, where all view components are defined
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        public FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        private TextView title;
+        private TextView date;
+
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+
+            // define variables, put extras,
+            title = itemView.findViewById(R.id.text_title_name);
+            date = itemView.findViewById(R.id.text_draft_sub);
+            relativeLayout = itemView.findViewById(R.id.draft_item);
+            relativeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    VoiceDraft voiceDraft = voiceDrafts.get(getAdapterPosition());
+                    CustomAudioDialogClass dialogClass = new CustomAudioDialogClass(context, voiceDraft);
+                    dialogClass.show();
+                    position = getAdapterPosition();
+
+                }
+            });
+
+
+        }// MyViewHolder
+
+
+    }//MyViewHolder class
+
+
+    public void deleteDraft() {
+        String id = voiceDrafts.get(position).getId();
+
+        firebaseFirestore.collection("AudioDraft").document(id)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @SuppressLint("LongLogTag")
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @SuppressLint("LongLogTag")
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error deleting document", e);
+                    }
+                });
+
+        removeAt(position);
+    }// deleteDraft
+
+    public void removeAt(int position) {
+        voiceDrafts.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, voiceDrafts.size());
+    }// removeAt
+
+
+
+}// class
+

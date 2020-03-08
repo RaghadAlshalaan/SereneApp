@@ -62,7 +62,7 @@
         android:textSize="18sp" />
 
     <EditText
-        android:id="@+id/SubjText"
+        android:id="@+id/draftMsg"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_below="@id/SubjectText"

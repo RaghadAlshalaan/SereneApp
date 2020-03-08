@@ -38,11 +38,28 @@
             android:id="@+id/ViewPagerDraft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            />
+            >
+
+
+        </androidx.viewpager.widget.ViewPager>
 
     </LinearLayout>
 
-
-
+    <com.fangxu.allangleexpandablebutton.AllAngleExpandableButton
+        android:id="@+id/button_expandable_110_250"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="310dp"
+        android:layout_marginTop="-60dp"
+        app:aebAnimDurationMillis="175"
+        app:aebButtonElevation="0dp"
+        app:aebButtonGapDp="20dp"
+        app:aebEndAngleDegree="180"
+        app:aebIsSelectionMode="false"
+        app:aebMainButtonSizeDp="45dp"
+        app:aebRippleEffect="true"
+        app:aebStartAngleDegree="90"
+        app:aebSubButtonSizeDp="35dp"
+         />
 
 </LinearLayout>
