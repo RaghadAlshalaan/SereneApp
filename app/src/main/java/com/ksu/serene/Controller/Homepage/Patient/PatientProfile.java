@@ -15,23 +15,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.ksu.serene.Controller.Signup.Signup;
-import com.ksu.serene.Controller.Signup.Sociodemo;
 import com.ksu.serene.Model.Token;
-import com.ksu.serene.Patient;
 import com.ksu.serene.WelcomePage;
 import com.squareup.picasso.Picasso;
 
@@ -123,6 +116,7 @@ public class PatientProfile extends Fragment {
     }
 
 
+
     private void checkDoctorAvailability() {
 
         db.collection("Doctor")
@@ -154,6 +148,7 @@ public class PatientProfile extends Fragment {
     }
 
 
+
     public void displayName(){
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -168,21 +163,21 @@ public class PatientProfile extends Fragment {
 
             for (UserInfo userInfo : user.getProviderData()) {
                 if (nameDb == null && userInfo.getDisplayName() != null && emailDb == null && userInfo.getEmail() != null
-                     ) {
+                ) {
                     nameDb = userInfo.getDisplayName();
                     emailDb = userInfo.getEmail();
-                   // imageDb = userInfo.getPhotoUrl().toString();
+                    // imageDb = userInfo.getPhotoUrl().toString();
                     MySharedPreference.putString(getContext(), "name", nameDb);
                     MySharedPreference.putString(getContext(), "email", emailDb);
-                   // MySharedPreference.putString(getContext(), "Image", imageDb);
+                    // MySharedPreference.putString(getContext(), "Image", imageDb);
 
                 }
             }
             if(nameDb != null)
-            name.setText(nameDb);
+                name.setText(nameDb);
 
             if(emailDb != null)
-            email.setText(emailDb);
+                email.setText(emailDb);
 
             // if(imageDb !=null)
             // Picasso.get().load(imageDb).into(image);
@@ -195,28 +190,28 @@ public class PatientProfile extends Fragment {
     public void onResume() {
         super.onResume();
 
-             db.collection("Doctor")
-                     .whereEqualTo("patientID"+mAuth.getUid().substring(0,5), mAuth.getUid())
-                     .get()
-                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                         @Override
-                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                             if (task.isSuccessful()) {
-                                 if(!task.getResult().isEmpty()){
-                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                     if(document.exists()) {
-                                         doctor.setText(document.getString("name"));
-                                     }} }
-                                     else{
-                                         doctor.setText("No Doctor");
-                                     }
-                                 }
-                              else {
+        db.collection("Doctor")
+                .whereEqualTo("patientID"+mAuth.getUid().substring(0,5), mAuth.getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if(!task.getResult().isEmpty()){
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    if(document.exists()) {
+                                        doctor.setText(document.getString("name"));
+                                    }} }
+                            else{
+                                doctor.setText("No Doctor");
+                            }
+                        }
+                        else {
 
-                                 Log.d(TAG, "Error getting documents: ", task.getException());
-                             }
-                         }
-                     });
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
 
 
         if (!MySharedPreference.getString(getContext(), "name", "").equals("")) {
@@ -251,7 +246,7 @@ public class PatientProfile extends Fragment {
                         logout();
                     }//end of OnClick
                 }//end of OnClickListener
-            );//end setPositiveButton
+        );//end setPositiveButton
 
         //set Cancel Button
         alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -260,7 +255,7 @@ public class PatientProfile extends Fragment {
                         dialog.cancel();
                     }//end onClick
                 }//end OnClickListener
-            );//end setNegativeButton
+        );//end setNegativeButton
 
         alertDialog.show();
 
