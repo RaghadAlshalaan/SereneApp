@@ -2,7 +2,6 @@ package com.ksu.serene.Controller.Homepage.Drafts;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,33 +23,33 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import static com.firebase.ui.auth.ui.phone.SubmitConfirmationCodeFragment.TAG;
 
-public class VoiceDraftAdapter extends RecyclerView.Adapter<VoiceDraftAdapter.MyViewHolder> {
+public class voiceDraftAdapter extends RecyclerView.Adapter<voiceDraftAdapter.MyViewHolder> {
 
     private LayoutInflater inflater;
     private Context context;
     private List<VoiceDraft> voiceDrafts;
     private View view;
-    private VoiceDraftAdapter.MyViewHolder holder;
+    private voiceDraftAdapter.MyViewHolder holder;
     private RelativeLayout relativeLayout;
     private VoiceDraft mRecentlyDeletedItem;
     private int mRecentlyDeletedItemPosition;
     private int position;
     public FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
-    public VoiceDraftAdapter() {
+    public voiceDraftAdapter() {
 
     }
 
-    public VoiceDraftAdapter(Context context, List<VoiceDraft> voiceDrafts) {
+    public voiceDraftAdapter(Context context, List<VoiceDraft> voiceDrafts) {
         this.context = context;
         this.voiceDrafts = voiceDrafts;
         inflater = LayoutInflater.from(context);
     }
 
     @Override
-    public VoiceDraftAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public voiceDraftAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         view = inflater.inflate(R.layout.text_draft_raw, parent, false);
-        holder = new VoiceDraftAdapter.MyViewHolder(view);
+        holder = new voiceDraftAdapter.MyViewHolder(view);
         return holder;
     }
 
