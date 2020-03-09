@@ -6,7 +6,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:background="@drawable/main_background"
-tools:context=".Controller.Signup.FitbitConnection">
+tools:context=".controller.signup.FitbitConnection">
 
 
     <View
@@ -74,7 +74,7 @@ tools:context=".Controller.Signup.FitbitConnection">
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:fontFamily="@font/montserrat"
-                    android:text="status_not_connected"
+                    android:text="@string/status_not_connected"
                     android:textAlignment="center"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18sp" />

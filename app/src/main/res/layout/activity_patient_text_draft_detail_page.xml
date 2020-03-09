@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#16C5CDD1"
-    tools:context=".Controller.Homepage.Drafts.PatientTextDraftDetailPage">
+    tools:context=".controller.main.drafts.PatientTextDraftDetailPage">
 
     <TextView
         android:id="@+id/textView6"

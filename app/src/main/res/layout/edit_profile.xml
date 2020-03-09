@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".controller.main.profile.Editprofile">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_margin="10dp"
+            android:text="Save"
+            android:textColor="@color/colorAccent"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+<!--        <ImageView
+            android:id="@+id/edit_profile_btn"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
+            android:layout_gravity="end"
+            android:layout_margin="10dp"
+            app:srcCompat="@drawable/edit_profile_icon" />-->
+
+        <!--
+        <Button
+            android:layout_width="119dp"
+            android:layout_height="36dp"
+            android:layout_marginLeft="140dp"
+            android:background="#00201B1B"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/edit_profile"
+            android:textColor="#ffffff" />-->
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:srcCompat="@drawable/defaultpic" />
+
+
+
+        <Button
+            android:id="@+id/buttonImage"
+            android:layout_width="150dp"
+            android:layout_height="35dp"
+
+            android:background="#95BBD1"
+            android:ellipsize="none"
+            android:text="Choose Image"
+            android:textColor="#FFFFFF"
+      />
+
+
+<!--        <TextView
+            android:id="@+id/full_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/full_name"
+            android:textColor="@color/colorAccent"
+            android:textSize="25sp"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
+            android:text="email@email.com"
+            android:textColor="#515C6F"
+            android:textSize="18sp" />-->
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="530dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/layout_rounded_bg"
+        android:elevation="15dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fullName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Full name"
+                android:textColor="#817889"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="5dp"
+
+                android:ems="12"
+                android:hint="Full Name"
+                android:inputType="textPersonName"
+                android:textColor="#B1B0B0" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/oldText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Old password"
+                android:textColor="#817889"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/oldPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="5dp"
+                android:ems="12"
+                android:textColor="#B1B0B0" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/newText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/montserrat"
+                android:text="New password"
+                android:textColor="#817889"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/newPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="5dp"
+                android:ems="12"
+                android:inputType="textPersonName"
+                android:textColor="#B1B0B0" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/reNewText"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Confirm New password"
+                android:textColor="#817889"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/reNewPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="5dp"
+                android:ems="12"
+                android:inputType="textPersonName"
+                android:textColor="#B1B0B0" />
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="#79B1B0B0"
+            android:fontFamily="@font/montserrat"
+            android:padding="10dp"
+            android:text="Delete Account"
+            android:textColor="@color/Error"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</LinearLayout>
+
+
+    <!--
+    <?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="#F3F3F3"
+        tools:context=".Controller.Homepage.Patient.Editprofile">
+
+        <View
+            android:id="@+id/white_bg1"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="575dp"
+            android:background="@drawable/white_bg" />
+
+
+        <TextView
+            android:id="@+id/titleofscreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="61dp"
+            android:layout_marginTop="60dp"
+            android:fontFamily="@font/montserrat"
+            android:text="Edit Profile"
+            android:textColor="#000000"
+            android:textSize="30sp" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="142dp"
+            app:srcCompat="@drawable/defaultpic"
+            android:layout_marginLeft="50dp"/>
+
+            <Button
+                android:id="@+id/buttonImage"
+                android:layout_width="150dp"
+                android:layout_height="35dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="151dp"
+                android:layout_marginBottom="620dp"
+                android:background="#95BBD1"
+                android:ellipsize="none"
+                android:text="Choose Image"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="170dp"
+                android:layout_marginLeft="100dp" />
+
+
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:layout_marginTop="70dp">
+
+             <TextView
+                 android:id="@+id/fullName"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_alignParentStart="true"
+                 android:layout_alignParentTop="true"
+                 android:layout_centerHorizontal="true"
+                 android:layout_marginStart="25dp"
+                 android:layout_marginTop="200dp"
+                 android:fontFamily="@font/montserrat"
+                 android:text="Full name"
+                 android:textColor="#817889"
+                 android:textSize="18sp"
+                 android:textStyle="bold" />
+             <EditText
+                 android:id="@+id/username"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_alignParentBottom="true"
+                 android:layout_centerInParent="true"
+                 android:layout_marginTop="240dp"
+                 android:layout_marginLeft="-70dp"
+                 android:ems="12"
+                 android:hint="Full Name"
+                 android:inputType="textPersonName"
+                 android:textColor="#B1B0B0"></EditText>
+
+         </LinearLayout>
+
+     &lt;!&ndash;   <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="70dp">
+
+            <TextView
+                android:id="@+id/emailText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="288dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Email"
+                android:textColor="#817889"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="330dp"
+                android:layout_marginLeft="-30dp"
+                android:ems="12"
+                android:hint="Email"
+                android:inputType="textPersonName"
+                android:textColor="#B1B0B0"></EditText>
+
+
+        </LinearLayout> &ndash;&gt;
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="-20dp">
+
+            <TextView
+                android:id="@+id/oldText"
+                android:text="Old password"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="380dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Old password"
+                android:textColor="#817889"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <EditText
+                android:id="@+id/oldPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="430dp"
+                android:layout_marginLeft="-100dp"
+                android:ems="12"
+                android:hint="*****"
+                android:inputType="textPersonName"
+                android:textColor="#B1B0B0"></EditText>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="80dp">
+
+            <TextView
+                android:id="@+id/newText"
+                android:text="New password"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="380dp"
+                android:fontFamily="@font/montserrat"
+                android:text="New password"
+                android:textColor="#817889"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <EditText
+                android:id="@+id/newPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="430dp"
+                android:layout_marginLeft="-110dp"
+                android:ems="12"
+                android:hint="*****"
+                android:inputType="textPersonName"
+                android:textColor="#B1B0B0"></EditText>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="170dp">
+
+            <TextView
+                android:id="@+id/reNewText"
+                                android:id="@+id/reNewPassword"
+                                                android:text="Confirm New password"
+
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="380dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Retype New password"
+                android:textColor="#817889"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <EditText
+                android:id="@+id/reNewPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="430dp"
+                android:layout_marginLeft="-177dp"
+                android:ems="12"
+                android:hint="*****"
+                android:inputType="textPersonName"
+                android:textColor="#B1B0B0"></EditText>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+           >
+        <Button
+            android:id="@+id/save"
+            android:layout_width="98dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="151dp"
+            android:layout_marginBottom="50dp"
+            android:background="#4CA1D3"
+            android:ellipsize="none"
+            android:text="Save"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="120dp"
+            android:layout_marginLeft="75dp"/>
+
+            <TextView
+                android:id="@+id/delete"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="70dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Delete Account"
+                android:textColor="#E14E67"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginRight="150dp"/>
+        </LinearLayout>
+
+    </RelativeLayout>-->

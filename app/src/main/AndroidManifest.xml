@@ -3,6 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ksu.serene">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,15 +26,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Controller.Homepage.Drafts.CustomDialg"></activity>
-        <activity android:name=".Controller.Homepage.Drafts.TextDraftView" />
-        <activity android:name=".Controller.Homepage.Drafts.AddVoiceDraftPage" />
-        <activity android:name=".Controller.Homepage.Drafts.EditPatientTextDraftPage" />
-        <activity android:name=".Controller.Homepage.Drafts.PatientTextDraftDetailPage" />
-        <activity android:name=".Controller.Homepage.Drafts.AddTextDraftPage" />
-        <activity android:name=".Controller.Signup.GoogleCalendarConnection" />
+
+        <activity android:name=".controller.main.drafts.TextDraftView" />
+        <activity android:name=".controller.main.drafts.AddVoiceDraftPage" />
+        <activity android:name=".controller.main.drafts.EditPatientTextDraftPage" />
+        <activity android:name=".controller.main.drafts.PatientTextDraftDetailPage" />
+        <activity android:name=".controller.main.drafts.AddTextDraftPage" />
+
         <activity
-            android:name=".Controller.Signup.FitbitConnection"
+            android:name=".SplashScreen"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".WelcomePage" />
+
+        <activity android:name=".LogInPage" />
+
+        <activity android:name=".controller.signup.Signup" />
+
+        <activity android:name=".controller.signup.Questionnairs" />
+        <activity
+            android:name=".controller.signup.FitbitConnection"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -32,57 +63,28 @@
                     android:scheme="auth" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".SplashScreen"
-            android:theme="@style/AppTheme.NoActionBar" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".controller.signup.GoogleCalendarConnection" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-        </activity>
-        <activity android:name=".Controller.Homepage.Patient.AddDoctor" />
-        <activity android:name=".Controller.Homepage.Calendar.Add_Appointment_Page" />
-        <activity android:name=".Controller.Homepage.Calendar.PatientAppointmentDetailPage" />
-        <activity android:name=".Controller.Homepage.Patient.MyDoctor" />
-        <activity android:name=".Controller.Homepage.Calendar.Add_Medicine_Page" />
-        <activity android:name=".Controller.Homepage.Calendar.PatientMedicineDetailPage" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".Controller.Signup.Sociodemo" />
-        <activity android:name=".Controller.Signup.Questionnairs" />
-        <activity android:name=".Controller.Homepage.Patient.Editprofile" />
-        <activity android:name=".Controller.Homepage.Patient.EditSocio" />
-        <activity android:name=".Controller.Homepage.Report.PatientReport" />
-        <activity android:name=".LogInPage" />
-        <activity android:name=".Controller.Signup.Signup" />
-        <activity android:name=".WelcomePage">
 
-        </activity>
-        <!--
-<intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".controller.main.profile.MyDoctor" />
+        <activity android:name=".controller.main.profile.AddDoctor" />
+        <activity android:name=".controller.main.profile.Editprofile" />
+        <activity android:name=".controller.main.profile.EditSocio" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>!
-        -->
+        <activity android:name=".controller.main.calendar.Add_Appointment_Page" />
+        <activity android:name=".controller.main.calendar.PatientAppointmentDetailPage" />
+        <activity android:name=".controller.main.calendar.Add_Medicine_Page" />
+        <activity android:name=".controller.main.calendar.PatientMedicineDetailPage" />
+
+
+        <activity android:name=".controller.main.report.PatientReport" />
+
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
     </application>
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
 </manifest>

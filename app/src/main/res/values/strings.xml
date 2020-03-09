@@ -35,7 +35,7 @@
     <string name="cancel">Cancel</string>
 
 
-    <string name="yes">Yes</string>
+
     <string name="no">No</string>
     <string name="appointments">Appointments</string>
     <string name="calendar">Calendar</string>
@@ -115,6 +115,9 @@
     <string name="end">End</string>
     <string name="not_at_all">Not at all</string>
     <string name="delete">delete</string>
+    <string name="google_calendar_description">Serene wants to connect with your google calendar to get your events in order to perform correctly.</string>
+    <string name="medicine_name">Medicine Name</string>
+    <string name="yes">Yes</string>
 
 
     <string-array name="employmentStatus">

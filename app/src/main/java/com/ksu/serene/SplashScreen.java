@@ -2,18 +2,12 @@ package com.ksu.serene;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.ksu.serene.Controller.Constants;
-import com.ksu.serene.Controller.Signup.FitbitConnection;
-import com.ksu.serene.Controller.Signup.GoogleCalendarConnection;
-import com.ksu.serene.Controller.Signup.Questionnairs;
 
 import java.util.Timer;
 import java.util.TimerTask;
