@@ -48,7 +48,7 @@
 
             <RadioButton
                 android:id="@+id/radioButton1"
-                android:layout_width="362dp"
+                android:layout_width="330dp"
                 android:layout_height="54dp"
                 android:fontFamily="@font/montserrat"
                 android:text="last_two_weeks"
@@ -61,7 +61,7 @@
 
             <RadioButton
                 android:id="@+id/radioButton2"
-                android:layout_width="362dp"
+                android:layout_width="330dp"
                 android:layout_height="54dp"
                 android:fontFamily="@font/montserrat"
                 android:text="last_month"
@@ -73,7 +73,7 @@
 
             <RadioButton
                 android:id="@+id/radioButton3"
-                android:layout_width="362dp"
+                android:layout_width="330dp"
                 android:layout_height="54dp"
                 android:fontFamily="@font/montserrat"
                 android:text="specific_period"

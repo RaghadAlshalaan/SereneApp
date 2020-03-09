@@ -221,7 +221,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener{
         final SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yy", Locale.US);
         final SimpleDateFormat TimeFormat = new SimpleDateFormat ("hh : mm");
         //retrieve Patient Session data
-        recyclerViewSession = (RecyclerView) root.findViewById(R.id.RecyclerviewSession);
+        recyclerViewSession = root.findViewById(R.id.RecyclerviewSession);
         ApplayoutManager = new LinearLayoutManager(context);
         recyclerViewSession.setLayoutManager(ApplayoutManager);
         listAppointements = new ArrayList<>();

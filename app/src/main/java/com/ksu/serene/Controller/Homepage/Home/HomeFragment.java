@@ -91,10 +91,10 @@ public class HomeFragment extends Fragment {
     }
 
     private void init(View root) {
-        retrieve = root.findViewById(R.id.fitbitRetrieve);
+/*        retrieve = root.findViewById(R.id.fitbitRetrieve);
         data = root.findViewById(R.id.data);
 
-        storage = FirebaseStorage.getInstance();
+        storage = FirebaseStorage.getInstance();*/
 
 
         // parse Preference file

@@ -101,6 +101,19 @@
     <string name="connect_to_fitbit">Connect to Fitbit</string>
     <string name="fitbit_desc">Serene wants to connect with your Fitbit account in order to acccess your data and behave correctly.</string>
     <string name="finish">Finish</string>
+    <string name="demographic_information">Demographic Information</string>
+    <string name="google_calendar">Google Calendar</string>
+    <string name="connect_google_calendar">Connect Google Calendar</string>
+    <string name="status_not_connected">Status: Not Connected</string>
+    <string name="success">Success</string>
+    <string name="generate_report">Generate Report</string>
+    <string name="duration">Duration:</string>
+    <string name="last_two_weeks">Last Two Weeks</string>
+    <string name="last_month">Last Month</string>
+    <string name="specific_period">Specific Period</string>
+    <string name="start">Start</string>
+    <string name="end">End</string>
+    <string name="not_at_all">Not at all</string>
     <string name="delete">delete</string>
 
 
