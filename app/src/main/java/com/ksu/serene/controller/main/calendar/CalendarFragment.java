@@ -42,9 +42,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Date;
 
-public class CalendarFragment extends Fragment implements View.OnClickListener{
+public class CalendarFragment extends Fragment{
 
     private Context context = this.getContext();
+
     //set for patient's appointments
     private String patientId;
     private RecyclerView recyclerViewSession;
@@ -57,6 +58,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener{
     private String AppTime;
     private Date ADay;
     private Date ATime;
+
     //set for patient's medicines
     private RecyclerView recyclerViewMedicine;
     private RecyclerView.LayoutManager MlayoutManager;
@@ -72,6 +74,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener{
     private Date FDay;
     private Date LDay;
     private Date time;
+
     // Add Buttons
     FloatingActionButton addButton, addMedicine, addAppointment;
     TextView TV_appointment, TV_medicine;
@@ -88,24 +91,24 @@ public class CalendarFragment extends Fragment implements View.OnClickListener{
 
         View root = inflater.inflate(R.layout.fragment_calendar, container, false);
 
-        //set for layout.xml
-        addButton = root.findViewById(R.id.addButton);
-        addMedicine = root.findViewById(R.id.add_Appointment);
-        addAppointment= root.findViewById(R.id.add_Medicine);
-        addButton.setOnClickListener(this);
-        addMedicine.setOnClickListener(this);
-        addAppointment.setOnClickListener(this);
-        TV_appointment = root.findViewById(R.id.TV_appointment);
-        TV_medicine = root.findViewById(R.id.TV_medicine);
-        isFABOpen = false;
-        fab_clock = AnimationUtils.loadAnimation( getContext(), R.anim.fab_rotate_clock );
-        fab_anti_clock = AnimationUtils.loadAnimation( getContext(), R.anim.fab_rotate_anticlock );
+//        addButton = root.findViewById(R.id.addButton);
+//        addMedicine = root.findViewById(R.id.add_Appointment);
+//        addAppointment= root.findViewById(R.id.add_Medicine);
+//        addButton.setOnClickListener(this);
+//        addMedicine.setOnClickListener(this);
+//        addAppointment.setOnClickListener(this);
+//        TV_appointment = root.findViewById(R.id.TV_appointment);
+//        TV_medicine = root.findViewById(R.id.TV_medicine);
+//        isFABOpen = false;
+//        fab_clock = AnimationUtils.loadAnimation( getContext(), R.anim.fab_rotate_clock );
+//        fab_anti_clock = AnimationUtils.loadAnimation( getContext(), R.anim.fab_rotate_anticlock );
+
         AddMed = root.findViewById(R.id.Add_Med);
         AddApp = root.findViewById(R.id.Add_App);
 
         //set calender view
         calenderView =  root.findViewById(R.id.calendarView2);
-        calendar.set(2015,1,1);
+        calendar.set(2019,1,1);
         calenderView.setMinDate(calendar.getTimeInMillis());
         calenderView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -150,7 +153,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener{
     }
 
 
-    @Override
+/*    @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -175,7 +178,9 @@ public class CalendarFragment extends Fragment implements View.OnClickListener{
 
             default:
                 break;
+
         }//end switch
+
     }//end onClick
 
 
@@ -209,7 +214,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener{
         TV_medicine.animate().translationY(0);
         TV_appointment.animate().translationY(0);
 
-    }
+    }*/
 
     private void SetAppRecyView (View root) {
 
@@ -354,6 +359,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener{
                 startActivity(intent);
             }
         });
+
         //search in firebase for patientsessions
         CollectionReference referenceMedicine = FirebaseFirestore.getInstance().collection("PatientMedicin");
         final Query queryPatientMedicine = referenceMedicine.whereEqualTo("patinetID",patientId);
@@ -364,7 +370,8 @@ public class CalendarFragment extends Fragment implements View.OnClickListener{
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         //Medicine medicine = document.toObject(Medicine.class);
                         //listMedicines.add(medicine);
-                        MID = document.getId().toString();
+
+                        MID = document.getId();
                         MName = document.get("name").toString();
                         MFDay = document.get("Fday").toString();
                         MLDay = document.get("Lday").toString();
@@ -382,7 +389,6 @@ public class CalendarFragment extends Fragment implements View.OnClickListener{
                             LDay = f1.parse(MLDay);
                             time = TimeFormat.parse(MTime);
                         } catch (ParseException e) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
                         Log.d("calender FD y/m/d", calendar.get(Calendar.YEAR)+"/"+(calendar.get(Calendar.MONTH)+1)+"/"+calendar.get(Calendar.DAY_OF_MONTH));
@@ -441,6 +447,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener{
                 startActivity(intent);
             }
         });
+
         //search in cloud firestore for patient sessions
         CollectionReference referenceSession = FirebaseFirestore.getInstance().collection("PatientSessions");
 
@@ -450,7 +457,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener{
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        AppID = document.getId().toString();
+                        AppID = document.getId();
                         AppName = document.get("name").toString();
                         AppDay = document.get("date").toString();
                         AppTime = document.get("time").toString();
@@ -463,7 +470,6 @@ public class CalendarFragment extends Fragment implements View.OnClickListener{
                             ATime = TimeFormat.parse(AppTime);
                         }
                         catch (ParseException e) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
                         Log.d("calender LD y/m/d", appCalender.get(Calendar.YEAR)+"/"+(appCalender.get(Calendar.MONTH)+1)+"/"+appCalender.get(Calendar.DAY_OF_MONTH));
