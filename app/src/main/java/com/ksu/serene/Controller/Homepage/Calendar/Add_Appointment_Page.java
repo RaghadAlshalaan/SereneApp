@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ksu.serene.MainActivity;
@@ -38,7 +39,8 @@ public class Add_Appointment_Page extends AppCompatActivity {
     private EditText Time;
     private Button Confirm;
     private Calendar calendar ;
-    private SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yy", Locale.US);
+    private SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+    private Timestamp dateTS;
 
     //for  day
     private final DatePickerDialog.OnDateSetListener AppDate = new DatePickerDialog.OnDateSetListener() {
@@ -116,14 +118,8 @@ public class Add_Appointment_Page extends AppCompatActivity {
                         //update calender view color From Start to finish days
                         //search about it
                         if (SaveNewApp (AppName.getText().toString() , Date.getText().toString(), Time.getText().toString())){
-                            Toast.makeText(Add_Appointment_Page.this, "The Appointment Reminder added Successfully to your Calender", Toast.LENGTH_LONG).show();
 
-                            Intent intent = new Intent(Add_Appointment_Page.this , MainActivity.class);
-                            startActivity(intent);
                         }
-                        else
-                            Toast.makeText(Add_Appointment_Page.this, "The Appointment Reminder did not add ", Toast.LENGTH_LONG).show();
-
                     }
                 }
             }
@@ -159,7 +155,7 @@ public class Add_Appointment_Page extends AppCompatActivity {
         //check if the  date is the current date the time is after or same current time, if not return false after display meaningful message
         if ( (AD.compareTo(CurrentDate) == 0) ) {
             //check for time, if it before current time return false with meaningful message
-            if (AT.before(CuttentTime) && (AT.compareTo(CuttentTime) != 0)){
+            if (AT.before(CuttentTime) || (AT.compareTo(CuttentTime) == -1)){
                 Toast.makeText(Add_Appointment_Page.this,"The chosen time must be now or after now ", Toast.LENGTH_LONG).show();
                 return false;
             }
@@ -179,6 +175,7 @@ public class Add_Appointment_Page extends AppCompatActivity {
         //convert string to date to used in make TherapySession obj
         try {
             AD = DateFormat.parse(date);
+            dateTS = new Timestamp(AD);
             AT = TimeFormat.parse(time);
         }
         catch (ParseException e) {
@@ -195,6 +192,7 @@ public class Add_Appointment_Page extends AppCompatActivity {
         App.put("name", newApp.getName());
         App.put("patinetID", patientID);
         App.put("time", newApp.getTime().toString());
+        App.put("dateTimestamp", dateTS);
 
 // Add a new document with a generated ID
         db.collection("PatientSessions").document()
@@ -203,10 +201,12 @@ public class Add_Appointment_Page extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            //Toast.makeText(Add_Appointment_Page.this, "The App added successfully", Toast.LENGTH_LONG);
+                            Toast.makeText(Add_Appointment_Page.this, "The App added successfully", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent (Add_Appointment_Page.this, MainActivity.class);
+                            startActivity(intent);
                             added = true;
                         } else {
-                            //Toast.makeText(Add_Appointment_Page.this, "The App did not add", Toast.LENGTH_LONG);
+                            Toast.makeText(Add_Appointment_Page.this, "The App did not add", Toast.LENGTH_LONG).show();
                             added = false;
                         }
                     }

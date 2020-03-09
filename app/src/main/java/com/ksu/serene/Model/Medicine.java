@@ -5,10 +5,10 @@ import java.util.Date;
 
 public class Medicine extends Reminder {
     private int doze;
-    private int period;
+    private long period;
     private String LastDay;
 
-    public Medicine(String id, String name, String day,String LastDay ,String time, int doze, int period) {
+    public Medicine(String id, String name, String day,String LastDay ,String time, int doze, long period) {
         super(id, name, day, time);
         this.doze = doze;
         this.period = period;
@@ -19,7 +19,7 @@ public class Medicine extends Reminder {
         return doze;
     }
 
-    public int getPeriod() {
+    public long getPeriod() {
         return period;
     }
 

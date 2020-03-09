@@ -34,7 +34,13 @@
         </activity>
         <activity
             android:name=".SplashScreen"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
         <activity android:name=".Controller.Homepage.Patient.AddDoctor" />
         <activity android:name=".Controller.Homepage.Calendar.Add_Appointment_Page" />
         <activity android:name=".Controller.Homepage.Calendar.PatientAppointmentDetailPage" />
@@ -43,17 +49,14 @@
         <activity android:name=".Controller.Homepage.Calendar.PatientMedicineDetailPage" />
         <activity android:name=".MainActivity" />
         <activity android:name=".Controller.Signup.Sociodemo" />
+        <activity android:name=".Controller.Signup.Questionnairs" />
         <activity android:name=".Controller.Homepage.Patient.Editprofile" />
         <activity android:name=".Controller.Homepage.Patient.EditSocio" />
         <activity android:name=".Controller.Homepage.Report.PatientReport" />
         <activity android:name=".LogInPage" />
         <activity android:name=".Controller.Signup.Signup" />
         <activity android:name=".WelcomePage">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <!--
 <intent-filter>
