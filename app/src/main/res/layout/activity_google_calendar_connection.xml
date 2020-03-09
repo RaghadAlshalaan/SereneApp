@@ -23,7 +23,7 @@ tools:context=".Controller.Signup.GoogleCalendarConnection">
     android:fontFamily="@font/montserrat"
     android:layout_centerHorizontal="true"
     android:layout_marginTop="50dp"
-    android:text="@string/google_calendar"
+    android:text="google_calendar"
     android:gravity="center"
     android:textColor="#000000"
     android:textSize="25sp" />
@@ -74,7 +74,7 @@ tools:context=".Controller.Signup.GoogleCalendarConnection">
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
                 android:padding="10dp"
-                android:text="@string/status_not_connected"
+                android:text="status_not_connected"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp" />
@@ -88,7 +88,7 @@ tools:context=".Controller.Signup.GoogleCalendarConnection">
                 android:fontFamily="@font/montserrat"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="@string/connect_google_calendar"
+                android:text="connect_google_calendar"
                 android:textColor="#ffffff" />
 
     </LinearLayout><!--End main layout-->
