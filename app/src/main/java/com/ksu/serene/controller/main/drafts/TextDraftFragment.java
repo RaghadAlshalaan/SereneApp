@@ -2,6 +2,7 @@ package com.ksu.serene.controller.main.drafts;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +42,7 @@ public class TextDraftFragment extends Fragment {
     private RecyclerView recyclerViewDraft;
     private RecyclerView.LayoutManager layoutManager;
     private List<TextDraft> listTextDrafts;
-    private TextAdapter adapterTextDraft;
+    private textDraftAdapter adapterTextDraft;
     private String TextID;
     private String TextTitle;
     private String TextDate;
@@ -58,7 +59,14 @@ public class TextDraftFragment extends Fragment {
         patientId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         layoutManager = new LinearLayoutManager(root.getContext());
         listTextDrafts = new ArrayList<>();
-        adapterTextDraft = new TextAdapter(getContext() ,listTextDrafts);
+        adapterTextDraft = new textDraftAdapter(listTextDrafts, new textDraftAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(TextDraft item) {
+                Intent intent = new Intent(getContext(), PatientTextDraftDetailPage.class);
+                intent.putExtra("TextDraftID", item.getId());
+                startActivity(intent);
+            }
+        });
         recyclerViewDraft = root.findViewById(R.id.Recyclerview_Text_Draft);
         recyclerViewDraft.setLayoutManager(layoutManager);
         recyclerViewDraft.setAdapter(adapterTextDraft);

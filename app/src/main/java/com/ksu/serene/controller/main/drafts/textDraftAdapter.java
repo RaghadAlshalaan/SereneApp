@@ -17,12 +17,12 @@ public class textDraftAdapter extends RecyclerView.Adapter<textDraftAdapter.MyVi
     }
 
     private List<TextDraft> mAdapter;
-    //private final OnItemClickListener listener;
+    private final OnItemClickListener listener;
 
-    public textDraftAdapter(List<TextDraft> mAdapter){//, OnItemClickListener listener) {
+    public textDraftAdapter(List<TextDraft> mAdapter, OnItemClickListener listener) {
         //super(options);
         this.mAdapter = mAdapter;
-        //this.listener = listener;
+        this.listener = listener;
     }
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -55,6 +55,7 @@ public class textDraftAdapter extends RecyclerView.Adapter<textDraftAdapter.MyVi
 
     @Override
     public void onBindViewHolder(@NonNull textDraftAdapter.MyViewHolder holder, int position) {
+        holder.bind(mAdapter.get(position) , listener);
         TextDraft textDraft = mAdapter.get(position);
         holder.Title.setText(textDraft.getTitle());
         holder.Subj.setText(textDraft.getMessage());

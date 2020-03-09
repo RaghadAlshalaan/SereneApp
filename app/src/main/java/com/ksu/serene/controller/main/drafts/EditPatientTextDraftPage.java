@@ -3,6 +3,7 @@ package com.ksu.serene.controller.main.drafts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.ksu.serene.MainActivity;
 import com.ksu.serene.R;
 
 public class EditPatientTextDraftPage extends AppCompatActivity {
@@ -46,13 +48,15 @@ public class EditPatientTextDraftPage extends AppCompatActivity {
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                Toast.makeText(EditPatientTextDraftPage.this, "Updated Successfully", Toast.LENGTH_LONG);
+                                Toast.makeText(EditPatientTextDraftPage.this, "Updated Successfully", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(EditPatientTextDraftPage.this, MainActivity.class);
+                                startActivity(intent);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(EditPatientTextDraftPage.this, "Did Not Update, Try Again", Toast.LENGTH_LONG);
+                                Toast.makeText(EditPatientTextDraftPage.this, "Did Not Update, Try Again", Toast.LENGTH_LONG).show();
                             }
                         });
             }
