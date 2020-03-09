@@ -1,6 +1,7 @@
 package com.ksu.serene.controller.main.drafts;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,7 +58,7 @@ public class allDraft extends Fragment {
 
     public LinearLayoutManager layoutManagerText;
     public RecyclerView recyclerViewDraftText;
-    public TextAdapter adapterTextDraft;
+    public textDraftAdapter adapterTextDraft;
     private View root;
 
 
@@ -80,7 +81,14 @@ public class allDraft extends Fragment {
         //text
         layoutManagerText = new LinearLayoutManager(root.getContext());
         listTextDrafts = new ArrayList<>();
-        adapterTextDraft = new TextAdapter(getContext() ,listTextDrafts);
+        adapterTextDraft = new textDraftAdapter(listTextDrafts, new textDraftAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(TextDraft item) {
+                Intent intent = new Intent(getContext(), PatientTextDraftDetailPage.class);
+                intent.putExtra("TextDraftID",item.getId());
+                startActivity(intent);
+            }
+        });
         recyclerViewDraftText = root.findViewById(R.id.Recyclerview_All_DraftText);
         recyclerViewDraftText.setLayoutManager(layoutManagerText);
         recyclerViewDraftText.setAdapter(adapterTextDraft);

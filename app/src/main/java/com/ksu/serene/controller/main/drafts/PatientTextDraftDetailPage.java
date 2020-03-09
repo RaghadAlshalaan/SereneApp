@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.ksu.serene.MainActivity;
 import com.ksu.serene.R;
 
 public class PatientTextDraftDetailPage extends AppCompatActivity {
@@ -63,20 +64,22 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
                         .setMessage("Are you sure that you want delete the " + title.getText().toString())
                         .setPositiveButton("Yes, I'm sur", new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
+                            public void onClick(DialogInterface dialogInterface, final int i) {
                                 db.collection("TextDraft")
                                         .document(TDID)
                                         .delete()
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
-                                                Toast.makeText(PatientTextDraftDetailPage.this, "The Text Draft deleted successfully", Toast.LENGTH_LONG);
+                                                Toast.makeText(PatientTextDraftDetailPage.this, "The Text Draft deleted successfully", Toast.LENGTH_LONG).show();
+                                                Intent intent = new Intent (PatientTextDraftDetailPage.this, MainActivity.class);
+                                                startActivity(intent);
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(PatientTextDraftDetailPage.this, "The Text Draft did not delete", Toast.LENGTH_LONG);
+                                                Toast.makeText(PatientTextDraftDetailPage.this, "The Text Draft did not delete", Toast.LENGTH_LONG).show();
                                             }
                                         });
                             }
