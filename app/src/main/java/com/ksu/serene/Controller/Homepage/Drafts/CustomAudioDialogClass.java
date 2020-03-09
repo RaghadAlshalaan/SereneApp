@@ -41,7 +41,7 @@ public class CustomAudioDialogClass extends Dialog implements
     public TextView close;
     public TextView titleTxt;
     public TextView closeTxt;
-    public VoiceDraftAdapter voiceDraftAdapter;
+    public com.ksu.serene.Controller.Homepage.Drafts.voiceDraftAdapter voiceDraftAdapter;
 
 
     public CustomAudioDialogClass(Context a, VoiceDraft draft) {
@@ -71,7 +71,7 @@ public class CustomAudioDialogClass extends Dialog implements
         close = findViewById(R.id.cancel);
         titleTxt = findViewById(R.id.title);
         closeTxt = findViewById(R.id.delete);
-        voiceDraftAdapter = new VoiceDraftAdapter();
+        voiceDraftAdapter = new voiceDraftAdapter();
 
 
         pause.setOnClickListener(this);

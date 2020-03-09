@@ -40,7 +40,7 @@ public class VoiceDraftFragment extends Fragment {
     private RecyclerView recyclerViewDraft;
     private RecyclerView.LayoutManager layoutManager;
     private List<VoiceDraft> listVoiceDrafts;
-    public VoiceDraftAdapter adapterVoiceDraft;
+    public voiceDraftAdapter adapterVoiceDraft;
     private String VoiceID;
     private String VoiceTitle;
     private String VoiceDate;
@@ -56,7 +56,7 @@ public class VoiceDraftFragment extends Fragment {
         patientId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         layoutManager = new LinearLayoutManager(root.getContext());
         listVoiceDrafts = new ArrayList<>();
-        adapterVoiceDraft = new VoiceDraftAdapter(getContext() ,listVoiceDrafts);
+        adapterVoiceDraft = new voiceDraftAdapter(getContext() ,listVoiceDrafts);
 
         recyclerViewDraft = (RecyclerView) root.findViewById(R.id.Recyclerview_Voice_Draft);
         recyclerViewDraft.setLayoutManager(layoutManager);

@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -44,7 +45,10 @@ public class Add_Medicine_Page extends AppCompatActivity {
     private EditText Dose;
     private Button Confirm;
     private Calendar calendar;
-    private SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yy", Locale.US);
+    private SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+    private Timestamp FDTS;
+    private Timestamp LDTS;
+
 
     //for from day
     private final DatePickerDialog.OnDateSetListener FromDate = new DatePickerDialog.OnDateSetListener() {
@@ -145,14 +149,7 @@ public class Add_Medicine_Page extends AppCompatActivity {
                     if (checkDayandTime(FromDay.getText().toString() , TillDay.getText().toString() , Time.getText().toString())) {
                         // if all checked successfully save medicine in firestore with user id
                         if (SaveNewMed (MedicineName.getText().toString(),FromDay.getText().toString() , TillDay.getText().toString() , Time.getText().toString() , Integer.parseInt(Dose.getText().toString()))) {
-                            //update calender view color From Start to finish days
-                            //search about it
-                            Toast.makeText(Add_Medicine_Page.this,"The Medicine Reminder added Successfully to your Calender", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(Add_Medicine_Page.this , MainActivity.class);
-                            startActivity(intent);
-                        }
-                        else {
-                            Toast.makeText(Add_Medicine_Page.this, "The Med did not add", Toast.LENGTH_LONG).show();
+
                         }
                     }
 
@@ -221,13 +218,15 @@ public class Add_Medicine_Page extends AppCompatActivity {
         //convert string to date to used in compare
         try {
             StartD = DateFormat.parse(FDay);
+            FDTS = new Timestamp(StartD);
             FinishD = DateFormat.parse(EDay);
+            LDTS = new Timestamp(FinishD);
             MTime = TimeFormat.parse(Time);
         } catch (ParseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        int period = Integer.parseInt(((FinishD.getTime() - StartD.getTime()) + 1) + "");
+        long period = Long.parseLong(((FinishD.getTime() - StartD.getTime()) + 1) + "");
         String patientID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String medID = db.collection("PatientMedicin").document().getId();
@@ -243,6 +242,9 @@ public class Add_Medicine_Page extends AppCompatActivity {
         med.put("patinetID", patientID);
         med.put("period", newMedicine.getPeriod() + "");
         med.put("time", newMedicine.getTime().toString());
+        med.put("FirstDayTS", FDTS);
+        med.put("LastDayTS", LDTS);
+
 
 // Add a new document with a generated ID
         db.collection("PatientMedicin").document()
@@ -252,10 +254,12 @@ public class Add_Medicine_Page extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             //Log.d("TAG", "DocumentSnapshot added with ID: " + documentReference.getId());
-                           // Toast.makeText(Add_Medicine_Page.this, "The Med added successfully", Toast.LENGTH_LONG);
+                           Toast.makeText(Add_Medicine_Page.this, "The Med added successfully", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(Add_Medicine_Page.this , MainActivity.class);
+                            startActivity(intent);
                             added = true;
                         } else {
-                           // Toast.makeText(Add_Medicine_Page.this, "The Med did not add", Toast.LENGTH_LONG);
+                           Toast.makeText(Add_Medicine_Page.this, "The Med did not add", Toast.LENGTH_LONG).show();
                             added = false;
                         }
                     }

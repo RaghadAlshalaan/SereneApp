@@ -19,13 +19,10 @@ import com.ksu.serene.Model.TextDraft;
 import com.ksu.serene.Model.VoiceDraft;
 import com.ksu.serene.R;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Date;
-import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -54,7 +51,7 @@ public class allDraft extends Fragment {
     public FirebaseAuth mAuth;
     private Timestamp Voicetimestap;
     private List<VoiceDraft> listVoiceDrafts;
-    public VoiceDraftAdapter adapterVoiceDraft;
+    public voiceDraftAdapter adapterVoiceDraft;
     public LinearLayoutManager layoutManagerVoice;
     public RecyclerView recyclerViewDraftVoice;
 
@@ -74,7 +71,7 @@ public class allDraft extends Fragment {
         patientId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         layoutManagerVoice = new LinearLayoutManager(root.getContext());
         listVoiceDrafts = new ArrayList<>();
-        adapterVoiceDraft = new VoiceDraftAdapter(getContext() ,listVoiceDrafts);
+        adapterVoiceDraft = new voiceDraftAdapter(getContext() ,listVoiceDrafts);
         recyclerViewDraftVoice = (RecyclerView) root.findViewById(R.id.Recyclerview_All_DraftVoice);
         recyclerViewDraftVoice.setLayoutManager(layoutManagerVoice);
         recyclerViewDraftVoice.setAdapter(adapterVoiceDraft);

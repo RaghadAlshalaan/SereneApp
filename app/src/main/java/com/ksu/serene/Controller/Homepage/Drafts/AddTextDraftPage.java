@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.ksu.serene.MainActivity;
 import com.ksu.serene.R;
 
 import java.util.HashMap;
@@ -80,7 +81,7 @@ public class AddTextDraftPage extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
                         //todo: progress bar
                         Toast.makeText(AddTextDraftPage.this, "Saved Successfully", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(AddTextDraftPage.this, TextDraftFragment.class);
+                        Intent intent = new Intent(AddTextDraftPage.this, MainActivity.class);
                         startActivity(intent);
 
                     }
