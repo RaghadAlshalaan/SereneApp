@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Controller.Homepage.Patient.MyDoctor">
+    tools:context=".controller.main.profile.MyDoctor">
 
     <View
         android:id="@+id/white_bg1"

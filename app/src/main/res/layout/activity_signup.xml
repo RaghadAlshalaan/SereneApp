@@ -7,7 +7,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/main_background"
-    tools:context=".Controller.Signup.Signup">
+    tools:context=".controller.signup.Signup">
 
 
     <View
@@ -160,114 +160,6 @@
             android:textSize="18sp" />
 
     </LinearLayout>
-
-
-    <!--
-
-
-
-     <TextView
-         android:id="@+id/description2"
-         android:layout_width="321dp"
-         android:layout_height="wrap_content"
-         android:layout_alignParentStart="true"
-         android:layout_alignParentBottom="true"
-         android:layout_centerInParent="true"
-         android:layout_marginStart="53dp"
-         android:layout_marginBottom="24dp"
-         android:fontFamily="Roboto"
-         android:text="If you already have an account, SIGN IN"
-         android:textAlignment="center"
-         android:textSize="18sp"
-         android:textStyle="normal" />
-
-
-     <EditText
-         android:id="@+id/username"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_alignParentBottom="true"
-         android:layout_centerInParent="true"
-         android:layout_marginBottom="313dp"
-         android:ems="10"
-         android:hint="Full Name"
-         android:inputType="textPersonName"
-         android:textColor="#B1B0B0" />
-
-     <EditText
-         android:id="@+id/passwordInput"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_alignParentBottom="true"
-         android:layout_centerHorizontal="true"
-         android:layout_marginBottom="213dp"
-         android:ems="10"
-         android:hint="Password"
-         android:inputType="textPassword"
-         android:textColor="#B1B0B0" />
-
-     <EditText
-         android:id="@+id/CpasswordInput"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_alignParentBottom="true"
-         android:layout_centerHorizontal="true"
-         android:layout_marginBottom="163dp"
-         android:ems="10"
-         android:hint="Confirm Password"
-         android:inputType="textPassword"
-         android:textColor="#B1B0B0" />
-
-     <EditText
-         android:id="@+id/emailInput"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_alignParentBottom="true"
-         android:layout_centerHorizontal="true"
-         android:layout_marginBottom="263dp"
-         android:ems="10"
-         android:hint="Email"
-         android:inputType="textEmailAddress"
-         android:textColor="#B1B0B0" />
-
-     <ImageView
-         android:id="@+id/signup_withgoogle"
-         android:layout_width="213dp"
-         android:layout_height="94dp"
-         android:layout_alignParentStart="true"
-         android:layout_alignParentBottom="true"
-         android:layout_centerHorizontal="true"
-         android:layout_marginStart="98dp"
-         android:layout_marginBottom="27dp"
-         android:clickable="true"
-         app:srcCompat="@drawable/signup_withgoogle" />
-
-     <LinearLayout
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="670dp">
-
-     </LinearLayout> -->
-
-    <!--  <Button
-          android:id="@+id/reg_btn"
-          android:layout_width="102dp"
-          android:layout_height="29dp"
-          android:layout_alignParentStart="true"
-          android:layout_alignParentBottom="true"
-          android:layout_centerHorizontal="true"
-          android:layout_marginStart="156dp"
-          android:layout_marginBottom="120dp"
-          android:background="#FFFFFF"
-          android:clickable="true"
-          android:fontFamily="sans-serif-medium"
-          android:text="Next"
-          android:textAlignment="center"
-          android:textAllCaps="true"
-          android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-          android:textColor="#4CA1D3"
-          android:textSize="18sp"
-          android:typeface="normal" />-->
 
 
 </RelativeLayout>

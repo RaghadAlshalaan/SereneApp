@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F3F3F3"
-    tools:context=".Controller.Homepage.Drafts.EditPatientTextDraftPage">
+    tools:context=".controller.main.drafts.EditPatientTextDraftPage">
 
     <TextView
         android:id="@+id/EditTextDraftPage"
@@ -48,7 +48,8 @@
                 android:layout_margin="20dp"
                 android:ems="10"
                 android:gravity="start|top"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine"
+                android:textSize="20sp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

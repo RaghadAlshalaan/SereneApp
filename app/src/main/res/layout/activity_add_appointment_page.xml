@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F0F0F0"
-    tools:context=".Controller.Homepage.Calendar.Add_Appointment_Page">
+    tools:context=".controller.main.calendar.Add_Appointment_Page">
 
     <View
         android:id="@+id/white_bg"

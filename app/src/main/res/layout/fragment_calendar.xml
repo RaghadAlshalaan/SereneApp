@@ -59,7 +59,7 @@
             android:id="@+id/text1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
+            android:layout_marginStart="20dp"
             android:fontFamily="@font/montserrat"
             android:text="@string/appointments"
             android:textColor="@color/Error"
@@ -70,9 +70,9 @@
             android:id="@+id/Add_App"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
+            android:layout_marginStart="80dp"
             android:layout_toRightOf="@id/text1"
-            android:text="Add App" />
+            android:text="Add Appointment" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RecyclerviewSession"
@@ -89,7 +89,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/RecyclerviewSession"
-            android:layout_marginStart="30dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/montserrat"
             android:text="@string/medicine"
@@ -101,10 +101,11 @@
             android:id="@+id/Add_Med"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:layout_marginTop="50dp"
-            android:layout_toRightOf="@id/text2"
-            android:text="Add Med" />
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/Add_App"
+            android:layout_marginStart="80dp"
+            android:layout_toRightOf="@id/text1"
+            android:text="Add Medicine" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RecyclerViewMedicine"
@@ -117,14 +118,11 @@
             android:scrollbars="none" />
 
 
-        <include
+    <!--    <include
             layout="@layout/add_medicine_appointment_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
-
-
-
+-->
 
 
     </RelativeLayout>

@@ -5,24 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#16C5CDD1"
-    tools:context=".Controller.Homepage.Drafts.PatientTextDraftDetailPage">
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Add Text Draft"
-        android:textAlignment="center"
-        android:textColor="#FD0A0A0A"
-        android:textSize="36sp"
-        android:textStyle="bold" />
+    tools:context=".controller.main.drafts.PatientTextDraftDetailPage">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="200dp"
         android:orientation="horizontal">
 
         <Button
@@ -39,21 +29,24 @@
     </LinearLayout>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="200dp">
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="15dp">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/TitleTextD"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="20dp"
                 android:text="Title Of Text"
                 android:textAlignment="center"
                 android:textColor="#000000"
@@ -64,15 +57,11 @@
                 android:id="@+id/SubjtextD"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:text="The Subject" />
-
-            <MultiAutoCompleteTextView
-                android:id="@+id/multiAutoCompleteTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:text="The Subject of Text Draft" />
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="30dp"
+                android:text="The Subject"
+                android:textSize="24sp" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

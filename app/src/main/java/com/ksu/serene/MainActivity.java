@@ -2,8 +2,6 @@ package com.ksu.serene;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -11,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.ksu.serene.Controller.Homepage.Patient.PatientProfile;
+import com.ksu.serene.controller.main.profile.PatientProfile;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -44,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         init();
 
-
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -66,6 +63,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             w1.setAlpha(1);
             w1.startAnimation(from_small);
 
+        }else{
+            w1.setVisibility(View.GONE);
+            w2.setVisibility(View.GONE);
+            overbox.setVisibility(View.GONE);
         }
 
 

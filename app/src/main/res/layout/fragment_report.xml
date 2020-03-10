@@ -15,7 +15,7 @@
         android:layout_height="50dp"
         android:fontFamily="@font/montserrat"
         android:paddingTop="10dp"
-        android:text="generate_report"
+        android:text="@string/generate_report"
         android:gravity="center"
         android:layout_gravity="center"
         android:textColor="@color/black"
@@ -33,135 +33,153 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"
-            android:text="duration"
+            android:text="@string/duration"
             android:textColor="#515C6F"
             android:layout_marginBottom="10dp"
             android:textSize="20sp" />
 
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/radio_group"
-            android:checkedButton="@id/radioButton1"
-            tools:ignore="UnknownId">
-
-
-            <RadioButton
-                android:id="@+id/radioButton1"
-                android:layout_width="362dp"
-                android:layout_height="54dp"
-                android:fontFamily="@font/montserrat"
-                android:text="last_two_weeks"
-                android:layout_margin="5dp"
-                android:textSize="15sp"
-                android:background="@drawable/white_background"
-                android:focusable="auto"
-                />
-
-
-            <RadioButton
-                android:id="@+id/radioButton2"
-                android:layout_width="362dp"
-                android:layout_height="54dp"
-                android:fontFamily="@font/montserrat"
-                android:text="last_month"
-                android:layout_margin="5dp"
-                android:textSize="15sp"
-                android:background="@drawable/white_background"
-                android:focusable="auto"/>
-
-
-            <RadioButton
-                android:id="@+id/radioButton3"
-                android:layout_width="362dp"
-                android:layout_height="54dp"
-                android:fontFamily="@font/montserrat"
-                android:text="specific_period"
-                android:textSize="15sp"
-                android:layout_margin="5dp"
-                android:background="@drawable/white_background"
-                android:focusable="auto" />
-
-
-        </RadioGroup>
-
-
-        <LinearLayout
-            android:id="@+id/data_picker"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contLay"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            tools:ignore="UnknownId">
+            android:layout_height="wrap_content">
+
+            <RadioGroup
+                android:id="@+id/radio_group"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:checkedButton="@id/radioButton1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="UnknownId">
+
+
+                <RadioButton
+                    android:id="@+id/radioButton1"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/white_background"
+                    android:focusable="auto"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/last_two_weeks"
+                    android:textSize="15sp" />
+
+
+                <RadioButton
+                    android:id="@+id/radioButton2"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/white_background"
+                    android:focusable="auto"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/last_month"
+                    android:textSize="15sp" />
+
+
+                <RadioButton
+                    android:id="@+id/radioButton3"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/white_background"
+                    android:focusable="auto"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/specific_period"
+                    android:textSize="15sp" />
+
+
+            </RadioGroup>
+
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/data_picker"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_weight="1">
+                android:orientation="horizontal"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radio_group"
+                tools:ignore="UnknownId">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="start"
-                    />
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/start_date"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/start" />
+
+                    <TextView
+                        android:id="@+id/start_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="DD/MM/YYYY" />
+
+                    <Button
+                        android:id="@+id/start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/start" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="DD/MM/YYYY" />
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/start"
-                    android:text="start"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/end" />
 
+                    <TextView
+                        android:id="@+id/end_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="DD/MM/YYYY" />
+
+                    <Button
+                        android:id="@+id/end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/end" />
+
+                </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_weight="1">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="end"
-                    />
-
-                <TextView
-                    android:id="@+id/end_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="DD/MM/YYYY" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/end"
-                    android:text="end">
-                </Button>
-
-            </LinearLayout>
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 
+
+
     <Button
         android:id="@+id/generate_report_btn"
-        android:layout_width="150dp"
-        android:layout_height="40dp"
-        android:background="#4CA1D3"
         android:layout_gravity="center"
-
-        android:text="generate_report"
-        android:textColor="#FFFFFF"
-        tools:ignore="InvalidId" />
+        android:layout_width="250dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="100dp"
+        android:background="@drawable/main_button"
+        android:enabled="false"
+        android:fontFamily="@font/montserrat"
+        android:padding="3dp"
+        android:text="@string/generate_report"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:typeface="normal" />
 
 
 </LinearLayout>

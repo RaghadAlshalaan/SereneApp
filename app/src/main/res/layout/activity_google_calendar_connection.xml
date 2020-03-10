@@ -6,7 +6,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:background="@drawable/main_background"
-tools:context=".Controller.Signup.GoogleCalendarConnection">
+tools:context=".controller.signup.GoogleCalendarConnection">
 
 
 <View
@@ -23,7 +23,7 @@ tools:context=".Controller.Signup.GoogleCalendarConnection">
     android:fontFamily="@font/montserrat"
     android:layout_centerHorizontal="true"
     android:layout_marginTop="50dp"
-    android:text="google_calendar"
+    android:text="@string/google_calendar"
     android:gravity="center"
     android:textColor="#000000"
     android:textSize="25sp" />
@@ -44,7 +44,7 @@ tools:context=".Controller.Signup.GoogleCalendarConnection">
         android:layout_height="85dp"
         android:fontFamily="@font/montserrat"
         android:gravity="center"
-        android:text="Serene wants to connect to your google calendar to get your events in order to perform correctly."
+        android:text="@string/google_calendar_description"
         android:layout_marginTop="30dp"
         android:textColor="@color/Grey"
         android:textSize="15sp" />
@@ -54,7 +54,6 @@ tools:context=".Controller.Signup.GoogleCalendarConnection">
             android:id="@+id/mainLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:background="@drawable/layout_rounded_bg"
             android:gravity="center_horizontal"
             android:orientation="vertical"
@@ -74,7 +73,7 @@ tools:context=".Controller.Signup.GoogleCalendarConnection">
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
                 android:padding="10dp"
-                android:text="status_not_connected"
+                android:text="@string/status_not_connected"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp" />
@@ -88,7 +87,7 @@ tools:context=".Controller.Signup.GoogleCalendarConnection">
                 android:fontFamily="@font/montserrat"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="connect_google_calendar"
+                android:text="@string/connect_google_calendar"
                 android:textColor="#ffffff" />
 
     </LinearLayout><!--End main layout-->
