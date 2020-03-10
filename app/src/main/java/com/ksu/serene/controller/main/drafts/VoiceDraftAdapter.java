@@ -1,4 +1,4 @@
-package com.ksu.serene.Controller.main.drafts;
+package com.ksu.serene.controller.main.drafts;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -15,7 +15,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ksu.serene.R;
 import com.ksu.serene.model.VoiceDraft;
-import com.ksu.serene.Controller.main.drafts.Cu;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -86,9 +85,9 @@ public class VoiceDraftAdapter extends RecyclerView.Adapter<VoiceDraftAdapter.My
                 @Override
                 public void onClick(View v) {
 
-
                     VoiceDraft voiceDraft = voiceDrafts.get(getAdapterPosition());
-                    com.ksu.serene.controller.main.drafts.CustomAudioDialogClass dialogClass = new com.ksu.serene.controller.main.drafts.CustomAudioDialogClass(context, voiceDraft);
+                    CustomAudioDialogClass dialogClass = new CustomAudioDialogClass(context, voiceDraft);
+                    dialogClass.dismiss();
                     dialogClass.show();
                     position = getAdapterPosition();
 
