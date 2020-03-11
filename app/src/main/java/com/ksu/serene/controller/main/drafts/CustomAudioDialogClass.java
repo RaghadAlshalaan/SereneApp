@@ -1,9 +1,11 @@
 package com.ksu.serene.controller.main.drafts;
 
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -15,12 +17,18 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.ksu.serene.model.VoiceDraft;
 import com.ksu.serene.R;
 
 import java.util.concurrent.TimeUnit;
+
+import static com.firebase.ui.auth.ui.phone.SubmitConfirmationCodeFragment.TAG;
 
 public class CustomAudioDialogClass extends Dialog implements
         android.view.View.OnClickListener {
@@ -42,14 +50,19 @@ public class CustomAudioDialogClass extends Dialog implements
     public TextView titleTxt;
     public TextView closeTxt;
     public VoiceDraftAdapter voiceDraftAdapter;
+    public VoiceDraftFragment voiceDraftFragment = new VoiceDraftFragment();
+    public FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    private Intent intent;
 
 
-    public CustomAudioDialogClass(Context a, VoiceDraft draft) {
+
+    public CustomAudioDialogClass(Context a, VoiceDraft draft , Intent intent) {
         super(a);
         context = a;
         audioUri = Uri.parse(draft.getAudio());
         title = draft.getTitle();
         draftId = draft.getId();
+        this.intent = intent;
 
     }
 
@@ -70,7 +83,6 @@ public class CustomAudioDialogClass extends Dialog implements
         close = findViewById(R.id.cancel);
         titleTxt = findViewById(R.id.title);
         closeTxt = findViewById(R.id.delete);
-        voiceDraftAdapter = new VoiceDraftAdapter();
 
 
         pause.setOnClickListener(this);
@@ -178,6 +190,7 @@ public class CustomAudioDialogClass extends Dialog implements
                 break;
             case R.id.delete:
                 showDialogWithOkCancelButton("Do you want to delete the draft?");
+                context.startActivity(intent);
                 break;
             default:
                 break;
@@ -239,9 +252,11 @@ public class CustomAudioDialogClass extends Dialog implements
                 .setCancelable(false)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        //voiceDraftAdapter.deleteDraft();
+                        deleteDraft(draftId);
                         dialog.dismiss();
                         doDismiss();
+                        //context.startActivity(new Intent(context , VoiceDraftFragment.class));
+                        //context.startActivity(intent);
                     }// onClick
                 }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
@@ -252,6 +267,32 @@ public class CustomAudioDialogClass extends Dialog implements
         builder.show();
 
     }// showDialogWithOkButton
+
+
+    public void deleteDraft(String id) {
+
+        firebaseFirestore.collection("AudioDraft").document(id)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @SuppressLint("LongLogTag")
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                        voiceDraftFragment.onResume();
+
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @SuppressLint("LongLogTag")
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error deleting document", e);
+                    }
+                });
+
+
+    }// deleteDraft
 
 
 }// class

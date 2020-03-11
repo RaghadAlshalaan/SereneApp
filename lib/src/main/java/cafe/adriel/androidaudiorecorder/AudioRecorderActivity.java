@@ -441,13 +441,13 @@ public class AudioRecorderActivity extends AppCompatActivity
 
         if (recorder == null) {
             timerView.setText("00:00:00");
-            verifyStoragePermissions(this);
-            if (requestPermission()) {
-                verifyStoragePermissions(this);
+            //verifyStoragePermissions(this);
+          //  if (requestPermission()) {
+              //  verifyStoragePermissions(this);
                 recorder = OmRecorder.wav(
                         new PullTransport.Default(Util.getMic(source, channel, sampleRate), AudioRecorderActivity.this),
                         new File(filePath));
-            }// if
+          //  }// if
 
         }
         recorder.resumeRecording();
