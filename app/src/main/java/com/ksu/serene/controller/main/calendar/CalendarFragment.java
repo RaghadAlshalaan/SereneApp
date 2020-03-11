@@ -19,6 +19,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fangxu.allangleexpandablebutton.AllAngleExpandableButton;
+import com.fangxu.allangleexpandablebutton.ButtonData;
+import com.fangxu.allangleexpandablebutton.ButtonEventListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -29,6 +32,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.ksu.serene.controller.main.drafts.AddTextDraftPage;
+import com.ksu.serene.controller.main.drafts.AddVoiceDraftPage;
 import com.ksu.serene.model.Medicine;
 import com.ksu.serene.model.Reminder;
 import com.ksu.serene.model.TherapySession;
@@ -80,16 +85,15 @@ public class CalendarFragment extends Fragment{
     TextView TV_appointment, TV_medicine;
     private Animation fab_clock, fab_anti_clock;
     private boolean isFABOpen;
-    private Button AddMed;
-    private Button AddApp;
     private CalendarView calenderView;
     private Calendar calendar = Calendar.getInstance() ;
     private ArrayList<Reminder> reminders = new ArrayList<>() ;
+    private View root;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_calendar, container, false);
+        root = inflater.inflate(R.layout.fragment_calendar, container, false);
 
 //        addButton = root.findViewById(R.id.addButton);
 //        addMedicine = root.findViewById(R.id.add_Appointment);
@@ -103,8 +107,6 @@ public class CalendarFragment extends Fragment{
 //        fab_clock = AnimationUtils.loadAnimation( getContext(), R.anim.fab_rotate_clock );
 //        fab_anti_clock = AnimationUtils.loadAnimation( getContext(), R.anim.fab_rotate_anticlock );
 
-        AddMed = root.findViewById(R.id.Add_Med);
-        AddApp = root.findViewById(R.id.Add_App);
 
         //set calender view
         calenderView =  root.findViewById(R.id.calendarView2);
@@ -126,21 +128,6 @@ public class CalendarFragment extends Fragment{
             }
         });
 
-        AddMed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(), Add_Medicine_Page.class);
-                startActivity(intent);
-            }
-        });
-
-        AddApp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(), Add_Appointment_Page.class);
-                startActivity(intent);
-            }
-        });
 
         //retrieve the id of patient used for searching
         patientId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -148,6 +135,7 @@ public class CalendarFragment extends Fragment{
         SetAppRecyView (root);
         SetMedRecyView (root);
 
+        installButton110to250();
 
         return root;
     }
@@ -484,5 +472,59 @@ public class CalendarFragment extends Fragment{
         });
         recyclerViewApp.setAdapter(adapterApp);
     }
+
+
+    private void installButton110to250() {
+
+        final AllAngleExpandableButton button = (AllAngleExpandableButton) root.findViewById(R.id.button_expandable_110_250);
+        final List<ButtonData> buttonDatas = new ArrayList<>();
+        int[] drawable = {R.drawable.ic_add_symbol , R.drawable.add_medicine , R.drawable.add_appointment};
+        int[] color = { R.color.colorAccent, R.color.colorAccent , R.color.colorAccent};
+        for (int i = 0; i < 3; i++) {
+            ButtonData buttonData;
+            if (i == 0) {
+                buttonData = ButtonData.buildIconButton(getContext(), drawable[i], 7);
+            }else {
+                buttonData = ButtonData.buildIconButton(getContext(), drawable[i], 8);
+            }
+            buttonData.setBackgroundColorId(getContext(), color[i]);
+            buttonDatas.add(buttonData);
+        }
+        button.setButtonDatas(buttonDatas);
+        setListener(button);
+
+
+    }// installButton110to250
+    private void setListener(final AllAngleExpandableButton button) {
+        button.setButtonEventListener(new ButtonEventListener() {
+            @Override
+            public void onButtonClicked(int index) {
+                switch (index) {
+                    case 1:
+                        //add medicine
+                        Intent intent = new Intent(getContext(), Add_Medicine_Page.class);
+                        startActivity(intent);
+                        break;
+                    case 2:
+                        //add text
+                        Intent intentM = new Intent(getContext(), Add_Appointment_Page.class);
+                        startActivity(intentM);
+                        break;
+
+                }
+            }
+
+            @Override
+            public void onExpand() {
+
+
+            }
+
+            @Override
+            public void onCollapse() {
+            }
+        });
+    }
+
 
 }

@@ -39,9 +39,8 @@ public class AddVoiceDraftPage extends AppCompatActivity {
             getSupportActionBar().setBackgroundDrawable(
                     new ColorDrawable(ContextCompat.getColor(this, R.color.colorPrimaryDark)));
         }
-
-        Util.requestPermission(this, Manifest.permission.RECORD_AUDIO);
         Util.requestPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        Util.requestPermission(this, Manifest.permission.RECORD_AUDIO);
 
     }// onCreate()
 
@@ -54,8 +53,7 @@ public class AddVoiceDraftPage extends AppCompatActivity {
                 Toast.makeText(this, "Audio recorded successfully!", Toast.LENGTH_SHORT).show();
                 finish();
             } else if (resultCode == RESULT_CANCELED) {
-                requestPermission();
-                finish();
+               // requestPermission();
                 //todo: remove toast
                 Toast.makeText(this, "Audio was not recorded", Toast.LENGTH_SHORT).show();
             }
@@ -77,7 +75,6 @@ public class AddVoiceDraftPage extends AppCompatActivity {
 
     public void recordAudio(View v) {
 
-        if(requestPermission()){
 
             AndroidAudioRecorder.with(this)
                     // Required
@@ -94,7 +91,6 @@ public class AddVoiceDraftPage extends AppCompatActivity {
                     .record();
 
 
-        }//if
     }
 
     public boolean requestPermission(){

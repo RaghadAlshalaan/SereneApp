@@ -1,16 +1,13 @@
 package com.ksu.serene.controller.main.drafts;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ksu.serene.controller.main.drafts.CustomAudioDialogClass;
@@ -21,8 +18,6 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import static com.firebase.ui.auth.ui.phone.SubmitConfirmationCodeFragment.TAG;
 
 public class VoiceDraftAdapter extends RecyclerView.Adapter<VoiceDraftAdapter.MyViewHolder> {
 
@@ -37,9 +32,6 @@ public class VoiceDraftAdapter extends RecyclerView.Adapter<VoiceDraftAdapter.My
     private int position;
     public FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
-    public VoiceDraftAdapter() {
-
-    }
 
     public VoiceDraftAdapter(Context context, List<VoiceDraft> voiceDrafts) {
         this.context = context;
@@ -88,11 +80,11 @@ public class VoiceDraftAdapter extends RecyclerView.Adapter<VoiceDraftAdapter.My
                 public void onClick(View v) {
 
                     VoiceDraft voiceDraft = voiceDrafts.get(getAdapterPosition());
-                    CustomAudioDialogClass dialogClass = new CustomAudioDialogClass(context, voiceDraft);
+                    Intent intent = new Intent(context , VoiceDraftFragment.class);
+                    CustomAudioDialogClass dialogClass = new CustomAudioDialogClass(context, voiceDraft ,intent);
                     dialogClass.dismiss();
                     dialogClass.show();
                     position = getAdapterPosition();
-
                 }
             });
 
@@ -101,37 +93,6 @@ public class VoiceDraftAdapter extends RecyclerView.Adapter<VoiceDraftAdapter.My
 
 
     }//MyViewHolder class
-
-
-    public void deleteDraft() {
-        String id = voiceDrafts.get(position).getId();
-
-        firebaseFirestore.collection("AudioDraft").document(id)
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @SuppressLint("LongLogTag")
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @SuppressLint("LongLogTag")
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error deleting document", e);
-                    }
-                });
-
-        removeAt(position);
-    }// deleteDraft
-
-    public void removeAt(int position) {
-        voiceDrafts.remove(position);
-        notifyItemRemoved(position);
-        notifyItemRangeChanged(position, voiceDrafts.size());
-    }// removeAt
-
 
 
 }// class

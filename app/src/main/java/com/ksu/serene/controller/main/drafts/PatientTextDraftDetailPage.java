@@ -62,7 +62,7 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
                 new AlertDialog.Builder(PatientTextDraftDetailPage.this)
                         .setTitle("Delete Text Draft")
                         .setMessage("Are you sure that you want delete the " + title.getText().toString())
-                        .setPositiveButton("Yes, I'm sur", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("Yes, I'm sure", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, final int i) {
                                 db.collection("TextDraft")

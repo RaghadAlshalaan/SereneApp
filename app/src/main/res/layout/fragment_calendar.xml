@@ -66,14 +66,6 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/Add_App"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
-            android:layout_toRightOf="@id/text1"
-            android:text="Add Appointment" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RecyclerviewSession"
             android:layout_width="wrap_content"
@@ -97,16 +89,6 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/Add_Med"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_below="@+id/Add_App"
-            android:layout_marginStart="80dp"
-            android:layout_toRightOf="@id/text1"
-            android:text="Add Medicine" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RecyclerViewMedicine"
             android:layout_width="wrap_content"
@@ -126,6 +108,23 @@
 
 
     </RelativeLayout>
+
+    <com.fangxu.allangleexpandablebutton.AllAngleExpandableButton
+        android:id="@+id/button_expandable_110_250"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="310dp"
+        android:layout_marginTop="-60dp"
+        app:aebAnimDurationMillis="175"
+        app:aebButtonElevation="0dp"
+        app:aebButtonGapDp="20dp"
+        app:aebEndAngleDegree="180"
+        app:aebIsSelectionMode="false"
+        app:aebMainButtonSizeDp="45dp"
+        app:aebRippleEffect="true"
+        app:aebStartAngleDegree="90"
+        app:aebSubButtonSizeDp="35dp"
+        />
 
 
 </LinearLayout>

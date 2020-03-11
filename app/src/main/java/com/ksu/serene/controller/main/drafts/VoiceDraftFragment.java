@@ -108,4 +108,5 @@ public class VoiceDraftFragment extends Fragment {
         retrieveVoiceDraft();
     }// onResume
 
+
 }// class
