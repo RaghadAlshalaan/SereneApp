@@ -35,9 +35,9 @@ import androidx.appcompat.app.AppCompatActivity;
 public class Add_Medicine_Page extends AppCompatActivity {
 
     private EditText MedicineName;
-    private EditText FromDay;
-    private EditText TillDay;
-    private EditText Time;
+    private Button FromDay;
+    private Button TillDay;
+    private Button Time;
     private EditText Dose;
     private Button Confirm;
     private Calendar calendar;

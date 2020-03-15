@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/AppName"
+            android:id="@+id/MedicineName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -27,7 +27,7 @@
             android:id="@+id/DateLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/AppName"
+            android:layout_below="@id/MedicineName"
             android:layout_marginStart="120dp"
             android:layout_marginTop="100dp"
             android:layout_marginEnd="100dp"
@@ -43,7 +43,7 @@
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/AppDate"
+                android:id="@+id/MedicineDaysTill"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
@@ -72,7 +72,7 @@
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/AppTime"
+                android:id="@+id/MedicineTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"

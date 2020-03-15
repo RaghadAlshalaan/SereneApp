@@ -38,9 +38,9 @@ public class PatientAppointmentDetailPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_appointment_detail_page);
         AppID = getIntent().getStringExtra("AppointmentID");
-        AppointmentName = (TextView) findViewById(R.id.AppName);
-        Date = (TextView) findViewById(R.id.AppDate);
-        Time = (TextView) findViewById(R.id.AppTime);
+        AppointmentName = (TextView) findViewById(R.id.MedicineName);
+        Date = (TextView) findViewById(R.id.MedicineDaysTill);
+        Time = (TextView) findViewById(R.id.MedicineTime);
         Delete = (Button) findViewById(R.id.DeleteApp);
 
         db.collection("PatientSessions")

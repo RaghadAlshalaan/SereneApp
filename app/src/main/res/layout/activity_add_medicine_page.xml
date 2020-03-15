@@ -1,169 +1,232 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F0F0"
-    tools:context=".controller.main.calendar.Add_Medicine_Page">
+    android:background="@color/white"
+    tools:context=".controller.main.calendar.Add_Appointment_Page">
 
-    <View
-        android:id="@+id/white_bg"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@drawable/white_bg" />
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="23dp"
+        android:src="@drawable/ic_left_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/Add_Medicine_Page"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/montserrat"
-        android:text="Add Medicine"
+        android:gravity="center"
+        android:text="Medicine Reminder"
         android:textColor="#000000"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/NameMedicientextView"
+        android:id="@+id/NameTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/white_bg"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="10dp"
-        android:text="@string/medicine_name"
-        android:textSize="18sp" />
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="100dp"
+        android:fontFamily="@font/montserrat"
+        android:text="Name"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/MedicineName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/NameMedicientextView"
-        android:layout_marginStart="90dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/NameTV"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:background="@drawable/custom_edit_text"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="" />
-
-    <TextView
-        android:id="@+id/intakeDaysTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/MedicineName"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:text="Days of Intake"
-        android:textSize="18sp" />
-
-    <EditText
-        android:id="@+id/MedicineDaysFrom"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/intakeDaysTV"
-        android:layout_marginStart="90dp"
-        android:layout_marginBottom="10dp"
-        android:ems="10"
-        android:hint="DD/MM/YY"
-        android:inputType="textPersonName"
-        android:text="" />
-
-    <TextView
-        android:id="@+id/D"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="-"
-        android:layout_below="@id/intakeDaysTV"
-        android:layout_toRightOf="@id/MedicineDaysFrom"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"/>
-
-    <EditText
-        android:id="@+id/MedicineDaysTill"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/intakeDaysTV"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_toRightOf="@id/D"
-        android:ems="10"
-        android:hint="DD/MM/YY"
-        android:inputType="textPersonName"
-        android:text="" />
-
-    <TextView
-        android:id="@+id/TimetextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Time of the Day"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:textSize="18sp"
-        android:layout_below="@id/MedicineDaysFrom"/>
-
-    <EditText
-        android:id="@+id/MedicineTime"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
+        android:fontFamily="@font/montserrat"
         android:inputType="textPersonName"
         android:text=""
-        android:layout_below="@id/TimetextView"
-        android:layout_marginStart="90dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/NameTV" />
+
+
+    <ImageView
+        android:id="@+id/calIcon"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_calendar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/DateTV" />
+
+    <TextView
+        android:id="@+id/DateTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/MedicineName"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/montserrat"
+        android:text="Course Duration"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MedicineName" />
+
+    <Button
+        android:id="@+id/MedicineDaysFrom"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/custom_edit_text"
+        android:elevation="0dp"
+        android:fontFamily="@font/montserrat"
+        android:text="Start"
+        android:textSize="15dp"
+        app:layout_constraintStart_toEndOf="@+id/calIcon"
+        app:layout_constraintTop_toBottomOf="@+id/DateTV" />
+
+    <TextView
+        android:id="@+id/dash"
+        android:layout_width="27dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text=" - "
+        android:textSize="30sp"
+        app:layout_constraintEnd_toStartOf="@+id/MedicineDaysTill"
+        app:layout_constraintStart_toEndOf="@+id/MedicineDaysFrom"
+        app:layout_constraintTop_toBottomOf="@+id/DateTV" />
+
+    <Button
+        android:id="@+id/MedicineDaysTill"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/custom_edit_text"
+        android:elevation="0dp"
+        android:fontFamily="@font/montserrat"
+        android:text="End"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/DateTV" />
 
 
     <TextView
-        android:id="@+id/DosetextView"
-        android:layout_width="wrap_content"
+        android:id="@+id/TimeTV"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_below="@id/MedicineDaysTill"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/montserrat"
+        android:text="Time"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MedicineDaysTill" />
+
+
+    <ImageView
+        android:id="@+id/cloIcon"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="10dp"
+        android:src="@drawable/ic_clock"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TimeTV" />
+
+    <Button
+        android:id="@+id/MedicineTime"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:fontFamily="@font/montserrat"
+        android:textSize="15dp"
+        android:background="@drawable/custom_edit_text"
+        android:text="Set Time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cloIcon"
+        app:layout_constraintTop_toBottomOf="@+id/TimeTV" />
+
+    <TextView
+        android:id="@+id/DoseTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/MedicineDaysTill"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/montserrat"
         android:text="Dose"
-        android:textSize="18sp"
-        android:layout_below="@id/MedicineTime"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"/>
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MedicineTime" />
+
+
+    <ImageView
+        android:id="@+id/pillIcon"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_tablet"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/DoseTV" />
 
     <EditText
         android:id="@+id/MedicineDose"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
-        android:text=""
-        android:layout_below="@id/DosetextView"
-        android:layout_marginStart="90dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/custom_edit_text"
+        android:hint="SET DOSE"
+        android:inputType="phone"
+        android:gravity="center"
+        android:fontFamily="@font/montserrat"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cloIcon"
+        app:layout_constraintTop_toBottomOf="@+id/DoseTV" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="tablets"
-        android:layout_below="@id/DosetextView"
-        android:layout_toRightOf="@id/MedicineDose"
-        android:layout_marginTop="20dp"/>
 
     <Button
         android:id="@+id/ConfirmAddedMedicine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_width="250dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="70dp"
+        android:background="@drawable/main_button"
+        android:fontFamily="@font/montserrat"
+        android:padding="3dp"
         android:text="Confirm"
-        android:layout_centerHorizontal="true"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="100dp"/>
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

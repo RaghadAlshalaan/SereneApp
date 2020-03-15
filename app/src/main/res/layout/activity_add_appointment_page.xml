@@ -46,7 +46,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/AppName"
+        android:id="@+id/MedicineName"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_below="@id/NameTV"
@@ -79,7 +79,7 @@
         android:id="@+id/DateTV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/AppName"
+        android:layout_below="@id/MedicineName"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/montserrat"
@@ -87,10 +87,10 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AppName" />
+        app:layout_constraintTop_toBottomOf="@+id/MedicineName" />
 
     <Button
-        android:id="@+id/AppDate"
+        android:id="@+id/MedicineDaysTill"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
@@ -108,7 +108,7 @@
         android:id="@+id/TimeTV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/AppDate"
+        android:layout_below="@id/MedicineDaysTill"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/montserrat"
@@ -116,7 +116,7 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AppDate" />
+        app:layout_constraintTop_toBottomOf="@+id/MedicineDaysTill" />
 
 
     <ImageView
@@ -130,7 +130,7 @@
         app:layout_constraintTop_toBottomOf="@+id/TimeTV" />
 
     <Button
-        android:id="@+id/AppTime"
+        android:id="@+id/MedicineTime"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
@@ -145,7 +145,7 @@
 
 
     <Button
-        android:id="@+id/ConfirmAddApp"
+        android:id="@+id/ConfirmAddedMedicine"
         android:layout_width="250dp"
         android:layout_height="35dp"
         android:layout_marginBottom="70dp"

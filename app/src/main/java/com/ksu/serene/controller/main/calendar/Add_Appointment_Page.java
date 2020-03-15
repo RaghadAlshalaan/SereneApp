@@ -62,12 +62,7 @@ public class Add_Appointment_Page extends AppCompatActivity {
         public void onTimeSet(TimePicker timePicker, int hours, int minutes) {
             calendar.set(Calendar.HOUR_OF_DAY, hours);
             calendar.set(Calendar.MINUTE, minutes);
-            String AmPm;
-            if (hours >=12){
-                AmPm = "PM";
-            } else {
-                AmPm = "AM";
-            }
+
             Time.setText(String.format("%02d : %02d", hours ,minutes));
         }
     };
@@ -86,10 +81,10 @@ public class Add_Appointment_Page extends AppCompatActivity {
 
         back = findViewById(R.id.backButton);
         calendar = Calendar.getInstance();
-        AppName = findViewById(R.id.AppName);
-        Date = findViewById(R.id.AppDate);
-        Time = findViewById(R.id.AppTime);
-        Confirm = findViewById(R.id.ConfirmAddApp);
+        AppName = findViewById(R.id.MedicineName);
+        Date = findViewById(R.id.MedicineDaysTill);
+        Time = findViewById(R.id.MedicineTime);
+        Confirm = findViewById(R.id.ConfirmAddedMedicine);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
