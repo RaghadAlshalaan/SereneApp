@@ -1,6 +1,7 @@
 package com.ksu.serene;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,7 +30,7 @@ public class SplashScreen extends AppCompatActivity implements View.OnClickListe
 //        step = sharedPref.getInt(Constants.Keys.REGISTRATION_STEP, 1);
 
 
-        LinearLayout splashlin = findViewById(R.id.splash);
+        ConstraintLayout splashlin = findViewById(R.id.splash);
         splashlin.setOnClickListener(this);
         mAuth = FirebaseAuth.getInstance();
         timer = new Timer();

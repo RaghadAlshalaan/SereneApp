@@ -46,10 +46,9 @@ public class CustomAudioDialogClass extends Dialog implements
     public TextView remainingTime;
     public TextView currentTime;
     public String title;
-    public TextView close;
+    public ImageView close;
     public TextView titleTxt;
     public TextView closeTxt;
-    public VoiceDraftAdapter voiceDraftAdapter;
     public VoiceDraftFragment voiceDraftFragment = new VoiceDraftFragment();
     public FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private Intent intent;
@@ -158,10 +157,10 @@ public class CustomAudioDialogClass extends Dialog implements
             case R.id.pause:
                 // toggle pause/ start button
                 if (mediaPlayer.isPlaying()) {
-                    pause.setImageResource(R.drawable.ic_play_button);
+                    pause.setImageResource(R.drawable.play);
                     mediaPlayer.pause();
                 } else {
-                    pause.setImageResource(R.drawable.ic_pause);
+                    pause.setImageResource(R.drawable.pause);
                     mediaPlayer.start();
                 }// else
                 break;
@@ -184,7 +183,7 @@ public class CustomAudioDialogClass extends Dialog implements
                 }// if
                 break;
             case R.id.cancel:
-                defaultTimer();
+                //defaultTimer();
                 mediaPlayer.stop();
                 dismiss();
                 break;
@@ -238,7 +237,7 @@ public class CustomAudioDialogClass extends Dialog implements
                 mediaPlayer.pause();
                 seekBar.setProgress(0);
                 defaultTimer();
-                pause.setImageResource(R.drawable.ic_play_button);
+                pause.setImageResource(R.drawable.play);
             }// onCompletion
 
         });

@@ -8,5 +8,6 @@
     <color name="Grey">#B1B0B0</color>
     <color name="Error">#A02323</color>
     <color name="recorder_bg">#F4511E</color>
+    <color name="babyAccent">#E9E9E9</color>
 
 </resources>

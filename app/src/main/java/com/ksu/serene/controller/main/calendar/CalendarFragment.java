@@ -240,7 +240,6 @@ public class CalendarFragment extends Fragment{
                             ATime = TimeFormat.parse(AppTime);
                         }
                         catch (ParseException e) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
                         listAppointements.add(new TherapySession(AppID, AppName, AppDay, AppTime));
@@ -298,7 +297,6 @@ public class CalendarFragment extends Fragment{
                             time = TimeFormat.parse(MTime);
                         }
                         catch (ParseException e) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
                         listMedicines.add(new Medicine(MID, MName, MFDay, MLDay, MTime, MDose, MPeriod));

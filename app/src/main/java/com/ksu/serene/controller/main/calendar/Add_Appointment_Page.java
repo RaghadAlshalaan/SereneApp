@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -35,9 +36,10 @@ import androidx.appcompat.app.AppCompatActivity;
 public class Add_Appointment_Page extends AppCompatActivity {
 
     private EditText AppName;
-    private EditText Date;
-    private EditText Time;
+    private Button Date;
+    private Button Time;
     private Button Confirm;
+    private ImageView back;
     private Calendar calendar ;
     private SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
     private Timestamp dateTS;
@@ -47,13 +49,13 @@ public class Add_Appointment_Page extends AppCompatActivity {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
-            // TODO Auto-generated method stub
             calendar.set(Calendar.YEAR,year);
             calendar.set(Calendar.MONTH, monthOfYear);
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             Date.setText(DateFormat.format(calendar.getTime()));
         }
     };
+
     //for time
     private final TimePickerDialog.OnTimeSetListener AppTime = new TimePickerDialog.OnTimeSetListener() {
         @Override
@@ -69,6 +71,7 @@ public class Add_Appointment_Page extends AppCompatActivity {
             Time.setText(String.format("%02d : %02d", hours ,minutes));
         }
     };
+
     // var's used for check day and time
     private java.util.Date AD;
     private Date CuttentTime;
@@ -79,12 +82,21 @@ public class Add_Appointment_Page extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_appointment_page);
+        getSupportActionBar().hide();
 
+        back = findViewById(R.id.backButton);
         calendar = Calendar.getInstance();
         AppName = findViewById(R.id.AppName);
         Date = findViewById(R.id.AppDate);
         Time = findViewById(R.id.AppTime);
         Confirm = findViewById(R.id.ConfirmAddApp);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         //when day edit text click show calender view to choose the start and end days
         //the start day when click
@@ -145,7 +157,6 @@ public class Add_Appointment_Page extends AppCompatActivity {
             CuttentTime = TimeFormat.parse(new SimpleDateFormat("HH : mm").format(CurrentDate));
         }
         catch (ParseException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         // if the  day after current date no need for check for time
@@ -179,7 +190,6 @@ public class Add_Appointment_Page extends AppCompatActivity {
             AT = TimeFormat.parse(time);
         }
         catch (ParseException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         String patientID = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -194,7 +204,7 @@ public class Add_Appointment_Page extends AppCompatActivity {
         App.put("time", newApp.getTime().toString());
         App.put("dateTimestamp", dateTS);
 
-// Add a new document with a generated ID
+        // Add a new document with a generated ID
         db.collection("PatientSessions").document()
                 .set(App)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {

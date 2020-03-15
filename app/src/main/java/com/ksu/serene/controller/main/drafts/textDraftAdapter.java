@@ -31,8 +31,8 @@ public class textDraftAdapter extends RecyclerView.Adapter<textDraftAdapter.MyVi
 
         public MyViewHolder (View v) {
             super(v);
-            Title = (TextView) itemView.findViewById(R.id.text_title_name);
-            Subj = (TextView) itemView.findViewById(R.id.text_draft_sub);
+            Title = itemView.findViewById(R.id.text_title_name);
+            Subj = itemView.findViewById(R.id.text_draft_sub);
         }
 
         public void bind (final TextDraft textDraft , final textDraftAdapter.OnItemClickListener listener){

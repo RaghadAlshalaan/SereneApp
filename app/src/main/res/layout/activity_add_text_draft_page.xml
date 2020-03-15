@@ -1,88 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".controller.main.drafts.AddTextDraftPage">
 
-    <View
-        android:id="@+id/white_bg"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@drawable/white_bg" />
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="23dp"
+        android:src="@drawable/ic_left_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/Add_Text_Page"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/montserrat"
-        android:text="Add Text Draft"
+        android:gravity="center"
+        android:text="New Draft"
         android:textColor="#000000"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/titletextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/white_bg"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="10dp"
-        android:text="Title of Draft"
-        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/TitleText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/titletextView"
-        android:layout_marginStart="90dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/white_background"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="" />
-
-    <TextView
-        android:id="@+id/SubjectText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/titletextView"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="10dp"
-        android:text="Subject of Draft"
-        android:textSize="18sp" />
+        android:hint="Add Title"
+        android:gravity="center"
+        android:fontFamily="@font/montserrat"
+        android:inputType="textMultiLine"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Add_Text_Page" />
 
     <EditText
         android:id="@+id/draftMsg"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_below="@id/SubjectText"
-        android:layout_marginStart="50dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@id/TitleText"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
+        android:hint="What Do You Feel ?"
+
+        android:gravity="top"
+        android:padding="7dp"
+        android:background="@drawable/custom_edit_text"
         android:ems="10"
-        android:gravity="start|top"
-        android:hint="You Subject"
+        android:fontFamily="@font/montserrat"
         android:inputType="textMultiLine"
-        android:singleLine="false" />
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:text=""
+        app:layout_constraintBottom_toTopOf="@+id/ConfirmTextDraft"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TitleText" />
 
     <Button
         android:id="@+id/ConfirmTextDraft"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginEnd="90dp"
-        android:layout_marginBottom="50dp"
-        android:text="Confirm" />
+        android:layout_width="250dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="70dp"
+        android:background="@drawable/main_button"
+        android:fontFamily="@font/montserrat"
+        android:padding="3dp"
+        android:text="Save"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

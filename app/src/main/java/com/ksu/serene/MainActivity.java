@@ -22,7 +22,7 @@ import androidx.navigation.ui.NavigationUI;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private ImageView profile;
+    public ImageView profile;
     private RelativeLayout w1, w2;
     private ImageView ok1, ok2;
     private LinearLayout overbox;
@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 fragmentTransaction.replace(R.id.nav_host_fragment, fragmentOne);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+                profile.setVisibility(View.GONE);
             }
         });
 
@@ -136,5 +137,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        profile.setVisibility(View.VISIBLE);
     }
 }

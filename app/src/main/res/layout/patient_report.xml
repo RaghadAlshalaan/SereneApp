@@ -25,20 +25,16 @@
         android:id="@+id/titleofscreen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
         android:fontFamily="@font/montserrat"
-        android:text="Report "
+        android:text="Report"
         android:textColor="#000000"
-        android:textSize="30sp"
+        android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/scrollView"
         app:layout_constraintEnd_toStartOf="@+id/print_icon"
-        app:layout_constraintHorizontal_bias="0.543"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toEndOf="@id/imageView2"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.347" />
 
     <ImageView
         android:id="@+id/print_icon"
@@ -260,13 +256,13 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="43dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="25dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
+        app:srcCompat="@drawable/ic_left_arrow" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

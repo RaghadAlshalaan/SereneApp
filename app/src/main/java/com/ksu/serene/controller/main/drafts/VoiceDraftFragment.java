@@ -58,7 +58,7 @@ public class VoiceDraftFragment extends Fragment {
         listVoiceDrafts = new ArrayList<>();
         adapterVoiceDraft = new VoiceDraftAdapter(getContext() ,listVoiceDrafts);
 
-        recyclerViewDraft = (RecyclerView) root.findViewById(R.id.Recyclerview_Voice_Draft);
+        recyclerViewDraft = root.findViewById(R.id.Recyclerview_Voice_Draft);
         recyclerViewDraft.setLayoutManager(layoutManager);
 
         recyclerViewDraft.setAdapter(adapterVoiceDraft);

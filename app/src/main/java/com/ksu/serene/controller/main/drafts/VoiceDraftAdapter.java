@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.ksu.serene.controller.main.drafts.CustomAudioDialogClass;
 import com.ksu.serene.model.VoiceDraft;
 import com.ksu.serene.R;
 
@@ -41,7 +40,7 @@ public class VoiceDraftAdapter extends RecyclerView.Adapter<VoiceDraftAdapter.My
 
     @Override
     public VoiceDraftAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        view = inflater.inflate(R.layout.text_draft_row, parent, false);
+        view = inflater.inflate(R.layout.voice_draft_row, parent, false);
         holder = new VoiceDraftAdapter.MyViewHolder(view);
         return holder;
     }
@@ -50,7 +49,7 @@ public class VoiceDraftAdapter extends RecyclerView.Adapter<VoiceDraftAdapter.My
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         VoiceDraft voiceDraft = voiceDrafts.get(position);
         holder.title.setText(voiceDrafts.get(position).getTitle());
-        holder.date.setText(voiceDrafts.get(position).getDate());
+        //holder.date.setText(voiceDrafts.get(position).getDate());
 
         // here to set the item view
     }
@@ -72,8 +71,8 @@ public class VoiceDraftAdapter extends RecyclerView.Adapter<VoiceDraftAdapter.My
             super(itemView);
 
             // define variables, put extras,
-            title = itemView.findViewById(R.id.text_title_name);
-            date = itemView.findViewById(R.id.text_draft_sub);
+            title = itemView.findViewById(R.id.title_audio);
+            //date = itemView.findViewById(R.id.text_draft_sub);
             relativeLayout = itemView.findViewById(R.id.draft_item);
             relativeLayout.setOnClickListener(new View.OnClickListener() {
                 @Override

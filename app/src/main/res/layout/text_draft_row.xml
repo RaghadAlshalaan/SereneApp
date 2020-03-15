@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_margin="5dp"
     android:background="@color/white">
 
     <RelativeLayout
@@ -22,6 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Title"
+                android:fontFamily="@font/montserrat"
                 android:textSize="20sp"
                 android:textColor="#000000"
                 android:textStyle="bold"/>
@@ -31,6 +32,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:fontFamily="@font/montserrat"
+
                 android:textSize="15sp"
                 android:text="Draft Content" />
 

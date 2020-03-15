@@ -32,13 +32,8 @@ public class AddVoiceDraftPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_recording);
+        getSupportActionBar().hide();
 
-
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setBackgroundDrawable(
-                    new ColorDrawable(ContextCompat.getColor(this, R.color.colorPrimaryDark)));
-        }
         Util.requestPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         Util.requestPermission(this, Manifest.permission.RECORD_AUDIO);
 

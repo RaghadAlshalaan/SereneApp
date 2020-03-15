@@ -96,12 +96,14 @@ public class Add_Medicine_Page extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_medicine_page);
-        MedicineName = (EditText) findViewById(R.id.MedicineName);
-        FromDay = (EditText) findViewById(R.id.MedicineDaysFrom);
-        TillDay = (EditText) findViewById(R.id.MedicineDaysTill);
-        Time = (EditText) findViewById(R.id.MedicineTime);
-        Dose = (EditText) findViewById(R.id.MedicineDose);
-        Confirm = (Button) findViewById(R.id.ConfirmAddedMedicine);
+        getSupportActionBar().hide();
+
+        MedicineName = findViewById(R.id.MedicineName);
+        FromDay = findViewById(R.id.MedicineDaysFrom);
+        TillDay = findViewById(R.id.MedicineDaysTill);
+        Time = findViewById(R.id.MedicineTime);
+        Dose = findViewById(R.id.MedicineDose);
+        Confirm = findViewById(R.id.ConfirmAddedMedicine);
         calendar = Calendar.getInstance();
         //when day edit text click show calender view to choose the start and end days
         //the start day when click

@@ -5,9 +5,11 @@
     <gradient android:startColor="@color/colorAccent" android:endColor="@color/colorPrimary"
         android:type="linear"></gradient>
 
+    <solid android:color="@color/colorAccent"></solid>
 
-    <corners android:topLeftRadius="40dp" android:topRightRadius="40dp"
-        android:bottomLeftRadius="40dp" android:bottomRightRadius="40dp"/>
+
+    <corners android:topLeftRadius="10dp" android:topRightRadius="10dp"
+        android:bottomLeftRadius="10dp" android:bottomRightRadius="10dp"/>
 
     <padding android:left="0dp" android:top="0dp" android:right="0dp" android:bottom="0dp" />
 

@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -28,14 +29,18 @@ public class AddTextDraftPage extends AppCompatActivity {
     private EditText Subj;
     private Button Add;
     private String titleTxt;
-    private boolean Added = false;
     private String draftId;
     private String patientID;
     private FirebaseFirestore db;
+    ImageView back;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_text_draft_page);
+        getSupportActionBar().hide();
+
+        back = findViewById(R.id.backButton);
         Title = findViewById(R.id.TitleText);
         Subj = findViewById(R.id.draftMsg);
         Add = findViewById(R.id.ConfirmTextDraft);
@@ -50,6 +55,13 @@ public class AddTextDraftPage extends AppCompatActivity {
                     SaveTextDraft(Title.getText().toString(), Subj.getText().toString());
 
                 }
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

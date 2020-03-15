@@ -73,7 +73,7 @@ public class allDraft extends Fragment {
         layoutManagerVoice = new LinearLayoutManager(root.getContext());
         listVoiceDrafts = new ArrayList<>();
         adapterVoiceDraft = new VoiceDraftAdapter(getContext() ,listVoiceDrafts);
-        recyclerViewDraftVoice = (RecyclerView) root.findViewById(R.id.Recyclerview_All_DraftVoice);
+        recyclerViewDraftVoice = root.findViewById(R.id.Recyclerview_All_DraftVoice);
         recyclerViewDraftVoice.setLayoutManager(layoutManagerVoice);
         recyclerViewDraftVoice.setAdapter(adapterVoiceDraft);
 

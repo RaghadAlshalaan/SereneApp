@@ -1,122 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/layout_rounded_bg"
-    android:id="@+id/layout"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
 
     <TextView
         android:id="@+id/titleofscreen"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
+        android:layout_gravity="center"
         android:fontFamily="@font/montserrat"
+        android:gravity="center"
         android:paddingTop="10dp"
         android:text="@string/calendar"
-        android:gravity="center"
-        android:layout_gravity="center"
         android:textColor="@color/black"
-        android:textSize="25sp" />
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <View
         android:id="@+id/divider"
         android:layout_width="330dp"
-        android:layout_gravity="center"
         android:layout_height="2dp"
-        android:background="#1A000000" />
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:background="#1A000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleofscreen" />
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <CalendarView
+        android:id="@+id/calendarView2"
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="10dp">
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/montserrat"
+        android:text="@string/appointments"
+        android:textColor="@color/Error"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calendarView2" />
 
-        <CalendarView
-            android:id="@+id/calendarView2"
-            android:layout_width="wrap_content"
-            android:layout_height="300dp"
-            android:background="@color/white" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RecyclerviewSession"
+        android:layout_width="0dp"
+        android:layout_height="76dp"
+        android:layout_below="@+id/text1"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@+id/text2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text1" />
 
-
-    </LinearLayout>
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/text2"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:paddingBottom="20dp"
-        android:paddingRight="20dp"
-        android:paddingLeft="20dp">
-
-        <TextView
-            android:id="@+id/text1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:fontFamily="@font/montserrat"
-            android:text="@string/appointments"
-            android:textColor="@color/Error"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/RecyclerviewSession"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/text1"
-            android:layout_marginStart="31dp"
-            android:layout_marginTop="5dp"
-            android:background="@color/white"
-            android:scrollbars="none" />
-
-        <TextView
-            android:id="@+id/text2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/RecyclerviewSession"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/montserrat"
-            android:text="@string/medicine"
-            android:textColor="#4CA758"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/RecyclerViewMedicine"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/text2"
-            android:layout_marginStart="31dp"
-            android:layout_marginTop="5dp"
-            android:background="@color/white"
-            android:scrollbars="none" />
+        android:layout_below="@+id/RecyclerviewSession"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/montserrat"
+        android:text="@string/medicine"
+        android:textColor="#4CA758"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/RecyclerviewSession" />
 
 
-    <!--    <include
-            layout="@layout/add_medicine_appointment_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
--->
-
-
-    </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RecyclerViewMedicine"
+        android:layout_width="0dp"
+        android:layout_height="73dp"
+        android:layout_below="@+id/text2"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text2" />
 
     <com.fangxu.allangleexpandablebutton.AllAngleExpandableButton
         android:id="@+id/button_expandable_110_250"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="310dp"
-        android:layout_marginTop="-60dp"
         app:aebAnimDurationMillis="175"
-        app:aebButtonElevation="0dp"
+        app:aebButtonElevation="7dp"
         app:aebButtonGapDp="20dp"
         app:aebEndAngleDegree="180"
         app:aebIsSelectionMode="false"
@@ -124,7 +121,8 @@
         app:aebRippleEffect="true"
         app:aebStartAngleDegree="90"
         app:aebSubButtonSizeDp="35dp"
-        />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

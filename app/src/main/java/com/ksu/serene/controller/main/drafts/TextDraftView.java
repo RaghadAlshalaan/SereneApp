@@ -20,7 +20,6 @@ public class TextDraftView extends AppCompatActivity {
     private String msgTxt = "";
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,10 +29,6 @@ public class TextDraftView extends AppCompatActivity {
         delete = findViewById(R.id.delete);
         message = findViewById(R.id.draftMsg);
         getExtras();
-
-
-
-
 
 
         delete.setOnClickListener(new View.OnClickListener() {
