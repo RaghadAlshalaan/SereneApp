@@ -27,7 +27,7 @@ public class TextDraftView extends AppCompatActivity {
 
         title = findViewById(R.id.draftTitle);
         delete = findViewById(R.id.delete);
-        message = findViewById(R.id.draftMsg);
+        message = findViewById(R.id.SubjtextD);
         getExtras();
 
 

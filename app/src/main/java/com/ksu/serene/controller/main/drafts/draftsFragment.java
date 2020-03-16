@@ -22,14 +22,16 @@ import java.util.List;
 
 
 public class draftsFragment extends Fragment {
-    private View root;
 
+    private View root;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
         root = inflater.inflate(R.layout.fragment_drafts, container, false);
 
         ViewPager viewPager = root.findViewById(R.id.ViewPagerDraft);
+
         //setUpViewPager
         draftPageAdpater pageAdpater = new draftPageAdpater(getChildFragmentManager());
         pageAdpater.addFragment(new allDraft() , "ALL");
@@ -40,20 +42,20 @@ public class draftsFragment extends Fragment {
         TabLayout tabs = root.findViewById(R.id.TabLayoutDraft);
         tabs.setupWithViewPager(viewPager);
 
-
-
         installButton110to250();
 
         return root;
+
     }//onCreate()
 
 
     private void installButton110to250() {
 
-        final AllAngleExpandableButton button = (AllAngleExpandableButton) root.findViewById(R.id.button_expandable_110_250);
+        final AllAngleExpandableButton button = root.findViewById(R.id.button_expandable_110_250);
         final List<ButtonData> buttonDatas = new ArrayList<>();
         int[] drawable = {R.drawable.ic_add_symbol ,R.drawable.ic_recorder_microphone, R.drawable.ic_text};
         int[] color = { R.color.colorAccent, R.color.colorAccent , R.color.colorAccent};
+
         for (int i = 0; i < 3; i++) {
             ButtonData buttonData;
             if (i == 0) {
@@ -66,8 +68,12 @@ public class draftsFragment extends Fragment {
         }
         button.setButtonDatas(buttonDatas);
         setListener(button);
+
     }
+
+
     private void setListener(final AllAngleExpandableButton button) {
+
         button.setButtonEventListener(new ButtonEventListener() {
             @Override
             public void onButtonClicked(int index) {
@@ -76,18 +82,16 @@ public class draftsFragment extends Fragment {
                        //add voice
                         startActivity(new Intent(getContext(), AddVoiceDraftPage.class));
                         break;
+
                     case 2:
                         //add text
                         startActivity(new Intent(getContext(), AddTextDraftPage.class));
                         break;
-
                 }
             }
 
             @Override
             public void onExpand() {
-
-
             }
 
             @Override
@@ -95,7 +99,5 @@ public class draftsFragment extends Fragment {
             }
         });
     }
-
-
 
 }

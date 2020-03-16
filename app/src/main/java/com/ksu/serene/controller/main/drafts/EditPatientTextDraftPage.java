@@ -29,6 +29,8 @@ public class EditPatientTextDraftPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_patient_text_draft_page);
+        getSupportActionBar().hide();
+
 
         Title = findViewById(R.id.EditTitle);
         Subj = findViewById(R.id.editSubj);

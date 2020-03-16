@@ -81,10 +81,6 @@ public class CalendarFragment extends Fragment{
     private Date time;
 
     // Add Buttons
-    FloatingActionButton addButton, addMedicine, addAppointment;
-    TextView TV_appointment, TV_medicine;
-    private Animation fab_clock, fab_anti_clock;
-    private boolean isFABOpen;
     private CalendarView calenderView;
     private Calendar calendar = Calendar.getInstance() ;
     private ArrayList<Reminder> reminders = new ArrayList<>() ;
@@ -95,36 +91,25 @@ public class CalendarFragment extends Fragment{
 
         root = inflater.inflate(R.layout.fragment_calendar, container, false);
 
-//        addButton = root.findViewById(R.id.addButton);
-//        addMedicine = root.findViewById(R.id.add_Appointment);
-//        addAppointment= root.findViewById(R.id.add_Medicine);
-//        addButton.setOnClickListener(this);
-//        addMedicine.setOnClickListener(this);
-//        addAppointment.setOnClickListener(this);
-//        TV_appointment = root.findViewById(R.id.TV_appointment);
-//        TV_medicine = root.findViewById(R.id.TV_medicine);
-//        isFABOpen = false;
-//        fab_clock = AnimationUtils.loadAnimation( getContext(), R.anim.fab_rotate_clock );
-//        fab_anti_clock = AnimationUtils.loadAnimation( getContext(), R.anim.fab_rotate_anticlock );
-
 
         //set calender view
-        calenderView =  root.findViewById(R.id.calendarView2);
+        calenderView = root.findViewById(R.id.calendarView2);
         calendar.set(2019,1,1);
         calenderView.setMinDate(calendar.getTimeInMillis());
         calenderView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
-                Log.d("calender", i+"/"+(i1+1)+"/"+i2);
-                Log.d("try", calendarView.getDateTextAppearance()+"");
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setCancelable(true);
-                LayoutInflater lf = getLayoutInflater();
-                final View cardview = lf.inflate(R.layout.activity_card_calender_view, null);
-                SetCelenderDialog (cardview, i, i1+1, i2);
-                builder.setView(cardview);
-                AlertDialog dialog = builder.create();
-                dialog.show();
+//                Log.d("calender", i+"/"+(i1+1)+"/"+i2);
+//                Log.d("try", calendarView.getDateTextAppearance()+"");
+//                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+//                builder.setCancelable(true);
+//                LayoutInflater lf = getLayoutInflater();
+//                final View cardview = lf.inflate(R.layout.activity_card_calender_view, null);
+//                SetCelenderDialog (cardview, i, i1+1, i2);
+//                builder.setView(cardview);
+//                AlertDialog dialog = builder.create();
+//                dialog.show();
+                updateView();
             }
         });
 
@@ -140,74 +125,16 @@ public class CalendarFragment extends Fragment{
         return root;
     }
 
-
-/*    @Override
-    public void onClick(View v) {
-
-        switch (v.getId()) {
-
-            case R.id.addButton:
-                if (!isFABOpen) {
-                    showFABMenu();
-                } else {
-                    closeFABMenu();
-                }
-                break;
-
-            case R.id.add_Appointment:
-                Intent i = new Intent( getContext(), Add_Appointment_Page.class);
-                startActivity(i);
-                break;
-
-            case R.id.add_Medicine:
-                Intent intent = new Intent( getContext(), Add_Medicine_Page.class);
-                startActivity(intent);
-                break;
-
-            default:
-                break;
-
-        }//end switch
-
-    }//end onClick
-
-
-    private void showFABMenu() {
-
-        isFABOpen = true;
-
-        addButton.startAnimation(fab_clock);
-
-        addAppointment.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
-        addMedicine.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
-
-        TV_appointment.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
-        TV_medicine.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
-        TV_appointment.setVisibility(View.VISIBLE);
-        TV_medicine.setVisibility(View.VISIBLE);
+    private void updateView() {
 
     }
 
-    private void closeFABMenu() {
-
-        isFABOpen = false;
-
-        addButton.startAnimation(fab_anti_clock);
-
-        TV_medicine.setVisibility(View.INVISIBLE);
-        TV_appointment.setVisibility(View.INVISIBLE);
-
-        addMedicine.animate().translationY(0);
-        addAppointment.animate().translationY(0);
-        TV_medicine.animate().translationY(0);
-        TV_appointment.animate().translationY(0);
-
-    }*/
 
     private void SetAppRecyView (View root) {
 
         final SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yy", Locale.US);
         final SimpleDateFormat TimeFormat = new SimpleDateFormat ("hh : mm");
+
         //retrieve Patient Session data
         recyclerViewSession = root.findViewById(R.id.RecyclerviewSession);
         ApplayoutManager = new LinearLayoutManager(context);
@@ -221,6 +148,7 @@ public class CalendarFragment extends Fragment{
                 startActivity(intent);
             }
         });
+
         //search in cloud firestore for patient sessions
         CollectionReference referenceSession = FirebaseFirestore.getInstance().collection("PatientSessions");
 
@@ -230,7 +158,7 @@ public class CalendarFragment extends Fragment{
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        AppID = document.getId().toString();
+                        AppID = document.getId();
                         AppName = document.get("name").toString();
                         AppDay = document.get("date").toString();
                         AppTime = document.get("time").toString();
@@ -242,6 +170,7 @@ public class CalendarFragment extends Fragment{
                         catch (ParseException e) {
                             e.printStackTrace();
                         }
+
                         listAppointements.add(new TherapySession(AppID, AppName, AppDay, AppTime));
                         reminders.add(new Reminder(AppID, AppName, AppDay, AppTime));
 
@@ -250,6 +179,7 @@ public class CalendarFragment extends Fragment{
                 }
             }
         });
+
         recyclerViewSession.setAdapter(adapterSession);
     }
 
@@ -309,7 +239,8 @@ public class CalendarFragment extends Fragment{
         recyclerViewMedicine.setAdapter(adapterMedicines);
     }
 
-    private void SetCelenderDialog (final View dialog, final int year, final int month, final int day) {
+/*    private void SetCelenderDialog (final View dialog, final int year, final int month, final int day) {
+
         final SimpleDateFormat f1 = new SimpleDateFormat("dd/MM/yy", Locale.US);
         final SimpleDateFormat TimeFormat = new SimpleDateFormat ("hh : mm");
 
@@ -450,6 +381,7 @@ public class CalendarFragment extends Fragment{
                         Timestamp DTS = (Timestamp) document.get("dateTimestamp");
                         Calendar appCalender = Calendar.getInstance();
                         appCalender.setTimeInMillis(DTS.getSeconds()*1000);
+
                         //convert string to date to used in compare
                         try {
                             ADay = f1.parse(AppDay);
@@ -469,15 +401,16 @@ public class CalendarFragment extends Fragment{
             }
         });
         recyclerViewApp.setAdapter(adapterApp);
-    }
+    }*/
 
 
     private void installButton110to250() {
 
-        final AllAngleExpandableButton button = (AllAngleExpandableButton) root.findViewById(R.id.button_expandable_110_250);
+        final AllAngleExpandableButton button = root.findViewById(R.id.button_expandable_110_250);
         final List<ButtonData> buttonDatas = new ArrayList<>();
         int[] drawable = {R.drawable.ic_add_symbol , R.drawable.add_medicine , R.drawable.add_appointment};
         int[] color = { R.color.colorAccent, R.color.colorAccent , R.color.colorAccent};
+
         for (int i = 0; i < 3; i++) {
             ButtonData buttonData;
             if (i == 0) {
@@ -493,6 +426,7 @@ public class CalendarFragment extends Fragment{
 
 
     }// installButton110to250
+
     private void setListener(final AllAngleExpandableButton button) {
         button.setButtonEventListener(new ButtonEventListener() {
             @Override
@@ -514,13 +448,12 @@ public class CalendarFragment extends Fragment{
 
             @Override
             public void onExpand() {
-
-
             }
 
             @Override
             public void onCollapse() {
             }
+
         });
     }
 

@@ -105,6 +105,7 @@ public class VoiceDraftFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        listVoiceDrafts.clear();
         retrieveVoiceDraft();
     }// onResume
 

@@ -9,13 +9,11 @@
     android:orientation="vertical"
     >
 
-
     <TextView
         android:id="@+id/titleofscreen"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
         android:fontFamily="@font/montserrat"
         android:gravity="center"
         android:paddingTop="10dp"

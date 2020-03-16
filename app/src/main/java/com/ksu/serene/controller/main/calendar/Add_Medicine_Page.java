@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -44,6 +45,7 @@ public class Add_Medicine_Page extends AppCompatActivity {
     private SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
     private Timestamp FDTS;
     private Timestamp LDTS;
+    ImageView back;
 
 
     //for from day
@@ -76,12 +78,7 @@ public class Add_Medicine_Page extends AppCompatActivity {
         public void onTimeSet(TimePicker timePicker, int hours, int minutes) {
             calendar.set(Calendar.HOUR_OF_DAY, hours);
             calendar.set(Calendar.MINUTE, minutes);
-            String AmPm;
-            if (hours >=12){
-                AmPm = "PM";
-            } else {
-                AmPm = "AM";
-            }
+
             Time.setText(String.format("%02d : %02d", hours ,minutes));
         }
     };
@@ -98,10 +95,11 @@ public class Add_Medicine_Page extends AppCompatActivity {
         setContentView(R.layout.activity_add_medicine_page);
         getSupportActionBar().hide();
 
-        MedicineName = findViewById(R.id.MedicineName);
-        FromDay = findViewById(R.id.MedicineDaysFrom);
-        TillDay = findViewById(R.id.MedicineDaysTill);
-        Time = findViewById(R.id.MedicineTime);
+        back = findViewById(R.id.backButton);
+        MedicineName = findViewById(R.id.MName);
+        FromDay = findViewById(R.id.MFromDays);
+        TillDay = findViewById(R.id.MTillDays);
+        Time = findViewById(R.id.MTime);
         Dose = findViewById(R.id.MedicineDose);
         Confirm = findViewById(R.id.ConfirmAddedMedicine);
         calendar = Calendar.getInstance();
@@ -154,6 +152,14 @@ public class Add_Medicine_Page extends AppCompatActivity {
                 }
             }
         });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
     private boolean checkFields (String MName , String MDose ) {

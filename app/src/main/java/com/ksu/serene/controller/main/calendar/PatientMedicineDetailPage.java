@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,19 +34,29 @@ public class PatientMedicineDetailPage extends AppCompatActivity {
     private Button Delete;
     private Medicine medicine;
     private String MedID;
+    ImageView backButton ;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
+
         setContentView(R.layout.activity_patient_medicine_detail_page);
         MedID = getIntent().getStringExtra("MedicineID");
-        MedicineName = (TextView) findViewById(R.id.MName);
-        StartDay = (TextView) findViewById(R.id.MFromDays);
-        EndDay = (TextView) findViewById(R.id.MTillDays);
-        Time = (TextView) findViewById(R.id.MTime);
-        Dose = (TextView) findViewById(R.id.MDose);
-        Delete = (Button) findViewById(R.id.DeleteMedicine);
+        MedicineName = findViewById(R.id.MName);
+        StartDay = findViewById(R.id.MFromDays);
+        EndDay = findViewById(R.id.MTillDays);
+        Time = findViewById(R.id.MTime);
+        Dose = findViewById(R.id.MDose);
+        Delete = findViewById(R.id.DeleteMedicine);
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         db.collection("PatientMedicin")
                 .document(MedID)
@@ -70,9 +81,9 @@ public class PatientMedicineDetailPage extends AppCompatActivity {
             public void onClick(View view) {
                 //show window dialog with 2 button yes and no
                 new AlertDialog.Builder(PatientMedicineDetailPage.this)
-                        .setTitle("Delete Medicine Reminder")
-                        .setMessage("Are you sure that you want delete the" + MedicineName.getText().toString())
-                        .setPositiveButton("Yes, I'm sur", new DialogInterface.OnClickListener() {
+                        .setTitle("Delete Medicine")
+                        .setMessage("Are you sure you want to delete this Medicine Reminder ?")
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 db.collection("PatientMedicin")
@@ -81,7 +92,7 @@ public class PatientMedicineDetailPage extends AppCompatActivity {
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
-                                                Toast.makeText(PatientMedicineDetailPage.this, "The Med reminder deleted successfully", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(PatientMedicineDetailPage.this, "Medicine Reminder deleted successfully", Toast.LENGTH_LONG).show();
                                                 Intent intent = new Intent (PatientMedicineDetailPage.this, MainActivity.class);
                                                 startActivity(intent);
                                             }
@@ -89,12 +100,12 @@ public class PatientMedicineDetailPage extends AppCompatActivity {
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(PatientMedicineDetailPage.this, "The Med reminder did not delete", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(PatientMedicineDetailPage.this, "Failed to delete Medicine Reminder", Toast.LENGTH_LONG).show();
                                             }
                                         });
                             }
                         })
-                        .setNegativeButton("No, cancel", null)
+                        .setNegativeButton("Cancel", null)
                         .show();
             }
         });

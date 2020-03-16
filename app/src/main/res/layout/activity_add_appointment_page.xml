@@ -46,7 +46,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/MedicineName"
+        android:id="@+id/MName"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_below="@id/NameTV"
@@ -79,7 +79,7 @@
         android:id="@+id/DateTV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/MedicineName"
+        android:layout_below="@id/MName"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/montserrat"
@@ -87,10 +87,10 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/MedicineName" />
+        app:layout_constraintTop_toBottomOf="@+id/MName" />
 
     <Button
-        android:id="@+id/MedicineDaysTill"
+        android:id="@+id/MTillDays"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
@@ -108,7 +108,7 @@
         android:id="@+id/TimeTV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/MedicineDaysTill"
+        android:layout_below="@id/MTillDays"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/montserrat"
@@ -116,7 +116,7 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/MedicineDaysTill" />
+        app:layout_constraintTop_toBottomOf="@+id/MTillDays" />
 
 
     <ImageView
@@ -130,7 +130,7 @@
         app:layout_constraintTop_toBottomOf="@+id/TimeTV" />
 
     <Button
-        android:id="@+id/MedicineTime"
+        android:id="@+id/MTime"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"

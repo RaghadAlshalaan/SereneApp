@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,17 +32,28 @@ public class PatientAppointmentDetailPage extends AppCompatActivity {
     private Button Delete;
     private TherapySession session;
     private String AppID;
+    ImageView backButton;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_appointment_detail_page);
+        getSupportActionBar().hide();
+
+
         AppID = getIntent().getStringExtra("AppointmentID");
-        AppointmentName = (TextView) findViewById(R.id.MedicineName);
-        Date = (TextView) findViewById(R.id.MedicineDaysTill);
-        Time = (TextView) findViewById(R.id.MedicineTime);
-        Delete = (Button) findViewById(R.id.DeleteApp);
+        AppointmentName = (TextView) findViewById(R.id.MName);
+        Date = (TextView) findViewById(R.id.MTillDays);
+        Time = (TextView) findViewById(R.id.MTime);
+        Delete = findViewById(R.id.DeleteApp);
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         db.collection("PatientSessions")
                 .document(AppID)
@@ -64,9 +76,9 @@ public class PatientAppointmentDetailPage extends AppCompatActivity {
             public void onClick(View view) {
                 //show window dialog with 2 button yes and no
                 new AlertDialog.Builder(PatientAppointmentDetailPage.this)
-                        .setTitle("Delete Appointment Reminder")
-                        .setMessage("Are you sure that you want delete the" + AppointmentName.getText().toString())
-                        .setPositiveButton("Yes, I'm sur", new DialogInterface.OnClickListener() {
+                        .setTitle("Delete Appointment")
+                        .setMessage("Are you sure you want to delete this Appointment Reminder ?")
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 db.collection("PatientSessions")
@@ -88,7 +100,7 @@ public class PatientAppointmentDetailPage extends AppCompatActivity {
                                         });
                             }
                         })
-                        .setNegativeButton("No, cancel", null)
+                        .setNegativeButton("Cancel", null)
                         .show();
             }
         });

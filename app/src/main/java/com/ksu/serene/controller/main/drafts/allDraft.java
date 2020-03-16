@@ -35,8 +35,6 @@ public class allDraft extends Fragment {
     Context context = this.getContext();
     //set for patient's Text Draft
     private String patientId;
-    private RecyclerView recyclerViewTextDraft;
-    private RecyclerView.LayoutManager TextDraftlayoutManager;
     private List<TextDraft> listTextDrafts;
 
     private String TextID;
@@ -44,11 +42,12 @@ public class allDraft extends Fragment {
     private String TextDate;
     private String TextMessage;
     private Timestamp Texttimestap;
-    private Date TDDate;
+
     private String VoiceID;
     private String VoiceTitle;
     private String VoiceDate;
     private String VoiceAudio;
+
     public FirebaseAuth mAuth;
     private Timestamp Voicetimestap;
     private List<VoiceDraft> listVoiceDrafts;
@@ -65,10 +64,11 @@ public class allDraft extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-         root =  inflater.inflate(R.layout.fragment_all_draft, container, false);
 
-         //voice
+        // Inflate the layout for this fragment
+        root =  inflater.inflate(R.layout.fragment_all_draft, container, false);
+
+        // Voice
         patientId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         layoutManagerVoice = new LinearLayoutManager(root.getContext());
         listVoiceDrafts = new ArrayList<>();
@@ -78,7 +78,7 @@ public class allDraft extends Fragment {
         recyclerViewDraftVoice.setAdapter(adapterVoiceDraft);
 
 
-        //text
+        // Text
         layoutManagerText = new LinearLayoutManager(root.getContext());
         listTextDrafts = new ArrayList<>();
         adapterTextDraft = new textDraftAdapter(listTextDrafts, new textDraftAdapter.OnItemClickListener() {

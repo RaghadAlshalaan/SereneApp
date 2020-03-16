@@ -81,9 +81,9 @@ public class Add_Appointment_Page extends AppCompatActivity {
 
         back = findViewById(R.id.backButton);
         calendar = Calendar.getInstance();
-        AppName = findViewById(R.id.MedicineName);
-        Date = findViewById(R.id.MedicineDaysTill);
-        Time = findViewById(R.id.MedicineTime);
+        AppName = findViewById(R.id.MName);
+        Date = findViewById(R.id.MTillDays);
+        Time = findViewById(R.id.MTime);
         Confirm = findViewById(R.id.ConfirmAddedMedicine);
 
         back.setOnClickListener(new View.OnClickListener() {

@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,8 +24,8 @@ import com.ksu.serene.R;
 
 public class PatientTextDraftDetailPage extends AppCompatActivity {
 
-    private TextView title;
-    private TextView subj;
+    private EditText title;
+    private EditText subj;
     private Button delete;
     private Button edit;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -34,6 +35,9 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_text_draft_detail_page);
+
+        getSupportActionBar().hide();
+
         TDID = getIntent().getStringExtra("TextDraftID");
         title = findViewById(R.id.TitleTextD);
         subj = findViewById(R.id.SubjtextD);
@@ -51,7 +55,7 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(PatientTextDraftDetailPage.this, "Fails to get data", Toast.LENGTH_LONG);
+                //Toast.makeText(PatientTextDraftDetailPage.this, "Fails to get data", Toast.LENGTH_LONG);
             }
         });
 
@@ -60,9 +64,9 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
             public void onClick(View view) {
                 //show window dialog with 2 button yes and no
                 new AlertDialog.Builder(PatientTextDraftDetailPage.this)
-                        .setTitle("Delete Text Draft")
-                        .setMessage("Are you sure that you want delete the " + title.getText().toString())
-                        .setPositiveButton("Yes, I'm sure", new DialogInterface.OnClickListener() {
+                        .setTitle("Delete Draft")
+                        .setMessage("Are you sure you want to delete this Draft ? ")
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, final int i) {
                                 db.collection("TextDraft")
@@ -71,7 +75,7 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
-                                                Toast.makeText(PatientTextDraftDetailPage.this, "The Text Draft deleted successfully", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(PatientTextDraftDetailPage.this, "Text Draft deleted successfully", Toast.LENGTH_LONG).show();
                                                 Intent intent = new Intent (PatientTextDraftDetailPage.this, MainActivity.class);
                                                 startActivity(intent);
                                             }
@@ -79,12 +83,12 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(PatientTextDraftDetailPage.this, "The Text Draft did not delete", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(PatientTextDraftDetailPage.this, "Text Draft did not delete", Toast.LENGTH_LONG).show();
                                             }
                                         });
                             }
                         })
-                        .setNegativeButton("No, cancel", null)
+                        .setNegativeButton("Cancel", null)
                         .show();
             }
         });
@@ -92,11 +96,26 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(PatientTextDraftDetailPage.this, EditPatientTextDraftPage.class);
-                intent.putExtra("TextID", TDID);
-                intent.putExtra("TextTitle", title.getText().toString());
-                intent.putExtra("TextSubj", subj.getText().toString());
-                startActivity(intent);
+
+                db.collection("TextDraft")
+                        .document(TDID)
+                        .update("title" , title.getText().toString(),
+                                "text",subj.getText().toString())
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                //Toast.makeText(PatientTextDraftDetailPage.this, "Updated Successfully", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(PatientTextDraftDetailPage.this, MainActivity.class);
+                                startActivity(intent);
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                //Toast.makeText(PatientTextDraftDetailPage.this, "Did Not Update, Try Again", Toast.LENGTH_LONG).show();
+                            }
+                        });
+
             }
         });
 

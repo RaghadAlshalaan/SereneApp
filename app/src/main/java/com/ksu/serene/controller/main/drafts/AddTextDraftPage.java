@@ -41,8 +41,8 @@ public class AddTextDraftPage extends AppCompatActivity {
         getSupportActionBar().hide();
 
         back = findViewById(R.id.backButton);
-        Title = findViewById(R.id.TitleText);
-        Subj = findViewById(R.id.draftMsg);
+        Title = findViewById(R.id.TitleTextD);
+        Subj = findViewById(R.id.SubjtextD);
         Add = findViewById(R.id.ConfirmTextDraft);
 
         patientID = FirebaseAuth.getInstance().getCurrentUser().getUid();
