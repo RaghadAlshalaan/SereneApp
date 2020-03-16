@@ -1,4 +1,4 @@
-package com.ksu.serene.controller.main.report;
+package com.ksu.serene.controller.main.home;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,14 +15,14 @@ import com.ksu.serene.model.TherapySession;
 
 import java.util.List;
 
-public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
+public class AdapterA extends RecyclerView.Adapter<AdapterA.ViewHolder> {
 
     private LayoutInflater layoutInflater;
-    private List<Location> locations;
+    private List<TherapySession> sessions;
 
-    Adapter(Context context, List<Location> locations){
+    AdapterA(Context context, List<TherapySession> sessions){
         this.layoutInflater = LayoutInflater.from(context);
-        this.locations = locations;
+        this.sessions = sessions;
 
     }
 
@@ -30,7 +30,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View view = layoutInflater.inflate(R.layout.card_view,viewGroup,false);
+        View view = layoutInflater.inflate(R.layout.card_viewsession,viewGroup,false);
         return new ViewHolder(view);
     }
 
@@ -38,31 +38,32 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         //bind the textviews with locations received
 
-        String location_name = locations.get(i).getName();
-        viewHolder.location_name.setText(location_name);
+        String doctorName = sessions.get(i).getName();
+        viewHolder.doctor_name.setText(doctorName);
 
-        String level = locations.get(i).getAL_level();
-        viewHolder.location_AL.setText(level);
+        String date = sessions.get(i).getDay();
+        viewHolder.session_date.setText(date);
 
-        long daysBetween = locations.get(i).getDaysBetween();
-        viewHolder.daysBetween.setText(daysBetween+"");
+        String time = sessions.get(i).getTime();
+        viewHolder.session_time.setText(time);
     }
 
     @Override
     public int getItemCount() {
-        return locations.size();
+        return sessions.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView location_name, location_AL, daysBetween;
+        TextView doctor_name, session_date, session_time;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
-            location_name = (TextView)itemView.findViewById(R.id.location_name);
-            location_AL = (TextView)itemView.findViewById(R.id.location_AL);
-            daysBetween = (TextView)itemView.findViewById(R.id.numOfDays);
+            doctor_name = (TextView)itemView.findViewById(R.id.doctor_name);
+            session_date = (TextView)itemView.findViewById(R.id.session_date);
+            session_time = (TextView)itemView.findViewById(R.id.session_time);
         }
     }
 }
+

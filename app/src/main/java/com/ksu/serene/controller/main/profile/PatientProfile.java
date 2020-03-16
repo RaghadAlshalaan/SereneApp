@@ -1,7 +1,9 @@
 package com.ksu.serene.controller.main.profile;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +26,10 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.ksu.serene.LogInPage;
+import com.ksu.serene.controller.Constants;
 import com.ksu.serene.model.Token;
 import com.ksu.serene.WelcomePage;
 import com.squareup.picasso.Picasso;
@@ -41,12 +47,14 @@ import java.util.Map;
 public class PatientProfile extends Fragment {
 
     private ImageView image, SocioArrow, doctorArrow, editProfile;
-    private TextView name, email, doctor;
+    private TextView name, email, doctor, alert;
     private String nameDb, emailDb, imageDb;
     private FirebaseAuth mAuth;
     private Button  logOut;
     private String TAG = PatientProfile.class.getSimpleName();
     private FirebaseFirestore db = com.google.firebase.firestore.FirebaseFirestore.getInstance();
+    private String mToken;
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 
 
@@ -95,7 +103,12 @@ public class PatientProfile extends Fragment {
       });
 
 
-        //TODO : display current user name and email
+      if(checkIfEmailVerified() == false ){
+          alert.setVisibility(View.VISIBLE);
+      }
+
+
+
 
 
         return view;
@@ -112,6 +125,7 @@ public class PatientProfile extends Fragment {
         logOut = view.findViewById(R.id.log_out_btn);
         doctorArrow = view.findViewById(R.id.go_to2);
         doctor = view.findViewById(R.id.doctor_text2);
+        alert = view.findViewById(R.id.alert);
 
     }
 
@@ -296,5 +310,59 @@ public class PatientProfile extends Fragment {
                     }
                 });
 
+    }
+    private boolean checkIfEmailVerified() {
+
+        // TODO : MOVE IT TO MAIN PAGE
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user.isEmailVerified())
+        {
+            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( getActivity(),  new OnSuccessListener<InstanceIdResult>() {
+                @Override
+                public void onSuccess(InstanceIdResult instanceIdResult) {
+                    mToken = instanceIdResult.getToken();
+                    Log.e("Token",mToken);
+                }
+            });
+
+            updateToken(mToken);
+            SharedPreferences sp = getActivity().getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("CURRENT_USERID",mAuth.getCurrentUser().getUid());
+            editor.apply();
+           return true;
+        }
+        else
+        {
+
+            return false;
+
+        }
+
+    }
+    public  void updateToken(String token){
+
+        DocumentReference userTokenDR = FirebaseFirestore.getInstance().collection("Tokens").document(mAuth.getUid());
+        Token mToken = new Token(token);
+        final Map<String, Object> tokenh = new HashMap<>();
+        tokenh.put("token",mToken.getToken());
+
+        userTokenDR
+                .update(tokenh)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                        Log.w(TAG, "Error updating document", e);
+                    }
+                });
     }
 }
