@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -56,6 +57,7 @@ public class PatientReport extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Adapter adapter;
     ArrayList<Location> locations;
+    ImageView backBtn;
 
 
 
@@ -63,6 +65,9 @@ public class PatientReport extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.patient_report);
+
+        getSupportActionBar().hide();
+
 
         init();
         getExtras();
@@ -86,6 +91,13 @@ public class PatientReport extends AppCompatActivity {
         //location_name = findViewById(R.id.location_name);
         //location_AL = findViewById(R.id.location_AL);
         recyclerView = findViewById(R.id.recycleView);
+        backBtn = findViewById(R.id.backButton);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void lastGeneratedPatientReport() {

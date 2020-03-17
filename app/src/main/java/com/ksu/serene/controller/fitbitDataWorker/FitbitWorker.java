@@ -54,17 +54,15 @@ public class FitbitWorker extends Worker {
     private static String clientId;
     private static String clientSecret;
 
+
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     static FirebaseStorage storage;
 
-
-
     public FitbitWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
     }
-
 
 
     /**
@@ -73,6 +71,9 @@ public class FitbitWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
+
+
+        Log.w("FITBIT", "onNavigationEvent: HERE = " + "RUNNED");
 
 
         // Step 1 : GET USER ACCESS TOKEN FROM DB

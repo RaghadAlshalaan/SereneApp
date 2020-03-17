@@ -39,7 +39,7 @@
         app:layout_constraintTop_toBottomOf="@+id/text1" />
 
     <ImageView
-        android:id="@+id/AnxietyLevel"
+        android:id="@+id/AL_graph"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -77,10 +77,10 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AnxietyLevel" />
+        app:layout_constraintTop_toBottomOf="@+id/AL_graph" />
 
     <TextView
-        android:id="@+id/text22"
+        android:id="@+id/improvement_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
@@ -92,7 +92,7 @@
         android:textSize="35sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/text2"
-        app:layout_constraintTop_toBottomOf="@+id/AnxietyLevel" />
+        app:layout_constraintTop_toBottomOf="@+id/AL_graph" />
 
 
     <TextView
@@ -123,7 +123,7 @@
         app:layout_constraintBottom_toTopOf="@+id/text2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AnxietyLevel" />
+        app:layout_constraintTop_toBottomOf="@+id/AL_graph" />
 
     <TextView
         android:id="@+id/text3"
@@ -151,18 +151,21 @@
         app:layout_constraintTop_toBottomOf="@+id/text3" />
 
     <TextView
-        android:id="@+id/empty"
+        android:id="@+id/highestday_date"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/montserrat"
-        android:text="@string/empty"
+        android:text="No upcoming appointment"
         android:textColor="#817889"
         android:textSize="15sp"
         android:textStyle="normal"
-        android:visibility="gone"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/text3"
+        tools:text="No upcoming appoitnemnt" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

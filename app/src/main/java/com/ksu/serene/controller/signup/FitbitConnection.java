@@ -3,6 +3,10 @@ package com.ksu.serene.controller.signup;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.work.Constraints;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -29,6 +33,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.ksu.serene.controller.fitbitDataWorker.FitbitWorker;
 import com.ksu.serene.model.FitbitAuthentication;
 import com.ksu.serene.R;
 
@@ -47,6 +52,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 public class FitbitConnection extends AppCompatActivity implements View.OnClickListener {
 
@@ -54,11 +60,10 @@ public class FitbitConnection extends AppCompatActivity implements View.OnClickL
     Context context = this;
 
     private Button connectFitbit;
-        private TextView statusTV;
-        private Button next, back;
-        private FirebaseFirestore db = FirebaseFirestore.getInstance();
-        private String access_token ;
-
+    private TextView statusTV;
+    private Button next, back;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private String access_token ;
 
 
     // FITBIT API
@@ -70,8 +75,8 @@ public class FitbitConnection extends AppCompatActivity implements View.OnClickL
     private static String clientId;
     private static String clientSecret;
 
-    static FirebaseStorage storage = FirebaseStorage.getInstance();
 
+    static FirebaseStorage storage = FirebaseStorage.getInstance();
 
 
     @Override
@@ -92,18 +97,16 @@ public class FitbitConnection extends AppCompatActivity implements View.OnClickL
                 back = findViewById(R.id.backBtn);
 
 
-
+                // go to next page
                 next.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-
                 Intent i = new Intent(FitbitConnection.this, GoogleCalendarConnection.class);
                 startActivity(i);
-
                 }
                 });
 
+                // back to prev page
                 back.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -111,30 +114,34 @@ public class FitbitConnection extends AppCompatActivity implements View.OnClickL
                 }
                 });
 
+                // open fitbit for authintication
                 connectFitbit = findViewById(R.id.connectFitbit);
                 connectFitbit.setOnClickListener(this);
 
+                // status of connction with the fitbit account
                 statusTV = findViewById(R.id.status);
-
 
         }
 
         @Override
         public void onClick(View v) {
+
                 switch (v.getId()) {
+
                 case R.id.connectFitbit:
 
-                FitbitAuthentication FA = new FitbitAuthentication();
+                    // open fitbit for authintication
 
-                StringBuilder oauthUrl = new StringBuilder().append(FA.getUrl())
-                .append("&client_id=").append(FA.getClientId()) // the client id from the api console registration
-                .append("&redirect_uri=").append(FA.getRedirect_uri())
-                .append("&scope=").append(FA.getScope()) // scope is the api permissions we are requesting
-                .append("&expires_in=").append(FA.getExpires_in());
+                    FitbitAuthentication FA = new FitbitAuthentication();
 
-                openFitbitCustomTab(oauthUrl.toString());
-                break;
+                    StringBuilder oauthUrl = new StringBuilder().append(FA.getUrl())
+                    .append("&client_id=").append(FA.getClientId()) // the client id from the api console registration
+                    .append("&redirect_uri=").append(FA.getRedirect_uri())
+                    .append("&scope=").append(FA.getScope()) // scope is the api permissions we are requesting
+                    .append("&expires_in=").append(FA.getExpires_in());
 
+                    openFitbitCustomTab(oauthUrl.toString()); // open using chrome custom tabs
+                    break;
 
                 default: break;
 
@@ -158,7 +165,7 @@ public class FitbitConnection extends AppCompatActivity implements View.OnClickL
         // and launch the desired Url with CustomTabsIntent.launchUrl()
         customTabsIntent.launchUrl(this, Uri.parse(url));
 
-        }
+    }
 
 
         //Method to handle the callback and get the access token for the user
@@ -172,53 +179,38 @@ public class FitbitConnection extends AppCompatActivity implements View.OnClickL
 
         access_token = access_token.substring(access_token.indexOf("=")+1, access_token.indexOf("&"));
 
-        Log.w("FITBIT", "onNavigationEvent: HERE = " + access_token);
 
-
-
+        // check if user granted or denied
         if (!access_token.equals("The+user+denied+the+request.")) {
         statusTV.setText("Status : Connected!");
 
 
-                // SAVE USER's FITBIT ACCESS TOKEN into SharedPreferences
-/*
-                SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putString("FITBIT_ACCESS_TOKEN", access_token);
-                editor.apply();
-*/
+            // SAVE USER's FITBIT ACCESS TOKEN IN Database
+            addAccessToken();
 
+            // TODO : START FETCH USER DATA FOR THE FIRST TIME AND HERE I WANT TO START THE BACKGROUND SERVICE !
+            //uploadFitbit();
 
-                // SAVE USER's FITBIT ACCESS TOKEN into Database
-
-                addAccessToken();
-
-            // TODO : START FETCH USER DATA!
-
-            uploadFitbit();
             // CREATE fitbit upload work manager
-/*            WorkManager fitbitWorkManager = WorkManager.getInstance();
+            WorkManager fitbitWorkManager = WorkManager.getInstance();
 
             Constraints constraints = new Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)
                     .build();
 
             PeriodicWorkRequest fitbitUpload = new PeriodicWorkRequest
-                    .Builder(FitbitWorker.class,    15, TimeUnit.MINUTES).setConstraints(constraints).build();
-            fitbitWorkManager.enqueue(fitbitUpload);*/
+                    .Builder(FitbitWorker.class,    20, TimeUnit.MINUTES).setConstraints(constraints).build();
+            fitbitWorkManager.enqueue(fitbitUpload);
 
 
-        } else {
+        } else { // IF DENIED
         statusTV.setText("Status : Not Connected, Please try again");
-
-        //Toast.makeText(getApplicationContext(), "Fail Connecting to Fitbit, please try again!", Toast.LENGTH_SHORT).show();
-        //refresh activity
-
         }
 
     }
 
     private void addAccessToken() {
+    // UPLOAD ACCESS TOKEN TO DB
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final String userEmail = user.getEmail();
 
@@ -310,7 +302,7 @@ public class FitbitConnection extends AppCompatActivity implements View.OnClickL
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                    Log.e("FINALLY",  filename +" FILE UPLOADED SUCCESSFULLY");
+                    Log.e("DONE",  filename +" FILE UPLOADED SUCCESSFULLY");
 
                 }
             });

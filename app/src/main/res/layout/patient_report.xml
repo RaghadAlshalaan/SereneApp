@@ -3,259 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:id="@+id/container"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-
-    <View
-        android:id="@+id/white_bg"
-        android:layout_width="match_parent"
-        android:layout_height="107dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/white_bg"
-        app:layout_constraintBottom_toTopOf="@+id/nav_host_fragment"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-
-    <TextView
-        android:id="@+id/titleofscreen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/montserrat"
-        android:text="Report"
-        android:textColor="#000000"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView"
-        app:layout_constraintEnd_toStartOf="@+id/print_icon"
-        app:layout_constraintHorizontal_bias="0.507"
-        app:layout_constraintStart_toEndOf="@id/imageView2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.347" />
+    >
 
     <ImageView
-        android:id="@+id/print_icon"
-        android:layout_width="49dp"
-        android:layout_height="37dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="38dp"
-        app:layout_constraintBottom_toTopOf="@+id/nav_host_fragment"
-        app:layout_constraintEnd_toStartOf="@+id/share_icon"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/ic_print_black_24dp" />
-
-    <ImageView
-        android:id="@+id/share_icon"
-        android:layout_width="51dp"
-        android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_share_icon" />
-
-
-
-    <ScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/white_bg"
-        app:layout_constraintVertical_bias="1.0">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="30sp" />
-
-            <TextView
-                android:id="@+id/al_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20sp"
-                android:fontFamily="@font/montserrat"
-                android:text="Anxiety Level"
-                android:textColor="#817889"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:id="@+id/AL_graph">
-            </ImageView>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="30sp" />
-
-            <View
-                android:id="@+id/divider"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="#1A000000" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/improvement_header"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="20sp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/montserrat"
-                    android:text="@string/improvement_in"
-                    android:textColor="#817889"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/improvement_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/montserrat"
-                    android:text="@string/percentage"
-                    android:textColor="#4CA758"
-                    android:textSize="22sp" />
-            </LinearLayout>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="30sp" />
-
-            <View
-                android:id="@+id/divider1"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="#1A000000" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/highestday_header"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="20sp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/montserrat"
-                    android:text="@string/highest_day_of_anxiety"
-                    android:textColor="#817889"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/highestday_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/montserrat"
-                    android:inputType="date"
-                    android:text="@string/date_here"
-                    android:textColor="#817889"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="30sp" />
-
-            <View
-                android:id="@+id/divider2"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="#1A000000" />
-
-            <TextView
-                android:id="@+id/locationAnalysis_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20sp"
-                android:fontFamily="@font/montserrat"
-                android:text="Location Analysis"
-                android:textColor="#817889"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycleView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="30sp" />
-
-            <View
-                android:id="@+id/divider3"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="#1A000000" />
-
-            <TextView
-                android:id="@+id/events_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20sp"
-                android:fontFamily="@font/montserrat"
-                android:text="Events with Highest Anxiety Levels"
-                android:textColor="#817889"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="30sp" />
-
-            <View
-                android:id="@+id/divider4"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="#1A000000" />
-
-            <TextView
-                android:id="@+id/recommendations_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20sp"
-                android:fontFamily="@font/montserrat"
-                android:text="Recommendations"
-                android:textColor="#817889"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="30sp" />
-
-        </LinearLayout>
-    </ScrollView>
-
-    <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/backButton"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="20dp"
@@ -265,5 +19,281 @@
         app:srcCompat="@drawable/ic_left_arrow" />
 
 
+    <TextView
+        android:id="@+id/titleofscreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/montserrat"
+        android:text="Report"
+        android:textColor="#000000"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toStartOf="@+id/print_icon"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toEndOf="@id/backButton"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/print_icon"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/nav_host_fragment"
+        app:layout_constraintEnd_toStartOf="@+id/share_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/ic_print_black_24dp" />
+
+    <ImageView
+        android:id="@+id/share_icon"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_share_icon" />
+
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/anxiety_level"
+            android:textColor="#817889"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleofscreen" />
+
+    <TextView
+        android:id="@+id/text11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/montserrat"
+        android:text="-Report Interval-"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text1" />
+
+        <ImageView
+            android:id="@+id/AL_graph"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:paddingTop="10dp"
+            android:src="@drawable/test_anxiety_level_graph"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text11" />
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="330dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:background="#1A000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/improvement_num" />
+
+
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/improvement"
+            android:textColor="#817889"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/divider2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+        <TextView
+            android:id="@+id/improvement_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/montserrat"
+            android:text="30%"
+            android:textColor="@color/colorAccent"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/text2"
+            app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="330dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:background="#1A000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/AL_graph" />
+
+        <TextView
+            android:id="@+id/text3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/highest_day_of_anxiety"
+            android:textColor="#817889"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+        <TextView
+            android:id="@+id/highestday_date"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/montserrat"
+            android:text="Monday 15 April"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text3" />
+
+        <TextView
+            android:id="@+id/text4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/montserrat"
+            android:text="Location Analysis"
+            android:textColor="#817889"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/highestday_date" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleView"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text4" />
+
+
+    <TextView
+        android:id="@+id/text5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/montserrat"
+        android:text="Recommendation"
+        android:textColor="#817889"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recycleView" />
+
+
+    <TextView
+        android:id="@+id/recommend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="- Try to sleep more to have better health"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text5" />
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+    <!--
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/white_bg"
+            app:layout_constraintVertical_bias="1.0">
+
+
+
+                <TextView
+                    android:id="@+id/events_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20sp"
+                    android:fontFamily="@font/montserrat"
+                    android:text="Events with Highest Anxiety Levels"
+                    android:textColor="#817889"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+
+
+                <View
+                    android:id="@+id/divider4"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="#1A000000" />
+
+                <TextView
+                    android:id="@+id/recommendations_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20sp"
+                    android:fontFamily="@font/montserrat"
+                    android:text="Recommendations"
+                    android:textColor="#817889"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="- Try to sleep more to have better health"/>
+
+
+
+
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    -->

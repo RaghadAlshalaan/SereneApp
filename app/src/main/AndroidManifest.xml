@@ -6,17 +6,13 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
 
     <application
         android:allowBackup="true"
@@ -26,28 +22,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity android:name=".controller.main.drafts.TextDraftView" />
         <activity android:name=".controller.main.drafts.AddVoiceDraftPage" />
         <activity android:name=".controller.main.drafts.EditPatientTextDraftPage" />
         <activity android:name=".controller.main.drafts.PatientTextDraftDetailPage" />
         <activity android:name=".controller.main.drafts.AddTextDraftPage" />
-
         <activity
             android:name=".SplashScreen"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".WelcomePage" />
-
         <activity android:name=".LogInPage" />
-
         <activity android:name=".controller.signup.Signup" />
-
         <activity android:name=".controller.signup.Questionnairs" />
         <activity
             android:name=".controller.signup.FitbitConnection"
@@ -64,27 +55,20 @@
             </intent-filter>
         </activity>
         <activity android:name=".controller.signup.GoogleCalendarConnection" />
-
         <activity android:name=".MainActivity" />
-
         <activity android:name=".controller.main.profile.MyDoctor" />
         <activity android:name=".controller.main.profile.AddDoctor" />
         <activity android:name=".controller.main.profile.Editprofile" />
         <activity android:name=".controller.main.profile.EditSocio" />
-
         <activity android:name=".controller.main.calendar.Add_Appointment_Page" />
         <activity android:name=".controller.main.calendar.PatientAppointmentDetailPage" />
         <activity android:name=".controller.main.calendar.Add_Medicine_Page" />
         <activity android:name=".controller.main.calendar.PatientMedicineDetailPage" />
-
-
         <activity android:name=".controller.main.report.PatientReport" />
-
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
     </application>
 
 </manifest>
