@@ -1,346 +1,583 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F3F3F3"
-    tools:context=".controller.main.profile.EditSocio">
+    android:background="@color/white"
+    tools:context=".controller.main.calendar.Add_Appointment_Page">
 
-
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="23dp"
+        android:src="@drawable/ic_left_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/titleofscreen"
-        android:layout_width="300dp"
+        android:id="@+id/add_Appointment"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="61dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/montserrat"
+        android:gravity="center"
         android:text="Edit Socio-demographic"
         android:textColor="#000000"
-        android:textSize="30sp" />
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="-190dp">
-        <TextView
-            android:id="@+id/question1"
-            android:layout_width="122dp"
-            android:layout_height="35dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="304dp"
-            android:fontFamily="@font/montserrat"
-            android:text="Age"
-            android:textAlignment="textStart"
-            android:textColor="#8A000000"
-            android:textSize="18sp"
-            android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/age"
-            android:layout_width="93dp"
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        app:layout_constraintTop_toBottomOf="@+id/add_Appointment">
+
+        <LinearLayout
+            android:id="@+id/mainLayoutQs"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="298dp"
-            android:layout_marginEnd="100dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="ex; 21"
-            />
-    </LinearLayout>
+            android:orientation="vertical"
+            android:paddingStart="40dp"
+            android:paddingEnd="10dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="-180dp">
-        <TextView
-            android:id="@+id/titleofscreen1"
-            android:layout_width="122dp"
-            android:layout_height="35dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_centerInParent="true"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="351dp"
-            android:fontFamily="@font/montserrat"
-            android:text="Height"
-            android:textAlignment="textStart"
-            android:textColor="#8A000000"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-        <EditText
-            android:id="@+id/height"
-            android:layout_width="93dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="343dp"
-            android:layout_marginEnd="71dp"
-            android:hint="ex; 160"
-            android:ems="10"
-            android:inputType="textPersonName" />
-        <TextView
-            android:id="@+id/cm"
-            android:layout_width="122dp"
-            android:layout_height="35dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_centerInParent="true"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="351dp"
-            android:fontFamily="@font/montserrat"
-            android:text="cm"
-            android:textAlignment="textStart"
-            android:textColor="#8A000000"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginRight="50dp"/>
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="-120dp"
-        >
-        <TextView
-            android:id="@+id/three"
-            android:layout_width="123dp"
-            android:layout_height="49dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="596dp"
-            android:fontFamily="@font/montserrat"
-            android:text="Cigarette smoker"
-            android:textAlignment="textStart"
-            android:textColor="#8A000000"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-        <Spinner
-            android:id="@+id/smoke"
-            android:layout_width="93dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="599dp"
-            android:layout_marginEnd="70dp"
-            ></Spinner>
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/q1"
+                    android:layout_width="140dp"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="center_vertical"
+                    android:text="@string/age"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="-120dp">
-        <TextView
-            android:id="@+id/textView12"
-            android:layout_width="114dp"
-            android:layout_height="50dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="650dp"
-            android:fontFamily="@font/montserrat"
-            android:text="Chronic diseases"
-            android:textAlignment="textStart"
-            android:textColor="#8A000000"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+                <EditText
+                    android:id="@+id/age"
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:inputType="textPersonName" />
 
-        <EditText
-            android:id="@+id/chronic"
-            android:layout_width="93dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="647dp"
-            android:layout_marginEnd="70dp"
-            android:ems="10"
-            android:hint="ex; Diabetes"
-            android:inputType="textPersonName" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="-140dp">
-        <TextView
-            android:id="@+id/two"
-            android:layout_width="122dp"
-            android:layout_height="49dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="543dp"
-            android:fontFamily="@font/montserrat"
-            android:text="Monthly income"
-            android:textAlignment="textStart"
-            android:textColor="#8A000000"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-        <EditText
-            android:id="@+id/income"
-            android:layout_width="93dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="548dp"
-            android:layout_marginEnd="71dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="ex; 5000"/>
-        <TextView
-            android:id="@+id/sar"
-            android:layout_width="122dp"
-            android:layout_height="49dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="543dp"
-            android:fontFamily="@font/montserrat"
-            android:text="SAR"
-            android:textAlignment="textStart"
-            android:textColor="#8A000000"
-            android:textSize="18sp"
-            android:textStyle="bold" />
 
-    </LinearLayout>
+            </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="-150dp">
-        <TextView
-            android:id="@+id/four"
-            android:layout_width="wrap_content"
-            android:layout_height="47dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="506dp"
-            android:fontFamily="@font/montserrat"
-            android:text="Marital status"
-            android:textAlignment="textStart"
-            android:textColor="#8A000000"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
 
-        <Spinner
-            android:id="@+id/married"
-            android:layout_width="93dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="497dp"
-            android:layout_marginEnd="71dp"
-            ></Spinner>
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/q2"
+                    android:layout_width="140dp"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="center_vertical"
+                    android:text="@string/height"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="-160dp">
-        <TextView
-            android:id="@+id/question4"
-            android:layout_width="131dp"
-            android:layout_height="50dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="446dp"
-            android:fontFamily="@font/montserrat"
-            android:text="Employment status"
-            android:textAlignment="textStart"
-            android:textColor="#8A000000"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-        <Spinner
-            android:id="@+id/employee"
-            android:layout_width="93dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="448dp"
-            android:layout_marginEnd="70dp"
-            ></Spinner>
-    </LinearLayout>
+                <EditText
+                    android:id="@+id/height"
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:hint="@string/ex_160"
+                    android:inputType="textPersonName" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="-170dp">
-        <TextView
-            android:id="@+id/description1"
-            android:layout_width="122dp"
-            android:layout_height="35dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="401dp"
-            android:fontFamily="@font/montserrat"
-            android:text="Wieght"
-            android:textAlignment="textStart"
-            android:textColor="#8A000000"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-        <EditText
-            android:id="@+id/weight"
-            android:layout_width="93dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="392dp"
-            android:layout_marginEnd="70dp"
-            android:ems="10"
-            android:hint="ex; 56"
-            android:inputType="textPersonName" />
-        <TextView
-            android:id="@+id/kg"
-            android:layout_width="122dp"
-            android:layout_height="35dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="401dp"
-            android:fontFamily="@font/montserrat"
-            android:text="kg"
-            android:textAlignment="textStart"
-            android:textColor="#8A000000"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/e2"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="center_vertical"
+                    android:text="@string/cm"
+                    android:textColor="#8A000000"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/q3"
+                    android:layout_width="140dp"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="center_vertical"
+                    android:text="@string/weight"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/weight"
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:hint="@string/ex_55"
+                    android:inputType="textPersonName" />
+
+                <TextView
+                    android:id="@+id/e3"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="center_vertical"
+                    android:text="@string/kg"
+                    android:textColor="#8A000000"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/q4"
+                    android:layout_width="140dp"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="center_vertical"
+                    android:text="@string/monthly_income"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/income"
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:inputType="textPersonName" />
+
+                <TextView
+                    android:id="@+id/e4"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="center_vertical"
+                    android:text="@string/sr"
+                    android:textColor="#8A000000"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/q8"
+                    android:layout_width="140dp"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="center_vertical"
+                    android:text="@string/chronic_diseases"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+
+                <EditText
+                    android:id="@+id/chronic"
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:hint="@string/ex_diabetes"
+                    android:inputType="textPersonName" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/q5"
+                    android:layout_width="140dp"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="center_vertical"
+                    android:text="@string/martial_status"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+
+                <Spinner
+                    android:id="@+id/married"
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:ems="10" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/q6"
+                    android:layout_width="140dp"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="center_vertical"
+                    android:text="@string/employment_status"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+
+                <Spinner
+                    android:id="@+id/employee"
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:ems="10" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/q7"
+                    android:layout_width="140dp"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="center_vertical"
+                    android:text="@string/cigarette_smoker"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+
+                <Spinner
+                    android:id="@+id/smoke"
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:ems="10" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView><!--end main layout-->
+
 
     <Button
         android:id="@+id/button"
-        android:layout_width="98dp"
-        android:layout_height="35dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="151dp"
-        android:layout_marginBottom="100dp"
-        android:background="#4CA1D3"
-        android:ellipsize="none"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="70dp"
+        android:background="@drawable/main_button"
+        android:fontFamily="@font/montserrat"
+        android:padding="3dp"
         android:text="Save"
-        android:textColor="#FFFFFF" />
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <!--
 
 
 
-</RelativeLayout>
+
+    mMMMMMMMMMMM
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="-190dp">
+            <TextView
+                android:id="@+id/question1"
+                android:layout_width="122dp"
+                android:layout_height="35dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="304dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Age"
+                android:textAlignment="textStart"
+                android:textColor="#8A000000"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/age"
+                android:layout_width="93dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="298dp"
+                android:layout_marginEnd="100dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="ex; 21"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="-180dp">
+            <TextView
+                android:id="@+id/titleofscreen1"
+                android:layout_width="122dp"
+                android:layout_height="35dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="351dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Height"
+                android:textAlignment="textStart"
+                android:textColor="#8A000000"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <EditText
+                android:id="@+id/height"
+                android:layout_width="93dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="343dp"
+                android:layout_marginEnd="71dp"
+                android:hint="ex; 160"
+                android:ems="10"
+                android:inputType="textPersonName" />
+            <TextView
+                android:id="@+id/cm"
+                android:layout_width="122dp"
+                android:layout_height="35dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="351dp"
+                android:fontFamily="@font/montserrat"
+                android:text="cm"
+                android:textAlignment="textStart"
+                android:textColor="#8A000000"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginRight="50dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="-120dp"
+            >
+            <TextView
+                android:id="@+id/three"
+                android:layout_width="123dp"
+                android:layout_height="49dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="596dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Cigarette smoker"
+                android:textAlignment="textStart"
+                android:textColor="#8A000000"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <Spinner
+                android:id="@+id/smoke"
+                android:layout_width="93dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="599dp"
+                android:layout_marginEnd="70dp"
+                ></Spinner>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="-120dp">
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="114dp"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="650dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Chronic diseases"
+                android:textAlignment="textStart"
+                android:textColor="#8A000000"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/chronic"
+                android:layout_width="93dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="647dp"
+                android:layout_marginEnd="70dp"
+                android:ems="10"
+                android:hint="ex; Diabetes"
+                android:inputType="textPersonName" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="-140dp">
+            <TextView
+                android:id="@+id/two"
+                android:layout_width="122dp"
+                android:layout_height="49dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="543dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Monthly income"
+                android:textAlignment="textStart"
+                android:textColor="#8A000000"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <EditText
+                android:id="@+id/income"
+                android:layout_width="93dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="548dp"
+                android:layout_marginEnd="71dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="ex; 5000"/>
+            <TextView
+                android:id="@+id/sar"
+                android:layout_width="122dp"
+                android:layout_height="49dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="543dp"
+                android:fontFamily="@font/montserrat"
+                android:text="SAR"
+                android:textAlignment="textStart"
+                android:textColor="#8A000000"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="-150dp">
+            <TextView
+                android:id="@+id/four"
+                android:layout_width="wrap_content"
+                android:layout_height="47dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="506dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Marital status"
+                android:textAlignment="textStart"
+                android:textColor="#8A000000"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/married"
+                android:layout_width="93dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="497dp"
+                android:layout_marginEnd="71dp"
+                ></Spinner>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="-160dp">
+            <TextView
+                android:id="@+id/question4"
+                android:layout_width="131dp"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="446dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Employment status"
+                android:textAlignment="textStart"
+                android:textColor="#8A000000"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <Spinner
+                android:id="@+id/employee"
+                android:layout_width="93dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="448dp"
+                android:layout_marginEnd="70dp"
+                ></Spinner>
+        </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>-->

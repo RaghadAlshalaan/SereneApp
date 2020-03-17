@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,8 +40,8 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
         TDID = getIntent().getStringExtra("TextDraftID");
         title = findViewById(R.id.TitleTextD);
         subj = findViewById(R.id.SubjtextD);
-        delete = findViewById(R.id.DeleteTextD);
-        edit = findViewById(R.id.EditTextD);
+        delete = findViewById(R.id.delete);
+        edit = findViewById(R.id.SaveChanges);
 
         db.collection("TextDraft")
                 .document(TDID)

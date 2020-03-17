@@ -74,14 +74,14 @@
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
         android:text=""
-        app:layout_constraintBottom_toTopOf="@+id/EditTextD"
+        app:layout_constraintBottom_toTopOf="@+id/SaveChanges"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TitleTextD" />
 
     <Button
-        android:id="@+id/EditTextD"
+        android:id="@+id/SaveChanges"
         android:layout_width="0dp"
         android:layout_height="35dp"
         android:layout_marginStart="8dp"
@@ -97,10 +97,10 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/DeleteTextD" />
+        app:layout_constraintStart_toEndOf="@+id/delete" />
 
     <Button
-        android:id="@+id/DeleteTextD"
+        android:id="@+id/delete"
         android:layout_width="0dp"
         android:layout_height="35dp"
         android:layout_marginStart="32dp"
@@ -115,7 +115,7 @@
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/EditTextD"
+        app:layout_constraintEnd_toStartOf="@+id/SaveChanges"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

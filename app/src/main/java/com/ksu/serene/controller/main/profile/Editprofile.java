@@ -86,18 +86,22 @@ public class Editprofile extends AppCompatActivity {
             public void onClick(View v) {
                 updateName(name.getText().toString());
                 uploadFile();
+
                 if(!oldPass.getText().toString().equals("") &&! newPass.getText().toString().equals("")
                         && !confirmPass.getText().toString().equals("") && (oldPass.getText().toString().length()>=8
                         && newPass.getText().toString().length()>=8
-                        && confirmPass.getText().toString().length()>=8))
-                changePassword(oldPass.getText().toString(),newPass.getText().toString(),confirmPass.getText().toString());
+                        && confirmPass.getText().toString().length()>=8)){
+
+                changePassword(oldPass.getText().toString(),newPass.getText().toString(),confirmPass.getText().toString());}
 
                 else if(!oldPass.getText().toString().equals("") &&! newPass.getText().toString().equals("")
                         && !confirmPass.getText().toString().equals("") &&(oldPass.getText().toString().length()<8
                         ||newPass.getText().toString().length()<8
                         || confirmPass.getText().toString().length()<8)){
+
                     Toast.makeText(Editprofile.this, R.string.passwordChar,
                             Toast.LENGTH_SHORT).show();
+
                     oldPass.setText("");
                     newPass.setText("");
                     confirmPass.setText("");
@@ -105,6 +109,7 @@ public class Editprofile extends AppCompatActivity {
 
                 }
 
+                finish();
 
             }
         });
@@ -242,7 +247,7 @@ public class Editprofile extends AppCompatActivity {
                                     public void onSuccess(Void aVoid) {
                                         final Uri download = downloadUri;
 
-                                                            MySharedPreference.putString(Editprofile.this, "Image", download.toString());
+                                        MySharedPreference.putString(Editprofile.this, "Image", download.toString());
                                                    }
 
                                                 });
@@ -262,8 +267,7 @@ public class Editprofile extends AppCompatActivity {
     public void updateName(final String newName) {
         DocumentReference userName = db.collection("Patient").document(mAuth.getUid());
 
-        userName
-                .update("name", newName)
+        userName.update("name", newName)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -293,7 +297,6 @@ public class Editprofile extends AppCompatActivity {
 
                     }
                 });
-
 
 
     }// updateName()

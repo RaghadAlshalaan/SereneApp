@@ -43,7 +43,7 @@ public class PatientAppointmentDetailPage extends AppCompatActivity {
 
 
         AppID = getIntent().getStringExtra("AppointmentID");
-        AppointmentName = (TextView) findViewById(R.id.MName);
+        AppointmentName = (TextView) findViewById(R.id.nameET);
         Date = (TextView) findViewById(R.id.MTillDays);
         Time = (TextView) findViewById(R.id.MTime);
         Delete = findViewById(R.id.DeleteApp);

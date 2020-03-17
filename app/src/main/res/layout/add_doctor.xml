@@ -1,150 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".controller.main.profile.AddDoctor">
-    <View
-        android:id="@+id/white_bg1"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="575dp"
-        android:background="@drawable/white_bg" />
+
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="23dp"
+        android:src="@drawable/ic_left_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/add_Appointment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/montserrat"
+        android:gravity="center"
+        android:text="Add Doctor"
+        android:textColor="#000000"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/NameTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="100dp"
+        android:fontFamily="@font/montserrat"
+        android:text="Doctor Name"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/nameET"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/NameTV"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:background="@drawable/custom_edit_text"
+        android:ems="10"
+        android:fontFamily="@font/montserrat"
+        android:inputType="textPersonName"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/NameTV" />
+
 
 
     <TextView
-        android:id="@+id/titleofscreen"
-        android:layout_width="wrap_content"
+        android:id="@+id/DateTV"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="61dp"
-        android:layout_marginTop="60dp"
+        android:layout_below="@id/nameET"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/montserrat"
+        android:text="Doctor Email"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nameET" />
+
+    <EditText
+        android:id="@+id/emailET"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/DateTV"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:background="@drawable/custom_edit_text"
+        android:ems="10"
+        android:fontFamily="@font/montserrat"
+        android:inputType="textPersonName"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/DateTV" />
+
+    <TextView
+        android:id="@+id/DaeTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/emailET"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/montserrat"
+        android:text="Enable Automatic Report"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailET" />
+
+
+    <Switch
+        android:id="@+id/switchReport"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/DaeTV"
+        app:layout_constraintTop_toBottomOf="@+id/emailET" />
+
+
+<!--    <Button
+        android:id="@+id/MTime"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="40dp"
+        android:background="@drawable/custom_edit_text"
+        android:text="OFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cloIcon"
+        app:layout_constraintTop_toBottomOf="@+id/DaeTV" />-->
+
+    <Button
+        android:id="@+id/confirm"
+        android:layout_width="250dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="70dp"
+        android:background="@drawable/main_button"
+        android:fontFamily="@font/montserrat"
+        android:padding="3dp"
         android:text="Add Doctor"
-        android:textColor="#000000"
-        android:textSize="30sp" />
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
-
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="-10dp">
-
-        <TextView
-            android:id="@+id/fullName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="200dp"
-            android:fontFamily="@font/montserrat"
-            android:text="Name"
-            android:textColor="#817889"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-        <EditText
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="240dp"
-            android:layout_marginLeft="-30dp"
-            android:ems="12"
-            android:hint="Name"
-            android:inputType="textPersonName"
-            android:textColor="#B1B0B0"></EditText>
-
-    </LinearLayout>
-
-      <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:layout_marginTop="-0dp">
-
-           <TextView
-               android:id="@+id/emailText"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_alignParentStart="true"
-               android:layout_alignParentTop="true"
-               android:layout_centerHorizontal="true"
-               android:layout_marginStart="25dp"
-               android:layout_marginTop="288dp"
-               android:fontFamily="@font/montserrat"
-               android:text="Email"
-               android:textColor="#817889"
-               android:textSize="18sp"
-               android:textStyle="bold" />
-           <EditText
-               android:id="@+id/email"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_alignParentBottom="true"
-               android:layout_centerInParent="true"
-               android:layout_marginTop="330dp"
-               android:layout_marginLeft="-30dp"
-               android:ems="12"
-               android:hint="Email"
-               android:inputType="textPersonName"
-               android:textColor="#B1B0B0"></EditText>
-
-
-       </LinearLayout>
-
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-        <ToggleButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="420dp"
-            android:layout_marginLeft="260dp">
-
-        </ToggleButton>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="90dp"
-            android:text="Enable automatic report"
-            android:textColor="#817889"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginTop="420dp"
-            android:layout_marginLeft="-260dp">
-
-        </TextView>
-
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-        <Button
-            android:id="@+id/confirm"
-            android:layout_width="98dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="151dp"
-            android:layout_marginBottom="50dp"
-            android:background="#4CA1D3"
-            android:ellipsize="none"
-            android:text="Confirm"
-            android:textColor="#FFFFFF"
-            android:layout_marginTop="500dp"
-            android:layout_marginLeft="75dp"/>
-
-
-    </LinearLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

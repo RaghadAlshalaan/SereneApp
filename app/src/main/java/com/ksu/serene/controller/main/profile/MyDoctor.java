@@ -44,27 +44,27 @@ public class MyDoctor extends AppCompatActivity {
         getSupportActionBar().hide();
 
         mAuth = FirebaseAuth.getInstance();
-        email = findViewById(R.id.email);
-        name = findViewById(R.id.name);
+//        email = findViewById(R.id.emailET);
+//        name = findViewById(R.id.nameET);
         delete = findViewById(R.id.delete);
         nameET = findViewById(R.id.nameET);
         emailET = findViewById(R.id.emailET);
-        edit = findViewById(R.id.edit);
-        save = findViewById(R.id.save);
+        //edit = findViewById(R.id.edit);
+        save = findViewById(R.id.SaveChanges);
         check = findViewById(R.id.check);
 
-        nameET.setVisibility(View.GONE);
-        emailET.setVisibility(View.GONE);
-        save.setVisibility(View.GONE);
+//        nameET.setVisibility(View.GONE);
+//        emailET.setVisibility(View.GONE);
+ //       save.setVisibility(View.GONE);
 
 
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(MyDoctor.this);
-                dialog.setTitle("Are you sure?");
-                dialog.setMessage("After deleting this doctor he or she will no longer be linked with your account " +
-                        "and we will disable sending periodic reports to them.");
+                dialog.setTitle("Delete Doctor");
+                dialog.setMessage("After deleting this doctor s/he will no longer be linked with your account " +
+                        "and the automatic periodic reports will be disabled.");
                 dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -108,45 +108,15 @@ public class MyDoctor extends AppCompatActivity {
             }
         });
 
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nameET.setVisibility(View.VISIBLE);
-                emailET.setVisibility(View.VISIBLE);
-                save.setVisibility(View.VISIBLE);
-
-                name.setVisibility(View.GONE);
-                email.setVisibility(View.GONE);
-                delete.setVisibility(View.GONE);
-
-
-                db.collection("Doctor")
-                        .whereEqualTo("patientID"+mAuth.getUid().substring(0,5), mAuth.getUid())
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    if(!task.getResult().isEmpty()){
-                                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                            if(document.exists()) {
-                                               nameET.setText(document.getString("name"));
-                                               emailET.setText(document.getString("email"));
-                                            }
-                                        }
-                                    }
-
-                                }
-                                else {
-
-                                }
-                            }
-                        }); //end db
 
 
 
-            }
-        });
+        // Set name and email
+        setData();
+
+
+
+
         //TODO add verification email link when the user changes the email
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,16 +134,39 @@ public class MyDoctor extends AppCompatActivity {
                     return;}
 
                 updateDoctor(nameET.getText().toString(),emailET.getText().toString());
-                nameET.setVisibility(View.GONE);
-                emailET.setVisibility(View.GONE);
-                save.setVisibility(View.GONE);
 
-                name.setVisibility(View.VISIBLE);
-                email.setVisibility(View.VISIBLE);
-                delete.setVisibility(View.VISIBLE);
+                finish();
 
             }
         });
+
+    }
+
+    private void setData() {
+
+
+        db.collection("Doctor")
+                .whereEqualTo("patientID"+mAuth.getUid().substring(0,5), mAuth.getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if(!task.getResult().isEmpty()){
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    if(document.exists()) {
+                                       nameET.setText(document.getString("name"));
+                                       emailET.setText(document.getString("email"));
+                                    }
+                                }
+                            }
+
+                        }
+                        else {
+
+                        }
+                    }
+                }); //end db
 
     }
 
@@ -191,8 +184,8 @@ public class MyDoctor extends AppCompatActivity {
                             if(!task.getResult().isEmpty()){
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     if(document.exists()) {
-                                        name.setText(document.getString("name"));
-                                        email.setText(document.getString("email"));
+                                        nameET.setText(document.getString("name"));
+                                        emailET.setText(document.getString("email"));
 
                                     }
                                 }
@@ -222,7 +215,7 @@ public class MyDoctor extends AppCompatActivity {
                                         DocumentReference d= document.getReference();
                                         d.update("name",name);
                                         d.update("email",email);
-                                        Toast.makeText(MyDoctor.this, "Changes updated!",
+                                        Toast.makeText(MyDoctor.this, "Changes Saved!",
                                                 Toast.LENGTH_SHORT).show();
 
                                     }

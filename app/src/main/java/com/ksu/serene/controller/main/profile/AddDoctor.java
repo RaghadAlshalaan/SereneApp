@@ -47,8 +47,8 @@ public class AddDoctor extends AppCompatActivity {
         getSupportActionBar().hide();
 
         mAuth = FirebaseAuth.getInstance();
-        name = findViewById(R.id.name);
-        email = findViewById(R.id.email);
+        name = findViewById(R.id.nameET);
+        email = findViewById(R.id.emailET);
         confirm = findViewById(R.id.confirm);
 
         confirm.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +67,7 @@ public class AddDoctor extends AppCompatActivity {
                     return;} */
 
                  addDoctor(name.getText().toString(), email.getText().toString());
+                 finish();
 
             }
 
@@ -111,9 +112,9 @@ public class AddDoctor extends AppCompatActivity {
                                             }
                                         });
                             }
-                            Toast.makeText(AddDoctor.this, "Doctor Added",
+                            Toast.makeText(AddDoctor.this, "Doctor Added Successfully",
                                     Toast.LENGTH_SHORT).show();
-                            sendEmail(name, email);
+                            //sendEmail(name, email);
                         }
                         else {
 

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,12 +24,13 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
-import com.ksu.serene.LogInPage;
 import com.ksu.serene.controller.Constants;
 import com.ksu.serene.model.Token;
 import com.ksu.serene.WelcomePage;
@@ -47,7 +49,8 @@ import java.util.Map;
 public class PatientProfile extends Fragment {
 
     private ImageView image, SocioArrow, doctorArrow, editProfile;
-    private TextView name, email, doctor, alert;
+    private TextView name, email, doctor;
+    private LinearLayout alert;
     private String nameDb, emailDb, imageDb;
     private FirebaseAuth mAuth;
     private Button  logOut;
@@ -109,15 +112,38 @@ public class PatientProfile extends Fragment {
 
 
 
-
+        listenToUpdates();
 
         return view;
+    }
+
+    private void listenToUpdates() {
+//
+//        DocumentReference docRef = db.collection("Doctor").whereEqualTo("patientID"+mAuth.getUid().substring(0,5), mAuth.getUid()).get();
+//        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+//            @Override
+//            public void onEvent(@Nullable DocumentSnapshot snapshot,
+//                                @Nullable FirestoreException e) {
+//                if (e != null) {
+//                    System.err.println("Listen failed: " + e);
+//                    return;
+//                }
+//
+//                if (snapshot != null && snapshot.exists()) {
+//                    System.out.println("Current data: " + snapshot.getData());
+//                } else {
+//                    System.out.print("Current data: null");
+//                }
+//            }
+//        });
+//
+
     }
 
     private void init(View view) {
 
         image = view.findViewById(R.id.imageView);
-        email = view.findViewById(R.id.email);
+        email = view.findViewById(R.id.emailET);
         name = view.findViewById(R.id.full_name);
         mAuth = FirebaseAuth.getInstance();
         editProfile = view.findViewById(R.id.edit_profile_btn);
@@ -128,7 +154,6 @@ public class PatientProfile extends Fragment {
         alert = view.findViewById(R.id.alert);
 
     }
-
 
 
     private void checkDoctorAvailability() {
@@ -286,7 +311,7 @@ public class PatientProfile extends Fragment {
         tokenh.put("token",mToken);
 
         userTokenDR
-                .update("token", "")
+                .update("token", mToken)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -305,8 +330,6 @@ public class PatientProfile extends Fragment {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error updating document", e);
-
-
                     }
                 });
 

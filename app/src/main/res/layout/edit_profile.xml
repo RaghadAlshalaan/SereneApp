@@ -28,23 +28,6 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-<!--        <ImageView
-            android:id="@+id/edit_profile_btn"
-            android:layout_width="33dp"
-            android:layout_height="33dp"
-            android:layout_gravity="end"
-            android:layout_margin="10dp"
-            app:srcCompat="@drawable/edit_profile_icon" />-->
-
-        <!--
-        <Button
-            android:layout_width="119dp"
-            android:layout_height="36dp"
-            android:layout_marginLeft="140dp"
-            android:background="#00201B1B"
-            android:fontFamily="@font/montserrat"
-            android:text="@string/edit_profile"
-            android:textColor="#ffffff" />-->
 
         <ImageView
             android:id="@+id/imageView"
@@ -59,31 +42,11 @@
             android:layout_width="150dp"
             android:layout_height="35dp"
 
-            android:background="#95BBD1"
+            android:background="@drawable/custom_edit_text"
             android:ellipsize="none"
             android:text="Choose Image"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/black"
       />
-
-
-<!--        <TextView
-            android:id="@+id/full_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat"
-            android:text="@string/full_name"
-            android:textColor="@color/colorAccent"
-            android:textSize="25sp"
-            android:textStyle="normal" />
-
-        <TextView
-            android:id="@+id/email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat"
-            android:text="email@email.com"
-            android:textColor="#515C6F"
-            android:textSize="18sp" />-->
 
 
     </LinearLayout>
@@ -231,11 +194,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="#79B1B0B0"
+            android:background="@drawable/delete_button"
             android:fontFamily="@font/montserrat"
             android:padding="10dp"
             android:text="Delete Account"
-            android:textColor="@color/Error"
+            android:textColor="@color/white"
             android:textStyle="bold" />
 
     </LinearLayout>

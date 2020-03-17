@@ -70,7 +70,6 @@ public class AddVoiceDraftPage extends AppCompatActivity {
 
     public void recordAudio(View v) {
 
-
             AndroidAudioRecorder.with(this)
                     // Required
                     .setFilePath(AUDIO_FILE_PATH)
@@ -84,7 +83,6 @@ public class AddVoiceDraftPage extends AppCompatActivity {
                     .setAutoStart(false)
                     .setKeepDisplayOn(true)
                     .record();
-
 
     }
 

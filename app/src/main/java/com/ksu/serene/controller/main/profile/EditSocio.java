@@ -183,6 +183,7 @@ public class EditSocio extends AppCompatActivity {
                                             Toast.makeText(EditSocio.this, "Changes updated!",
                                                     Toast.LENGTH_SHORT).show();
 
+                                            finish();
 
                                         }
                                     }

@@ -118,7 +118,7 @@
     <string name="google_calendar_description">Serene wants to connect with your google calendar to get your events in order to perform correctly.</string>
     <string name="medicine_name">Medicine Name</string>
     <string name="yes">Yes</string>
-    <string name="alert">Please verify your account</string>
+    <string name="alert">Your email has not been verified.</string>
     <string name="empty">There are no upcoming appointments</string>
     <string name="tips">Quote of the day</string>
 

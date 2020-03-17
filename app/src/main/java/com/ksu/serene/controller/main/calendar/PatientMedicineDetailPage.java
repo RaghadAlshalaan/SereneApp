@@ -44,7 +44,7 @@ public class PatientMedicineDetailPage extends AppCompatActivity {
 
         setContentView(R.layout.activity_patient_medicine_detail_page);
         MedID = getIntent().getStringExtra("MedicineID");
-        MedicineName = findViewById(R.id.MName);
+        MedicineName = findViewById(R.id.nameET);
         StartDay = findViewById(R.id.MFromDays);
         EndDay = findViewById(R.id.MTillDays);
         Time = findViewById(R.id.MTime);
