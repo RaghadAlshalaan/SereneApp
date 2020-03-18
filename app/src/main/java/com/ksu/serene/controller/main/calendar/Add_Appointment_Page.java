@@ -207,8 +207,7 @@ public class Add_Appointment_Page extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(Add_Appointment_Page.this, "The App added successfully", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent (Add_Appointment_Page.this, MainActivity.class);
-                            startActivity(intent);
+                            finish();
                             added = true;
                         } else {
                             Toast.makeText(Add_Appointment_Page.this, "The App did not add", Toast.LENGTH_LONG).show();

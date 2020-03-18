@@ -69,6 +69,12 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <service
+            android:name=".Util.SensorService"
+            android:enabled="true" >
+        </service>
+
     </application>
 
 </manifest>

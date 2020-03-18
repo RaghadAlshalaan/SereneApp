@@ -259,8 +259,7 @@ public class Add_Medicine_Page extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             //Log.d("TAG", "DocumentSnapshot added with ID: " + documentReference.getId());
                            Toast.makeText(Add_Medicine_Page.this, "The Med added successfully", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(Add_Medicine_Page.this , MainActivity.class);
-                            startActivity(intent);
+                            finish();
                             added = true;
                         } else {
                            Toast.makeText(Add_Medicine_Page.this, "The Med did not add", Toast.LENGTH_LONG).show();

@@ -75,8 +75,7 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 Toast.makeText(PatientTextDraftDetailPage.this, "Text Draft deleted successfully", Toast.LENGTH_LONG).show();
-                                                Intent intent = new Intent (PatientTextDraftDetailPage.this, MainActivity.class);
-                                                startActivity(intent);
+                                                finish();
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
@@ -104,8 +103,7 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 //Toast.makeText(PatientTextDraftDetailPage.this, "Updated Successfully", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(PatientTextDraftDetailPage.this, MainActivity.class);
-                                startActivity(intent);
+                                finish();
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {

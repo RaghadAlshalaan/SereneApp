@@ -93,8 +93,7 @@ public class AddTextDraftPage extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
                         //todo: progress bar
                         Toast.makeText(AddTextDraftPage.this, "Saved Successfully", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(AddTextDraftPage.this, MainActivity.class);
-                        startActivity(intent);
+                        finish();
 
                     }
                 })

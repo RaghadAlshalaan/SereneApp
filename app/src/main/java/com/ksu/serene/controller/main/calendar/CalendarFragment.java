@@ -457,5 +457,12 @@ public class CalendarFragment extends Fragment{
         });
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        listAppointements.clear();
+        listMedicines.clear();
+        SetAppRecyView(root);
+        SetMedRecyView(root);
+    }
 }

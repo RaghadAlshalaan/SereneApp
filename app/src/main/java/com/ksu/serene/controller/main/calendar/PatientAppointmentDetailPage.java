@@ -88,8 +88,7 @@ public class PatientAppointmentDetailPage extends AppCompatActivity {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 Toast.makeText(PatientAppointmentDetailPage.this, "The Appointment reminder deleted successfully", Toast.LENGTH_LONG).show();
-                                                Intent intent = new Intent(PatientAppointmentDetailPage.this, MainActivity.class);
-                                                startActivity(intent);
+                                                finish();
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {

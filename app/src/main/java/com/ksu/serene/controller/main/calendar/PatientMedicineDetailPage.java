@@ -38,7 +38,7 @@ public class PatientMedicineDetailPage extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
 
@@ -93,8 +93,7 @@ public class PatientMedicineDetailPage extends AppCompatActivity {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 Toast.makeText(PatientMedicineDetailPage.this, "Medicine Reminder deleted successfully", Toast.LENGTH_LONG).show();
-                                                Intent intent = new Intent (PatientMedicineDetailPage.this, MainActivity.class);
-                                                startActivity(intent);
+                                                finish();
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {

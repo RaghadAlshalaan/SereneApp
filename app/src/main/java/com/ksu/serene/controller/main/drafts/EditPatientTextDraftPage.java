@@ -51,8 +51,7 @@ public class EditPatientTextDraftPage extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 Toast.makeText(EditPatientTextDraftPage.this, "Updated Successfully", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(EditPatientTextDraftPage.this, MainActivity.class);
-                                startActivity(intent);
+                                finish();
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
