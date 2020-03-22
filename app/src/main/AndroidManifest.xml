@@ -22,9 +22,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".controller.main.drafts.TextDraftView" />
         <activity android:name=".controller.main.drafts.AddVoiceDraftPage" />
-        <activity android:name=".controller.main.drafts.EditPatientTextDraftPage" />
         <activity android:name=".controller.main.drafts.PatientTextDraftDetailPage" />
         <activity android:name=".controller.main.drafts.AddTextDraftPage" />
         <activity

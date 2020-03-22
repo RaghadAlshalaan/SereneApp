@@ -118,7 +118,7 @@
         android:background="@drawable/overbox"
         android:elevation="9dp"
         android:orientation="vertical"
-        android:visibility="invisible" />
+        android:visibility="visible" />
 
 
 
