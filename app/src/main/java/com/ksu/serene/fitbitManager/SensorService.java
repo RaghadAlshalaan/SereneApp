@@ -1,4 +1,4 @@
-package com.ksu.serene.Util;
+package com.ksu.serene.fitbitManager;
 
 import android.app.Service;
 import android.content.Context;

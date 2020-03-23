@@ -69,7 +69,7 @@
             android:resource="@array/preloaded_fonts" />
 
         <service
-            android:name=".Util.SensorService"
+            android:name=".fitbitManager.SensorService"
             android:enabled="true" >
         </service>
 

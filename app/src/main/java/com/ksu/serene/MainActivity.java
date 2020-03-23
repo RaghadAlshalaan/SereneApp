@@ -1,6 +1,8 @@
 package com.ksu.serene;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -9,20 +11,23 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.ksu.serene.controller.fitbitDataWorker.FitbitWorker;
+import com.ksu.serene.fitbitManager.SensorService;
+import com.ksu.serene.fitbitManager.FitbitWorker;
 import com.ksu.serene.controller.main.profile.PatientProfile;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.work.Constraints;
-import androidx.work.NetworkType;
 import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
 import java.util.concurrent.TimeUnit;
@@ -150,5 +155,62 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         profile.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.i("AppInfo", "onDestroy");
+        super.onDestroy();
+
+        WorkManager.getInstance(getApplicationContext()).cancelAllWork();
+
+    }
+
+    Intent mServiceIntent;
+    private SensorService mSensorService;
+    PeriodicWorkRequest fitBitWorker;
+    long DAILY_UPDATE_PERIOD_MINUTES = 2; // SHOULD_BE 24 Hours
+
+
+    @Override
+    protected void onStart() {
+        Log.i("AppInfo", "onStart()");
+
+        super.onStart();
+
+        WorkManager.getInstance(getApplicationContext()).cancelAllWork();
+
+        mSensorService = new SensorService(getApplicationContext());
+        mServiceIntent = new Intent(getApplicationContext(), mSensorService.getClass());
+        startService(mServiceIntent);
+
+
+        // First way, using Worker
+        startDailyWorker();
+
+    }
+
+    void startDailyWorker() {
+        Log.i("AppInfo", "startDailyWorker()");
+
+        fitBitWorker =
+                new PeriodicWorkRequest.Builder(FitbitWorker.class, DAILY_UPDATE_PERIOD_MINUTES, TimeUnit.MINUTES)
+                        .setConstraints(Constraints.NONE)
+                        .build();
+
+        WorkManager.getInstance(getApplicationContext()).enqueue(fitBitWorker);
+        WorkManager.getInstance(getApplicationContext())
+                .getWorkInfoByIdLiveData(fitBitWorker.getId())
+                .observe(this, new Observer<WorkInfo>() {
+                    @Override
+                    public void onChanged(@Nullable WorkInfo workInfo) {
+                        //displayMessage("Work finished!");
+                        if (workInfo != null) {
+                            Log.i("AppInfo", "fitBitWorker done.");
+                            // TODO: Add the 24 Hours work here
+                        }
+
+                    }
+                });
     }
 }

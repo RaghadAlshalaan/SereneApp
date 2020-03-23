@@ -1,4 +1,4 @@
-package com.ksu.serene.controller.fitbitDataWorker;
+package com.ksu.serene.fitbitManager;
 
 import android.content.Context;
 import android.net.Uri;
