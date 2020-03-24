@@ -2,14 +2,19 @@ package com.ksu.serene.controller.main.calendar;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -18,9 +23,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.Timestamp;
-import com.ksu.serene.MainActivity;
+//import com.ksu.serene.MainActivity;
+import com.google.firebase.firestore.SetOptions;
+import com.ksu.serene.controller.Reminder.AlarmScheduler;
 import com.ksu.serene.model.Medicine;
 import com.ksu.serene.R;
+import com.ksu.serene.model.Reminder;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,9 +37,12 @@ import java.util.Locale;
 import java.util.Date;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.UUID;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import static android.R.layout.simple_spinner_dropdown_item;
 
 public class Add_Medicine_Page extends AppCompatActivity {
 
@@ -42,11 +53,19 @@ public class Add_Medicine_Page extends AppCompatActivity {
     private EditText Dose;
     private Button Confirm;
     private Calendar calendar;
+    private EditText repeatIntervalET;
+    private EditText repeatNOET;
+    private Spinner repeatTypeSpinner;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     private SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
     private Timestamp FDTS;
     private Timestamp LDTS;
     ImageView back;
     private String date;
+    private int repeatInterval, repeatNO;
+    private Long repeatTime;//we will save the final calculated repeat interval (for setting alarm) here
+    private String repeatType;
+    private String medDocumentID;
 
 
     //for from day
@@ -102,6 +121,30 @@ public class Add_Medicine_Page extends AppCompatActivity {
         TillDay = findViewById(R.id.MTillDays);
         Time = findViewById(R.id.MTime);
         Dose = findViewById(R.id.MedicineDose);
+        //repeat inputs
+        repeatIntervalET =(EditText) findViewById(R.id.repeatInterval);
+        repeatTypeSpinner = (Spinner)findViewById(R.id.repeatType);//string array MedicineRepeatType
+        repeatNOET = (EditText) findViewById(R.id.repeatNO);
+
+        //init repeatTypeSpinner
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
+                R.array.MedicineRepeatType, android.R.layout.simple_spinner_item);
+
+        adapter.setDropDownViewResource(simple_spinner_dropdown_item);
+        repeatTypeSpinner.setAdapter(adapter);
+        repeatTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                repeatType = parentView.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                //default type
+                repeatType = "day(s)";
+            }
+        });
+
         Confirm = findViewById(R.id.button);
         calendar = Calendar.getInstance();
         date = getIntent().getStringExtra("date");
@@ -146,13 +189,16 @@ public class Add_Medicine_Page extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //chack all filed filled
-                if (checkFields(MedicineName.getText().toString(), Dose.getText().toString())) {
+                if (checkFields(MedicineName.getText().toString(), Dose.getText().toString(), repeatIntervalET.getText().toString(),repeatNOET.getText().toString())) {
                     //check the day and time in future or the day now but time in future
                     if (checkDayandTime(FromDay.getText().toString() , TillDay.getText().toString() , Time.getText().toString())) {
-                        // if all checked successfully save medicine in firestore with user id
-                        if (SaveNewMed (MedicineName.getText().toString(),FromDay.getText().toString() , TillDay.getText().toString() , Time.getText().toString() , Integer.parseInt(Dose.getText().toString()))) {
+                        repeatInterval = Integer.parseInt(repeatIntervalET.getText().toString());//get repeat interval
+                        repeatNO = Integer.parseInt(repeatNOET.getText().toString());//get repeat number (how many times reminder repeats)
 
-                        }
+                        // if all checked successfully save medicine in firestore with user id
+                        SaveNewMed (MedicineName.getText().toString(),FromDay.getText().toString() , TillDay.getText().toString() , Time.getText().toString() , Integer.parseInt(Dose.getText().toString()));
+
+
                     }
 
                 }
@@ -168,8 +214,8 @@ public class Add_Medicine_Page extends AppCompatActivity {
 
     }
 
-    private boolean checkFields (String MName , String MDose ) {
-        if ( !(TextUtils.isEmpty(MName)) && !(TextUtils.isEmpty(MDose)) && !(Time.getText().toString().equals("Set Time")) && !(FromDay.getText().toString().equals("Start")) && !(TillDay.getText().toString().equals("End")) ){
+    private boolean checkFields (String MName , String MDose, String interval, String repeatNo) {
+        if ( !(TextUtils.isEmpty(MName)) && !(TextUtils.isEmpty(MDose)) && !(TextUtils.isEmpty(interval)) && !(TextUtils.isEmpty(repeatNo)) && !(Time.getText().toString().equals("Set Time")) && !(FromDay.getText().toString().equals("Start")) && !(TillDay.getText().toString().equals("End")) ){
             return true;
         }
         Toast.makeText(Add_Medicine_Page.this,"All Fields Required", Toast.LENGTH_LONG).show();
@@ -197,11 +243,11 @@ public class Add_Medicine_Page extends AppCompatActivity {
             return false;
         }
         //when all after current date no constraint return true
-        if ( (StartD.after(CurrentDate)) && (FinishD.after(CurrentDate)) &&  (FinishD.after(StartD) || (FinishD.compareTo(StartD) == 0))){
+        if ( /*(StartD.after(CurrentDate)) && */(FinishD.after(CurrentDate)) &&  (FinishD.after(StartD) || (FinishD.compareTo(StartD) == 0))){
                 return true;
         }
         //check if the start date is the current date the time is after or same current time, if not return false after display meaningful message
-        if ( (StartD.compareTo(CurrentDate) == 0) || StartD.before(CurrentDate) ) {
+        if (StartD.before(CurrentDate) ) {
             if (MTime.before(CuttentTime) || (MTime.compareTo(CuttentTime) == 0)){
                 Toast.makeText(Add_Medicine_Page.this,"The chosen time must be after now", Toast.LENGTH_LONG).show();
                 return false;
@@ -219,7 +265,7 @@ public class Add_Medicine_Page extends AppCompatActivity {
         }
     }
 
-    private boolean SaveNewMed (String MName , String FDay, String EDay, String Time, int MD ) {
+    private void SaveNewMed (String MName , String FDay, String EDay, String Time, int MD ) {
         // Medicine(String id, String name, Date day, Time time, int doze, int period)
         //the perios is the (TD - FD0+1
         SimpleDateFormat TimeFormat = new SimpleDateFormat("hh : mm");
@@ -236,10 +282,9 @@ public class Add_Medicine_Page extends AppCompatActivity {
         }
         long period = Long.parseLong(((FinishD.getTime() - StartD.getTime()) + 1) + "");
         String patientID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
         String medID = db.collection("PatientMedicin").document().getId();
 
-        Medicine newMedicine = new Medicine(medID, MName, FDay, EDay, Time, MD, period);
+        final Medicine newMedicine = new Medicine(medID, MName, FDay, EDay, Time, MD, period, repeatInterval, repeatType);
         //store the newMed obj in firestore
 
         Map<String, Object> med = new HashMap<>();
@@ -252,27 +297,113 @@ public class Add_Medicine_Page extends AppCompatActivity {
         med.put("time", newMedicine.getTime().toString());
         med.put("FirstDayTS", FDTS);
         med.put("LastDayTS", LDTS);
+        med.put("reminderInterval", newMedicine.getReminderInterval());
+        med.put("reminderType", newMedicine.getReminderType());
 
 
 // Add a new document with a generated ID
-        db.collection("PatientMedicin").document()
+        medDocumentID = getRandomID();
+        db.collection("PatientMedicin").document(medDocumentID)
                 .set(med)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             //Log.d("TAG", "DocumentSnapshot added with ID: " + documentReference.getId());
+                           setReminder(newMedicine);
                            Toast.makeText(Add_Medicine_Page.this, "The Med added successfully", Toast.LENGTH_LONG).show();
                             finish();
-                            added = true;
                         } else {
                            Toast.makeText(Add_Medicine_Page.this, "The Med did not add", Toast.LENGTH_LONG).show();
-                            added = false;
                         }
                     }
                 });
 
-        return added;
+    }
 
+    private void setReminder(Medicine newMedicine){
+        //add medicine reminder
+
+        long milMinute = 60000L;
+        long milHour = 3600000L;
+        long milDay = 86400000L;
+        long milWeek = 604800000L;
+
+        // Check repeat type & set repeatTime to send to AlarmScheduler
+        if (repeatType.equals("minute(s)")) {
+            repeatTime = repeatInterval * milMinute;
+        } else if (repeatType.equals("hour(s)")) {
+            repeatTime = repeatInterval * milHour;
+        } else if (repeatType.equals("day(s)")) {
+            repeatTime = repeatInterval * milDay;
+        } else if (repeatType.equals("week(s)")) {
+            repeatTime = repeatInterval * milWeek;
+        }
+
+
+        //return content URI for new reminder
+        ContentValues values = new ContentValues();
+        values.put(Reminder.ReminderEntry.KEY_NAME, newMedicine.getName());//name
+        values.put(Reminder.ReminderEntry.KEY_DATE, newMedicine.getDay());//date
+        values.put(Reminder.ReminderEntry.KEY_TIME, newMedicine.getTime().toString());//time
+        values.put(Reminder.ReminderEntry.KEY_DOSE, newMedicine.getDoze()+"");//dose
+        values.put(Reminder.ReminderEntry.KEY_REPEAT_TIME, repeatTime);//interval between repeating notifications, aka 4 hours (in milliseconds)
+        values.put(Reminder.ReminderEntry.KEY_REPEAT_TYPE, repeatType);//repeat type
+        values.put(Reminder.ReminderEntry.KEY_REPEAT_NO, repeatNO-1);//number of repeats, same mechanism as period, -1 to make it accurate
+        //values.put(Reminder.ReminderEntry.KEY_PERIOD, newMedicine.getPeriod()); //no longer using period, instead number of repeats
+
+        //time for first notification
+        Calendar firstReminder = Calendar.getInstance();
+        String FDay = newMedicine.getDay();
+        String Time = newMedicine.getTime();
+
+        int startYear = Integer.parseInt(FDay.substring(6));
+        int startMonth = Integer.parseInt(FDay.substring(3,5))-1; //01/34/56
+        int startDay = Integer.parseInt(FDay.substring(0,2));
+
+        int hours = Integer.parseInt(Time.substring(0,2)); //hh : mm
+        int minutes = Integer.parseInt(Time.substring(5));
+
+
+        //firstReminder.set(StartD.getYear(), StartD.getMonth(), StartD.getDate(), MTime.getHours(), MTime.getMinutes());
+        firstReminder.set(startYear, startMonth, startDay, hours, minutes,0);
+
+
+        long selectedTimestamp =  firstReminder.getTimeInMillis();
+
+        // This is a NEW reminder, so insert a new reminder into the provider,
+        // returning the content URI for the new reminder.
+        Uri newUri = getContentResolver().insert(Reminder.ReminderEntry.CONTENT_URI, values);
+        String newUriPath = newUri.toString();
+
+        // Show a toast message depending on whether or not the insertion was successful.
+        if (newUri == null) {
+            // If the new content URI is null, then there was an error with insertion.
+            Toast.makeText(this, "insert_reminder_failed",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            // Otherwise, the insertion was successful and we can display a toast.
+
+            //add URI field to firebase
+            Map<String, Object> URIpath = new HashMap<>();
+            URIpath.put("URI_path", newUriPath);
+
+            db.collection("PatientMedicin").document(medDocumentID)
+                    .set(URIpath, SetOptions.merge());
+
+            //create new notification
+            new AlarmScheduler().setRepeatAlarm(getApplicationContext(),selectedTimestamp, newUri, repeatTime);//
+            //new AlarmScheduler().setAlarm(getApplicationContext(), selectedTimestamp, newUri);
+            Toast.makeText(this, "Alarm time is " + selectedTimestamp,
+                    Toast.LENGTH_LONG).show();
+
+            Toast.makeText(this, "insert_reminder_successful",
+                    Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+    private String getRandomID(){
+        return UUID.randomUUID().toString();
     }
 }

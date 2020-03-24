@@ -2,7 +2,9 @@ package com.ksu.serene.controller.main.calendar;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -19,7 +21,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.ksu.serene.MainActivity;
+import com.google.firebase.firestore.SetOptions;
+import com.ksu.serene.controller.Reminder.AlarmScheduler;
+import com.ksu.serene.model.Reminder;
 import com.ksu.serene.model.TherapySession;
 import com.ksu.serene.R;
 
@@ -30,6 +34,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,6 +48,8 @@ public class Add_Appointment_Page extends AppCompatActivity {
     private ImageView back;
     private Calendar calendar ;
     private SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private String appDocumentID;
     private Timestamp dateTS;
     private String date;
 
@@ -130,9 +137,8 @@ public class Add_Appointment_Page extends AppCompatActivity {
                         //if (SaveNewMed (AppName.getText().toString(),Date.getText().toString() ,  Time.getText().toString() , Integer.parseInt(Dose.getText().toString()))) {
                         //update calender view color From Start to finish days
                         //search about it
-                        if (SaveNewApp (AppName.getText().toString() , Date.getText().toString(), Time.getText().toString())){
+                        SaveNewApp (AppName.getText().toString() , Date.getText().toString(), Time.getText().toString());
 
-                        }
                     }
                 }
             }
@@ -182,7 +188,7 @@ public class Add_Appointment_Page extends AppCompatActivity {
     }
 
     //save new appointment in firestore
-    private boolean SaveNewApp (String AppName , String date , String time) {
+    private void SaveNewApp (String AppName , String date , String time) {
         SimpleDateFormat TimeFormat = new SimpleDateFormat ("hh : mm");
         Date CurrentDate = new Date();
         //convert string to date to used in make TherapySession obj
@@ -196,9 +202,8 @@ public class Add_Appointment_Page extends AppCompatActivity {
         }
         String patientID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         //store the newApp obj in firestore
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
         String AppID = db.collection("PatientSessions").document().getId();
-        TherapySession newApp = new TherapySession(AppID, AppName, date , time);
+        final TherapySession newApp = new TherapySession(AppID, AppName, date , time);
         Map<String, Object> App = new HashMap<>();
         App.put("date", newApp.getDay().toString());
         App.put("name", newApp.getName());
@@ -207,12 +212,14 @@ public class Add_Appointment_Page extends AppCompatActivity {
         App.put("dateTimestamp", dateTS);
 
         // Add a new document with a generated ID
-        db.collection("PatientSessions").document()
+        appDocumentID = getRandomID();
+        db.collection("PatientSessions").document(appDocumentID)
                 .set(App)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
+                            setReminder(newApp);
                             Toast.makeText(Add_Appointment_Page.this, "The App added successfully", Toast.LENGTH_LONG).show();
                             finish();
                             added = true;
@@ -222,7 +229,70 @@ public class Add_Appointment_Page extends AppCompatActivity {
                         }
                     }
                 });
-        return added;
+    }
+
+    public void setReminder(TherapySession newApp){
+        //return content URI for new reminder
+        ContentValues values = new ContentValues();
+        values.put(Reminder.ReminderEntry.KEY_NAME, newApp.getName());//name
+        values.put(Reminder.ReminderEntry.KEY_DATE, newApp.getDay());//date
+        values.put(Reminder.ReminderEntry.KEY_TIME, newApp.getTime().toString());//time
+        values.put(Reminder.ReminderEntry.KEY_DOSE, "");//dose
+        values.put(Reminder.ReminderEntry.KEY_REPEAT_TIME, "");
+        values.put(Reminder.ReminderEntry.KEY_REPEAT_TYPE, "");
+        values.put(Reminder.ReminderEntry.KEY_REPEAT_NO, "");
+
+
+        //time for first notification
+        Calendar reminder = Calendar.getInstance();
+
+        int startYear = Integer.parseInt(newApp.getDay().substring(6));
+        int startMonth = Integer.parseInt(newApp.getDay().substring(3,5))-1; //01/34/56
+        int startDay = Integer.parseInt(newApp.getDay().substring(0,2));
+
+        int hours = Integer.parseInt(newApp.getTime().substring(0,2)); //hh : mm
+        int minutes = Integer.parseInt(newApp.getTime().substring(5));
+
+
+        //reminder.set(StartD.getYear(), StartD.getMonth(), StartD.getDate(), MTime.getHours(), MTime.getMinutes());
+        reminder.set(startYear, startMonth, startDay, hours, minutes,0);
+
+
+        long selectedTimestamp =  reminder.getTimeInMillis();
+
+        // This is a NEW reminder, so insert a new reminder into the provider,
+        // returning the content URI for the new reminder.
+        Uri newUri = getContentResolver().insert(Reminder.ReminderEntry.CONTENT_URI, values);
+        String newUriPath = newUri.toString();
+
+        // Show a toast message depending on whether or not the insertion was successful.
+        if (newUri == null) {
+            // If the new content URI is null, then there was an error with insertion.
+            Toast.makeText(this, "insert_reminder_failed",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            // Otherwise, the insertion was successful and we can display a toast.
+
+            //add URI field to firebase
+            Map<String, Object> URIpath = new HashMap<>();
+            URIpath.put("URI_path", newUriPath);
+
+            db.collection("PatientSessions").document(appDocumentID)
+                    .set(URIpath, SetOptions.merge());
+
+
+            //create new notification
+            new AlarmScheduler().setAlarm(getApplicationContext(), selectedTimestamp, newUri);//no repeating
+            Toast.makeText(this, "Alarm time is " + selectedTimestamp,
+                    Toast.LENGTH_LONG).show();
+
+            Toast.makeText(this, "insert_reminder_successful",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private String getRandomID(){
+        return UUID.randomUUID().toString();
     }
 
 }

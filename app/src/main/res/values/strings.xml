@@ -120,6 +120,10 @@
     <string name="alert">Your email has not been verified.</string>
     <string name="empty">There are no upcoming appointments</string>
     <string name="tips">Quote of the day</string>
+    <string name="minute">minute(s)</string>
+    <string name="hour">hour(s)</string>
+    <string name="day">day(s)</string>
+    <string name="week">week(s)</string>
 
 
     <string-array name="employmentStatus">
@@ -127,6 +131,14 @@
         <item>@string/part</item>
         <item>@string/student</item>
         <item>@string/none</item>
+
+    </string-array>
+
+    <string-array name="MedicineRepeatType">
+        <item>@string/minute</item>
+        <item>@string/hour</item>
+        <item>@string/day</item>
+        <item>@string/week</item>
 
     </string-array>
 

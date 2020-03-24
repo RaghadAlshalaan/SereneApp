@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -63,6 +64,7 @@
         <activity android:name=".controller.main.calendar.Add_Medicine_Page" />
         <activity android:name=".controller.main.calendar.PatientMedicineDetailPage" />
         <activity android:name=".controller.main.report.PatientReport" />
+        <activity android:name=".controller.Reminder.AlarmScheduler" />
 
         <meta-data
             android:name="preloaded_fonts"
@@ -72,6 +74,11 @@
             android:name=".fitbitManager.SensorService"
             android:enabled="true" >
         </service>
+        <service android:name=".controller.Reminder.ReminderAlarmService" />
+        <provider
+            android:name=".controller.Reminder.data.AlarmReminderProvider"
+            android:authorities="com.ksu.serene.Controller"
+            android:exported="false" />
 
     </application>
 

@@ -1,7 +1,10 @@
 package com.ksu.serene.controller.main.calendar;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +18,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.ksu.serene.MainActivity;
+import com.ksu.serene.controller.Reminder.AlarmManagerProvider;
+import com.ksu.serene.controller.Reminder.ReminderAlarmService;
 import com.ksu.serene.model.TherapySession;
 import com.ksu.serene.R;
 
@@ -31,7 +35,7 @@ public class PatientAppointmentDetailPage extends AppCompatActivity {
     private TextView Time;
     private Button Delete;
     private TherapySession session;
-    private String AppID;
+    private String AppID, URI_path;
     ImageView backButton;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -68,6 +72,7 @@ public class PatientAppointmentDetailPage extends AppCompatActivity {
                 AppointmentName.setText(documentSnapshot.get("name").toString());
                 Date.setText(documentSnapshot.get("date").toString());
                 Time.setText(documentSnapshot.get("time").toString());
+                URI_path = documentSnapshot.get("URI_path").toString();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -92,6 +97,35 @@ public class PatientAppointmentDetailPage extends AppCompatActivity {
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
+                                                //delete scheduled reminder
+                                                //make uri with received path
+                                                Uri tempURI = Uri.parse(URI_path);//get path
+
+                                                //check if URI path actually contains a reminder
+                                                if (tempURI != null) {
+                                                    // Call the ContentResolver to delete the reminder at the given content URI.
+                                                    // Pass in null for the selection and selection args because the mCurrentreminderUri
+                                                    // content URI already identifies the reminder that we want.
+                                                    AlarmManager alarmmanager = AlarmManagerProvider.getAlarmManager(getApplicationContext());
+
+                                                    PendingIntent operation =
+                                                            ReminderAlarmService.getReminderPendingIntent(getApplicationContext(), tempURI);
+
+                                                    alarmmanager.cancel(operation);//cancels reminder alarm
+
+                                                    int rowsDeleted = getContentResolver().delete(tempURI, null, null);
+
+                                                    // Show a toast message depending on whether or not the delete was successful.
+                                                    if (rowsDeleted == 0) {
+                                                        // If no rows were deleted, then there was an error with the delete.
+                                                        Toast.makeText(PatientAppointmentDetailPage.this, "The App reminder was not found", Toast.LENGTH_LONG);
+                                                    } else {
+                                                        // Otherwise, the delete was successful and we delete alarm and display a toast.
+
+
+                                                        Toast.makeText(PatientAppointmentDetailPage.this, "The App reminder was successfully cancelled", Toast.LENGTH_LONG);
+                                                    }
+                                                }
                                                 Toast.makeText(PatientAppointmentDetailPage.this, "The Appointment reminder deleted successfully", Toast.LENGTH_LONG).show();
                                                 finish();
                                             }
