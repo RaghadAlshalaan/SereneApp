@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.text.TextUtils;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -42,6 +43,11 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
         subj = findViewById(R.id.SubjtextD);
         delete = findViewById(R.id.delete);
         edit = findViewById(R.id.SaveChanges);
+
+        /*needed for test
+        if (TDID == null){
+            TDID = "";
+        }*/
 
         db.collection("TextDraft")
                 .document(TDID)
@@ -94,27 +100,36 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                db.collection("TextDraft")
-                        .document(TDID)
-                        .update("title" , title.getText().toString(),
-                                "text",subj.getText().toString())
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                //Toast.makeText(PatientTextDraftDetailPage.this, "Updated Successfully", Toast.LENGTH_LONG).show();
-                                finish();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                //Toast.makeText(PatientTextDraftDetailPage.this, "Did Not Update, Try Again", Toast.LENGTH_LONG).show();
-                            }
-                        });
+                if ( CheckFields (title.getText().toString(),subj.getText().toString())) {
+                    db.collection("TextDraft")
+                            .document(TDID)
+                            .update("title", title.getText().toString(),
+                                    "text", subj.getText().toString())
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    //Toast.makeText(PatientTextDraftDetailPage.this, "Updated Successfully", Toast.LENGTH_LONG).show();
+                                    finish();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    //Toast.makeText(PatientTextDraftDetailPage.this, "Did Not Update, Try Again", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                }
 
             }
         });
 
+    }
+    private boolean CheckFields (String TitleDraft, String Message) {
+        if (!(TextUtils.isEmpty(TitleDraft)) && !(TextUtils.isEmpty(Message))) {
+            return true;
+        } else {
+            Toast.makeText(PatientTextDraftDetailPage.this, "All Fields Required", Toast.LENGTH_LONG).show();
+            return false;
+        }
     }
 }

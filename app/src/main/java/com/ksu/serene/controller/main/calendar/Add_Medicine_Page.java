@@ -46,6 +46,7 @@ public class Add_Medicine_Page extends AppCompatActivity {
     private Timestamp FDTS;
     private Timestamp LDTS;
     ImageView back;
+    private String date;
 
 
     //for from day
@@ -103,6 +104,11 @@ public class Add_Medicine_Page extends AppCompatActivity {
         Dose = findViewById(R.id.MedicineDose);
         Confirm = findViewById(R.id.button);
         calendar = Calendar.getInstance();
+        date = getIntent().getStringExtra("date");
+        if (date != null){
+            FromDay.setText(date);
+            TillDay.setText(date);
+        }
         //when day edit text click show calender view to choose the start and end days
         //the start day when click
         FromDay.setOnClickListener(new View.OnClickListener() {
@@ -163,7 +169,7 @@ public class Add_Medicine_Page extends AppCompatActivity {
     }
 
     private boolean checkFields (String MName , String MDose ) {
-        if ( !(TextUtils.isEmpty(MName)) && !(TextUtils.isEmpty(MDose)) && !(Time.getText().toString().equals("")) && !(FromDay.getText().toString().equals("")) && !(TillDay.getText().toString().equals("")) ){
+        if ( !(TextUtils.isEmpty(MName)) && !(TextUtils.isEmpty(MDose)) && !(Time.getText().toString().equals("Set Time")) && !(FromDay.getText().toString().equals("Start")) && !(TillDay.getText().toString().equals("End")) ){
             return true;
         }
         Toast.makeText(Add_Medicine_Page.this,"All Fields Required", Toast.LENGTH_LONG).show();
@@ -172,6 +178,7 @@ public class Add_Medicine_Page extends AppCompatActivity {
 
     private boolean checkDayandTime (String SDate, String EDate , String time) {
         SimpleDateFormat TimeFormat = new SimpleDateFormat ("hh : mm");
+        SimpleDateFormat DateFormat = new SimpleDateFormat ("dd/MM/yy");
         Date CurrentDate = new Date();
         //convert string to date to used in compare
         try {
@@ -184,34 +191,31 @@ public class Add_Medicine_Page extends AppCompatActivity {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        // if the start day and finish day both after current date no need for check for time, just need check for both days
-        if ( (StartD.after(CurrentDate)) && (FinishD.after(CurrentDate)) ){
-            //check if the end date after or same start date, if not return false after display meaningful message
-            if (FinishD.before(StartD) && (FinishD.compareTo(StartD) != 0)) {
-                Toast.makeText(Add_Medicine_Page.this,"The End Day must be after or same as Start Day", Toast.LENGTH_LONG).show();
-                return false;
-            }
-            else {
+        // check if end day before start day
+        if (FinishD.before(StartD) || (FinishD.compareTo(StartD) == -1)) {
+            Toast.makeText(Add_Medicine_Page.this,"The End Day must be after or same as Start Day", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        //when all after current date no constraint return true
+        if ( (StartD.after(CurrentDate)) && (FinishD.after(CurrentDate)) &&  (FinishD.after(StartD) || (FinishD.compareTo(StartD) == 0))){
                 return true;
-            }
         }
         //check if the start date is the current date the time is after or same current time, if not return false after display meaningful message
-        if ( (StartD.compareTo(CurrentDate) == 0) ) {
-            //check if the end date after or same start date, if not return false after display meaningful message
-            if (FinishD.before(StartD) && (FinishD.compareTo(StartD) != 0)) {
-                Toast.makeText(Add_Medicine_Page.this,"The End Day must be after or same as Start Day", Toast.LENGTH_LONG).show();
-                return false;
-            }
-            if (MTime.before(CuttentTime) && (MTime.compareTo(CuttentTime) != 0)){
-                Toast.makeText(Add_Medicine_Page.this,"The chosen time must be now or after now ", Toast.LENGTH_LONG).show();
+        if ( (StartD.compareTo(CurrentDate) == 0) || StartD.before(CurrentDate) ) {
+            if (MTime.before(CuttentTime) || (MTime.compareTo(CuttentTime) == 0)){
+                Toast.makeText(Add_Medicine_Page.this,"The chosen time must be after now", Toast.LENGTH_LONG).show();
                 return false;
             }
             else {
+                if (StartD.compareTo(CurrentDate) != 0 || StartD.before(CurrentDate) || FinishD.compareTo(CurrentDate) != 0 || FinishD.before(CurrentDate)) {
+                    Toast.makeText(Add_Medicine_Page.this,"The chosen date must be after now", Toast.LENGTH_LONG).show();
+                    return false;
+                }
                 return true;
             }
         }
         else {
-            return true;
+            return false;
         }
     }
 

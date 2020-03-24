@@ -163,6 +163,14 @@ public class Signup extends AppCompatActivity {
             return;
         }
 
+        if (password.length() < 8){
+            passwordET.setText("");
+            confirmPasswordET.setText("");
+            Error.setText("* Password must be at least 8 characters.");
+
+            return;
+        }
+
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override

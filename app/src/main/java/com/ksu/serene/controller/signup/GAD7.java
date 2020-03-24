@@ -80,10 +80,17 @@ public class GAD7 extends Fragment {
                                                     .document(id).update(userInfo);
                                         }
 
+                                        //added this toast needed in test
+                                        Toast.makeText(getActivity(), "Success going to next",
+                                                Toast.LENGTH_SHORT).show();
                                         Intent i = new Intent(getActivity(), FitbitConnection.class);
                                         getActivity().startActivity(i);
 
-                                    } else System.out.println("Error getting documents: ");
+                                    } else {System.out.println("Error getting documents: ");
+                                        //added this toast needed in test
+                                        Toast.makeText(getActivity(), "Error getting documents: ",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
 
                                 }
                             });

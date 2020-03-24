@@ -5,7 +5,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/main_background"
-    tools:context=".WelcomePage">
+    tools:context=".WelcomePage"
+    android:id="@+id/WelcomePage">
 
     <View
         android:id="@+id/white_frame"

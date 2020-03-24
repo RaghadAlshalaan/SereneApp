@@ -79,6 +79,10 @@ public class CalendarFragment extends Fragment{
     private Date FDay;
     private Date LDay;
     private Date time;
+    private String date ;
+    private int year = 0;
+    private int month = 0;
+    private int day = 0;
 
     // Add Buttons
     private CalendarView calenderView;
@@ -91,6 +95,8 @@ public class CalendarFragment extends Fragment{
 
         root = inflater.inflate(R.layout.fragment_calendar, container, false);
 
+        //retrieve the id of patient used for searching
+        patientId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         //set calender view
         calenderView = root.findViewById(R.id.calendarView2);
@@ -99,26 +105,26 @@ public class CalendarFragment extends Fragment{
         calenderView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
-//                Log.d("calender", i+"/"+(i1+1)+"/"+i2);
-//                Log.d("try", calendarView.getDateTextAppearance()+"");
-//                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-//                builder.setCancelable(true);
-//                LayoutInflater lf = getLayoutInflater();
-//                final View cardview = lf.inflate(R.layout.activity_card_calender_view, null);
-//                SetCelenderDialog (cardview, i, i1+1, i2);
-//                builder.setView(cardview);
-//                AlertDialog dialog = builder.create();
-//                dialog.show();
+                SetAppRecyView (root,i, i1+1, i2);
+                SetMedRecyView (root, i, i1+1, i2);
+                if ((i1+1)<10){
+                    if (i2 > 10)
+                        date = i2+"/0"+(i1+1)+"/"+i;
+                    else if (i2 < 10 )
+                        date = "0"+i2+"/0"+(i1+1)+"/"+i;
+                }
+                else {
+                    if (i2 > 10)
+                        date = i2+"/"+(i1+1)+"/"+i;
+                    else if (i2 < 10 )
+                        date = "0"+i2+"/"+(i1+1)+"/"+i;
+                }
+                year = i;
+                month = (i1+1);
+                day = i2;
                 updateView();
             }
         });
-
-
-        //retrieve the id of patient used for searching
-        patientId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        SetAppRecyView (root);
-        SetMedRecyView (root);
 
         installButton110to250();
 
@@ -129,8 +135,7 @@ public class CalendarFragment extends Fragment{
 
     }
 
-
-    private void SetAppRecyView (View root) {
+    private void SetAppRecyView (View root,  final int year, final int month, final int day) {
 
         final SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yy", Locale.US);
         final SimpleDateFormat TimeFormat = new SimpleDateFormat ("hh : mm");
@@ -162,6 +167,9 @@ public class CalendarFragment extends Fragment{
                         AppName = document.get("name").toString();
                         AppDay = document.get("date").toString();
                         AppTime = document.get("time").toString();
+                        Timestamp DTS = (Timestamp) document.get("dateTimestamp");
+                        Calendar appCalender = Calendar.getInstance();
+                        appCalender.setTimeInMillis(DTS.getSeconds()*1000);
                         //convert string to date to used in compare
                         try {
                             ADay = DateFormat.parse(AppDay);
@@ -170,10 +178,9 @@ public class CalendarFragment extends Fragment{
                         catch (ParseException e) {
                             e.printStackTrace();
                         }
-
-                        listAppointements.add(new TherapySession(AppID, AppName, AppDay, AppTime));
-                        reminders.add(new Reminder(AppID, AppName, AppDay, AppTime));
-
+                        if ( (appCalender.get(Calendar.YEAR) == year && (appCalender.get(Calendar.MONTH)+1) == month && appCalender.get(Calendar.DAY_OF_MONTH) == day) ) {
+                            listAppointements.add(new TherapySession(AppID, AppName, AppDay, AppTime));
+                        }
                     }
                     adapterSession.notifyDataSetChanged();
                 }
@@ -184,7 +191,7 @@ public class CalendarFragment extends Fragment{
     }
 
 
-    private void SetMedRecyView (View root) {
+    private void SetMedRecyView (View root,final int year, final int month, final int day) {
         final SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yy", Locale.US);
         final SimpleDateFormat TimeFormat = new SimpleDateFormat ("hh : mm");
 
@@ -220,6 +227,11 @@ public class CalendarFragment extends Fragment{
                         MTime = document.get("time").toString();
                         MDose = Integer.parseInt(document.get("doze").toString());
                         MPeriod = Long.parseLong(document.get("period").toString());
+                        Timestamp FDTS = (Timestamp) document.get("FirstDayTS");
+                        calendar.setTimeInMillis(FDTS.getSeconds()*1000);
+                        Timestamp LDTS = (Timestamp) document.get("LastDayTS");
+                        Calendar lCalender = Calendar.getInstance();
+                        lCalender.setTimeInMillis(LDTS.getSeconds()*1000);
                         //convert string to date to used in compare
                         try {
                             FDay = DateFormat.parse(MFDay);
@@ -229,8 +241,65 @@ public class CalendarFragment extends Fragment{
                         catch (ParseException e) {
                             e.printStackTrace();
                         }
-                        listMedicines.add(new Medicine(MID, MName, MFDay, MLDay, MTime, MDose, MPeriod));
-                        reminders.add(new Reminder(MID, MName, MFDay+"-"+MLDay, MTime));
+                        //when the first day == last day or not for the first day and last day
+                        if ( (calendar.get(Calendar.YEAR) == year && (calendar.get(Calendar.MONTH)+1) == month && calendar.get(Calendar.DAY_OF_MONTH) == day)
+                                || (lCalender.get(Calendar.YEAR) == year && (lCalender.get(Calendar.MONTH)+1) == month && lCalender.get(Calendar.DAY_OF_MONTH) == day) ) {
+                            listMedicines.add(new Medicine(MID, MName, MFDay, MLDay, MTime, MDose, MPeriod));
+                        }
+                        //when first day not equal to last day
+                        //for the between of them
+                        if (FDay.compareTo(LDay) != 0 ) {
+                            //when the year and month of first and last same
+                            if ( calendar.get(Calendar.YEAR) == lCalender.get(Calendar.YEAR)
+                                    && year == calendar.get(Calendar.YEAR) && year == lCalender.get(Calendar.YEAR)
+                                    && (calendar.get(Calendar.MONTH)+1) == (lCalender.get(Calendar.MONTH)+1)
+                                    && month == (calendar.get(Calendar.MONTH)+1) && month == (lCalender.get(Calendar.MONTH)+1)){
+                                //check the calneder view day is grater than first day and less than last day
+                                if (day > calendar.get(Calendar.DAY_OF_MONTH) && day < lCalender.get(Calendar.DAY_OF_MONTH)) {
+                                    listMedicines.add(new Medicine(MID, MName, MFDay, MLDay, MTime, MDose, MPeriod));
+                                }
+                            }
+                            //when the year for first and last same
+                            else if ( calendar.get(Calendar.YEAR) == lCalender.get(Calendar.YEAR)
+                                    && year == calendar.get(Calendar.YEAR) && year == lCalender.get(Calendar.YEAR)
+                                    && (calendar.get(Calendar.MONTH)+1) != (lCalender.get(Calendar.MONTH)+1)){
+                                //check calender view month is grater  than first and less than  last
+                                if (month > (calendar.get(Calendar.MONTH)+1)  && month < (lCalender.get(Calendar.MONTH)+1)){
+                                    listMedicines.add(new Medicine(MID, MName, MFDay, MLDay, MTime, MDose, MPeriod));
+                                }
+                                //check the day is grater than first when same month
+                                else if (month == (calendar.get(Calendar.MONTH)+1) && day > calendar.get(Calendar.DAY_OF_MONTH) ){
+                                    listMedicines.add(new Medicine(MID, MName, MFDay, MLDay, MTime, MDose, MPeriod));
+                                }
+                                //check the day is less than first when same month
+                                else if (month == (lCalender.get(Calendar.MONTH)+1) && day < lCalender.get(Calendar.DAY_OF_MONTH) ){
+                                    listMedicines.add(new Medicine(MID, MName, MFDay, MLDay, MTime, MDose, MPeriod));
+                                }
+                            }
+                            //when the year not same for first and last
+                            else if ( calendar.get(Calendar.YEAR) != lCalender.get(Calendar.YEAR) && calendar.get(Calendar.YEAR) < lCalender.get(Calendar.YEAR)) {
+                                //calender view year same as first and month same day should be grater
+                                if (year == calendar.get(Calendar.YEAR) && month == (calendar.get(Calendar.MONTH)+1) && day > calendar.get(Calendar.DAY_OF_MONTH)) {
+                                    listMedicines.add(new Medicine(MID, MName, MFDay, MLDay, MTime, MDose, MPeriod));
+                                }
+                                //if year same as first and month not same should be grater than first
+                                else if ( year == calendar.get(Calendar.YEAR) && month > (calendar.get(Calendar.MONTH)+1)) {
+                                    listMedicines.add(new Medicine(MID, MName, MFDay, MLDay, MTime, MDose, MPeriod));
+                                }
+                                //calender view year same as last and month same day should be less
+                                else if (year == lCalender.get(Calendar.YEAR) && month == (lCalender.get(Calendar.MONTH)+1) && day < lCalender.get(Calendar.DAY_OF_MONTH) ){
+                                    listMedicines.add(new Medicine(MID, MName, MFDay, MLDay, MTime, MDose, MPeriod));
+                                }
+                                //if year same as last and month not same should be less than first
+                                else if ( year == lCalender.get(Calendar.YEAR) && month < (lCalender.get(Calendar.MONTH)+1)) {
+                                    listMedicines.add(new Medicine(MID, MName, MFDay, MLDay, MTime, MDose, MPeriod));
+                                }
+                                // if year not same as first should be grater than first and less than last
+                                else if (year < lCalender.get(Calendar.YEAR) && year > calendar.get(Calendar.YEAR)) {
+                                    listMedicines.add(new Medicine(MID, MName, MFDay, MLDay, MTime, MDose, MPeriod));
+                                }
+                            }
+                        }
                     }
                     adapterMedicines.notifyDataSetChanged();
                 }
@@ -238,171 +307,6 @@ public class CalendarFragment extends Fragment{
         });
         recyclerViewMedicine.setAdapter(adapterMedicines);
     }
-
-/*    private void SetCelenderDialog (final View dialog, final int year, final int month, final int day) {
-
-        final SimpleDateFormat f1 = new SimpleDateFormat("dd/MM/yy", Locale.US);
-        final SimpleDateFormat TimeFormat = new SimpleDateFormat ("hh : mm");
-
-        Button addMed = dialog.findViewById(R.id.AddMedR);
-        Button addApp = dialog.findViewById(R.id.AddAppR);
-
-        addMed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(dialog.getContext(), Add_Medicine_Page.class);
-                startActivity(intent);
-            }
-        });
-
-        addApp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(dialog.getContext(), Add_Appointment_Page.class);
-                startActivity(intent);
-            }
-        });
-
-        //retrieve Mediciens data
-        recyclerViewMedicine = dialog.findViewById(R.id.RecyclerViewMedicine);
-        MlayoutManager = new LinearLayoutManager(dialog.getContext());
-        recyclerViewMedicine.setLayoutManager(MlayoutManager);
-        final List<Medicine> lMed = new ArrayList<>();
-        final PatientMedicineAdapter adapterMed = new PatientMedicineAdapter(lMed, new PatientMedicineAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Medicine item) {
-                Intent intent = new Intent(dialog.getContext() , PatientMedicineDetailPage.class);
-                intent.putExtra("MedicineID", item.getId());
-                startActivity(intent);
-            }
-        });
-
-        //search in firebase for patientsessions
-        CollectionReference referenceMedicine = FirebaseFirestore.getInstance().collection("PatientMedicin");
-        final Query queryPatientMedicine = referenceMedicine.whereEqualTo("patinetID",patientId);
-        queryPatientMedicine.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        //Medicine medicine = document.toObject(Medicine.class);
-                        //listMedicines.add(medicine);
-
-                        MID = document.getId();
-                        MName = document.get("name").toString();
-                        MFDay = document.get("Fday").toString();
-                        MLDay = document.get("Lday").toString();
-                        MTime = document.get("time").toString();
-                        MDose = Integer.parseInt(document.get("doze").toString());
-                        MPeriod = Long.parseLong(document.get("period").toString());
-                        Timestamp FDTS = (Timestamp) document.get("FirstDayTS");
-                        calendar.setTimeInMillis(FDTS.getSeconds()*1000);
-                        Timestamp LDTS = (Timestamp) document.get("LastDayTS");
-                        Calendar lCalender = Calendar.getInstance();
-                        lCalender.setTimeInMillis(LDTS.getSeconds()*1000);
-                        //convert string to date to used in compare
-                        try {
-                            FDay = f1.parse(MFDay);
-                            LDay = f1.parse(MLDay);
-                            time = TimeFormat.parse(MTime);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        Log.d("calender FD y/m/d", calendar.get(Calendar.YEAR)+"/"+(calendar.get(Calendar.MONTH)+1)+"/"+calendar.get(Calendar.DAY_OF_MONTH));
-                        Log.d("calender LD y/m/d", lCalender.get(Calendar.YEAR)+"/"+(lCalender.get(Calendar.MONTH)+1)+"/"+lCalender.get(Calendar.DAY_OF_MONTH));
-                        //search if patient has med reminder in that date (get it from calender view)
-                        if ( (calendar.get(Calendar.YEAR) == year && (calendar.get(Calendar.MONTH)+1) == month && calendar.get(Calendar.DAY_OF_MONTH) == day)
-                        || (lCalender.get(Calendar.YEAR) == year && (lCalender.get(Calendar.MONTH)+1) == month && lCalender.get(Calendar.DAY_OF_MONTH) == day) ) {
-                            lMed.add(new Medicine(MID, MName, MFDay, MLDay, MTime, MDose, MPeriod));
-                            //also add med within the periods
-                        }
-
-                        else if ( calendar.get(Calendar.YEAR) == year && (calendar.get(Calendar.MONTH)+1) == month && calendar.get(Calendar.DAY_OF_MONTH) < day) {
-                            if ( calendar.get(Calendar.YEAR) == lCalender.get(Calendar.YEAR)
-                            && (calendar.get(Calendar.MONTH)+1) == (lCalender.get(Calendar.MONTH)+1)
-                            && lCalender.get(Calendar.DAY_OF_MONTH) > day ) {
-                                lMed.add(new Medicine(MID, MName, MFDay, MLDay, MTime, MDose, MPeriod));
-                            }
-                            else if (calendar.get(Calendar.YEAR) == lCalender.get(Calendar.YEAR) &&
-                                    (calendar.get(Calendar.MONTH)+1) < (lCalender.get(Calendar.MONTH)+1) ){
-                                lMed.add(new Medicine(MID, MName, MFDay, MLDay, MTime, MDose, MPeriod));
-                            }
-                            else if (calendar.get(Calendar.YEAR) < lCalender.get(Calendar.YEAR) &&
-                                    (calendar.get(Calendar.MONTH)+1) <= (lCalender.get(Calendar.MONTH)+1) ){
-                                lMed.add(new Medicine(MID, MName, MFDay, MLDay, MTime, MDose, MPeriod));
-                            }
-                        }
-                        else if ( lCalender.get(Calendar.YEAR) == year ) {
-                            if (lCalender.get(Calendar.MONTH)+1 == month && lCalender.get(Calendar.DAY_OF_MONTH) > day) {
-                                lMed.add(new Medicine(MID, MName, MFDay, MLDay, MTime, MDose, MPeriod));}
-                            else if (lCalender.get(Calendar.MONTH)+1 > month) {
-                                lMed.add(new Medicine(MID, MName, MFDay, MLDay, MTime, MDose, MPeriod));
-                            }
-                        }
-                        else if ( lCalender.get(Calendar.YEAR) > year ) {
-                            if (((calendar.get(Calendar.MONTH)+1) == month && calendar.get(Calendar.DAY_OF_MONTH) < day )|| (calendar.get(Calendar.MONTH)+1) < month)
-                            lMed.add(new Medicine(MID, MName, MFDay, MLDay, MTime, MDose, MPeriod));
-                        }
-
-                    }
-                    adapterMed.notifyDataSetChanged();
-                }
-            }
-        });
-        recyclerViewMedicine.setAdapter(adapterMed);
-
-        //retrieve Mediciens data
-        final RecyclerView recyclerViewApp = dialog.findViewById(R.id.ReadApp);
-        final RecyclerView.LayoutManager ApplayoutManager = new LinearLayoutManager(dialog.getContext());
-        recyclerViewApp.setLayoutManager(ApplayoutManager);
-        final List<TherapySession> lApp = new ArrayList<>();
-        final PatientSessionsAdapter adapterApp = new PatientSessionsAdapter(lApp, new PatientSessionsAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(TherapySession item) {
-                Intent intent = new Intent(getContext() , PatientAppointmentDetailPage.class);
-                intent.putExtra("AppointmentID" , item.getId());
-                startActivity(intent);
-            }
-        });
-
-        //search in cloud firestore for patient sessions
-        CollectionReference referenceSession = FirebaseFirestore.getInstance().collection("PatientSessions");
-
-        final Query queryPatientSession = referenceSession.whereEqualTo("patinetID",patientId);
-        queryPatientSession.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        AppID = document.getId();
-                        AppName = document.get("name").toString();
-                        AppDay = document.get("date").toString();
-                        AppTime = document.get("time").toString();
-                        Timestamp DTS = (Timestamp) document.get("dateTimestamp");
-                        Calendar appCalender = Calendar.getInstance();
-                        appCalender.setTimeInMillis(DTS.getSeconds()*1000);
-
-                        //convert string to date to used in compare
-                        try {
-                            ADay = f1.parse(AppDay);
-                            ATime = TimeFormat.parse(AppTime);
-                        }
-                        catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        Log.d("calender LD y/m/d", appCalender.get(Calendar.YEAR)+"/"+(appCalender.get(Calendar.MONTH)+1)+"/"+appCalender.get(Calendar.DAY_OF_MONTH));
-                        //search if patient has med reminder in that date (get it from calender view)
-                        if ( (appCalender.get(Calendar.YEAR) == year && (appCalender.get(Calendar.MONTH)+1) == month && appCalender.get(Calendar.DAY_OF_MONTH) == day) ) {
-                            lApp.add(new TherapySession(AppID, AppName, AppDay, AppTime));
-                        }
-                    }
-                    adapterApp.notifyDataSetChanged();
-                }
-            }
-        });
-        recyclerViewApp.setAdapter(adapterApp);
-    }*/
-
 
     private void installButton110to250() {
 
@@ -435,11 +339,13 @@ public class CalendarFragment extends Fragment{
                     case 1:
                         //add medicine
                         Intent intent = new Intent(getContext(), Add_Medicine_Page.class);
+                        intent.putExtra("date", date);
                         startActivity(intent);
                         break;
                     case 2:
                         //add text
                         Intent intentM = new Intent(getContext(), Add_Appointment_Page.class);
+                        intentM.putExtra("date", date);
                         startActivity(intentM);
                         break;
 
@@ -460,9 +366,11 @@ public class CalendarFragment extends Fragment{
     @Override
     public void onResume() {
         super.onResume();
-        listAppointements.clear();
-        listMedicines.clear();
-        SetAppRecyView(root);
-        SetMedRecyView(root);
+        /*if (year != 0 && month!=0 && day!= 0){
+            listAppointements.clear();
+            listMedicines.clear();
+            SetAppRecyView(root, year, month, day);
+            SetMedRecyView(root, year, month, day);
+        }*/
     }
 }

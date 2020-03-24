@@ -3,6 +3,7 @@ package com.ksu.serene;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -156,12 +157,14 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
 
     }
 
+    @SuppressLint("ResourceType")
     private void forgotPassword() {
 
         final android.app.AlertDialog.Builder resetPasswordDialog = new android.app.AlertDialog.Builder(LogInPage.this);
         resetPasswordDialog.setTitle("Reset Password");
 
         final EditText forgetEmailET = new EditText(LogInPage.this);
+        forgetEmailET.setId(1);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);

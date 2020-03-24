@@ -6,7 +6,9 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:background="@drawable/main_background"
-tools:context=".controller.signup.FitbitConnection">
+tools:context=".controller.signup.FitbitConnection"
+    android:id="@+id/FitbitConnection">
+    <!-- added id needed in test -->
 
 
     <View

@@ -108,6 +108,10 @@ public class Sociodemo extends Fragment {
 
                                             }
 
+                                            //added this toast needed in test
+                                            Toast.makeText(getActivity(), "Success going to next",
+                                                    Toast.LENGTH_SHORT).show();
+
                                             GAD7 fragmentGAD = new GAD7();
                                             FragmentManager fm = getFragmentManager();
                                             FragmentTransaction fragmentTransaction = fm.beginTransaction();
@@ -309,7 +313,7 @@ public class Sociodemo extends Fragment {
                     Toast.LENGTH_SHORT).show();
             return flag;}
 
-        double monthlyIncomeI = Double.parseDouble(weight);
+        double monthlyIncomeI = Double.parseDouble(monthlyIncome);
 
         if ((monthlyIncomeI > 5000000) || (monthlyIncomeI < 0)){
 

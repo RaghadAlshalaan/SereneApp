@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -43,6 +44,7 @@ public class Add_Appointment_Page extends AppCompatActivity {
     private Calendar calendar ;
     private SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
     private Timestamp dateTS;
+    private String date;
 
     //for  day
     private final DatePickerDialog.OnDateSetListener AppDate = new DatePickerDialog.OnDateSetListener() {
@@ -92,6 +94,10 @@ public class Add_Appointment_Page extends AppCompatActivity {
                 finish();
             }
         });
+        date = getIntent().getStringExtra("date");
+        if (date != null){
+            Date.setText(date);
+        }
 
         //when day edit text click show calender view to choose the start and end days
         //the start day when click
@@ -134,7 +140,7 @@ public class Add_Appointment_Page extends AppCompatActivity {
     }
     //The method for check if all field empty or not
     private boolean checkFields (String AName ) {
-        if ( !(TextUtils.isEmpty(AName)) && !(Time.getText().toString().equals("")) && !(Date.getText().toString().equals(""))  ){
+        if ( !(TextUtils.isEmpty(AName)) && !(Time.getText().toString().equals("Set Time")) && !(Date.getText().toString().equals("Set Day"))  ){
             return true;
         }
         Toast.makeText(Add_Appointment_Page.this,"All Fields Required", Toast.LENGTH_LONG).show();
@@ -144,12 +150,13 @@ public class Add_Appointment_Page extends AppCompatActivity {
     //check if time after current time when the Date is current date
     private boolean checkDayandTime (String date, String time) {
         SimpleDateFormat TimeFormat = new SimpleDateFormat ("hh : mm");
+        SimpleDateFormat DateFormat = new SimpleDateFormat ("dd/MM/yy");
         Date CurrentDate = new Date();
         //convert string to date to used in compare
         try {
             AD = DateFormat.parse(date);
             AT = TimeFormat.parse(time);
-            CuttentTime = TimeFormat.parse(new SimpleDateFormat("HH : mm").format(CurrentDate));
+            CuttentTime = TimeFormat.parse(new SimpleDateFormat("HH : mm").format(new Date()));
         }
         catch (ParseException e) {
             e.printStackTrace();
@@ -159,10 +166,10 @@ public class Add_Appointment_Page extends AppCompatActivity {
             return true;
         }
         //check if the  date is the current date the time is after or same current time, if not return false after display meaningful message
-        if ( (AD.compareTo(CurrentDate) == 0) ) {
+        if ( (AD.compareTo(CurrentDate) == 0 || AD.before(CurrentDate)) ) {
             //check for time, if it before current time return false with meaningful message
-            if (AT.before(CuttentTime) || (AT.compareTo(CuttentTime) == -1)){
-                Toast.makeText(Add_Appointment_Page.this,"The chosen time must be now or after now ", Toast.LENGTH_LONG).show();
+            if (AT.before(CuttentTime) || (AT.compareTo(CuttentTime) == 0)){
+                Toast.makeText(Add_Appointment_Page.this,"The chosen time must after now ", Toast.LENGTH_LONG).show();
                 return false;
             }
             else {
@@ -170,7 +177,7 @@ public class Add_Appointment_Page extends AppCompatActivity {
             }
         }
         else {
-            return true;
+            return false;
         }
     }
 

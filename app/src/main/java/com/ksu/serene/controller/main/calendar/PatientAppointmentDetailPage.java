@@ -55,6 +55,11 @@ public class PatientAppointmentDetailPage extends AppCompatActivity {
             }
         });
 
+        /* needed for test
+        if (AppID == null){
+            AppID = "";
+        }*/
+
         db.collection("PatientSessions")
                 .document(AppID)
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {

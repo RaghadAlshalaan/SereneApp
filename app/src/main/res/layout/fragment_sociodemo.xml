@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/main_background"
-    >
+    android:id="@+id/socio">
+    <!-- this id added cause it needed in test-->
 
     <View
         android:id="@+id/white_bg"
@@ -77,7 +78,7 @@
                     android:layout_width="120dp"
                     android:layout_height="match_parent"
                     android:ems="10"
-                    android:inputType="textPersonName" />
+                    android:inputType="number" />
 
 
             </LinearLayout>
@@ -103,7 +104,7 @@
                     android:layout_height="match_parent"
                     android:ems="10"
                     android:hint="@string/ex_160"
-                    android:inputType="textPersonName" />
+                    android:inputType="number" />
 
                 <TextView
                     android:id="@+id/e2"
@@ -138,7 +139,7 @@
                     android:layout_height="match_parent"
                     android:ems="10"
                     android:hint="@string/ex_55"
-                    android:inputType="textPersonName" />
+                    android:inputType="number" />
 
                 <TextView
                     android:id="@+id/e3"
@@ -172,7 +173,7 @@
                     android:layout_width="120dp"
                     android:layout_height="match_parent"
                     android:ems="10"
-                    android:inputType="textPersonName" />
+                    android:inputType="number" />
 
                 <TextView
                     android:id="@+id/e4"

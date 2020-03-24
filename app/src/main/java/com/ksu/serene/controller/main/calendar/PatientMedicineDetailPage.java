@@ -58,6 +58,11 @@ public class PatientMedicineDetailPage extends AppCompatActivity {
             }
         });
 
+        /* needed for test
+        if (MedID == null){
+            MedID = "";
+        }*/
+
         db.collection("PatientMedicin")
                 .document(MedID)
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
