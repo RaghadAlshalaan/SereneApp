@@ -56,6 +56,8 @@ public class PatientAppointmentDetailPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+                /*better approach, direct to calendarfragment page, because when user is directed
+                to this page from a notification click, clicking on 'back' will leave the app*/
             }
         });
 

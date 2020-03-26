@@ -15,6 +15,9 @@ import android.net.Uri;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
+
+import com.ksu.serene.controller.main.calendar.PatientAppointmentDetailPage;
+import com.ksu.serene.controller.main.calendar.PatientMedicineDetailPage;
 import com.ksu.serene.model.Medicine;
 import com.ksu.serene.model.Reminder;
 import com.ksu.serene.R;
@@ -43,12 +46,6 @@ public class ReminderAlarmService extends IntentService {
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         Uri uri = intent.getData(); // medicine/appointment uri
 
-        //action after user clicks on notification
-        /*Intent action = new Intent(this, Add_Medicine_Page.class);
-        action.setData(uri);
-        PendingIntent operation = TaskStackBuilder.create(this)
-                .addNextIntentWithParentStack(action)
-                .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);*/
 
         //find uri and set cursor there
         if(uri != null){
@@ -56,22 +53,48 @@ public class ReminderAlarmService extends IntentService {
         }
 
 
-        String description = "";
+        String description = "", documentID = "", nullRepeatNOCheck="", documentKey;
         try {
             if (cursor != null && cursor.moveToFirst()) {
                 description = Reminder.getColumnString(cursor, Reminder.ReminderEntry.KEY_NAME);//grab name of med/app
+                documentID = Reminder.getColumnString(cursor, Reminder.ReminderEntry.KEY_DOCUMENT_ID);//get firebase docID for reminder
+                nullRepeatNOCheck = Reminder.getColumnString(cursor, Reminder.ReminderEntry.KEY_REPEAT_NO);
+
             }
+            /*if (cursor != null && cursor.moveToNext()){
+                documentID = Reminder.getColumnString(cursor, Reminder.ReminderEntry.KEY_DOCUMENT_ID);//get firebase docID for reminder
+            }
+            if (cursor != null && cursor.moveToLast()){
+                nullRepeatNOCheck = Reminder.getColumnString(cursor, Reminder.ReminderEntry.KEY_REPEAT_NO);
+            }*/
         } finally {
             if (cursor != null) {
                 cursor.close();
             }
         }
 
+        Intent action;
+        //assign action to a specific page, if repeatno is null, then it is an appointment since it's nonrepeating
+        if (nullRepeatNOCheck.isEmpty()){
+            documentKey = "AppointmentID";
+            action = new Intent(this, PatientAppointmentDetailPage.class);
+        } else {
+            documentKey = "MedicineID";
+            action = new Intent(this, PatientMedicineDetailPage.class);
+        }
+
+        //action after user clicks on notification
+        action.putExtra(documentKey, documentID);
+        PendingIntent operation = TaskStackBuilder.create(this)
+                .addNextIntentWithParentStack(action)
+                .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
         Notification note = new NotificationCompat.Builder(this,"Serene_Notification_Channel")
                 .setContentTitle("Notification")
                 .setContentText(description)
                 .setSmallIcon(R.drawable.small_serene_logo)
-                //.setContentIntent(operation)
+                .setContentIntent(operation)//click action
                 .setAutoCancel(true)
                 .build();
 
@@ -83,32 +106,16 @@ public class ReminderAlarmService extends IntentService {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);*/
 
         manager.notify(NOTIFICATION_ID, note);
+
         Log.d("TAG", "Notification fired!!");
 
 
         //bottom code will execute in every alarm trigger, useful for repeating alarms
         int repeatNo=0;
-        String nullFieldChecker;
 
-        if(uri != null){
-            cursor = getContentResolver().query(uri, null, null, null, null);
-        }
+        if (!(nullRepeatNOCheck.isEmpty()))
+            repeatNo = Integer.parseInt(nullRepeatNOCheck);//grab repeatNo if it's not null
 
-        try {
-            if (cursor != null && cursor.moveToLast()) { //should move to repeatNo column
-                nullFieldChecker = Reminder.getColumnString(cursor, Reminder.ReminderEntry.KEY_REPEAT_NO);
-                if (nullFieldChecker!=null){
-                    repeatNo = Integer.parseInt(nullFieldChecker);//grab repeatNo if it's not null
-                }
-            }
-        } catch (NumberFormatException e) {
-            // TODO Auto-generated catch block
-            repeatNo=0;
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
 
         if (repeatNo>0){//if repeatNo is more than 0, schedule another alarm
             --repeatNo;
@@ -125,10 +132,10 @@ public class ReminderAlarmService extends IntentService {
             //cancel reminder
             AlarmManager alarmmanager = AlarmManagerProvider.getAlarmManager(getApplicationContext());
 
-            PendingIntent operation =
+            PendingIntent CancelOperation =
                     ReminderAlarmService.getReminderPendingIntent(getApplicationContext(), uri);
 
-            alarmmanager.cancel(operation);
+            alarmmanager.cancel(CancelOperation);
         }
 
     }

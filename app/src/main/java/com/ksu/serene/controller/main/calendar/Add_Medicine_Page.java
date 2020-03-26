@@ -283,7 +283,7 @@ public class Add_Medicine_Page extends AppCompatActivity {
         long period = Long.parseLong(((FinishD.getTime() - StartD.getTime()) + 1) + "");
         String patientID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String medID = db.collection("PatientMedicin").document().getId();
-
+        medDocumentID = getRandomID();
         final Medicine newMedicine = new Medicine(medID, MName, FDay, EDay, Time, MD, period, repeatInterval, repeatType);
         //store the newMed obj in firestore
 
@@ -293,6 +293,7 @@ public class Add_Medicine_Page extends AppCompatActivity {
         med.put("doze", newMedicine.getDoze()+"");
         med.put("name", newMedicine.getName());
         med.put("patinetID", patientID);
+        med.put("documentID", medDocumentID);
         med.put("period", newMedicine.getPeriod() + "");
         med.put("time", newMedicine.getTime().toString());
         med.put("FirstDayTS", FDTS);
@@ -302,7 +303,7 @@ public class Add_Medicine_Page extends AppCompatActivity {
 
 
 // Add a new document with a generated ID
-        medDocumentID = getRandomID();
+
         db.collection("PatientMedicin").document(medDocumentID)
                 .set(med)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -344,6 +345,7 @@ public class Add_Medicine_Page extends AppCompatActivity {
         //return content URI for new reminder
         ContentValues values = new ContentValues();
         values.put(Reminder.ReminderEntry.KEY_NAME, newMedicine.getName());//name
+        values.put(Reminder.ReminderEntry.KEY_DOCUMENT_ID, medDocumentID);
         values.put(Reminder.ReminderEntry.KEY_DATE, newMedicine.getDay());//date
         values.put(Reminder.ReminderEntry.KEY_TIME, newMedicine.getTime().toString());//time
         values.put(Reminder.ReminderEntry.KEY_DOSE, newMedicine.getDoze()+"");//dose

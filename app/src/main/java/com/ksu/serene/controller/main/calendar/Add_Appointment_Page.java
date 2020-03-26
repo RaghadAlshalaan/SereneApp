@@ -203,16 +203,17 @@ public class Add_Appointment_Page extends AppCompatActivity {
         String patientID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         //store the newApp obj in firestore
         String AppID = db.collection("PatientSessions").document().getId();
+        appDocumentID = getRandomID();
         final TherapySession newApp = new TherapySession(AppID, AppName, date , time);
         Map<String, Object> App = new HashMap<>();
         App.put("date", newApp.getDay().toString());
         App.put("name", newApp.getName());
         App.put("patinetID", patientID);
+        App.put("documentID", appDocumentID);
         App.put("time", newApp.getTime().toString());
         App.put("dateTimestamp", dateTS);
 
         // Add a new document with a generated ID
-        appDocumentID = getRandomID();
         db.collection("PatientSessions").document(appDocumentID)
                 .set(App)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -235,6 +236,7 @@ public class Add_Appointment_Page extends AppCompatActivity {
         //return content URI for new reminder
         ContentValues values = new ContentValues();
         values.put(Reminder.ReminderEntry.KEY_NAME, newApp.getName());//name
+        values.put(Reminder.ReminderEntry.KEY_DOCUMENT_ID, appDocumentID);
         values.put(Reminder.ReminderEntry.KEY_DATE, newApp.getDay());//date
         values.put(Reminder.ReminderEntry.KEY_TIME, newApp.getTime().toString());//time
         values.put(Reminder.ReminderEntry.KEY_DOSE, "");//dose

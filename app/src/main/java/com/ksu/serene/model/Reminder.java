@@ -84,6 +84,7 @@ public class Reminder {
         public final static String _ID = BaseColumns._ID;
 
         public static final String KEY_NAME = "name";
+        public static final String KEY_DOCUMENT_ID = "document_id";//reference to parallel reminder in firebase
         public static final String KEY_DATE = "date";
         public static final String KEY_TIME = "time";
         public static final String KEY_DOSE = "dose";

@@ -22,6 +22,7 @@ public class AlarmReminderDbHelper extends SQLiteOpenHelper {
         // Create a String that contains the SQL statement to create the reminder table
         String SQL_CREATE_ALARM_TABLE =  "CREATE TABLE " + Reminder.ReminderEntry.TABLE_NAME + " ("
                 + Reminder.ReminderEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + Reminder.ReminderEntry.KEY_DOCUMENT_ID + " TEXT NOT NULL, "
                 + Reminder.ReminderEntry.KEY_NAME + " TEXT NOT NULL, "
                 + Reminder.ReminderEntry.KEY_DATE + " TEXT NOT NULL, "
                 + Reminder.ReminderEntry.KEY_TIME + " TEXT NOT NULL, "
