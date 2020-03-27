@@ -68,9 +68,9 @@ public class PatientReport extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
-
         init();
         getExtras();
+
         if (duration.equals("custom")){
         Toast.makeText(getBaseContext(), startDate, Toast.LENGTH_SHORT).show();
         }else
@@ -137,8 +137,6 @@ public class PatientReport extends AppCompatActivity {
                                 highestday_date.setText(date);
 
 
-
-
                             }//if
 
 
@@ -152,8 +150,6 @@ public class PatientReport extends AppCompatActivity {
                 });//addOnCompleteListener
 
 
-
-
     }//lastGeneratedPatientReport
 
     private void recommendation() {
@@ -161,7 +157,6 @@ public class PatientReport extends AppCompatActivity {
     }//recommendation
 
     private void location() {
-
 
 
         locations = new ArrayList<Location>();
@@ -277,7 +272,7 @@ public class PatientReport extends AppCompatActivity {
         if (duration.equals("custom")) {
             startDate = intent.getExtras().getString(Constants.Keys.START_DATE);
             endDate = intent.getExtras().getString(Constants.Keys.END_DATE);
-        }//if
+        }
     }//getExtras
 
 

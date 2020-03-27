@@ -1,10 +1,16 @@
 package com.ksu.serene;
 
+import android.app.ActivityManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -12,13 +18,29 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.ksu.serene.locationManager.MyLocationManager;
+import com.ksu.serene.locationManager.MyLocationManagerListener;
 import com.ksu.serene.fitbitManager.SensorService;
+import com.ksu.serene.fitbitManager.Util;
 import com.ksu.serene.fitbitManager.FitbitWorker;
 import com.ksu.serene.controller.main.profile.PatientProfile;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -29,19 +51,37 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.work.Constraints;
+import androidx.work.NetworkType;
+import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements
+        View.OnClickListener, MyLocationManagerListener {
 
     public ImageView profile;
     private RelativeLayout w1, w2;
     private ImageView ok1, ok2;
     private LinearLayout overbox;
     private Animation from_small, from_nothing;
+
+    MyLocationManager locationManager;
+
+    String draftId;
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +94,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.setStatusBarColor(this.getResources().getColor(R.color.white));*/
-        createNotificationChannel();//create notification channel upon opening app for the first time
+
+        //create notification channel upon opening app for the first time
+        createNotificationChannel();
+
         init();
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -70,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         NavigationUI.setupWithNavController(navView, navController);
 
 
-        if(getExtras().equals("1")){
+        if (getExtras().equals("1")) {
 
             overbox.setAlpha(1);
             overbox.startAnimation(from_nothing);
@@ -78,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             w1.setAlpha(1);
             w1.startAnimation(from_small);
 
-        }else{
+        } else {
             w1.setVisibility(View.GONE);
             w2.setVisibility(View.GONE);
             overbox.setVisibility(View.GONE);
@@ -134,19 +177,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return "0";
     }
 
-
     @Override
     public void onClick(View v) {
 
-        switch ( v.getId() ){
-            case R.id.ok1 :
+        switch (v.getId()) {
+            case R.id.ok1:
                 w1.setVisibility(View.GONE);
 
                 w2.setAlpha(1);
                 w2.startAnimation(from_nothing);
                 break;
 
-            case R.id.ok2 :
+            case R.id.ok2:
                 w2.setVisibility(View.GONE);
                 overbox.setVisibility(View.GONE);
                 break;
@@ -160,20 +202,231 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         profile.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    protected void onDestroy() {
-        Log.i("AppInfo", "onDestroy");
-        super.onDestroy();
 
-        WorkManager.getInstance(getApplicationContext()).cancelAllWork();
+    // -------------------------------LOCATION----------------------------------
+
+    private Location lastLocation = null;
+
+    @Override
+    public void locationUpdated(Location location) {
+
+        if (lastLocation == null){
+            lastLocation = location;
+            startLocationUpdateRepeatingTask();
+        }else {
+            lastLocation = location;
+        }
 
     }
 
+    long LOCATION_UPDATE_PERIOD_MINUTES = 30; // SHOULD_BE 30 MIN
+    long DAILY_UPDATE_PERIOD_MINUTES = 720; // SHOULD_BE 24/12 Hours
+
+    private Handler locationUpdateHandler;
+
+    Runnable locationUpdateRunnable = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                sendLocationToServer();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                // 100% guarantee that this always happens, even if
+                // your update method throws an exception
+                locationUpdateHandler.postDelayed(locationUpdateRunnable, LOCATION_UPDATE_PERIOD_MINUTES * 60 * 1000);
+            }
+        }
+    };
+
+
+    void startLocationUpdateRepeatingTask() {
+        if (locationUpdateHandler == null){
+            locationUpdateHandler = new Handler();
+        }
+        locationUpdateRunnable.run();
+    }
+
+    void stopLocationUpdateRepeatingTask() {
+        locationUpdateHandler.removeCallbacks(locationUpdateRunnable);
+    }
+
+
+    private Handler saveDateHandler;
+
+    Runnable saveDateRunnable = new Runnable() {
+        @Override
+        public void run() {
+            try {
+
+                saveData();
+
+            } finally {
+                // 100% guarantee that this always happens, even if
+                // your update method throws an exception
+                saveDateHandler.postDelayed(saveDateRunnable, DAILY_UPDATE_PERIOD_MINUTES * 60 * 1000);
+            }
+        }
+    };
+
+    private void saveData() {
+        Log.e("AppInfo", "[" + Util.getCurrentDateTime() + "] >>>> Saving Data");
+
+        fitBitWorker =
+                new OneTimeWorkRequest.Builder(FitbitWorker.class)
+                        .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
+                        .build();
+
+        WorkManager.getInstance(getApplicationContext()).enqueue(fitBitWorker);
+    }
+
+
+    void startSaveDataRepeatingTask() {
+        if (saveDateHandler == null){
+            saveDateHandler = new Handler();
+        }
+        saveDateRunnable.run();
+    }
+
+    void stopSaveDataRepeatingTask() {
+        saveDateHandler.removeCallbacks(saveDateRunnable);
+    }
+
+    OneTimeWorkRequest fitBitWorker;
+
+
+    private String getRandomID() {
+        return UUID.randomUUID().toString();
+    }
+
+
+    private void sendLocationToServer() throws IOException {
+
+        if (lastLocation == null) {
+            Log.e("AppInfo", "lastLocation == null");
+            return;
+        }
+
+        Log.e("AppInfo", "[" + Util.getCurrentDateTime() + "] >>>> Saving Location: " + lastLocation.getLatitude() + "   " + lastLocation.getLongitude());
+
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final String userID = user.getUid();
+
+        draftId = getRandomID();
+
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(this, Locale.getDefault());
+
+        addresses = geocoder.getFromLocation(lastLocation.getLatitude() , lastLocation.getLongitude() , 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+
+        String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+
+        // Get Neighborhood name from the address
+        int i ;
+
+        if(address.indexOf('،') != -1){
+            i = address.indexOf('،')+1;
+        }else {
+            i = address.indexOf(',')+1;
+        }
+        int ii = address.indexOf(',', i);
+
+        final Map<String, Object> userLoc = new HashMap<>();
+        userLoc.put("patientID", userID);
+        userLoc.put("time", FieldValue.serverTimestamp());
+        userLoc.put("lat", lastLocation.getLatitude() );
+        userLoc.put("lon",lastLocation.getLongitude() );
+        userLoc.put("name", address.substring(i+1 , ii) );
+
+
+        db.collection("PatientLocations")
+                .document(draftId).set(userLoc)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        // YAY
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                        // NAY
+
+                    }
+                });
+
+        // Method to be used
+
+        // Instantiate the RequestQueue.
+//        RequestQueue queue = Volley.newRequestQueue(this);
+//        String url = "https://feqra.com/p/s/serene/index2.php?lat=" +
+//                String.valueOf(lastLocation.getLatitude()) + "&lon="
+//                + String.valueOf(lastLocation.getLongitude());
+//
+//        Log.i("AppInfo", "url = " + url);
+//
+//        // Request a string response from the provided URL.
+//        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        // Display the first 500 characters of the response string.
+//                        //Log.i("AppInfo","Response is: " + response);
+//                    }
+//                }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Log.i("AppInfo", "Error sending location");
+//            }
+//        });
+//
+//        // Add the request to the RequestQueue.
+//        queue.add(stringRequest);
+
+    }
+
+    // Method to be used
+    private void sendLocationToServer2() {
+        if (lastLocation == null) {
+            return;
+        }
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "https://feqra.com/p/s/serene/index2.php?lat=" +
+                String.valueOf(lastLocation.getLatitude()) + "&lon="
+                + String.valueOf(lastLocation.getLongitude());
+
+        //String url = "http://my-json-feed";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // textView.setText("Response: " + response.toString());
+                        Log.i("AppInfo", "Response: " + response.toString());
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO: Handle error
+
+                    }
+                });
+
+        // Access the RequestQueue through your singleton class.
+        queue.add(jsonObjectRequest);
+    }
+
+
     Intent mServiceIntent;
     private SensorService mSensorService;
-    PeriodicWorkRequest fitBitWorker;
-    long DAILY_UPDATE_PERIOD_MINUTES = 2; // SHOULD_BE 24 Hours
-
 
     @Override
     protected void onStart() {
@@ -185,42 +438,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mSensorService = new SensorService(getApplicationContext());
         mServiceIntent = new Intent(getApplicationContext(), mSensorService.getClass());
+
         startService(mServiceIntent);
 
+        locationManager = new MyLocationManager(MainActivity.this);
+        locationManager.startLocationUpdates();
 
-        // First way, using Worker
-        startDailyWorker();
+        startSaveDataRepeatingTask();
 
     }
 
-    void startDailyWorker() {
-        Log.i("AppInfo", "startDailyWorker()");
+    @Override
+    protected void onDestroy() {
+        Log.i("AppInfo", "onDestroy()");
 
-        fitBitWorker =
-                new PeriodicWorkRequest.Builder(FitbitWorker.class, DAILY_UPDATE_PERIOD_MINUTES, TimeUnit.MINUTES)
-                        .setConstraints(Constraints.NONE)
-                        .build();
+        super.onDestroy();
 
-        WorkManager.getInstance(getApplicationContext()).enqueue(fitBitWorker);
-        WorkManager.getInstance(getApplicationContext())
-                .getWorkInfoByIdLiveData(fitBitWorker.getId())
-                .observe(this, new Observer<WorkInfo>() {
-                    @Override
-                    public void onChanged(@Nullable WorkInfo workInfo) {
-                        //displayMessage("Work finished!");
-                        if (workInfo != null) {
-                            Log.i("AppInfo", "fitBitWorker done.");
-                            // TODO: Add the 24 Hours work here
-                        }
+        stopLocationUpdateRepeatingTask();
+        stopSaveDataRepeatingTask();
 
-                    }
-                });
     }
 
-    //notification channel creation
+    public void onBackPressed() {
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startActivity(startMain);
+    }
+
+
+    // ------------------------------NOTIFICATION-----------------------------------
+
+
+    // Notification channel creation
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "Serene Reminders";
             String description = "Notification reminders";
@@ -228,10 +481,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             NotificationChannel channel = new NotificationChannel("Serene_Notification_Channel", name, importance);
             channel.setDescription(description);
             channel.setSound(null, null);
+
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
     }
+
 }

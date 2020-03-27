@@ -40,27 +40,21 @@ public class MyDoctor extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_doctor);
+
         // Inflate the layout for this fragment
         getSupportActionBar().hide();
 
         mAuth = FirebaseAuth.getInstance();
-//        email = findViewById(R.id.emailET);
-//        name = findViewById(R.id.nameET);
         delete = findViewById(R.id.delete);
         nameET = findViewById(R.id.nameET);
         emailET = findViewById(R.id.emailET);
-        //edit = findViewById(R.id.edit);
         save = findViewById(R.id.SaveChanges);
         check = findViewById(R.id.check);
-
-//        nameET.setVisibility(View.GONE);
-//        emailET.setVisibility(View.GONE);
- //       save.setVisibility(View.GONE);
-
 
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 AlertDialog.Builder dialog = new AlertDialog.Builder(MyDoctor.this);
                 dialog.setTitle("Delete Doctor");
                 dialog.setMessage("After deleting this doctor s/he will no longer be linked with your account " +
@@ -82,7 +76,6 @@ public class MyDoctor extends AppCompatActivity {
                                                         DocumentReference d= document.getReference();
                                                         d.update("patientID"+mAuth.getUid().substring(0,5), FieldValue.delete());
 
-
                                                     }
                                                 }
                                             }
@@ -100,6 +93,7 @@ public class MyDoctor extends AppCompatActivity {
 
 
                 });// end dialog onclick
+
                 dialog.setNegativeButton("Cancel",null);
 
                 AlertDialog alertDialog =  dialog.create();
@@ -108,13 +102,8 @@ public class MyDoctor extends AppCompatActivity {
             }
         });
 
-
-
-
         // Set name and email
         setData();
-
-
 
 
         //TODO add verification email link when the user changes the email
@@ -192,9 +181,7 @@ public class MyDoctor extends AppCompatActivity {
                             }
 
                         }
-                        else {
 
-                        }
                     }
                 });
 
@@ -223,9 +210,7 @@ public class MyDoctor extends AppCompatActivity {
                             }
 
                         }
-                        else {
-                             //do nothing
-                        }
+
                     }
                 });
     }

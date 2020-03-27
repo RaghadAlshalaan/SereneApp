@@ -44,11 +44,6 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
         delete = findViewById(R.id.delete);
         edit = findViewById(R.id.SaveChanges);
 
-        /*needed for test
-        if (TDID == null){
-            TDID = "";
-        }*/
-
         db.collection("TextDraft")
                 .document(TDID)
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -87,7 +82,7 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(PatientTextDraftDetailPage.this, "Text Draft did not delete", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(PatientTextDraftDetailPage.this, "Text Draft did not delete, try again.", Toast.LENGTH_LONG).show();
                                             }
                                         });
                             }

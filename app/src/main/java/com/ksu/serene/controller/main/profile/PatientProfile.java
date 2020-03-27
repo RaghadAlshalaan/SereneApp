@@ -97,7 +97,6 @@ public class PatientProfile extends Fragment {
         });
 
 
-
       logOut.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
@@ -109,8 +108,6 @@ public class PatientProfile extends Fragment {
       if(checkIfEmailVerified() == false ){
           alert.setVisibility(View.VISIBLE);
       }
-
-
 
         listenToUpdates();
 

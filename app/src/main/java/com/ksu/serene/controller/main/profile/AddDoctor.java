@@ -22,6 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ksu.serene.R;
+import com.ksu.serene.WelcomePage;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -66,8 +67,11 @@ public class AddDoctor extends AppCompatActivity {
                     name.setText("");
                     return;} */
 
-                 addDoctor(name.getText().toString(), email.getText().toString());
-                 finish();
+               addDoctor(name.getText().toString(), email.getText().toString());
+
+               Intent intent = new Intent(AddDoctor.this, WelcomePage.class);
+               startActivity(intent);
+               finish();
 
             }
 
@@ -107,7 +111,6 @@ public class AddDoctor extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(Void aVoid) {
                                                 Log.d(TAG, "DocumentSnapshot added successfully");
-
 
                                             }
                                         });

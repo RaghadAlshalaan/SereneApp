@@ -145,7 +145,7 @@ public class EditSocio extends AppCompatActivity {
                            final String newMarried,final String newSmoke ) {
         DocumentReference userName = db.collection("Patient").document(mAuth.getUid());
 
-// Set the "isCapital" field of the city 'DC'
+        // Set the "isCapital" field of the city 'DC'
 
         userName.update("age", newAge);
         userName.update("height",newHeight);
@@ -158,7 +158,7 @@ public class EditSocio extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        //update FirebaseUser profile
+                        //update Firebase User profile
 
                         FirebaseUser userf = mAuth.getCurrentUser();
                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().build();
