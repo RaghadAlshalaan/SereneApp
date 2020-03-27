@@ -156,7 +156,7 @@ public class PatientProfile extends Fragment {
     private void checkDoctorAvailability() {
 
         db.collection("Doctor")
-                .whereEqualTo("patientID"+mAuth.getUid().substring(0,5), mAuth.getUid())
+                .whereEqualTo("patientID", mAuth.getUid())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -227,7 +227,7 @@ public class PatientProfile extends Fragment {
         super.onResume();
 
         db.collection("Doctor")
-                .whereEqualTo("patientID"+mAuth.getUid().substring(0,5), mAuth.getUid())
+                .whereEqualTo("patientID", mAuth.getUid())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
