@@ -75,7 +75,7 @@ public class PatientMedicineDetailPage extends AppCompatActivity {
                 MedicineName.setText(documentSnapshot.get("name").toString());
                 StartDay.setText(documentSnapshot.get("Fday").toString());
                 EndDay.setText(documentSnapshot.get("Lday").toString());
-                Time.setText(documentSnapshot.get("time").toString());
+                Time.setText(documentSnapshot.get("time").toString()+" (every "+documentSnapshot.get("reminderInterval").toString()+" "+documentSnapshot.get("reminderType").toString()+")");
                 Dose.setText(documentSnapshot.get("doze").toString());
                 URI_path = documentSnapshot.get("URI_path").toString();
             }

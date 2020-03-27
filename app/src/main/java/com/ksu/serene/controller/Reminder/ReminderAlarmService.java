@@ -107,7 +107,7 @@ public class ReminderAlarmService extends IntentService {
 
         manager.notify(NOTIFICATION_ID, note);
 
-        Log.d("TAG", "Notification fired!!");
+        Log.d("TAG", description+" Notification fired!!");
 
 
         //bottom code will execute in every alarm trigger, useful for repeating alarms
