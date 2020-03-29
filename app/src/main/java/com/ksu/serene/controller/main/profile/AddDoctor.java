@@ -21,6 +21,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.ksu.serene.MainActivity;
 import com.ksu.serene.R;
 import com.ksu.serene.WelcomePage;
 
@@ -69,7 +70,7 @@ public class AddDoctor extends AppCompatActivity {
 
                addDoctor(name.getText().toString(), email.getText().toString());
 
-               Intent intent = new Intent(AddDoctor.this, WelcomePage.class);
+               Intent intent = new Intent(AddDoctor.this, MainActivity.class);
                startActivity(intent);
                finish();
 
@@ -82,62 +83,29 @@ public class AddDoctor extends AppCompatActivity {
 
     public void addDoctor(final String name, final String email){
 
-
+        String ID = String.valueOf(r.nextInt(999999 - 111 + 1) + 111);
+        final Map<String, Object> user = new HashMap<>();
+        user.put("name", name);
+        user.put("email", email);
+        user.put("patientID",mAuth.getUid());
+        user.put("isVerified",false);
+        user.put("id", ID);
         db.collection("Doctor")
-                .whereEqualTo("email", email)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .document(ID)
+                .set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            if(!task.getResult().isEmpty()){
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    if(document.exists()) {
-                                        DocumentReference d= document.getReference();
-                                        d.update("patientID"+mAuth.getUid().substring(0,5),mAuth.getUid());
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot added successfully");
 
-                                    }
-                                }
-                            }
-                            else{
-                                final Map<String, Object> user = new HashMap<>();
-                                user.put("name", name);
-                                user.put("email", email);
-                                user.put("patientID"+mAuth.getUid().substring(0,5),mAuth.getUid());
-                                db.collection("Doctor")
-                                        .document(String.valueOf(r.nextInt(999999 - 111 + 1) + 111))
-                                        .set(user)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                Log.d(TAG, "DocumentSnapshot added successfully");
-
-                                            }
-                                        });
-                            }
-                            Toast.makeText(AddDoctor.this, "Doctor Added Successfully",
-                                    Toast.LENGTH_SHORT).show();
-                            //sendEmail(name, email);
-                        }
-                        else {
-
-                        }
                     }
                 });
 
-
+              Toast.makeText(AddDoctor.this, "Doctor Added Successfully",
+                                    Toast.LENGTH_SHORT).show();
 
     }
-    public void sendEmail(String name,String email){
-         Intent i = new Intent(Intent.ACTION_SEND);
-        i.setType("message/rfc822");
-        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{email});
-        i.putExtra(Intent.EXTRA_SUBJECT, "Serene system");
-        i.putExtra(Intent.EXTRA_TEXT   , "Hello Doctor"+name+"you are invited to be my doctor..");
-        try {
-            startActivity(Intent.createChooser(i, "Send mail..."));
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(AddDoctor.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
-        }
-    }
+
+
+
 }

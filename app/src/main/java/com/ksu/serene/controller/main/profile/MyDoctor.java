@@ -2,6 +2,7 @@ package com.ksu.serene.controller.main.profile;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.ksu.serene.MainActivity;
 import com.ksu.serene.R;
 
 
@@ -35,6 +37,7 @@ public class MyDoctor extends AppCompatActivity {
     private FirebaseFirestore db = com.google.firebase.firestore.FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth;
     private ImageView check;
+    private boolean checkDoctor;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +54,8 @@ public class MyDoctor extends AppCompatActivity {
         save = findViewById(R.id.SaveChanges);
         check = findViewById(R.id.check);
 
+
+
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,7 +68,7 @@ public class MyDoctor extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         db.collection("Doctor")
-                                .whereEqualTo("patientID"+mAuth.getUid().substring(0,5), mAuth.getUid())
+                                .whereEqualTo("patientID", mAuth.getUid())
                                 .get()
                                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                     @Override
@@ -74,13 +79,16 @@ public class MyDoctor extends AppCompatActivity {
                                                     if(document.exists()) {
 
                                                         DocumentReference d= document.getReference();
-                                                        d.update("patientID"+mAuth.getUid().substring(0,5), FieldValue.delete());
+                                                        d.delete();
 
                                                     }
                                                 }
                                             }
                                             Toast.makeText(MyDoctor.this, "Doctor deleted",
                                                     Toast.LENGTH_SHORT).show();
+                                            Intent in = new Intent(MyDoctor.this, MainActivity.class);
+                                            startActivity(in);
+                                            finish();
                                         }
                                         else {
                                             Toast.makeText(MyDoctor.this, task.getException().getMessage(),
@@ -106,7 +114,7 @@ public class MyDoctor extends AppCompatActivity {
         setData();
 
 
-        //TODO add verification email link when the user changes the email
+       /* //TODO add verification email link when the user changes the email
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,7 +135,7 @@ public class MyDoctor extends AppCompatActivity {
                 finish();
 
             }
-        });
+        }); */
 
     }
 
@@ -135,7 +143,7 @@ public class MyDoctor extends AppCompatActivity {
 
 
         db.collection("Doctor")
-                .whereEqualTo("patientID"+mAuth.getUid().substring(0,5), mAuth.getUid())
+                .whereEqualTo("patientID", mAuth.getUid())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -164,7 +172,7 @@ public class MyDoctor extends AppCompatActivity {
         super.onResume();
 
         db.collection("Doctor")
-                .whereEqualTo("patientID"+mAuth.getUid().substring(0,5), mAuth.getUid())
+                .whereEqualTo("patientID", mAuth.getUid())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -175,6 +183,10 @@ public class MyDoctor extends AppCompatActivity {
                                     if(document.exists()) {
                                         nameET.setText(document.getString("name"));
                                         emailET.setText(document.getString("email"));
+                                        checkDoctor = document.getBoolean("isVerified");
+                                        if(checkDoctor == true){
+                                            check.setVisibility(View.VISIBLE);
+                                        }
 
                                     }
                                 }
@@ -190,7 +202,7 @@ public class MyDoctor extends AppCompatActivity {
     public void updateDoctor(final String name, final String email){
 
         db.collection("Doctor")
-                .whereEqualTo("patientID"+mAuth.getUid().substring(0,5), mAuth.getUid())
+                .whereEqualTo("patientID", mAuth.getUid())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
