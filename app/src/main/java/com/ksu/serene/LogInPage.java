@@ -3,6 +3,7 @@ package com.ksu.serene;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -37,6 +38,8 @@ import com.google.firebase.iid.InstanceIdResult;
 import com.ksu.serene.controller.Constants;
 import com.ksu.serene.controller.signup.Signup;
 import com.ksu.serene.model.Token;
+import com.nabinbhandari.android.permissions.PermissionHandler;
+import com.nabinbhandari.android.permissions.Permissions;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -226,9 +229,23 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
                     if (task.isSuccessful()) {
                         checkIfEmailVerified();
 
-                        Intent intent = new Intent(LogInPage.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
+                        String[] PERMISSIONS = {
+                                Manifest.permission.ACCESS_FINE_LOCATION
+                        };
+
+                        Permissions.check(LogInPage.this/*context*/,
+                                PERMISSIONS, null/*rationale*/, null/*options*/, new PermissionHandler() {
+                                    @Override
+                                    public void onGranted() {
+                                        // do your task.
+
+                                        Intent intent = new Intent(LogInPage.this, MainActivity.class);
+                                        startActivity(intent);
+                                        finish();
+
+
+                                    }
+                                });
 
                         // Sign in success, update UI with the signed-in user's information
                         //Log.d(TAG, "signInWithEmail:success");

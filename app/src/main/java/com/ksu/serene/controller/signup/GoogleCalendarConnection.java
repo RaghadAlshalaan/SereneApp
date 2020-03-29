@@ -2,6 +2,7 @@ package com.ksu.serene.controller.signup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.widget.Button;
 
 import com.ksu.serene.MainActivity;
 import com.ksu.serene.R;
+import com.nabinbhandari.android.permissions.PermissionHandler;
+import com.nabinbhandari.android.permissions.Permissions;
 
 public class GoogleCalendarConnection extends AppCompatActivity {
 
@@ -39,10 +42,24 @@ public class GoogleCalendarConnection extends AppCompatActivity {
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(GoogleCalendarConnection.this, MainActivity.class);
-                i.putExtra("first","1");
-                startActivity(i);
-                finish();
+
+                String[] PERMISSIONS = {
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                };
+
+                Permissions.check(GoogleCalendarConnection.this/*context*/,
+                        PERMISSIONS, null/*rationale*/, null/*options*/, new PermissionHandler() {
+                            @Override
+                            public void onGranted() {
+                                // do your task.
+
+                                Intent i = new Intent(GoogleCalendarConnection.this, MainActivity.class);
+                                i.putExtra("first","1");
+                                startActivity(i);
+                                finish();
+
+                            }
+                        });
             }
         });
 
