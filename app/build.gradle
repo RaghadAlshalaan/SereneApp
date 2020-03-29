@@ -63,7 +63,7 @@ dependencies {
         exclude module: 'recyclerview-v7'
         exclude module: 'appcompat-v7'
     }
-    androidTestImplementation ('androidx.test.espresso:espresso-idling-resource:2.2.2')
+    androidTestImplementation('androidx.test.espresso:espresso-idling-resource:2.2.2')
 
     // Cloud FireStore
     implementation 'com.google.firebase:firebase-analytics:17.2.0'
@@ -97,4 +97,8 @@ dependencies {
     implementation "androidx.work:work-runtime:$work_version"
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    // heat map
+    implementation 'com.google.maps.android:android-maps-utils:1.0.2'
+
 }
