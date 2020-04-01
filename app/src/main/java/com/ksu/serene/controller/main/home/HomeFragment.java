@@ -1,56 +1,67 @@
 package com.ksu.serene.controller.main.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.ksu.serene.R;
+import com.ksu.serene.controller.main.calendar.PatientAppointmentDetailPage;
 import com.ksu.serene.model.TherapySession;
+import com.ksu.serene.model.dbSetUp;
 
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
 
 
-    private TextView data, doctorName, time, date, empty;
-    private Button retrieve;
-    String dataRetrieved;
-    // FITBIT API
-    private static String urlString; // string to pass in url
-    private static String accessToken; // string to pass in access token
-    private static String requestMethod; // string to pass in GET or POST
-    private static String authHeader; // string to pass in authorization header first word
-    private static Boolean isRevoke = false; // boolean to check if action is revoking access token
-    private static String clientId;
-    private static String clientSecret;
-
     static FirebaseStorage storage;
     private FirebaseFirestore db = com.google.firebase.firestore.FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private RecyclerView recyclerView;
-    private AdapterA adapter;
-    ArrayList<TherapySession> appointments;
+
+
+    // Next Appointment
+    private TextView nextAppointment;
+    private String Name="", DTime="", id="";
+    private Date DDate;
+    private View card3;
+
+    // Quote
+    private ImageView quote;
 
 
 
@@ -60,96 +71,224 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         init (root);
-        getAppointments();
+
+        getAppointment2();
+
+        card3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent appointmentDetail = new Intent(getContext(), PatientAppointmentDetailPage.class);
+                appointmentDetail.putExtra("AppointmentID", id);
+                startActivity(appointmentDetail);
+            }
+        });
+        card3.setEnabled(false);
+
         return root;
     }
 
     private void init(View root) {
 
-        date = root.findViewById(R.id.session_date);
-        time = root.findViewById(R.id.session_time);
-        doctorName = root.findViewById(R.id.doctor_name);
-        empty = root.findViewById(R.id.highestday_date);
-        recyclerView = root.findViewById(R.id.recycleView);
+        nextAppointment = root.findViewById(R.id.noUpcoming);
+        card3 = root.findViewById(R.id.card3);
 
-
-/*       retrieve = root.findViewById(R.id.fitbitRetrieve);
-        data = root.findViewById(R.id.data);
-
-        storage = FirebaseStorage.getInstance();*/
-
+        quote = root.findViewById(R.id.picQ);
+        setQuoteImage();
 
         // parse Preference file
         SharedPreferences sp = getActivity().getSharedPreferences("user_details", Context.MODE_PRIVATE);
 
-        // get values from Map
-        final String access_token = sp.getString("FITBIT_ACCESS_TOKEN", "");
-
-
     }
 
+    private void setQuoteImage() {
 
-    public void getAppointments(){
-        appointments = new ArrayList<TherapySession>();
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        db.collection("PatientSessions")
-                .whereEqualTo("patinetID", mAuth.getUid() )
+        db.collection("Quotes")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            int i = 0;
+
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                List<DocumentSnapshot> doc = task.getResult().getDocuments();
+                                String quote_image_url = document.get("image_url").toString();
 
-                                //check for appointment date if it's within selected duration
+                                Glide.with(getContext()).load(quote_image_url).into(quote);
 
-                                Date loc_date = ((com.google.firebase.Timestamp) doc.get(i).get("dateTimestamp")).toDate();//date received
-                                Date today = new Date();//today
-
-                                if (daysBetween(loc_date, today) < 7) {
-                                    String doctorName = doc.get(i).get("name").toString();
-                                    String DTime = doc.get(i).get("time").toString();
-                                    String Ddate = doc.get(i).get("date").toString();
-                                    String id = String.valueOf(i);
-                                    appointments.add(new TherapySession(id, doctorName, Ddate, DTime));
-
-                                } else {
-
-                                }
-
-                                i++;
+                            }
+                        }
+                    }
+                });
 
 
-                            }// end for
+    }
+
+//    public void getAppointment(){
+//
+//        db.collection("PatientSessions")
+//                .whereGreaterThanOrEqualTo("dateTimestamp", new Date())
+//                .limit(50)
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            if(!task.getResult().isEmpty()) {
+//
+//                                boolean found = false;
+//                                for (QueryDocumentSnapshot document : task.getResult()) {
+//                                    //check for appointment date if it's within selected duration
+//
+//                                    if(mAuth.getUid().equals(document.get("patientID").toString())){
+//
+//                                    DTime = document.get("time").toString();
+//                                    int hours = Integer.parseInt(DTime.substring(0, 2)); //hh : mm
+//                                    int minutes = Integer.parseInt(DTime.substring(5));
+//
+//                                    Calendar rightNow = Calendar.getInstance();
+//                                    int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
+//                                    int currentMin = rightNow.get(Calendar.MINUTE);
+//
+//                                    if(hours > currentHour){
+//                                        if (minutes > currentMin){
+//
+//                                    Name = document.get("name").toString();
+//                                    DTime = document.get("time").toString();
+//                                    DDate = ((Timestamp) document.get("dateTimestamp")).toDate();
+//                                    id = document.getId();
+//
+//                                    found = true;
+//                                    break;
+//                                    }}}
+//
+//                                }
+//
+//                                if(found) {
+//                                    card3.setEnabled(true);
+//
+//                                    DateFormat dateFormat = new SimpleDateFormat("E d MMM");
+//                                    String D = dateFormat.format(DDate);
+//
+//                                    int hours = Integer.parseInt(DTime.substring(0, 2)); //hh : mm
+//                                    int minutes = Integer.parseInt(DTime.substring(5));
+//                                    String amPM;
+//
+//                                    if (hours > 12) {
+//                                        amPM = "PM";
+//                                        hours = hours - 12;
+//                                    } else {
+//                                        amPM = "AM";
+//                                    }
+//
+//                                    DTime = hours + ":" + minutes + " " + amPM;
+//
+//                                    String appointment;
+//                                    appointment = Name + " | " + D + " | " + DTime;
+//                                    nextAppointment.setText(appointment);
+//                                    nextAppointment.setTextColor(getResources().getColor(R.color.black));
+//
+//                                }else {
+//                                    nextAppointment.setText("No Upcoming Appointments");
+//                                    nextAppointment.setTextColor(getResources().getColor(R.color.Grey));
+//                                }
+//                            }else {
+//                                nextAppointment.setText("No Upcoming Appointments");
+//                                nextAppointment.setTextColor(getResources().getColor(R.color.Grey));
+//                            }
+//                        }//if
+//                    }
+//                    }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//
+//            }
+//        });
+//
+//    }
+
+    public void getAppointment2(){
+
+        Query nextApp = db.collection("PatientSessions")
+                .whereEqualTo("patinetID",mAuth.getUid())
+                .orderBy("dateTimestamp", Query.Direction.ASCENDING);
+
+        nextApp.get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
 
-                            recyclerView.setHasFixedSize(true);
-                            adapter = new AdapterA(getActivity(), appointments);
-                            if(adapter.getItemCount() != 0){
-                            recyclerView.setAdapter(adapter);}
-                            else{
-                                empty.setVisibility(View.VISIBLE);
+                    boolean found = false;
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        //check for appointment date if it's within selected duration
+
+
+                            DDate = ((Timestamp) document.get("dateTimestamp")).toDate();
+
+                            DTime = document.get("time").toString();
+                            int hours = Integer.parseInt(DTime.substring(0, 2)); //hh : mm
+                            int minutes = Integer.parseInt(DTime.substring(5));
+
+
+                            DDate.setHours(hours);
+                            DDate.setMinutes(minutes);
+                            long theday = DDate.getTime();
+
+
+                            Calendar rightNow = Calendar.getInstance();
+                            long currentDate = rightNow.getTime().getTime();
+
+
+                            if (currentDate <= theday ) {//Check day ( today or after )
+
+                                Name = document.get("name").toString();
+                                DTime = document.get("time").toString();
+                                DDate = ((Timestamp) document.get("dateTimestamp")).toDate();
+                                id = document.getId();
+
+                                found = true;
+                                break;
                             }
 
-                        }//if
-                    }
-                    }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
 
-            }
+                        if (found) {
+                            card3.setEnabled(true);
+
+                            DateFormat dateFormat = new SimpleDateFormat("E d MMM");
+                            String D = dateFormat.format(DDate);
+
+                            String amPM;
+
+                            if (hours > 12) {
+                                amPM = "PM";
+                                hours = hours - 12;
+                            } else {
+                                amPM = "AM";
+                            }
+
+                            DTime = hours + ":" + minutes + " " + amPM;
+
+                            String appointment;
+                            appointment = Name + " | " + D + " | " + DTime;
+                            nextAppointment.setText(appointment);
+                            nextAppointment.setTextColor(getResources().getColor(R.color.black));
+
+                        }
+                    }
+
+                    if(!found){
+                        nextAppointment.setText("No Upcoming Appointments");
+                        nextAppointment.setTextColor(getResources().getColor(R.color.Grey));
+                    }
+
+                }
         });
 
     }
-    private static long daysBetween(Date one, Date two) {
-        long difference =  (one.getTime()-two.getTime())/86400000;
-        return Math.abs(difference);
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //getAppointment2();
     }
-
-
-
 }

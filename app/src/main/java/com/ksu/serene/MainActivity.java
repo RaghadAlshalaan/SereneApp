@@ -516,13 +516,6 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
-    public void onBackPressed() {
-        Intent startMain = new Intent(Intent.ACTION_MAIN);
-        startMain.addCategory(Intent.CATEGORY_HOME);
-        startActivity(startMain);
-    }
-
-
     // ------------------------------NOTIFICATION-----------------------------------
 
 

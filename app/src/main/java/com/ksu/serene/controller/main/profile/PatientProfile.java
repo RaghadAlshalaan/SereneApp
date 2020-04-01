@@ -184,7 +184,6 @@ public class PatientProfile extends Fragment {
     }
 
 
-
     public void displayName(){
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

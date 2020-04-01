@@ -71,13 +71,6 @@ public class PatientReport extends AppCompatActivity {
         init();
         getExtras();
 
-        if (duration.equals("custom")){
-        Toast.makeText(getBaseContext(), startDate, Toast.LENGTH_SHORT).show();
-        }else
-            Toast.makeText(getBaseContext(), duration, Toast.LENGTH_SHORT).show();
-
-
-
         lastGeneratedPatientReport();
         location();
 
@@ -182,7 +175,7 @@ public class PatientReport extends AppCompatActivity {
 
                                 //check for location date if it's within selected duration
 
-                                Date loc_date = ((Timestamp)doc.get(i).get("arrivalTime")).toDate();//date received
+                                Date loc_date = ((Timestamp)doc.get(i).get("time")).toDate();//date received
                                 Date today = new Date();//today
                                 switch(duration){
                                     case "2week":
@@ -226,12 +219,12 @@ public class PatientReport extends AppCompatActivity {
 
                                 }//end of switch
 
-                                if (locationFound) {
-
-                                    String locationName = doc.get(i).get("name").toString();
-                                    String loc_AL = doc.get(i).get("anxietyLevel").toString();
-                                    locations.add(new Location(locationName, loc_AL, daysBetween(loc_date, today)));
-                                }
+//                                if (locationFound) {
+//
+//                                    String locationName = doc.get(i).get("name").toString();
+//                                    String loc_AL = doc.get(i).get("anxietyLevel").toString();
+//                                    locations.add(new Location(locationName, loc_AL, daysBetween(loc_date, today)));
+//                                }
 
                                 i++;
 

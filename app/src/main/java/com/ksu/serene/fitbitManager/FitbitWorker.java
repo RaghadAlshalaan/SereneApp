@@ -1,6 +1,7 @@
 package com.ksu.serene.fitbitManager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Base64;
@@ -15,6 +16,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -39,6 +41,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.concurrent.ExecutionException;
 
+import static com.firebase.ui.auth.ui.phone.VerifyPhoneNumberFragment.TAG;
+
 public class FitbitWorker extends Worker {
 
     // The result key:
@@ -52,6 +56,9 @@ public class FitbitWorker extends Worker {
     private static Boolean isRevoke = false; // boolean to check if action is revoking access token
     private static String clientId;
     private static String clientSecret;
+
+    private String image_id;
+    private int img_id;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -71,7 +78,42 @@ public class FitbitWorker extends Worker {
     @Override
     public Result doWork() {
 
+//        // STEP 0 : UPDATE QUOTE OF THE DAY
+//        StorageReference storageRef = storage.getReference("quotes_images");
+//
+//         image_id= "";
+//
+//        // Continue with the task to get the download URL
+//        final Uri image_url =  ref.getDownloadUrl().getResult();
+//
+//        //get current quote ID
+//        db.collection("Quotes").document("SF")
+//                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document.exists()) {
+//
+//                        image_id = document.get("id").toString();
+//
+//                        if(image_id.equals("6"))
+//                        img_id = 1;
+//                        else img_id = Integer.parseInt(image_id) + 1;
+//
+//
+//
+//                    } else {
+//                        Log.d(TAG, "No such document");
+//                    }
+//                } else {
+//                    Log.d(TAG, "get failed with ", task.getException());
+//                }
+//            }
+//        });
 
+
+        /**------------------------------------**/
         // Step 1 : GET USER ACCESS TOKEN FROM DB
         final String userEmail = user.getEmail();
 
