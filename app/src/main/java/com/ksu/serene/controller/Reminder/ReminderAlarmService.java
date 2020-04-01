@@ -18,9 +18,12 @@ import androidx.core.app.NotificationCompat;
 
 import com.ksu.serene.controller.main.calendar.PatientAppointmentDetailPage;
 import com.ksu.serene.controller.main.calendar.PatientMedicineDetailPage;
+import com.ksu.serene.controller.main.home.NotificationAdapter;
 import com.ksu.serene.model.Medicine;
 import com.ksu.serene.model.Reminder;
 import com.ksu.serene.R;
+
+import java.util.Calendar;
 
 
 public class ReminderAlarmService extends IntentService {
@@ -109,6 +112,13 @@ public class ReminderAlarmService extends IntentService {
 
         Log.d("TAG", description+" Notification fired!!");
 
+        String time = new java.text.SimpleDateFormat("dd/MM/yyyy hh:mm").format(Calendar.getInstance().getTime());
+        if (nullRepeatNOCheck.isEmpty())
+            com.ksu.serene.controller.Reminder.Notification.addNotification(new com.ksu.serene.controller.Reminder.Notification(description, "app", time, documentID));
+        else
+            com.ksu.serene.controller.Reminder.Notification.addNotification(new com.ksu.serene.controller.Reminder.Notification(description, "med", time, documentID));
+
+        //add notification to database
 
         //bottom code will execute in every alarm trigger, useful for repeating alarms
         int repeatNo=0;

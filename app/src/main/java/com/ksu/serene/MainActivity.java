@@ -1,5 +1,6 @@
 package com.ksu.serene;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -15,8 +16,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -26,19 +29,30 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.ksu.serene.controller.Reminder.Notification;
+import com.ksu.serene.controller.main.calendar.PatientAppointmentDetailPage;
+import com.ksu.serene.controller.main.calendar.PatientMedicineDetailPage;
+import com.ksu.serene.controller.main.home.NotificationAdapter;
 import com.ksu.serene.locationManager.MyLocationManager;
 import com.ksu.serene.locationManager.MyLocationManagerListener;
 import com.ksu.serene.fitbitManager.SensorService;
 import com.ksu.serene.fitbitManager.Util;
 import com.ksu.serene.fitbitManager.FitbitWorker;
 import com.ksu.serene.controller.main.profile.PatientProfile;
+import com.ksu.serene.model.Patient;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,6 +64,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.work.Constraints;
 import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
@@ -60,6 +76,9 @@ import androidx.work.WorkManager;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -70,14 +89,17 @@ import java.util.concurrent.TimeUnit;
 public class MainActivity extends AppCompatActivity implements
         View.OnClickListener, MyLocationManagerListener {
 
-    public ImageView profile;
-    private RelativeLayout w1, w2;
+    public ImageView profile, bell;
+    private RecyclerView notificationList;
+    private RecyclerView.LayoutManager Notification_LayoutManager;
+    private RelativeLayout w1, w2, notificationGroup;
     private ImageView ok1, ok2;
-    private LinearLayout overbox;
+    private LinearLayout overbox, outside_notification_box;
     private Animation from_small, from_nothing;
+    private NotificationAdapter notificationAdapter;
 
     MyLocationManager locationManager;
-
+    boolean newNotificationFlag = false;
     String draftId;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -144,6 +166,40 @@ public class MainActivity extends AppCompatActivity implements
             }
         });
 
+        //initiate inapp notification list here (upon opening app for first time)
+        notificationList = findViewById(R.id.notification_list);
+        outside_notification_box = findViewById(R.id.outside_notification_box);
+        notificationGroup = findViewById(R.id.notificationGroup);
+
+
+        notificationList.setLayoutManager(new LinearLayoutManager(this));
+        notificationAdapter = new NotificationAdapter(this);//initiate arraylist of notifications = empty
+        notificationList.setAdapter(notificationAdapter);
+        todayNotifications();
+        //NotificationAdapter.addNotification(new Notification("Sample appointment", "app", Calendar.getInstance().getTime(), "782ccad5-a267-4773-939b-100b376bbbd6"));
+
+        bell = findViewById(R.id.bell_icon);
+        bell.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                //view list --> visibility = true
+                findViewById(R.id.notification_circle).setVisibility(View.GONE);
+                notificationGroup.setVisibility(View.VISIBLE);//notification list box and background of it are now visible
+                notificationAdapter.updateView();
+                //if clicked outside, visibility gone
+            }
+        });
+
+        //if user clicks outside notification box, it will disappear
+        outside_notification_box.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                //set notification group visibility to gone
+                notificationGroup.setVisibility(View.GONE);
+            }
+        });
+
+
 
     }// end onCreate()
 
@@ -199,6 +255,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
+        todayNotifications();
         profile.setVisibility(View.VISIBLE);
     }
 
@@ -488,5 +545,68 @@ public class MainActivity extends AppCompatActivity implements
             notificationManager.createNotificationChannel(channel);
         }
     }
+
+    private void todayNotifications(){
+        final List<Notification> notifications = new ArrayList<Notification>();
+        notificationList.setLayoutManager(new LinearLayoutManager(this));
+        notificationList.setAdapter(notificationAdapter);
+
+
+        //get today in timestamp
+        String today = new java.text.SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final String userID = user.getUid();
+
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        Task<QuerySnapshot> docRef = firebaseFirestore.collection("Notifications")
+                .whereEqualTo("day", today)
+                .whereEqualTo("userID",userID)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            boolean unread = false;
+                            int i = 0;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                List<DocumentSnapshot> doc = task.getResult().getDocuments();
+
+                                String name = doc.get(i).get("name").toString();
+                                String type = doc.get(i).get("type").toString();
+                                String time = doc.get(i).get("day").toString()+" "+doc.get(0).get("time").toString();
+                                String documentID = doc.get(i).get("documentID").toString();
+                                boolean read = (Boolean)doc.get(i).get("read");
+                                String notificationID = doc.get(i).get("notificationID").toString();
+
+                                notifications.add(new Notification(name,type,time,documentID, notificationID, read));
+
+                                if (!read)
+                                    unread = true;
+
+                                i++;
+
+                            }
+                            //after going through all docs
+                            //display red circle if unread = true
+                            if (unread==true){
+                                ImageView notification_circle = findViewById(R.id.notification_circle);
+                                notification_circle.setVisibility(View.VISIBLE);
+                            }
+
+                            notificationAdapter.updateList(notifications);
+                        }
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });//addOnCompleteListener
+
+    }//end of method
+
 
 }

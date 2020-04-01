@@ -11,102 +11,100 @@
     >
 
     <RelativeLayout
+        android:id="@+id/w2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:elevation="10dp"
         android:gravity="center_horizontal"
-        android:id="@+id/w2"
-        >
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/smartwatch"
             android:layout_width="310dp"
             android:layout_height="300dp"
-            android:layout_marginTop="200dp"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="200dp"
             android:background="@drawable/smartwatch_dialog"
             android:gravity="center" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Accuracy"
-            android:textSize="20sp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="325dp"
+            android:text="Accuracy"
             android:textColor="@color/colorPrimaryDark"
-            android:textStyle="bold"/>
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="For more accurate results, we\nrecommend wearing your smartwatch\nfor at least 12 hours a day."
-            android:textSize="16sp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="360dp"
             android:gravity="center"
+            android:text="For more accurate results, we\nrecommend wearing your smartwatch\nfor at least 12 hours a day."
             android:textColor="@color/colorPrimaryDark"
-            />
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/ok2"
             android:layout_width="230dp"
             android:layout_height="60dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="430dp"
             android:layout_marginLeft="60dp"
+            android:layout_marginTop="430dp"
             android:layout_marginRight="60dp"
-            android:background="@drawable/ok_button"/>
+            android:background="@drawable/ok_button" />
 
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/w1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:elevation="10dp"
         android:gravity="center_horizontal"
-        android:id="@+id/w1"
-        >
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/success"
             android:layout_width="310dp"
             android:layout_height="300dp"
-            android:layout_marginTop="200dp"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="200dp"
             android:background="@drawable/success_dialog"
             android:gravity="center" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="success"
-            android:textSize="20sp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="325dp"
+            android:text="success"
             android:textColor="@color/colorPrimaryDark"
-            android:textStyle="bold"/>
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Account created, a link has been\nsent to confirm your email ! "
-            android:textSize="16sp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="370dp"
             android:gravity="center"
+            android:text="Account created, a link has been\nsent to confirm your email ! "
             android:textColor="@color/colorPrimaryDark"
-            />
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/ok1"
             android:layout_width="230dp"
             android:layout_height="60dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="430dp"
             android:layout_marginLeft="60dp"
+            android:layout_marginTop="430dp"
             android:layout_marginRight="60dp"
-            android:background="@drawable/ok_button"/>
+            android:background="@drawable/ok_button" />
 
     </RelativeLayout>
 
@@ -118,9 +116,7 @@
         android:background="@drawable/overbox"
         android:elevation="9dp"
         android:orientation="vertical"
-        android:visibility="visible" />
-
-
+        android:visibility="gone" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -170,6 +166,15 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/user" />
 
+        <ImageView
+            android:id="@+id/notification_circle"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/bell_icon"
+            app:layout_constraintStart_toStartOf="@+id/bell_icon"
+            app:srcCompat="@android:drawable/ic_notification_overlay" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -186,6 +191,40 @@
         app:navGraph="@navigation/mobile_navigation"
         tools:ignore="MissingConstraints" />
 
+
+    <RelativeLayout
+        android:id="@+id/notificationGroup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="10dp"
+        android:gravity="center_horizontal"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/notification_list"
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="120dp"
+            android:layout_marginTop="70dp"
+            android:layout_marginEnd="60dp"
+            android:elevation="5dp"></androidx.recyclerview.widget.RecyclerView>
+
+        <LinearLayout
+            android:id="@+id/outside_notification_box"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="2dp"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"

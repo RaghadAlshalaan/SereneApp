@@ -425,10 +425,10 @@ public class Add_Medicine_Page extends AppCompatActivity {
             //create new notification
             new AlarmScheduler().setRepeatAlarm(getApplicationContext(),selectedTimestamp, newUri, repeatTime);//
             //new AlarmScheduler().setAlarm(getApplicationContext(), selectedTimestamp, newUri);
-            Toast.makeText(this, "Alarm time is " + selectedTimestamp,
+            Toast.makeText(this, "Alarm time is at " + new java.text.SimpleDateFormat("dd/MM/yyyy hh:mm").format(new Date(selectedTimestamp)),
                     Toast.LENGTH_LONG).show();
 
-            Toast.makeText(this, "insert_reminder_successful",
+            Toast.makeText(this, "Reminder was successfully scheduled",
                     Toast.LENGTH_SHORT).show();
 
         }
