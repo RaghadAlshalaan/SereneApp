@@ -56,12 +56,14 @@ public class AddDoctor extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (!email.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")){
                     Toast.makeText(AddDoctor.this, R.string.emailFormat,
                             Toast.LENGTH_SHORT).show();
                     email.setText("");
                     return;
                 }
+
                /* else if (!name.getText().toString().matches("^[ A-Za-z]+$")) {
                     Toast.makeText(AddDoctor.this, R.string.nameFormat,
                             Toast.LENGTH_SHORT).show();
@@ -70,15 +72,12 @@ public class AddDoctor extends AppCompatActivity {
 
                addDoctor(name.getText().toString(), email.getText().toString());
 
-               Intent intent = new Intent(AddDoctor.this, MainActivity.class);
-               startActivity(intent);
                finish();
 
             }
 
 
         });
-
     }
 
     public void addDoctor(final String name, final String email){

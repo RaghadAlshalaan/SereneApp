@@ -27,6 +27,7 @@ import com.ksu.serene.model.Reminder;
 import com.ksu.serene.model.TherapySession;
 import com.ksu.serene.R;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -61,6 +62,7 @@ public class Add_Appointment_Page extends AppCompatActivity {
             calendar.set(Calendar.YEAR,year);
             calendar.set(Calendar.MONTH, monthOfYear);
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
             Date.setText(DateFormat.format(calendar.getTime()));
         }
     };
@@ -72,7 +74,7 @@ public class Add_Appointment_Page extends AppCompatActivity {
             calendar.set(Calendar.HOUR_OF_DAY, hours);
             calendar.set(Calendar.MINUTE, minutes);
 
-            Time.setText(String.format("%02d : %02d", hours ,minutes));
+            Time.setText(hours + " : " + minutes );
         }
     };
 

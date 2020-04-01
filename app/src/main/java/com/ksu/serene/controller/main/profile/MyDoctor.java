@@ -55,7 +55,6 @@ public class MyDoctor extends AppCompatActivity {
         check = findViewById(R.id.check);
 
 
-
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
