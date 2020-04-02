@@ -291,7 +291,7 @@ public class FitbitWorker extends Worker {
 
                     String jsonString = stringBuilder.toString();
 
-                    Log.i("AppInfo", "jsonString = " + jsonString);
+                    //Log.i("AppInfo", "jsonString = " + jsonString);
 
                     return jsonString;
 

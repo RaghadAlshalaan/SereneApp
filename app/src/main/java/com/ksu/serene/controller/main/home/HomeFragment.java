@@ -123,166 +123,86 @@ public class HomeFragment extends Fragment {
 
     }
 
-//    public void getAppointment(){
-//
-//        db.collection("PatientSessions")
-//                .whereGreaterThanOrEqualTo("dateTimestamp", new Date())
-//                .limit(50)
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            if(!task.getResult().isEmpty()) {
-//
-//                                boolean found = false;
-//                                for (QueryDocumentSnapshot document : task.getResult()) {
-//                                    //check for appointment date if it's within selected duration
-//
-//                                    if(mAuth.getUid().equals(document.get("patientID").toString())){
-//
-//                                    DTime = document.get("time").toString();
-//                                    int hours = Integer.parseInt(DTime.substring(0, 2)); //hh : mm
-//                                    int minutes = Integer.parseInt(DTime.substring(5));
-//
-//                                    Calendar rightNow = Calendar.getInstance();
-//                                    int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
-//                                    int currentMin = rightNow.get(Calendar.MINUTE);
-//
-//                                    if(hours > currentHour){
-//                                        if (minutes > currentMin){
-//
-//                                    Name = document.get("name").toString();
-//                                    DTime = document.get("time").toString();
-//                                    DDate = ((Timestamp) document.get("dateTimestamp")).toDate();
-//                                    id = document.getId();
-//
-//                                    found = true;
-//                                    break;
-//                                    }}}
-//
-//                                }
-//
-//                                if(found) {
-//                                    card3.setEnabled(true);
-//
-//                                    DateFormat dateFormat = new SimpleDateFormat("E d MMM");
-//                                    String D = dateFormat.format(DDate);
-//
-//                                    int hours = Integer.parseInt(DTime.substring(0, 2)); //hh : mm
-//                                    int minutes = Integer.parseInt(DTime.substring(5));
-//                                    String amPM;
-//
-//                                    if (hours > 12) {
-//                                        amPM = "PM";
-//                                        hours = hours - 12;
-//                                    } else {
-//                                        amPM = "AM";
-//                                    }
-//
-//                                    DTime = hours + ":" + minutes + " " + amPM;
-//
-//                                    String appointment;
-//                                    appointment = Name + " | " + D + " | " + DTime;
-//                                    nextAppointment.setText(appointment);
-//                                    nextAppointment.setTextColor(getResources().getColor(R.color.black));
-//
-//                                }else {
-//                                    nextAppointment.setText("No Upcoming Appointments");
-//                                    nextAppointment.setTextColor(getResources().getColor(R.color.Grey));
-//                                }
-//                            }else {
-//                                nextAppointment.setText("No Upcoming Appointments");
-//                                nextAppointment.setTextColor(getResources().getColor(R.color.Grey));
-//                            }
-//                        }//if
-//                    }
-//                    }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//
-//            }
-//        });
-//
-//    }
-
-    public void getAppointment2(){
+    public void getAppointment2() {
 
         Query nextApp = db.collection("PatientSessions")
-                .whereEqualTo("patinetID",mAuth.getUid())
                 .orderBy("dateTimestamp", Query.Direction.ASCENDING);
 
         nextApp.get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                        if(!queryDocumentSnapshots.isEmpty()) {
+
+                            boolean found = false;
+                            for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                                //check for appointment date if it's within selected duration
+
+                                if ( document.get("patinetID").equals(mAuth.getUid())){
+
+                                    DDate = ((Timestamp) document.get("dateTimestamp")).toDate();
+
+                                    DTime = document.get("time").toString();
+                                    int hours = Integer.parseInt(DTime.substring(0, 2)); //hh : mm
+                                    int minutes = Integer.parseInt(DTime.substring(5));
 
 
-                    boolean found = false;
-                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                        //check for appointment date if it's within selected duration
+                                    DDate.setHours(hours);
+                                    DDate.setMinutes(minutes);
+                                    long theday = DDate.getTime();
 
 
-                            DDate = ((Timestamp) document.get("dateTimestamp")).toDate();
-
-                            DTime = document.get("time").toString();
-                            int hours = Integer.parseInt(DTime.substring(0, 2)); //hh : mm
-                            int minutes = Integer.parseInt(DTime.substring(5));
+                                    Calendar rightNow = Calendar.getInstance();
+                                    long currentDate = rightNow.getTime().getTime();
 
 
-                            DDate.setHours(hours);
-                            DDate.setMinutes(minutes);
-                            long theday = DDate.getTime();
+                                    if (currentDate <= theday ) {//Check day ( today or after )
 
+                                        Name = document.get("name").toString();
+                                        DTime = document.get("time").toString();
+                                        DDate = ((Timestamp) document.get("dateTimestamp")).toDate();
+                                        id = document.getId();
 
-                            Calendar rightNow = Calendar.getInstance();
-                            long currentDate = rightNow.getTime().getTime();
+                                        found = true;
 
+                                        card3.setEnabled(true);
 
-                            if (currentDate <= theday ) {//Check day ( today or after )
+                                        DateFormat dateFormat = new SimpleDateFormat("E d MMM");
+                                        String D = dateFormat.format(DDate);
 
-                                Name = document.get("name").toString();
-                                DTime = document.get("time").toString();
-                                DDate = ((Timestamp) document.get("dateTimestamp")).toDate();
-                                id = document.getId();
+                                        String amPM;
 
-                                found = true;
-                                break;
+                                        if (hours > 12) {
+                                            amPM = "PM";
+                                            hours = hours - 12;
+                                        } else {
+                                            amPM = "AM";
+                                        }
+
+                                        DTime = hours + ":" + minutes + " " + amPM;
+
+                                        String appointment;
+                                        appointment = Name + " | " + D + " | " + DTime;
+                                        nextAppointment.setText(appointment);
+                                        nextAppointment.setTextColor(getResources().getColor(R.color.black));
+
+                                        break;
+
+                                    }}
                             }
 
-
-                        if (found) {
-                            card3.setEnabled(true);
-
-                            DateFormat dateFormat = new SimpleDateFormat("E d MMM");
-                            String D = dateFormat.format(DDate);
-
-                            String amPM;
-
-                            if (hours > 12) {
-                                amPM = "PM";
-                                hours = hours - 12;
-                            } else {
-                                amPM = "AM";
+                            if(!found){
+                                nextAppointment.setText("No Upcoming Appointments");
+                                nextAppointment.setTextColor(getResources().getColor(R.color.Grey));
                             }
-
-                            DTime = hours + ":" + minutes + " " + amPM;
-
-                            String appointment;
-                            appointment = Name + " | " + D + " | " + DTime;
-                            nextAppointment.setText(appointment);
-                            nextAppointment.setTextColor(getResources().getColor(R.color.black));
 
                         }
                     }
+                });
 
-                    if(!found){
-                        nextAppointment.setText("No Upcoming Appointments");
-                        nextAppointment.setTextColor(getResources().getColor(R.color.Grey));
-                    }
+//        Thread.sleep(10000);
 
-                }
-        });
 
     }
 

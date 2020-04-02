@@ -23,11 +23,14 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.RequestFuture;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -37,14 +40,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.ksu.serene.controller.Reminder.Notification;
-import com.ksu.serene.controller.main.calendar.PatientAppointmentDetailPage;
-import com.ksu.serene.controller.main.calendar.PatientMedicineDetailPage;
 import com.ksu.serene.controller.main.home.NotificationAdapter;
 import com.ksu.serene.locationManager.MyLocationManager;
 import com.ksu.serene.locationManager.MyLocationManagerListener;
@@ -73,6 +76,8 @@ import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -84,6 +89,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements
@@ -162,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements
                 fragmentTransaction.replace(R.id.nav_host_fragment, fragmentOne);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-                profile.setVisibility(View.GONE);
+                //profile.setVisibility(View.GONE);
             }
         });
 
@@ -262,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements
 
     // -------------------------------LOCATION----------------------------------
 
-    private Location lastLocation = null;
+    public static Location lastLocation = null;
 
     @Override
     public void locationUpdated(Location location) {
@@ -376,7 +382,7 @@ public class MainActivity extends AppCompatActivity implements
         List<Address> addresses;
         geocoder = new Geocoder(this, Locale.getDefault());
 
-        addresses = geocoder.getFromLocation(lastLocation.getLatitude() , lastLocation.getLongitude() , 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+        addresses = geocoder.getFromLocation(24.862388 , 46.592138 , 5); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
         String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
 
@@ -393,30 +399,41 @@ public class MainActivity extends AppCompatActivity implements
         final Map<String, Object> userLoc = new HashMap<>();
         userLoc.put("patientID", userID);
         userLoc.put("time", FieldValue.serverTimestamp());
-        userLoc.put("lat", lastLocation.getLatitude() );
-        userLoc.put("lon",lastLocation.getLongitude() );
-        userLoc.put("name", address.substring(i+1 , ii) );
+        userLoc.put("lat", 24.862388 );
+        userLoc.put("lng", 46.592138 );
+        userLoc.put("name", address.substring(i+1 , ii) + " District" );
+        userLoc.put("anxietyLevel", "1" );
+        findNearestLocation(24.728166,46.592704);
 
 
-        db.collection("PatientLocations")
-                .document(draftId).set(userLoc)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
 
-                        // YAY
+        DocumentReference ref = db.collection("PatientLocations").document(draftId);
 
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
 
-                        // NAY
+        if(ref == null) {
 
-                    }
-                });
+            ref.set(userLoc)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
 
+                            // YAY
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                            // NAY
+
+                        }
+                    });
+        }else{
+
+            ref.set(userLoc, SetOptions.merge());
+
+        }
         // Method to be used
 
         // Instantiate the RequestQueue.
@@ -447,39 +464,142 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
-    // Method to be used
-    private void sendLocationToServer2() {
-        if (lastLocation == null) {
-            return;
+
+    String[] nearbyLocation;
+    private long mRequestStartTime;
+
+    // Method to be used JSON object
+    private void findNearestLocation(double lat, double lng) {
+
+        if (lat == 0) {
+            return ;
         }
+
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://feqra.com/p/s/serene/index2.php?lat=" +
-                String.valueOf(lastLocation.getLatitude()) + "&lon="
-                + String.valueOf(lastLocation.getLongitude());
+        String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" +
+                String.valueOf(lat) + ","
+                + String.valueOf(lng) +
+                "&radius=100&key=AIzaSyCmW1fyqXd75fWOVKZuTYof6ihf9Yg99cE";
 
-        //String url = "http://my-json-feed";
+
+        nearbyLocation = new String[2];
+        nearbyLocation[0] = "";
+
+        mRequestStartTime = System.currentTimeMillis(); // set the request start time just before you send the request.
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        // textView.setText("Response: " + response.toString());
+
+                        long totalRequestTime = System.currentTimeMillis() - mRequestStartTime;
+
                         Log.i("AppInfo", "Response: " + response.toString());
+
+                        try {
+                            JSONArray resultsArray = response.getJSONArray("results");
+
+                            int num = 0;
+
+                            for (int y = 0; y < response.length() && num < 2; y++){
+
+
+                                JSONObject Loc = resultsArray.getJSONObject(1);
+                                JSONArray l1 = Loc.getJSONArray("types");
+
+                                for (int i = 0; i < l1.length(); i++) {
+
+                                    String type = String.valueOf(l1.get(i));
+
+                                    // l1.get(i).equals("establishment") ||l1.get(i).equals("mosque") || l1.get(i).equals("place_of_worship")
+                                    if (type.equals("cafe")  || type.equals("mosque") ||
+                                            type.equals("store") || type.equals("hospital") ||
+                                            type.equals("shopping_mall") || type.equals("university") ||
+                                            type.equals("gym") || type.equals("health") ||
+                                            type.equals("supermarket") || type.equals("school") ||
+                                            type.equals("pharmacy") || type.equals("park") ||
+                                            type.equals("embassy") || type.equals("airport")) {
+
+
+                                        nearbyLocation[num] = Loc.getString("name");
+                                        num++;
+
+
+                                    }
+
+
+                                }// types array
+
+                            }// iterate responses array
+
+
+                            // UPLOAD TO DB
+                            String nearestLoc = "RUH";
+                            if (!nearbyLocation[0].equals("")){
+                                nearestLoc = nearbyLocation[0];
+
+                                if(!nearbyLocation[1].equals(""))
+                                    nearestLoc += " - " + nearbyLocation[1];
+                            }
+
+
+                            DocumentReference ref = db.collection("PatientLocations").document(draftId);
+                            //add URI field to firebase
+                            Map<String, Object> nearestLocation = new HashMap<>();
+                            nearestLocation.put("nearestLoc", nearestLoc);
+
+
+                            if (ref != null){
+
+                                ref.set(nearestLocation, SetOptions.merge());
+
+                            }else {
+                                ref.set(nearestLocation)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                //YAY
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                // NAY
+                                            }
+                                        });
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
                     }
+
                 }, new Response.ErrorListener() {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // TODO: Handle error
-
+                        if(true);
                     }
                 });
 
         // Access the RequestQueue through your singleton class.
         queue.add(jsonObjectRequest);
+
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
     }
+
 
 
     Intent mServiceIntent;

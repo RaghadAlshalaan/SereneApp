@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ksu.serene">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -23,6 +24,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".controller.main.report.LocationHeatMap"/>
         <activity android:name=".controller.main.drafts.AddVoiceDraftPage" />
         <activity android:name=".controller.main.drafts.PatientTextDraftDetailPage" />
         <activity android:name=".controller.main.drafts.AddTextDraftPage" />
@@ -65,6 +67,8 @@
         <activity android:name=".controller.main.calendar.PatientMedicineDetailPage" />
         <activity android:name=".controller.main.report.PatientReport" />
         <activity android:name=".controller.Reminder.AlarmScheduler" />
+        <uses-library android:name="org.apache.http.legacy"
+            android:required="false" />
 
         <meta-data
             android:name="preloaded_fonts"
@@ -72,13 +76,19 @@
 
         <service
             android:name=".fitbitManager.SensorService"
-            android:enabled="true" >
-        </service>
-        <service android:name=".controller.Reminder.ReminderAlarmService" />
+            android:enabled="true"/>
+
+        <service
+            android:name=".controller.Reminder.ReminderAlarmService" />
+
         <provider
             android:name=".controller.Reminder.data.AlarmReminderProvider"
             android:authorities="com.ksu.serene.Controller"
             android:exported="false" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBoxoXwFm9TuFysjQYag0GB1NEPyBINlTU"/>
 
     </application>
 

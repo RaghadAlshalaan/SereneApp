@@ -11,16 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ksu.serene.model.Location;
 import com.ksu.serene.R;
-import com.ksu.serene.model.TherapySession;
 
 import java.util.List;
 
-public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
+public class locationsAdapter extends RecyclerView.Adapter<locationsAdapter.ViewHolder> {
 
     private LayoutInflater layoutInflater;
     private List<Location> locations;
 
-    Adapter(Context context, List<Location> locations){
+    locationsAdapter(Context context, List<Location> locations){
         this.layoutInflater = LayoutInflater.from(context);
         this.locations = locations;
 
@@ -30,13 +29,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View view = layoutInflater.inflate(R.layout.card_view,viewGroup,false);
+        View view = layoutInflater.inflate(R.layout.location_row,viewGroup,false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        //bind the textviews with locations received
+
+        //bind the textviews with locations info received
 
         String location_name = locations.get(i).getName();
         viewHolder.location_name.setText(location_name);
@@ -44,9 +44,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         String level = locations.get(i).getAL_level();
         viewHolder.location_AL.setText(level);
 
-        long daysBetween = locations.get(i).getDaysBetween();
-        viewHolder.daysBetween.setText(daysBetween+"");
+        String nearestLoc = locations.get(i).getNearestLoc();
+        viewHolder.nearestLoc.setText(nearestLoc);
+
     }
+
 
     @Override
     public int getItemCount() {
@@ -55,14 +57,18 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView location_name, location_AL, daysBetween;
+        TextView location_name, location_AL, nearestLoc;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
-            location_name = (TextView)itemView.findViewById(R.id.location_name);
-            location_AL = (TextView)itemView.findViewById(R.id.location_AL);
-            daysBetween = (TextView)itemView.findViewById(R.id.numOfDays);
+
+            location_name = itemView.findViewById(R.id.parent_loc);
+            location_AL = itemView.findViewById(R.id.location_AL);
+            nearestLoc = itemView.findViewById(R.id.nearestPlaces);
+
         }
+
+
     }
 }

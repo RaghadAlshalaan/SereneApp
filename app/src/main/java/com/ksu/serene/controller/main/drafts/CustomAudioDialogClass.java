@@ -279,7 +279,6 @@ public class CustomAudioDialogClass extends Dialog implements
                         Log.d(TAG, "DocumentSnapshot successfully deleted!");
                         voiceDraftFragment.onResume();
 
-
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
