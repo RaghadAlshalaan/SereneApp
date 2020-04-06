@@ -372,7 +372,6 @@ public class MainActivity extends AppCompatActivity implements
 
         Log.e("AppInfo", "[" + Util.getCurrentDateTime() + "] >>>> Saving Location: " + lastLocation.getLatitude() + "   " + lastLocation.getLongitude());
 
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final String userID = user.getUid();
 
@@ -382,7 +381,7 @@ public class MainActivity extends AppCompatActivity implements
         List<Address> addresses;
         geocoder = new Geocoder(this, Locale.getDefault());
 
-        addresses = geocoder.getFromLocation(24.862388 , 46.592138 , 5); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+        addresses = geocoder.getFromLocation(24.731897 , 46.600362 , 5); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
         String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
 
@@ -399,12 +398,11 @@ public class MainActivity extends AppCompatActivity implements
         final Map<String, Object> userLoc = new HashMap<>();
         userLoc.put("patientID", userID);
         userLoc.put("time", FieldValue.serverTimestamp());
-        userLoc.put("lat", 24.862388 );
-        userLoc.put("lng", 46.592138 );
+        userLoc.put("lat", 24.731897 );
+        userLoc.put("lng", 46.600362 );
         userLoc.put("name", address.substring(i+1 , ii) + " District" );
         userLoc.put("anxietyLevel", "1" );
-        findNearestLocation(24.728166,46.592704);
-
+        findNearestLocation(24.731897,46.600362);
 
 
         DocumentReference ref = db.collection("PatientLocations").document(draftId);
@@ -430,40 +428,9 @@ public class MainActivity extends AppCompatActivity implements
                         }
                     });
         }else{
-
             ref.set(userLoc, SetOptions.merge());
-
         }
-        // Method to be used
-
-        // Instantiate the RequestQueue.
-//        RequestQueue queue = Volley.newRequestQueue(this);
-//        String url = "https://feqra.com/p/s/serene/index2.php?lat=" +
-//                String.valueOf(lastLocation.getLatitude()) + "&lon="
-//                + String.valueOf(lastLocation.getLongitude());
-//
-//        Log.i("AppInfo", "url = " + url);
-//
-//        // Request a string response from the provided URL.
-//        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        // Display the first 500 characters of the response string.
-//                        //Log.i("AppInfo","Response is: " + response);
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Log.i("AppInfo", "Error sending location");
-//            }
-//        });
-//
-//        // Add the request to the RequestQueue.
-//        queue.add(stringRequest);
-
     }
-
 
     String[] nearbyLocation;
     private long mRequestStartTime;
@@ -485,6 +452,7 @@ public class MainActivity extends AppCompatActivity implements
 
         nearbyLocation = new String[2];
         nearbyLocation[0] = "";
+        nearbyLocation[1] = "";
 
         mRequestStartTime = System.currentTimeMillis(); // set the request start time just before you send the request.
 
@@ -503,32 +471,31 @@ public class MainActivity extends AppCompatActivity implements
 
                             int num = 0;
 
-                            for (int y = 0; y < response.length() && num < 2; y++){
+                            for (int y = 1; y < resultsArray.length() && num < 2; y++){
 
 
-                                JSONObject Loc = resultsArray.getJSONObject(1);
+                                JSONObject Loc = resultsArray.getJSONObject(y);
                                 JSONArray l1 = Loc.getJSONArray("types");
 
                                 for (int i = 0; i < l1.length(); i++) {
 
                                     String type = String.valueOf(l1.get(i));
 
-                                    // l1.get(i).equals("establishment") ||l1.get(i).equals("mosque") || l1.get(i).equals("place_of_worship")
                                     if (type.equals("cafe")  || type.equals("mosque") ||
                                             type.equals("store") || type.equals("hospital") ||
                                             type.equals("shopping_mall") || type.equals("university") ||
                                             type.equals("gym") || type.equals("health") ||
                                             type.equals("supermarket") || type.equals("school") ||
                                             type.equals("pharmacy") || type.equals("park") ||
-                                            type.equals("embassy") || type.equals("airport")) {
+                                            type.equals("embassy") || type.equals("airport") ||
+                                            type.equals("establishment")) {
 
 
                                         nearbyLocation[num] = Loc.getString("name");
                                         num++;
-
+                                        break;
 
                                     }
-
 
                                 }// types array
 
@@ -536,7 +503,7 @@ public class MainActivity extends AppCompatActivity implements
 
 
                             // UPLOAD TO DB
-                            String nearestLoc = "RUH";
+                            String nearestLoc = "No Nearby Places Found";
                             if (!nearbyLocation[0].equals("")){
                                 nearestLoc = nearbyLocation[0];
 
@@ -596,7 +563,6 @@ public class MainActivity extends AppCompatActivity implements
                 10000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
 
     }
 

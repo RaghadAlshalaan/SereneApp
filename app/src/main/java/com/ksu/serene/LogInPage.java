@@ -243,12 +243,11 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
                                         startActivity(intent);
                                         finish();
 
-
                                     }
                                 });
 
                         // Sign in success, update UI with the signed-in user's information
-                        //Log.d(TAG, "signInWithEmail:success");
+                        // Log.d(TAG, "signInWithEmail:success");
 
                     } else {
 

@@ -102,24 +102,22 @@ public class HomeFragment extends Fragment {
 
     private void setQuoteImage() {
 
-        db.collection("Quotes")
+        db.collection("Quotes").document("quote")
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
 
-                            for (QueryDocumentSnapshot document : task.getResult()) {
+                            DocumentSnapshot document = task.getResult();
 
-                                String quote_image_url = document.get("image_url").toString();
+                            String quote_image_url = document.get("image_url").toString();
 
-                                Glide.with(getContext()).load(quote_image_url).into(quote);
+                            Glide.with(getContext()).load(quote_image_url).into(quote);
 
-                            }
                         }
                     }
                 });
-
 
     }
 

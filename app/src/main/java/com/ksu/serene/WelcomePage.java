@@ -26,7 +26,6 @@ public class WelcomePage extends AppCompatActivity {
 
     private String TAG = WelcomePage.class.getSimpleName();
 
-
     //create googleAPClient object
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -94,6 +93,15 @@ public class WelcomePage extends AppCompatActivity {
 //            }
 //        });
 
+
+        if (checkUserLogin()) {
+
+            //user is logged in
+            Intent intent = new Intent(WelcomePage.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+
+        }
 
     }// End onCreate
 
@@ -265,4 +273,16 @@ public class WelcomePage extends AppCompatActivity {
                     }
                 });
     }*/
+
+    private boolean checkUserLogin() {
+
+        mAuth = FirebaseAuth.getInstance();
+
+        if (mAuth.getCurrentUser() != null) {
+            return true;
+        } else
+            return false;
+
+    }
+
 }

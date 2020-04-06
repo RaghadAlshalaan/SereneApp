@@ -12,6 +12,7 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,6 +40,8 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import static com.firebase.ui.auth.ui.phone.VerifyPhoneNumberFragment.TAG;
@@ -57,8 +60,11 @@ public class FitbitWorker extends Worker {
     private static String clientId;
     private static String clientSecret;
 
-    private String image_id;
+    StorageReference storageRef = storage.getReference();
+    StorageReference spaceRef;
+    private String image_id="";
     private int img_id;
+
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -78,42 +84,70 @@ public class FitbitWorker extends Worker {
     @Override
     public Result doWork() {
 
-//        // STEP 0 : UPDATE QUOTE OF THE DAY
-//        StorageReference storageRef = storage.getReference("quotes_images");
-//
-//         image_id= "";
-//
-//        // Continue with the task to get the download URL
-//        final Uri image_url =  ref.getDownloadUrl().getResult();
-//
-//        //get current quote ID
-//        db.collection("Quotes").document("SF")
-//                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if (document.exists()) {
-//
-//                        image_id = document.get("id").toString();
-//
-//                        if(image_id.equals("6"))
-//                        img_id = 1;
-//                        else img_id = Integer.parseInt(image_id) + 1;
-//
-//
-//
-//                    } else {
-//                        Log.d(TAG, "No such document");
-//                    }
-//                } else {
-//                    Log.d(TAG, "get failed with ", task.getException());
-//                }
-//            }
-//        });
+        // STEP 0 : UPDATE QUOTE OF THE DAY
+
+        //get current quote ID
+        db.collection("Quotes").document("quote")
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+
+                        image_id = document.get("id").toString();
+
+                        if(image_id.equals("6"))
+                            img_id = 1;
+                        else
+                            img_id = Integer.parseInt(image_id) + 1;
+
+
+                        image_id = "q"+img_id;
+                        spaceRef = storageRef.child("quotes_images/"+image_id+".png");
+                        spaceRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(final Uri uri) {
+
+                                // upload to Firebase storage
+                                db.collection("Quotes")
+                                        .document("quote")
+                                        .update("id",img_id,
+                                                "image_url",uri.toString())
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                Log.e("DONE: ", uri + " IMAGE UPLOADED SUCCESSFULLY");
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                //Toast.makeText(PatientTextDraftDetailPage.this, "Did Not Update, Try Again", Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // Handle any errors
+                            }
+                        });
+
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
 
 
         /**------------------------------------**/
+
+
         // Step 1 : GET USER ACCESS TOKEN FROM DB
         final String userEmail = user.getEmail();
 
@@ -291,7 +325,7 @@ public class FitbitWorker extends Worker {
 
                     String jsonString = stringBuilder.toString();
 
-                    //Log.i("AppInfo", "jsonString = " + jsonString);
+                    Log.i("AppInfo", "jsonString = " + jsonString);
 
                     return jsonString;
 
