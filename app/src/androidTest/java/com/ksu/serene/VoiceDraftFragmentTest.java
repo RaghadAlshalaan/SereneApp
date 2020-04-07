@@ -1,6 +1,6 @@
 package com.ksu.serene;
 
-import com.ksu.serene.controller.main.drafts.TextDraftFragment;
+import com.ksu.serene.controller.main.drafts.VoiceDraftFragment;
 import com.ksu.serene.controller.main.drafts.draftsFragment;
 
 import org.hamcrest.CoreMatchers;
@@ -32,7 +32,7 @@ import static com.ksu.serene.TestUtils.withRecyclerView;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
-public class TextDraftFragmentTest {
+public class VoiceDraftFragmentTest {
 
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<MainActivity>(MainActivity.class);
@@ -51,12 +51,7 @@ public class TextDraftFragmentTest {
 
             }
         });
-        onView(withText(R.string.TEXT)).perform(click());
-        //set fragment
-        /*FragmentTransaction fragmentTransaction = activityTestRule.getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.allDraft, new allDraft());
-        fragmentTransaction.commit();
-        getInstrumentation().waitForIdleSync();*/
+        onView(withText(R.string.VOICE)).perform(click());
         //add tiemr
         //Mack sure Espresso does not time out
         IdlingPolicies.setMasterPolicyTimeout(10000 * 2, TimeUnit.MILLISECONDS);
@@ -66,11 +61,11 @@ public class TextDraftFragmentTest {
         try {
             IdlingRegistry.getInstance().register(idlingResource);
             //check the activity is visible
-            onView(withId(R.id.TextDraftFragment)).check(matches(isDisplayed()));
+            onView(withId(R.id.VoiceDraftFragment)).check(matches(isDisplayed()));
             //check the button visible
             onView(allOf(withId(R.id.button_expandable_110_250))).check(matches(isDisplayed()));
-            //check recycler Text visible
-            onView(allOf(withId(R.id.Recyclerview_Text_Draft))).check(matches(isDisplayed()));
+            //check recycler voice visible
+            onView(allOf(withId(R.id.Recyclerview_Voice_Draft))).check(matches(isDisplayed()));
         }
         //clean upp
         finally {
@@ -110,8 +105,8 @@ public class TextDraftFragmentTest {
     }
 
     @Test
-    public void testItemClickTxtRecycler() {
-        onView(withRecyclerView(R.id.Recyclerview_Text_Draft).atPosition(0)).perform(click());
+    public void testItemClickVoiceRecycler() {
+        onView(withRecyclerView(R.id.Recyclerview_Voice_Draft).atPosition(0)).perform(click());
         //add tiemr
         //Mack sure Espresso does not time out
         IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
@@ -121,15 +116,25 @@ public class TextDraftFragmentTest {
         try {
             IdlingRegistry.getInstance().register(idlingResource);
             //activity
-            onView(withId(R.id.PatientTextDraftDetailPage)).check(matches(isDisplayed()));
+            onView(withId(R.id.your_dialog_root_element)).check(matches(isDisplayed()));
             //title
-            onView(withId(R.id.TitleTextD)).check(matches(isDisplayed()));
-            //subj
-            onView(withId(R.id.SubjtextD)).check(matches(isDisplayed()));
+            onView(withId(R.id.title)).check(matches(isDisplayed()));
+            //currentTime
+            onView(withId(R.id.currentTime)).check(matches(isDisplayed()));
+            //remaining Time
+            onView(withId(R.id.remainingTime)).check(matches(isDisplayed()));
+            //pause
+            onView(withId(R.id.pause)).check(matches(isDisplayed()));
+            //back button
+            onView(withId(R.id.backward)).check(matches(isDisplayed()));
+            //forward button
+            onView(withId(R.id.forward)).check(matches(isDisplayed()));
+            //speed
+            onView(withId(R.id.speed)).check(matches(isDisplayed()));
             //delete button
             onView(withId(R.id.delete)).check(matches(isDisplayed()));
-            //edit button
-            onView(withId(R.id.SaveChanges)).check(matches(isDisplayed()));
+            //cancel button
+            onView(withId(R.id.cancel)).check(matches(isDisplayed()));
         }
         //clean upp
         finally {
