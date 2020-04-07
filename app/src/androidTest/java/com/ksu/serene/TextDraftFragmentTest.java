@@ -1,6 +1,6 @@
 package com.ksu.serene;
 
-import com.ksu.serene.controller.main.drafts.allDraft;
+import com.ksu.serene.controller.main.drafts.TextDraftFragment;
 import com.ksu.serene.controller.main.drafts.draftsFragment;
 
 import org.hamcrest.CoreMatchers;
@@ -25,12 +25,14 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withTagValue;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static com.ksu.serene.TestUtils.withRecyclerView;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
-public class allDraftTest {
+public class TextDraftFragmentTest {
 
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<MainActivity>(MainActivity.class);
@@ -41,14 +43,20 @@ public class allDraftTest {
             @Override
             public void run() {
                 //set fragment
-                Fragment draftFragment = new draftsFragment();
+                Fragment draft = new draftsFragment();
                 FragmentTransaction fragmentTransaction = activityTestRule.getActivity().getSupportFragmentManager().beginTransaction();
                 //fragmentTransaction.replace(R.id.Home, CalendarF);
-                fragmentTransaction.add(R.id.MainActivity, draftFragment);
+                fragmentTransaction.add(R.id.MainActivity, draft);
                 fragmentTransaction.commit();
 
             }
         });
+        onView(withText(R.string.TEXT)).perform(click());
+        //set fragment
+        /*FragmentTransaction fragmentTransaction = activityTestRule.getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.allDraft, new allDraft());
+        fragmentTransaction.commit();
+        getInstrumentation().waitForIdleSync();*/
         //add tiemr
         //Mack sure Espresso does not time out
         IdlingPolicies.setMasterPolicyTimeout(10000 * 2, TimeUnit.MILLISECONDS);
@@ -58,13 +66,11 @@ public class allDraftTest {
         try {
             IdlingRegistry.getInstance().register(idlingResource);
             //check the activity is visible
-            onView(withId(R.id.allDraft)).check(matches(isDisplayed()));
+            onView(withId(R.id.TextDraftFragment)).check(matches(isDisplayed()));
             //check the button visible
             onView(allOf(withId(R.id.button_expandable_110_250))).check(matches(isDisplayed()));
             //check recycler Text visible
-            onView(allOf(withId(R.id.Recyclerview_All_DraftText))).check(matches(isDisplayed()));
-            //check recycler voice visible
-            onView(allOf(withId(R.id.Recyclerview_All_DraftVoice))).check(matches(isDisplayed()));
+            onView(allOf(withId(R.id.Recyclerview_Text_Draft))).check(matches(isDisplayed()));
         }
         //clean upp
         finally {
@@ -103,48 +109,9 @@ public class allDraftTest {
         onView(withId(R.id.StartRecording)).check(matches(isDisplayed()));
     }
 
-    //TODO check for voice recyclers view
-    @Test
-    public void testItemClickVoiceRecycler() {
-        onView(withRecyclerView(R.id.Recyclerview_All_DraftVoice).atPosition(0)).perform(click());
-        //add tiemr
-        //Mack sure Espresso does not time out
-        IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
-        IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
-        //Now we waite
-        IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
-        try {
-            IdlingRegistry.getInstance().register(idlingResource);
-            //activity
-            onView(withId(R.id.your_dialog_root_element)).check(matches(isDisplayed()));
-            //title
-            onView(withId(R.id.title)).check(matches(isDisplayed()));
-            //currentTime
-            onView(withId(R.id.currentTime)).check(matches(isDisplayed()));
-            //remaining Time
-            onView(withId(R.id.remainingTime)).check(matches(isDisplayed()));
-            //pause
-            onView(withId(R.id.pause)).check(matches(isDisplayed()));
-            //back button
-            onView(withId(R.id.backward)).check(matches(isDisplayed()));
-            //forward button
-            onView(withId(R.id.forward)).check(matches(isDisplayed()));
-            //speed
-            onView(withId(R.id.speed)).check(matches(isDisplayed()));
-            //delete button
-            onView(withId(R.id.delete)).check(matches(isDisplayed()));
-            //cancel button
-            onView(withId(R.id.cancel)).check(matches(isDisplayed()));
-        }
-        //clean upp
-        finally {
-            IdlingRegistry.getInstance().unregister(idlingResource);
-        }
-    }
-
     @Test
     public void testItemClickTxtRecycler() {
-        onView(withRecyclerView(R.id.Recyclerview_All_DraftText).atPosition(0)).perform(click());
+        onView(withRecyclerView(R.id.Recyclerview_Text_Draft).atPosition(0)).perform(click());
         //add tiemr
         //Mack sure Espresso does not time out
         IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
@@ -168,9 +135,5 @@ public class allDraftTest {
         finally {
             IdlingRegistry.getInstance().unregister(idlingResource);
         }
-    }
-
-    @After
-    public void tearDown() throws Exception {
     }
 }
