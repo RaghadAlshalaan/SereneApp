@@ -2,14 +2,16 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:id="@+id/AllDraft">
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="vertical"
-    tools:context=".controller.main.drafts.allDraft">
+    tools:context=".controller.main.drafts.allDraft"
+    android:id="@+id/allDraft">
 
 
     <TextView

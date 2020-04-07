@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -62,10 +63,10 @@ public class PatientMedicineDetailPage extends AppCompatActivity {
             }
         });
 
-        /* needed for test
+        // needed for test
         if (MedID == null){
-            MedID = "";
-        }*/
+            MedID = "0854b3f6-e8a5-40cd-af7b-228576911ef3";
+        }
 
         db.collection("PatientMedicin")
                 .document(MedID)
@@ -91,9 +92,9 @@ public class PatientMedicineDetailPage extends AppCompatActivity {
             public void onClick(View view) {
                 //show window dialog with 2 button yes and no
                 new AlertDialog.Builder(PatientMedicineDetailPage.this)
-                        .setTitle("Delete Medicine")
-                        .setMessage("Are you sure you want to delete this Medicine Reminder ?")
-                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                        .setTitle(R.string.DeleteMed)
+                        .setMessage(R.string.DeleteMessageMed)
+                        .setPositiveButton(R.string.DeleteOKMed, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 db.collection("PatientMedicin")
@@ -121,28 +122,30 @@ public class PatientMedicineDetailPage extends AppCompatActivity {
                                                     // Show a toast message depending on whether or not the delete was successful.
                                                     if (rowsDeleted == 0) {
                                                         // If no rows were deleted, then there was an error with the delete.
-                                                        Toast.makeText(PatientMedicineDetailPage.this, "The Med reminder was not found", Toast.LENGTH_LONG);
+                                                        //Toast.makeText(PatientMedicineDetailPage.this, "The Med reminder was not found", Toast.LENGTH_LONG);
+                                                        Log.d("Reminder","The Med reminder was not found");
                                                     } else {
                                                         // Otherwise, the delete was successful and we delete alarm and display a toast.
 
 
-                                                        Toast.makeText(PatientMedicineDetailPage.this, "The Med reminder was successfully cancelled", Toast.LENGTH_LONG);
+                                                        //Toast.makeText(PatientMedicineDetailPage.this, "The Med reminder was successfully cancelled", Toast.LENGTH_LONG);
+                                                        Log.d("Reminder","The Med reminder was successfully cancelled");
                                                     }
                                                 }
 
-                                                Toast.makeText(PatientMedicineDetailPage.this, "Medicine Reminder deleted successfully", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(PatientMedicineDetailPage.this, R.string.MedDeletedSuccess, Toast.LENGTH_LONG).show();
                                                 finish();
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(PatientMedicineDetailPage.this, "Failed to delete Medicine Reminder", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(PatientMedicineDetailPage.this, R.string.MedDeletedFialed, Toast.LENGTH_LONG).show();
                                             }
                                         });
                             }
                         })
-                        .setNegativeButton("Cancel", null)
+                        .setNegativeButton(R.string.DeleteCancleMed, null)
                         .show();
             }
         });

@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#DCEFF4"
-    android:id="@+id/layout"
+    tools:context=".MainActivity"
+    android:id="@+id/Home"
     android:orientation="vertical"
     >
 

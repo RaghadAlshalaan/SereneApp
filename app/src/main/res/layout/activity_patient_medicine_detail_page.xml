@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".controller.main.calendar.PatientMedicineDetailPage">
+    tools:context=".controller.main.calendar.PatientMedicineDetailPage"
+    android:id="@+id/PatientMedicineDetailPage">
 
     <ImageView
         android:id="@+id/backButton"
@@ -19,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/Add_Medicine_Page"
+        android:id="@+id/Patient_Med"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"

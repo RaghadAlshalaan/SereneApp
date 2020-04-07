@@ -13,7 +13,7 @@
     <string name="allFields">"All fields are required "</string>
     <string name="passwordMatch">"Password does not match, please try again "</string>
     <string name="nameFormat">Please enter correct name format</string>
-    <string name="passwordChar">Password is less than 8 characters, please try again </string>
+    <string name="passwordChar">Password is less than 6 characters, please try again </string>
     <string name="emailFormat">"Please enter correct email format "</string>
     <string name="questionnaire">Please complete the questionnaire </string>
     <string name="incomeFormat">Please enter correct income format </string>
@@ -148,6 +148,175 @@
 
     </string-array>
 
+    <!-- Add Text Draft Page -->
+    <string name="NewTD">New Draft</string>
+    <string name="TitleTD">Add Title</string>
+    <string name="SubTD">What Do You Feel?</string>
+    <string name="SaveTD">Save</string>
+    <string name="TDSavedSuccess">The Text Draft Saved Successfully</string>
+    <string name="TDSavedFialed">The Text Draft Did not Saved, Try Again</string>
+    <string name="EmptyFields">All Fields Required</string>
+
+    <!-- Edit Text Draft Page -->
+    <string name="EditTD">Edit Draft</string>
+    <string name="SaveChangesTD">Save Changes</string>
+    <string name="DeleteTD">Delete Draft</string>
+    <string name="DeleteMessageTD">Are you sure you want to delete this Draft ? </string>
+    <string name="DeleteOKTD">Delete</string>
+    <string name="DeleteCancleTD">Cancel</string>
+    <string name="TDDeletedSuccess">Text Draft Deleted Successfully</string>
+    <string name="TDDeletedFialed">The Text Draft Did not Deleted, Try Again</string>
+    <string name="TDUpdatedSuccess">Text Draft Updated Successfully</string>
+    <string name="TDUpdatedFialed">The Text Draft Did not Updated, Try Again</string>
+
+    <!-- Add Appointment Reminder Page -->
+    <string name="AddApp">New Appointment</string>
+    <string name="TitleApp">Title</string>
+    <string name="DayApp">Day</string>
+    <string name="TimeApp">Time</string>
+    <string name="SetDayApp">Set Day</string>
+    <string name="SetTimeApp">Set Time</string>
+    <string name="SaveApp">Confirm</string>
+    <string name="CurrentTime">The chosen time must after now</string>
+    <string name="AppSavedSuccess">The Appointment Reminder Saved Successfully</string>
+    <string name="AppSavedFialed">The Appointment Reminder Did not Saved, Try Again</string>
+
+    <!-- Delete App Reminder Page -->
+    <string name="AppDetails">Appointment</string>
+    <string name="DeleteApp">Delete Appointment</string>
+    <string name="DeleteMessageApp">Are you sure you want to delete this Appointment Reminder ? </string>
+    <string name="DeleteOKApp">Delete</string>
+    <string name="DeleteCancleApp">Cancel</string>
+    <string name="AppDeletedSuccess">The Appointment Reminder Deleted Successfully</string>
+    <string name="AppDeletedFialed">The Appointment Reminder Did not Deleted, Try Again</string>
+
+    <!-- Add Medicine Reminder Page -->
+    <string name="AddMed">New Medicine</string>
+    <string name="SDMed">Starting from day</string>
+    <string name="StartMedDate">Start</string>
+    <string name="STMed">Time of first reminder</string>
+    <string name="DoseMed">Dose</string>
+    <string name="SetDoseMed">Set Dose</string>
+    <string name="RepMed">Repeat</string>
+    <string name="EvMed">Every</string>
+    <string name="timesMed">times</string>
+    <string name="MedSavedSuccess">The Medicine Reminder Saved Successfully</string>
+    <string name="MedSavedFialed">The Medicine Reminder Did not Saved, Try Again</string>
+
+    <!-- Delete Med Reminder Page -->
+    <string name="MedDetails">Medicine</string>
+    <string name="DeleteMed">Delete Medicine</string>
+    <string name="DeleteMessageMed">Are you sure you want to delete this Medicine Reminder ? </string>
+    <string name="DeleteOKMed">Delete</string>
+    <string name="DeleteCancleMed">Cancel</string>
+    <string name="MedDeletedSuccess">The Medicine Reminder Deleted Successfully</string>
+    <string name="MedDeletedFialed">The Medicine Reminder Did not Deleted, Try Again</string>
+
+    <!-- Add Doctor Page -->
+    <string name="AddDoc">Add Doctor</string>
+    <string name="AddDocName">Doctor Name</string>
+    <string name="AddDocEmail">Doctor Email</string>
+    <string name="PatientEmail">You Can not Use Your Email</string>
+    <string name="AddDocSuccess">The Doctor Added Successfully</string>
+    <string name="AddDocFialed">The Doctor Did not Added, Try Again</string>
+    <string name="SaveDoc">Add Doctor</string>
+
+    <!-- Delete Med Reminder Page -->
+    <string name="MyDoc">My Doctor</string>
+    <string name="DeleteDoc">Delete Doctor</string>
+    <string name="DeleteMessageDoc">
+        After deleting this doctor s/he will no longer be linked with your account and the automatic periodic reports will be disabled.
+    </string>
+    <string name="DeleteOKDoc">Delete</string>
+    <string name="DeleteCancleDoc">Cancel</string>
+    <string name="DocDeletedSuccess">The Doctor Deleted Successfully</string>
+    <string name="DocDeletedFialed">The Doctor Did not Deleted, Try Again</string>
+
+    <!-- Edit Profile Page -->
+    <string name="ChooseImage">Choose Image</string>
+    <string name="OldPassET">Old Password</string>
+    <string name="NewPassET">New Password</string>
+    <string name="CNPassET">Confirm New password</string>
+    <string name="ForgetPassSuccess">Reset Password was send to Your Email Successfully</string>
+    <string name="ForgetPassFialed">Try Again, Reset Password did not send</string>
+    <string name="EmptyName">Name Should not be Empty</string>
+    <string name="NotCorrectName">* Enter valid name.</string>
+    <string name="UpdateNameSuccess">Your Name Updated Successfully</string>
+    <string name="UpdateNameFialed">Your Name did not Updated, Try Again</string>
+    <string name="ImageUpSuccess">Your Image Profile Updated Successfully</string>
+    <string name="SelectPicture">Select Image</string>
+    <string name="ProfileInfoUpdateSuccess">Your Profile Information Updated Successfully</string>
+    <string name="ProfileInfoUpdateFialed">Your Profile Information did not Updated, Try Again</string>
+    <string name="DeleteAcc">Delete Account</string>
+    <string name="DeleteMessageAcc">
+        Deleting this account will result in completely removing your account from the system, you will not be able to access your account again.
+    </string>
+    <string name="DeleteOKAcc">Delete</string>
+    <string name="DeleteCancleAcc">Cancel</string>
+    <string name="AccDeletedSuccess">Your Account Deleted Successfully</string>
+    <string name="AccDeletedFialed">Your Account Did not Deleted, Try Again</string>
+
+
+    <!-- Edit Socio Page -->
+    <string name="Socio">Edit Socio-demographic</string>
+    <string name="NotCorrectAge">Please Enter Valid Age Value Between 5 to 110 Years Old</string>
+    <string name="NotCorrectHeight">Please Enter Valid Height Value Between 50 to 300 CM</string>
+    <string name="NotCorrectWeight">Please Enter Valid Weight Value Between 20 to 300 KG</string>
+    <string name="NotCorrectMI">Please Enter Valid Monthly Income Value should be no more than 5000000</string>
+    <string name="NotCorrectCD">Only Letters Accepted in Chronic Disease</string>
+    <string name="SocioInfoUpdateSuccess">Your Socio Information Updated Successfully</string>
+    <string name="SocioInfoUpdateFialed">Your Socio Information did not Updated, Try Again</string>
+    <string name="SaveSocioUpdate">Save</string>
+
+    <!-- Patient Profile Page -->
+    <string name="VervEmail">To Help Ensure Your Accounts Security Please Verify Your Email.</string>
+    <string name="VervEmailSuccess">Email Was Sent For Verification</string>
+    <string name="VervEmailFialed">Email Did Not Sent, Try Again</string>
+    <string name="NoDoc">No Doctor</string>
+    <string name="LogOut">Log Out</string>
+    <string name="LogOutMsg">
+        Are You Sure You Want To Logout ?
+    </string>
+    <string name="LogOutOK">Logout</string>
+    <string name="LogOutCancle">Cancel</string>
+    <string name="LogOutSuccess">Your are Logged Out Successfully</string>
+    <string name="LogOutFialed">Something Wrong, Try Again</string>
+
+    <!-- Log in Page -->
+    <string name="ForgetPass">Reset Password</string>
+    <string name="ForgetPassMessage">
+        If You Do not Know Your Current Password,
+        You may Change it.
+        Please Enter Your Email
+    </string>
+    <string name="ForgetPassOK">Request New Password</string>
+    <string name="ForgetPassCancle">Cancel</string>
+    <string name="EmptyEmail">Email Should not be Empty</string>
+    <string name="NotCorrectEmail">Please, Enter Your Email Correctly.</string>
+    <string name="NoUser">* There is not User With this Email, Please Try Again!</string>
+    <string name="SocioNotFound">You Have First Complete The Registration Requirements Before Log in</string>
+
+    <!-- Suign up Page -->
+    <string name="NotValidName">* Enter valid name.</string>
+    <string name="NotValidEmail">* Enter valid email.</string>
+    <string name="NotMatchPass">* Password does not match.</string>
+    <string name="ExistUser">* Email already used by another account.</string>
+    <string name="PasswordShort">* Password must be at least 8 characters.</string>
+    <string name="SignUpSuccess">Signed Up Success</string>
+    <string name="SignUpFialed">* Sign in Failed, Please try again</string>
+
+    <!-- Socio in Sign up Page -->
+    <string name="NotValidAge">Please Enter Valid Age Value Between 5 to 110 Years Old</string>
+    <string name="NotValidHeight">Please Enter Valid Height Value Between 50 to 300 CM</string>
+    <string name="NotValidWeight">Please Enter Valid Weight Value Between 20 to 300 KG</string>
+    <string name="NotValidMI">Please Enter Valid Monthly Income Value should be no more than 5000000</string>
+    <string name="NotValidCD">Only Letters Accepted in Chronic Disease</string>
+    <string name="SocioSuccess">Success going to next</string>
+    <string name="SocioFialed">There is Something Wrong, Please try again</string>
+
+    <!-- GAD7 in Sign up Page -->
+    <string name="GADSuccess">Success going to next</string>
+    <string name="GADFialed">There is Something Wrong, Please try again</string>
 
 </resources>
 

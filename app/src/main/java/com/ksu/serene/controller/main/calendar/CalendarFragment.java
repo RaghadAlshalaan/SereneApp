@@ -80,9 +80,8 @@ public class CalendarFragment extends Fragment{
     private Date LDay;
     private Date time;
     private String date ;
-    private int year = 0;
-    private int month = 0;
-    private int day = 0;
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+    private Date currentDate = Calendar.getInstance().getTime();
 
     // Add Buttons
     private CalendarView calenderView;
@@ -107,21 +106,29 @@ public class CalendarFragment extends Fragment{
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
                 SetAppRecyView (root,i, i1+1, i2);
                 SetMedRecyView (root, i, i1+1, i2);
-                if ((i1+1)<10){
-                    if (i2 > 10)
-                        date = i2+"/0"+(i1+1)+"/"+i;
-                    else if (i2 < 10 )
-                        date = "0"+i2+"/0"+(i1+1)+"/"+i;
+                //TODO check when the date in past do nothing
+                String simpleDateFormat = sdf.format(currentDate);
+                int yearCurrent = Integer.parseInt(simpleDateFormat.substring(6,simpleDateFormat.length()));
+                //check when clendar date in past
+                if ( (yearCurrent > i) ||
+                        ( yearCurrent == i && (currentDate.getMonth()+1) > (i1+1) )
+                        || (yearCurrent == i && (currentDate.getMonth()+1) == (i1+1) && currentDate.getDate() > i2) ){
+                    Log.d("Past", "Calendar Time");
+                    date = null;
                 }
                 else {
-                    if (i2 > 10)
-                        date = i2+"/"+(i1+1)+"/"+i;
-                    else if (i2 < 10 )
-                        date = "0"+i2+"/"+(i1+1)+"/"+i;
+                    if ((i1 + 1) < 10) {
+                        if (i2 > 10)
+                            date = i2 + "/0" + (i1 + 1) + "/" + i;
+                        else if (i2 < 10)
+                            date = "0" + i2 + "/0" + (i1 + 1) + "/" + i;
+                    } else {
+                        if (i2 > 10)
+                            date = i2 + "/" + (i1 + 1) + "/" + i;
+                        else if (i2 < 10)
+                            date = "0" + i2 + "/" + (i1 + 1) + "/" + i;
+                    }
                 }
-                year = i;
-                month = (i1+1);
-                day = i2;
                 updateView();
             }
         });

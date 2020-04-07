@@ -71,7 +71,7 @@ public class AddTextDraftPage extends AppCompatActivity {
             return true;
         }
         else {
-            Toast.makeText(AddTextDraftPage.this, "All Fields Required", Toast.LENGTH_LONG).show();
+            Toast.makeText(AddTextDraftPage.this, R.string.EmptyFields, Toast.LENGTH_LONG).show();
             return false;
         }
     }
@@ -92,7 +92,7 @@ public class AddTextDraftPage extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         //todo: progress bar
-                        Toast.makeText(AddTextDraftPage.this, "Saved Successfully", Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddTextDraftPage.this, R.string.TDSavedSuccess, Toast.LENGTH_LONG).show();
                         finish();
 
                     }
@@ -100,6 +100,7 @@ public class AddTextDraftPage extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AddTextDraftPage.this, R.string.TDSavedFialed, Toast.LENGTH_LONG).show();
 
                     }
                 });

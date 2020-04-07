@@ -81,15 +81,15 @@ public class GAD7 extends Fragment {
                                         }
 
                                         //added this toast needed in test
-                                        Toast.makeText(getActivity(), "Success going to next",
-                                                Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), R.string.GADSuccess,
+                                                Toast.LENGTH_LONG).show();
                                         Intent i = new Intent(getActivity(), FitbitConnection.class);
                                         getActivity().startActivity(i);
 
                                     } else {System.out.println("Error getting documents: ");
                                         //added this toast needed in test
-                                        Toast.makeText(getActivity(), "Error getting documents: ",
-                                                Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), R.string.GADFialed,
+                                                Toast.LENGTH_LONG).show();
                                     }
 
                                 }
@@ -269,8 +269,8 @@ public class GAD7 extends Fragment {
         if(radio1.matches("")|| radio2.matches("")||radio3.matches("")||radio4.matches("")||
                 radio5.matches("")|| radio6.matches("")||radio7.matches("")){
 
-            Toast.makeText(getActivity(), "Please fill all the questions.",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.EmptyFields,
+                    Toast.LENGTH_LONG).show();
 
             return false;
         }
