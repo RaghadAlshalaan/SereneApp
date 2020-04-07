@@ -108,11 +108,12 @@
             app:layout_constraintTop_toBottomOf="@+id/text2" />
     </LinearLayout>
 
-    <com.fangxu.allangleexpandablebutton.AllAngleExpandableButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button_expandable_110_250"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
+        android:src="@drawable/ic_add_symbol"
         app:aebAnimDurationMillis="175"
         app:aebButtonElevation="7dp"
         app:aebButtonGapDp="20dp"
@@ -124,6 +125,43 @@
         app:aebSubButtonSizeDp="35dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/AddMedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/add_medicine"
+        app:aebAnimDurationMillis="175"
+        app:aebButtonElevation="7dp"
+        app:aebButtonGapDp="20dp"
+        app:aebEndAngleDegree="180"
+        app:aebIsSelectionMode="false"
+        app:aebMainButtonSizeDp="45dp"
+        app:aebRippleEffect="true"
+        app:aebStartAngleDegree="90"
+        app:aebSubButtonSizeDp="35dp"
+        app:layout_constraintBottom_toTopOf="@id/button_expandable_110_250"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/AddAppButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="50dp"
+        android:src="@drawable/add_appointment"
+        app:aebAnimDurationMillis="175"
+        app:aebButtonElevation="7dp"
+        app:aebButtonGapDp="20dp"
+        app:aebEndAngleDegree="180"
+        app:aebIsSelectionMode="false"
+        app:aebMainButtonSizeDp="45dp"
+        app:aebRippleEffect="true"
+        app:aebStartAngleDegree="90"
+        app:aebSubButtonSizeDp="35dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/button_expandable_110_250" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

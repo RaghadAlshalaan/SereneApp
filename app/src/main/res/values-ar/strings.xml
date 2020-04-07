@@ -197,4 +197,13 @@
     <string name="GADSuccess">Success going to next</string>
     <string name="GADFialed">There is Something Wrong, Please try again</string>
 
+    <!-- Draft Fragment Page -->
+    <string name="All">ALL</string>
+    <string name="TEXT">TEXT</string>
+    <string name="VOICE">VOICE</string>
+
+    <!-- All Draft Fragment Page -->
+    <string name="Text">Text Drafts</string>
+    <string name="Voice">Voice Drafts</string>
+
 </resources>

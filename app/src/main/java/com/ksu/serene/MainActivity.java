@@ -597,7 +597,7 @@ public class MainActivity extends AppCompatActivity implements
 
         super.onDestroy();
 
-        stopLocationUpdateRepeatingTask();
+        //stopLocationUpdateRepeatingTask();
         stopSaveDataRepeatingTask();
 
     }
