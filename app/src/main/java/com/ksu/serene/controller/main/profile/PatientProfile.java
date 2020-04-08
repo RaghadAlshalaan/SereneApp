@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -50,7 +51,7 @@ public class PatientProfile extends Fragment {
 
     private ImageView image, SocioArrow, doctorArrow, editProfile;
     private TextView name, email, doctor;
-    private LinearLayout alert;
+    private LinearLayout alert, resendL;
     private String nameDb, emailDb, imageDb;
     private FirebaseAuth mAuth;
     private Button  logOut;
@@ -103,7 +104,8 @@ public class PatientProfile extends Fragment {
       });
 
 
-      if(checkIfEmailVerified() == false ){
+      user.reload();
+      if(!user.isEmailVerified()){
           alert.setVisibility(View.VISIBLE);
       }else{
           alert.setVisibility(View.GONE);
@@ -149,6 +151,25 @@ public class PatientProfile extends Fragment {
         doctorArrow = view.findViewById(R.id.go_to2);
         doctor = view.findViewById(R.id.doctor_text2);
         alert = view.findViewById(R.id.alert);
+        resendL = view.findViewById(R.id.resendL);
+        alert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                user.sendEmailVerification();
+                Toast.makeText(getContext(), "Email Sent!", Toast.LENGTH_LONG).show();
+
+//                if(Fuser!=null){
+//                    Fuser.reload();
+//                    if(!firebaseUser.isEmailVerified()) {
+//                        firebaseUser.sendEmailVerification();
+//                        Toast.makeText(PatientProfile.this, "Email Sent!", Toast.LENGTH_LONG).show();
+//                    }else {
+//                        Toast.makeText(PatientProfile.this, "Your email has been verified! You can login now.", Toast.LENGTH_LONG).show();
+//                    }
+//                }
+            }
+        });
 
     }
 
@@ -265,8 +286,8 @@ public class PatientProfile extends Fragment {
             displayName();
         }
 
-
-        if(checkIfEmailVerified() == false ){
+        user.reload();
+        if(!user.isEmailVerified()){
             alert.setVisibility(View.VISIBLE);
         }else{
             alert.setVisibility(View.GONE);
@@ -337,6 +358,8 @@ public class PatientProfile extends Fragment {
                 });
 
     }
+
+
     private boolean checkIfEmailVerified() {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -366,6 +389,7 @@ public class PatientProfile extends Fragment {
         }
 
     }
+
     public  void updateToken(String token){
 
         DocumentReference userTokenDR = FirebaseFirestore.getInstance().collection("Tokens").document(mAuth.getUid());

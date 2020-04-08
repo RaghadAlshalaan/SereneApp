@@ -311,6 +311,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     void stopLocationUpdateRepeatingTask() {
+        if (locationUpdateHandler!= null)
         locationUpdateHandler.removeCallbacks(locationUpdateRunnable);
     }
 
