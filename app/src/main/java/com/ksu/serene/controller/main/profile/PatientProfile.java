@@ -156,18 +156,20 @@ public class PatientProfile extends Fragment {
             @Override
             public void onClick(View view) {
 
-                user.sendEmailVerification();
-                Toast.makeText(getContext(), "Email Sent!", Toast.LENGTH_LONG).show();
+                user.sendEmailVerification()
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Toast.makeText(getContext(), R.string.VervEmailSuccess, Toast.LENGTH_LONG).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getContext(), R.string.VervEmailFialed, Toast.LENGTH_LONG).show();
+                            }
+                        });
 
-//                if(Fuser!=null){
-//                    Fuser.reload();
-//                    if(!firebaseUser.isEmailVerified()) {
-//                        firebaseUser.sendEmailVerification();
-//                        Toast.makeText(PatientProfile.this, "Email Sent!", Toast.LENGTH_LONG).show();
-//                    }else {
-//                        Toast.makeText(PatientProfile.this, "Your email has been verified! You can login now.", Toast.LENGTH_LONG).show();
-//                    }
-//                }
             }
         });
 
@@ -259,7 +261,7 @@ public class PatientProfile extends Fragment {
                                         doctor.setText(document.getString("name"));
                                     }} }
                             else{
-                                doctor.setText("No Doctor");
+                                doctor.setText(R.string.NoDoc);
                             }
                         }
                         else {
@@ -299,12 +301,14 @@ public class PatientProfile extends Fragment {
     public void logoutDialog() {
 
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+        //set Title
+        alertDialog.setTitle(R.string.LogOut);
 
         //set dialog msg
-        alertDialog.setMessage("Are you sure you want to logout ?");
+        alertDialog.setMessage(R.string.LogOutMsg);
 
         //set Yes Btn
-        alertDialog.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton(R.string.LogOutOK, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int i) {
                         logout();
                     }//end of OnClick
@@ -312,7 +316,7 @@ public class PatientProfile extends Fragment {
         );//end setPositiveButton
 
         //set Cancel Button
-        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(R.string.LogOutCancle, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int i) {
                         dialog.cancel();
@@ -342,6 +346,7 @@ public class PatientProfile extends Fragment {
                         // [START auth_sign_out]
                         mAuth.signOut();
                         if (mAuth.getCurrentUser() == null) {
+                            Toast.makeText(getContext(), R.string.LogOutSuccess, Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(getActivity(), WelcomePage.class);
                             startActivity(intent);
                             getActivity().finish();
@@ -353,6 +358,7 @@ public class PatientProfile extends Fragment {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), R.string.LogOutFialed, Toast.LENGTH_LONG).show();
                         Log.w(TAG, "Error updating document", e);
                     }
                 });

@@ -44,6 +44,10 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
         delete = findViewById(R.id.delete);
         edit = findViewById(R.id.SaveChanges);
 
+        if ( TDID == null ){
+            TDID = "test_text_note142753";
+        }
+
         db.collection("TextDraft")
                 .document(TDID)
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -65,8 +69,8 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
                 //show window dialog with 2 button yes and no
                 new AlertDialog.Builder(PatientTextDraftDetailPage.this)
                         .setTitle("Delete Draft")
-                        .setMessage("Are you sure you want to delete this Draft ? ")
-                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                        .setMessage(R.string.DeleteMessageTD)
+                        .setPositiveButton(R.string.DeleteOKTD, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, final int i) {
                                 db.collection("TextDraft")
@@ -75,19 +79,19 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
-                                                Toast.makeText(PatientTextDraftDetailPage.this, "Text Draft deleted successfully", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(PatientTextDraftDetailPage.this, R.string.TDDeletedSuccess, Toast.LENGTH_LONG).show();
                                                 finish();
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(PatientTextDraftDetailPage.this, "Text Draft did not delete, try again.", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(PatientTextDraftDetailPage.this, R.string.TDDeletedFialed, Toast.LENGTH_LONG).show();
                                             }
                                         });
                             }
                         })
-                        .setNegativeButton("Cancel", null)
+                        .setNegativeButton(R.string.DeleteCancleTD, null)
                         .show();
             }
         });
@@ -103,14 +107,14 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    //Toast.makeText(PatientTextDraftDetailPage.this, "Updated Successfully", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(PatientTextDraftDetailPage.this, R.string.TDUpdatedSuccess, Toast.LENGTH_LONG).show();
                                     finish();
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    //Toast.makeText(PatientTextDraftDetailPage.this, "Did Not Update, Try Again", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(PatientTextDraftDetailPage.this, R.string.TDUpdatedFialed, Toast.LENGTH_LONG).show();
                                 }
                             });
                 }
@@ -123,7 +127,7 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
         if (!(TextUtils.isEmpty(TitleDraft)) && !(TextUtils.isEmpty(Message))) {
             return true;
         } else {
-            Toast.makeText(PatientTextDraftDetailPage.this, "All Fields Required", Toast.LENGTH_LONG).show();
+            Toast.makeText(PatientTextDraftDetailPage.this, R.string.EmptyFields, Toast.LENGTH_LONG).show();
             return false;
         }
     }

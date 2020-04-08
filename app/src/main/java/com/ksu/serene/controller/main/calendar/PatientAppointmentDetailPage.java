@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -61,9 +62,9 @@ public class PatientAppointmentDetailPage extends AppCompatActivity {
             }
         });
 
-        /* needed for test
-        if (AppID == null){
-            AppID = "";
+        //test
+        /*if ( AppID == null ){
+            AppID = "fe9621e0-8f4b-4f0e-b04d-3f821b6328f2";
         }*/
 
         db.collection("PatientSessions")
@@ -88,9 +89,9 @@ public class PatientAppointmentDetailPage extends AppCompatActivity {
             public void onClick(View view) {
                 //show window dialog with 2 button yes and no
                 new AlertDialog.Builder(PatientAppointmentDetailPage.this)
-                        .setTitle("Delete Appointment")
-                        .setMessage("Are you sure you want to delete this Appointment Reminder ?")
-                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                        .setTitle(R.string.DeleteApp)
+                        .setMessage(R.string.DeleteMessageApp)
+                        .setPositiveButton(R.string.DeleteOKApp, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 db.collection("PatientSessions")
@@ -120,27 +121,27 @@ public class PatientAppointmentDetailPage extends AppCompatActivity {
                                                     // Show a toast message depending on whether or not the delete was successful.
                                                     if (rowsDeleted == 0) {
                                                         // If no rows were deleted, then there was an error with the delete.
-                                                        Toast.makeText(PatientAppointmentDetailPage.this, "The App reminder was not found", Toast.LENGTH_LONG);
+                                                        //Toast.makeText(PatientAppointmentDetailPage.this, "The App reminder was not found", Toast.LENGTH_LONG);
+                                                        Log.d("Reminder deleted","The App reminder was not found");
                                                     } else {
                                                         // Otherwise, the delete was successful and we delete alarm and display a toast.
-
-
-                                                        Toast.makeText(PatientAppointmentDetailPage.this, "The App reminder was successfully cancelled", Toast.LENGTH_LONG);
+                                                       // Toast.makeText(PatientAppointmentDetailPage.this, "The App reminder was successfully cancelled", Toast.LENGTH_LONG);
+                                                        Log.d("Reminder deleted","The App reminder was successfully cancelled");
                                                     }
                                                 }
-                                                Toast.makeText(PatientAppointmentDetailPage.this, "The Appointment reminder deleted successfully", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(PatientAppointmentDetailPage.this, R.string.AppDeletedSuccess, Toast.LENGTH_LONG).show();
                                                 finish();
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(PatientAppointmentDetailPage.this, "The Appointment reminder did not delete", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(PatientAppointmentDetailPage.this, R.string.AppDeletedFialed, Toast.LENGTH_LONG).show();
                                             }
                                         });
                             }
                         })
-                        .setNegativeButton("Cancel", null)
+                        .setNegativeButton(R.string.DeleteCancleApp, null)
                         .show();
             }
         });

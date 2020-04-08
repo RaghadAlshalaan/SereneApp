@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -150,7 +151,7 @@ public class Signup extends AppCompatActivity {
 
         if (!name.matches("^[ A-Za-z]+$")) {
             nameET.setText("");
-            Error.setText("* Enter valid name.");
+            Error.setText(R.string.NotValidName);
 
             return;
         }
@@ -158,15 +159,7 @@ public class Signup extends AppCompatActivity {
         if (!password.equals(confirmPassword)) {
             passwordET.setText("");
             confirmPasswordET.setText("");
-            Error.setText("* Password doesn't match.");
-
-            return;
-        }
-
-        if (password.length() < 8){
-            passwordET.setText("");
-            confirmPasswordET.setText("");
-            Error.setText("* Password must be at least 8 characters.");
+            Error.setText(R.string.NotMatchPass);
 
             return;
         }
@@ -249,6 +242,8 @@ public class Signup extends AppCompatActivity {
                             editor.putString("CURRENT_USERID",mAuth.getCurrentUser().getUid());
                             editor.apply();
 
+                            Toast.makeText(Signup.this, R.string.SignUpSuccess, Toast.LENGTH_LONG).show();
+
                             Intent i = new Intent( Signup.this, Questionnairs.class );
                             startActivity(i);
                             sendVerificationEmail();
@@ -257,17 +252,17 @@ public class Signup extends AppCompatActivity {
                         } else {
 
                             if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                                Error.setText("* Email already used by another account.");
+                                Error.setText(R.string.ExistUser);
 
                             } else if (task.getException() instanceof FirebaseAuthWeakPasswordException) {
-                                Error.setText("* Password must be at least 8 characters.");
+                                Error.setText(R.string.PasswordShort);
 
                             } else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                Error.setText("* Incorrect Email format.");
+                                Error.setText(R.string.NotValidEmail);
 
                             } else {
                                 // If sign in fails, display a message to the user.
-                                Error.setText("* Sign in Failed, Please try again");
+                                Error.setText(R.string.SignUpFialed);
                             }
 
                         }

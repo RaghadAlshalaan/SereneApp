@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -33,7 +34,7 @@ public class MyDoctor extends AppCompatActivity {
 
     private TextView email, name, edit;
     private Button delete, save;
-    private EditText nameET, emailET;
+    private TextView nameET, emailET;
     private FirebaseFirestore db = com.google.firebase.firestore.FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth;
     private ImageView check;
@@ -60,10 +61,9 @@ public class MyDoctor extends AppCompatActivity {
             public void onClick(View v) {
 
                 AlertDialog.Builder dialog = new AlertDialog.Builder(MyDoctor.this);
-                dialog.setTitle("Delete Doctor");
-                dialog.setMessage("After deleting this doctor s/he will no longer be linked with your account " +
-                        "and the automatic periodic reports will be disabled.");
-                dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                dialog.setTitle(R.string.DeleteDoc);
+                dialog.setMessage(R.string.DeleteMessageDoc);
+                dialog.setPositiveButton(R.string.DeleteOKDoc, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         db.collection("Doctor")
@@ -78,16 +78,28 @@ public class MyDoctor extends AppCompatActivity {
                                                     if(document.exists()) {
 
                                                         DocumentReference d= document.getReference();
-                                                        d.delete();
+                                                        d.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                Toast.makeText(MyDoctor.this,R.string.DocDeletedSuccess,
+                                                                        Toast.LENGTH_LONG).show();
+                                                                Intent in = new Intent(MyDoctor.this, MainActivity.class);
+                                                                startActivity(in);
+                                                                finish();
+                                                            }
+                                                        })
+                                                                .addOnFailureListener(new OnFailureListener() {
+                                                                    @Override
+                                                                    public void onFailure(@NonNull Exception e) {
+                                                                        Toast.makeText(MyDoctor.this,R.string.DocDeletedFialed,
+                                                                                Toast.LENGTH_LONG).show();
+                                                                    }
+                                                                });
 
                                                     }
                                                 }
                                             }
-                                            Toast.makeText(MyDoctor.this, "Doctor deleted",
-                                                    Toast.LENGTH_SHORT).show();
-                                            Intent in = new Intent(MyDoctor.this, MainActivity.class);
-                                            startActivity(in);
-                                            finish();
+
                                         }
                                         else {
                                             Toast.makeText(MyDoctor.this, task.getException().getMessage(),
@@ -101,7 +113,7 @@ public class MyDoctor extends AppCompatActivity {
 
                 });// end dialog onclick
 
-                dialog.setNegativeButton("Cancel",null);
+                dialog.setNegativeButton(R.string.DeleteCancleDoc,null);
 
                 AlertDialog alertDialog =  dialog.create();
                 alertDialog.show();

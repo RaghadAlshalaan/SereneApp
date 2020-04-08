@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -13,6 +15,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.fangxu.allangleexpandablebutton.AllAngleExpandableButton;
 import com.fangxu.allangleexpandablebutton.ButtonData;
 import com.fangxu.allangleexpandablebutton.ButtonEventListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ksu.serene.R;
 
 import com.google.android.material.tabs.TabLayout;
@@ -24,6 +27,10 @@ import java.util.List;
 public class draftsFragment extends Fragment {
 
     private View root;
+    //floating buttons
+    private FloatingActionButton add, addVoice, addText;
+    private Animation fabOpen, fabClose, rotateFor, rotateBac;
+    private boolean isopen = false;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -34,22 +41,61 @@ public class draftsFragment extends Fragment {
 
         //setUpViewPager
         draftPageAdpater pageAdpater = new draftPageAdpater(getChildFragmentManager());
-        pageAdpater.addFragment(new allDraft() , "ALL");
-        pageAdpater.addFragment(new TextDraftFragment() , "TEXT");
-        pageAdpater.addFragment(new VoiceDraftFragment() , "VOICE");
+        pageAdpater.addFragment(new allDraft() , getResources().getString(R.string.All));
+        pageAdpater.addFragment(new TextDraftFragment() , getResources().getString(R.string.TEXT));
+        pageAdpater.addFragment(new VoiceDraftFragment() , getResources().getString(R.string.VOICE));
         viewPager.setAdapter(pageAdpater);
 
         TabLayout tabs = root.findViewById(R.id.TabLayoutDraft);
         tabs.setupWithViewPager(viewPager);
 
-        installButton110to250();
+        //dec floating buttons
+        add = root.findViewById(R.id.button_expandable_110_250);
+        addVoice = root.findViewById(R.id.AddVoiceButton);
+        //by defual hide
+        addVoice.hide();
+        addText = root.findViewById(R.id.AddTextButton);
+        addText.hide();
+        fabOpen = AnimationUtils.loadAnimation(getContext(), R.anim.fab_open);
+        fabClose = AnimationUtils.loadAnimation(getContext(), R.anim.fab_close);
+        rotateFor= AnimationUtils.loadAnimation(getContext(), R.anim.fab_rotate_anticlock);
+        rotateBac= AnimationUtils.loadAnimation(getContext(), R.anim.fab_rotate_clock);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                animateFab();
+            }
+        });
+        addVoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), AddVoiceDraftPage.class));
+            }
+        });
+        addText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), AddTextDraftPage.class));
+            }
+        });
+
+        //installButton110to250();
 
         return root;
 
     }//onCreate()
 
+    @Override
+    public void onResume() {
+        isopen = true;
+        animateFab();
+        addVoice.hide();
+        addText.hide();
+        super.onResume();
+    }
 
-    private void installButton110to250() {
+
+    /*private void installButton110to250() {
 
         final AllAngleExpandableButton button = root.findViewById(R.id.button_expandable_110_250);
         final List<ButtonData> buttonDatas = new ArrayList<>();
@@ -98,6 +144,29 @@ public class draftsFragment extends Fragment {
             public void onCollapse() {
             }
         });
+    }*/
+
+    private void animateFab() {
+        if (isopen){
+            add.startAnimation(rotateFor);
+            //addMed.startAnimation(fabClose);
+            //addApp.startAnimation(fabClose);
+            addVoice.setClickable(false);
+            addText.setClickable(false);
+            addVoice.hide();
+            addText.hide();
+            isopen = false;
+        }
+        else {
+            add.startAnimation(rotateBac);
+            addVoice.show();
+            addText.show();
+            addVoice.startAnimation(fabOpen);
+            addText.startAnimation(fabOpen);
+            addVoice.setClickable(true);
+            addText.setClickable(true);
+            isopen = true;
+        }
     }
 
 }

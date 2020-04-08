@@ -21,6 +21,7 @@ import android.widget.ArrayAdapter;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -104,25 +105,33 @@ public class Sociodemo extends Fragment {
                                                 String id = document.getId();
 
                                                 db.collection("Patient")
-                                                        .document(id).update(userSocio);
+                                                        .document(id).update(userSocio)
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        //added this toast needed in test
+                                                        Toast.makeText(getActivity(), R.string.SocioSuccess,
+                                                                Toast.LENGTH_SHORT).show();
 
+                                                        GAD7 fragmentGAD = new GAD7();
+                                                        FragmentManager fm = getFragmentManager();
+                                                        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                                                        fragmentTransaction.replace(R.id.qContainer, fragmentGAD);
+                                                        fragmentTransaction.addToBackStack(null);
+                                                        fragmentTransaction.commit();
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(getActivity(), R.string.SocioFialed,
+                                                                Toast.LENGTH_LONG).show();
+                                                    }
+                                                });
                                             }
-
-                                            //added this toast needed in test
-                                            Toast.makeText(getActivity(), "Success going to next",
-                                                    Toast.LENGTH_SHORT).show();
-
-                                            GAD7 fragmentGAD = new GAD7();
-                                            FragmentManager fm = getFragmentManager();
-                                            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                                            fragmentTransaction.replace(R.id.qContainer, fragmentGAD);
-                                            fragmentTransaction.addToBackStack(null);
-                                            fragmentTransaction.commit();
-
                                         } else {
 
-                                            Toast.makeText(getActivity(), "Error getting documents: ",
-                                                    Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getActivity(), R.string.SocioFialed,
+                                                    Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 }
@@ -239,95 +248,42 @@ public class Sociodemo extends Fragment {
         monthlyIncome = monthlyIncomeET.getText().toString();
         chronicDisease = chronicDiseaseET.getText().toString();
 
+        if( heightET.getText().toString().matches("") || weightET.getText().toString().matches("") || employmentStatus.matches("") || maritalStatus.matches("") ||
+                monthlyIncomeET.getText().toString().matches("") || cigaretteSmoke.matches("") || ageET.getText().toString().matches("") || chronicDiseaseET.getText().toString().matches("")) {
+
+            Toast.makeText(getActivity(), R.string.EmptyFields,Toast.LENGTH_LONG).show();
+            return flag;
+
+        }
 
         // Fields Validations
-
-        if( height.matches("") || weight.matches("") || employmentStatus.matches("") || maritalStatus.matches("") ||
-                monthlyIncome.matches("") || cigaretteSmoke.matches("") || age.matches("") || chronicDisease.matches("")) {
-
-            Toast.makeText(getActivity(), "All questions are required",
-                    Toast.LENGTH_SHORT).show();
-            return flag;
-
-        }
-
-
-        // CHECK AGE
-        if( !age.matches("^[0-9]+") ){
-
-            Toast.makeText(getActivity(), "Please enter valid age value",
-                    Toast.LENGTH_SHORT).show();
-            return flag;}
-
         double ageI = Double.parseDouble(age);
-
         if ((ageI > 110) || (ageI < 5)){
-
-            Toast.makeText(getActivity(), "Please enter valid age value",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.NotValidAge,Toast.LENGTH_LONG).show();
             return flag;
-
         }
-
-
-        // CHECK HEIGHT
-        if( !height.matches("^[0-9]+") ){
-
-            Toast.makeText(getActivity(), "Please enter valid height value",
-                    Toast.LENGTH_SHORT).show();
-            return flag;}
 
         double heightI = Double.parseDouble(height);
-
         if ((heightI > 300) || (heightI < 50)){
-
-            Toast.makeText(getActivity(), "Please enter valid height value",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.NotValidHeight,Toast.LENGTH_LONG).show();
             return flag;
-
         }
-
-
-        // CHECK WEIGHT
-        if( !weight.matches("^[0-9]+") ){
-
-            Toast.makeText(getActivity(), "Please enter valid weight value",
-                    Toast.LENGTH_SHORT).show();
-            return flag;}
 
         double weightI = Double.parseDouble(weight);
-
         if ((weightI > 300) || (weightI < 20)){
-
-            Toast.makeText(getActivity(), "Please enter valid weight value",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.NotValidWeight,Toast.LENGTH_LONG).show();
             return flag;
-
         }
 
-
-        // CHECK MONTHLY INCOME
-        if( !monthlyIncome.matches("^[0-9]+") ){
-
-            Toast.makeText(getActivity(), "Please enter valid monthly income value",
-                    Toast.LENGTH_SHORT).show();
-            return flag;}
-
         double monthlyIncomeI = Double.parseDouble(monthlyIncome);
-
         if ((monthlyIncomeI > 5000000) || (monthlyIncomeI < 0)){
-
-            Toast.makeText(getActivity(), "Please enter valid monthly income value",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.NotValidMI,Toast.LENGTH_LONG).show();
             return flag;
-
         }
 
         // CHECK CHRONIC DISEASE
         if( !chronicDisease.matches("^[ A-Za-z]+$")){
-
-            Toast.makeText(getActivity(), "Only letters accepted in chronic disease field",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.NotValidCD,Toast.LENGTH_LONG).show();
             return flag;
         }
 

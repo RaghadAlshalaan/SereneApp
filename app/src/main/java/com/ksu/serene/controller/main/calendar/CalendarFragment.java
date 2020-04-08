@@ -47,9 +47,16 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Date;
 
+import static android.view.View.*;
+
 public class CalendarFragment extends Fragment{
 
     private Context context = this.getContext();
+
+    //floating buttons
+    private  FloatingActionButton add, addMed, addApp;
+    private Animation fabOpen, fabClose, rotateFor, rotateBac;
+    private boolean isopen = false;
 
     //set for patient's appointments
     private String patientId;
@@ -80,9 +87,8 @@ public class CalendarFragment extends Fragment{
     private Date LDay;
     private Date time;
     private String date ;
-    private int year = 0;
-    private int month = 0;
-    private int day = 0;
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+    private Date currentDate = Calendar.getInstance().getTime();
 
     // Add Buttons
     private CalendarView calenderView;
@@ -98,6 +104,41 @@ public class CalendarFragment extends Fragment{
         //retrieve the id of patient used for searching
         patientId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+        //dec floating buttons
+        add = root.findViewById(R.id.button_expandable_110_250);
+        addMed = root.findViewById(R.id.AddMedButton);
+        //by defual hide
+        addMed.hide();
+        addApp = root.findViewById(R.id.AddAppButton);
+        addApp.hide();
+        fabOpen = AnimationUtils.loadAnimation(getContext(), R.anim.fab_open);
+        fabClose = AnimationUtils.loadAnimation(getContext(), R.anim.fab_close);
+        rotateFor= AnimationUtils.loadAnimation(getContext(), R.anim.fab_rotate_anticlock);
+        rotateBac= AnimationUtils.loadAnimation(getContext(), R.anim.fab_rotate_clock);
+        add.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                animateFab();
+            }
+        });
+        addMed.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), Add_Medicine_Page.class);
+                intent.putExtra("date", date);
+                startActivity(intent);
+            }
+        });
+        addApp.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentM = new Intent(getContext(), Add_Appointment_Page.class);
+                intentM.putExtra("date", date);
+                startActivity(intentM);
+            }
+        });
+
+
         //set calender view
         calenderView = root.findViewById(R.id.calendarView2);
         calendar.set(2019,1,1);
@@ -107,26 +148,34 @@ public class CalendarFragment extends Fragment{
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
                 SetAppRecyView (root,i, i1+1, i2);
                 SetMedRecyView (root, i, i1+1, i2);
-                if ((i1+1)<10){
-                    if (i2 > 10)
-                        date = i2+"/0"+(i1+1)+"/"+i;
-                    else if (i2 < 10 )
-                        date = "0"+i2+"/0"+(i1+1)+"/"+i;
+                //TODO check when the date in past do nothing
+                String simpleDateFormat = sdf.format(currentDate);
+                int yearCurrent = Integer.parseInt(simpleDateFormat.substring(6,simpleDateFormat.length()));
+                //check when clendar date in past
+                if ( (yearCurrent > i) ||
+                        ( yearCurrent == i && (currentDate.getMonth()+1) > (i1+1) )
+                        || (yearCurrent == i && (currentDate.getMonth()+1) == (i1+1) && currentDate.getDate() > i2) ){
+                    Log.d("Past", "Calendar Time");
+                    date = null;
                 }
                 else {
-                    if (i2 > 10)
-                        date = i2+"/"+(i1+1)+"/"+i;
-                    else if (i2 < 10 )
-                        date = "0"+i2+"/"+(i1+1)+"/"+i;
+                    if ((i1 + 1) < 10) {
+                        if (i2 > 10)
+                            date = i2 + "/0" + (i1 + 1) + "/" + i;
+                        else if (i2 < 10)
+                            date = "0" + i2 + "/0" + (i1 + 1) + "/" + i;
+                    } else {
+                        if (i2 > 10)
+                            date = i2 + "/" + (i1 + 1) + "/" + i;
+                        else if (i2 < 10)
+                            date = "0" + i2 + "/" + (i1 + 1) + "/" + i;
+                    }
                 }
-                year = i;
-                month = (i1+1);
-                day = i2;
                 updateView();
             }
         });
 
-        installButton110to250();
+       // installButton110to250();
 
         return root;
     }
@@ -308,7 +357,7 @@ public class CalendarFragment extends Fragment{
         recyclerViewMedicine.setAdapter(adapterMedicines);
     }
 
-    private void installButton110to250() {
+    /*private void installButton110to250() {
 
         final AllAngleExpandableButton button = root.findViewById(R.id.button_expandable_110_250);
         final List<ButtonData> buttonDatas = new ArrayList<>();
@@ -319,13 +368,14 @@ public class CalendarFragment extends Fragment{
             ButtonData buttonData;
             if (i == 0) {
                 buttonData = ButtonData.buildIconButton(getContext(), drawable[i], 7);
+                button.setButtonDatas(buttonDatas);
             }else {
                 buttonData = ButtonData.buildIconButton(getContext(), drawable[i], 8);
             }
             buttonData.setBackgroundColorId(getContext(), color[i]);
             buttonDatas.add(buttonData);
         }
-        button.setButtonDatas(buttonDatas);
+        //button.setButtonDatas(buttonDatas);
         setListener(button);
 
 
@@ -361,10 +411,36 @@ public class CalendarFragment extends Fragment{
             }
 
         });
-    }
+    }*/
 
+    private void animateFab() {
+        if (isopen){
+            add.startAnimation(rotateFor);
+            //addMed.startAnimation(fabClose);
+            //addApp.startAnimation(fabClose);
+            addMed.setClickable(false);
+            addApp.setClickable(false);
+            addMed.hide();
+            addApp.hide();
+            isopen = false;
+        }
+        else {
+            add.startAnimation(rotateBac);
+            addMed.show();
+            addApp.show();
+            addMed.startAnimation(fabOpen);
+            addApp.startAnimation(fabOpen);
+            addMed.setClickable(true);
+            addApp.setClickable(true);
+            isopen = true;
+        }
+    }
     @Override
     public void onResume() {
+        isopen = true;
+        animateFab();
+        addMed.hide();
+        addApp.hide();
         super.onResume();
         /*if (year != 0 && month!=0 && day!= 0){
             listAppointements.clear();

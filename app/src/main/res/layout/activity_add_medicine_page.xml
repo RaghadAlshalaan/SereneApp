@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".controller.main.calendar.Add_Appointment_Page">
+    tools:context=".controller.main.calendar.Add_Medicine_Page"
+    android:id="@+id/Add_Medicine_Page">
+
 
     <ImageView
         android:id="@+id/backButton"
@@ -18,13 +20,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/Add_Medicine_Page"
+        android:id="@+id/Add_Medicine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/montserrat"
         android:gravity="center"
-        android:text="Medicine Reminder"
+        android:text="@string/AddMed"
         android:textColor="#000000"
         android:textSize="25sp"
         android:textStyle="bold"
@@ -39,7 +41,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="100dp"
         android:fontFamily="@font/montserrat"
-        android:text="Name"
+        android:text="@string/TitleApp"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -82,7 +84,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/montserrat"
-        android:text="Starting from day"
+        android:text="@string/SDMed"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +99,7 @@
         android:background="@drawable/custom_edit_text"
         android:elevation="0dp"
         android:fontFamily="@font/montserrat"
-        android:text="Start"
+        android:text="@string/StartMedDate"
         android:textSize="15dp"
         app:layout_constraintStart_toEndOf="@+id/calIcon"
         app:layout_constraintTop_toBottomOf="@+id/DateTV" />
@@ -136,7 +138,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/montserrat"
-        android:text="Time of first reminder"
+        android:text="@string/STMed"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -162,7 +164,7 @@
         android:layout_marginEnd="32dp"
         android:background="@drawable/custom_edit_text"
         android:fontFamily="@font/montserrat"
-        android:text="Set Time"
+        android:text="@string/SetTimeApp"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cloIcon"
@@ -176,7 +178,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/montserrat"
-        android:text="Dose"
+        android:text="@string/DoseMed"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -203,7 +205,7 @@
         android:background="@drawable/custom_edit_text"
         android:fontFamily="@font/montserrat"
         android:gravity="center"
-        android:hint="SET DOSE"
+        android:hint="@string/SetDoseMed"
         android:inputType="phone"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -218,7 +220,7 @@
         android:layout_below="@id/MedicineDose"
         android:layout_marginEnd="7dp"
         android:fontFamily="@font/montserrat"
-        android:text="Repeat"
+        android:text="@string/RepMed"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintEnd_toStartOf="@+id/repeatInterval"
@@ -250,7 +252,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/RepeatView"
         android:fontFamily="@font/montserrat"
-        android:text="Every"
+        android:text="@string/EvMed"
         app:layout_constraintStart_toStartOf="@+id/RepeatView"
         app:layout_constraintTop_toTopOf="@+id/repeatInterval" />
 
@@ -276,7 +278,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:fontFamily="@font/montserrat"
-        android:text="times"
+        android:text="@string/timesMed"
         app:layout_constraintStart_toEndOf="@+id/repeatNO"
         app:layout_constraintTop_toTopOf="@+id/repeatInterval" />
 
@@ -302,7 +304,7 @@
         android:background="@drawable/main_button"
         android:fontFamily="@font/montserrat"
         android:padding="3dp"
-        android:text="Confirm"
+        android:text="@string/SaveApp"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/white"

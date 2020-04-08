@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".controller.main.profile.AddDoctor">
+    tools:context=".controller.main.profile.AddDoctor"
+    android:id="@+id/AddDoctor">
 
     <ImageView
         android:id="@+id/backButton"
@@ -19,13 +20,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/add_Appointment"
+        android:id="@+id/add_Doctor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/montserrat"
         android:gravity="center"
-        android:text="Add Doctor"
+        android:text="@string/AddDoc"
         android:textColor="#000000"
         android:textSize="25sp"
         android:textStyle="bold"
@@ -40,7 +41,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="100dp"
         android:fontFamily="@font/montserrat"
-        android:text="Doctor Name"
+        android:text="@string/AddDocName"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -65,7 +66,6 @@
         app:layout_constraintTop_toBottomOf="@+id/NameTV" />
 
 
-
     <TextView
         android:id="@+id/DateTV"
         android:layout_width="0dp"
@@ -74,7 +74,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/montserrat"
-        android:text="Doctor Email"
+        android:text="@string/AddDocEmail"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -145,7 +145,7 @@
         android:background="@drawable/main_button"
         android:fontFamily="@font/montserrat"
         android:padding="3dp"
-        android:text="Add Doctor"
+        android:text="@string/SaveDoc"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/white"

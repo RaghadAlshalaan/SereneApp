@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -30,16 +31,24 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.ksu.serene.model.MySharedPreference;
 import com.ksu.serene.R;
 import com.ksu.serene.WelcomePage;
+import com.ksu.serene.model.Token;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Editprofile extends AppCompatActivity {
@@ -54,6 +63,11 @@ public class Editprofile extends AppCompatActivity {
     private String TAG = Editprofile.class.getSimpleName();
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private TextView save;
+    private Button ForgetPassword;
+    private String email;
+    private String pastName;
+    private boolean ChangePass = false;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,6 +84,42 @@ public class Editprofile extends AppCompatActivity {
         newPass = findViewById(R.id.newPassword);
         confirmPass = findViewById(R.id.reNewPassword);
         delete = findViewById(R.id.delete);
+        ForgetPassword = findViewById(R.id.forgetPassword);
+
+        //retrieve past name
+        PastName ();
+
+        ForgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //retrieve email from firebase
+                DocumentReference userName = db.collection("Patient").document(mAuth.getUid());
+                userName.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        email = documentSnapshot.get("email").toString();
+                        if (email != null) {
+                            mAuth.sendPasswordResetEmail(email)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            Toast.makeText(Editprofile.this, R.string.ForgetPassSuccess, Toast.LENGTH_LONG).show();
+                                            //log out user
+                                            logout();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(Editprofile.this, R.string.ForgetPassFialed, Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                        }
+                    }
+                });
+            }
+        });
+
 
         // TODO : REMOVE CHANGE PASSWORD IF GOOGLE SIGN IN
 
@@ -84,23 +134,54 @@ public class Editprofile extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateName(name.getText().toString());
                 uploadFile();
+                //update name if the edit not empty && new name not equal past name or when no past name
+                if ( !(TextUtils.isEmpty(name.getText().toString())) ) {
+
+                    if (!name.getText().toString().matches("^[ A-Za-z]+$")) {
+                        if (pastName != null)
+                            name.setText(pastName);
+                        Toast.makeText(Editprofile.this,R.string.NotCorrectName , Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    if ( pastName!= null && !(pastName.equals(name.getText().toString())))
+                        updateName(name.getText().toString());
+
+                    else if (pastName == null)
+                        updateName(name.getText().toString());
+                }
+                //when name empty
+                else {
+                    Toast.makeText(Editprofile.this, R.string.EmptyName, Toast.LENGTH_LONG).show();
+                    return;
+                }
 
                 if(!oldPass.getText().toString().equals("") &&! newPass.getText().toString().equals("")
-                        && !confirmPass.getText().toString().equals("") && (oldPass.getText().toString().length()>=8
-                        && newPass.getText().toString().length()>=8
-                        && confirmPass.getText().toString().length()>=8)){
-
-                changePassword(oldPass.getText().toString(),newPass.getText().toString(),confirmPass.getText().toString());}
+                        && !confirmPass.getText().toString().equals("") && (oldPass.getText().toString().length()>=6
+                        && newPass.getText().toString().length()>=6
+                        && confirmPass.getText().toString().length()>=6)){
+                    //first check when new pass == confirm new pass
+                    if (!newPass.getText().toString().equals(confirmPass.getText().toString())) {
+                        Toast.makeText(Editprofile.this, R.string.passwordMatch,Toast.LENGTH_LONG).show();
+                        newPass.setText("");
+                        confirmPass.setText("");
+                        return;
+                    }//end if
+                    //check if new pass == old pass
+                    if(checkPassword(oldPass.getText().toString(),newPass.getText().toString())){
+                        return;
+                    }
+                    //call method when all if condition consulude then new pass == confirm && new pass not equal old pass
+                    changePassword(oldPass.getText().toString(),newPass.getText().toString(),confirmPass.getText().toString());
+                }
 
                 else if(!oldPass.getText().toString().equals("") &&! newPass.getText().toString().equals("")
-                        && !confirmPass.getText().toString().equals("") &&(oldPass.getText().toString().length()<8
-                        ||newPass.getText().toString().length()<8
-                        || confirmPass.getText().toString().length()<8)){
+                        && !confirmPass.getText().toString().equals("") &&(oldPass.getText().toString().length()<6
+                        ||newPass.getText().toString().length()<6
+                        || confirmPass.getText().toString().length()<6)){
 
                     Toast.makeText(Editprofile.this, R.string.passwordChar,
-                            Toast.LENGTH_SHORT).show();
+                            Toast.LENGTH_LONG).show();
 
                     oldPass.setText("");
                     newPass.setText("");
@@ -118,31 +199,89 @@ public class Editprofile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(Editprofile.this);
-                dialog.setTitle("Are you sure?");
-                dialog.setMessage("Deleting this account will result in completely removing your " +
-                        "account from the system, you won't be able to access your account again.");
-                dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                dialog.setTitle(R.string.DeleteAcc);
+                dialog.setMessage(R.string.DeleteMessageAcc);
+                dialog.setPositiveButton(R.string.DeleteOKAcc, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mAuth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()){
-
+                                    //TODO REMOVE ALL THE REMINDERS AND DRAFTS FOR THE PATIENT ID
+                                    //Remove Med Reminders
+                                    final CollectionReference referenceMedicine = FirebaseFirestore.getInstance().collection("PatientMedicin");
+                                    final Query queryPatientMedicine = referenceMedicine.whereEqualTo("patinetID",mAuth.getUid());
+                                    queryPatientMedicine.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    //Delete all the document
+                                                    referenceMedicine.document(document.getId()).delete();
+                                                }
+                                            }
+                                        }
+                                    });
+                                    //Remove App Reminders
+                                    final CollectionReference referenceApp = FirebaseFirestore.getInstance().collection("PatientSessions");
+                                    final Query queryPatientApp = referenceApp.whereEqualTo("patinetID",mAuth.getUid());
+                                    queryPatientApp.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    //Delete all the document
+                                                    referenceApp.document(document.getId()).delete();
+                                                }
+                                            }
+                                        }
+                                    });
+                                    //remove text draft
+                                    final CollectionReference referenceTDraft = FirebaseFirestore.getInstance().collection("TextDraft");
+                                    final Query queryPatientTDraft = referenceTDraft.whereEqualTo("patinetID",mAuth.getUid());
+                                    queryPatientTDraft.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    //Delete all the document
+                                                    referenceTDraft.document(document.getId()).delete();
+                                                }
+                                            }
+                                        }
+                                    });
+                                    //remove audio draft
+                                    final CollectionReference referenceADraft = FirebaseFirestore.getInstance().collection("AudioDraft");
+                                    final Query queryPatientADraft = referenceADraft.whereEqualTo("patinetID",mAuth.getUid());
+                                    queryPatientADraft.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    //Delete all the document
+                                                    referenceADraft.document(document.getId()).delete();
+                                                }
+                                            }
+                                        }
+                                    });
+                                    Toast.makeText(Editprofile.this,R.string.AccDeletedSuccess , Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(Editprofile.this, WelcomePage.class);
                                     startActivity(intent);
                                     finish();
                                 }
+
                                 else{
-                                    Toast.makeText(Editprofile.this, task.getException().getMessage(),
-                                            Toast.LENGTH_SHORT).show();
+                                    Log.d("errror Delete",task.getException().getMessage());
+                                    Toast.makeText(Editprofile.this, R.string.AccDeletedFialed,
+                                            Toast.LENGTH_LONG).show();
                                 }
                             }
                         });
                     }
                 });
 
-                dialog.setNegativeButton("Cancel",null);
+                dialog.setNegativeButton(R.string.DeleteCancleAcc,null);
 
                 AlertDialog alertDialog =  dialog.create();
                 alertDialog.show();
@@ -190,7 +329,7 @@ public class Editprofile extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.SelectPicture) ), PICK_IMAGE_REQUEST);
 
     }
 
@@ -283,6 +422,11 @@ public class Editprofile extends AppCompatActivity {
                                             Log.d(TAG, "User profile updated.");
 
                                             MySharedPreference.putString(Editprofile.this, "name", newName);
+                                            if ( TextUtils.isEmpty(oldPass.getText().toString()) && TextUtils.isEmpty(newPass.getText().toString())
+                                                    && TextUtils.isEmpty(confirmPass.getText().toString())){
+                                                Toast.makeText(Editprofile.this, R.string.UpdateNameSuccess, Toast.LENGTH_LONG).show();
+                                                finish();
+                                            }
 
                                         }
                                     }
@@ -294,26 +438,28 @@ public class Editprofile extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error updating document", e);
+                        Toast.makeText(Editprofile.this, R.string.UpdateNameFialed, Toast.LENGTH_LONG).show();
                     }
                 });
 
 
     }// updateName()
 
-    public void changePassword(String oldPassword, final String newPassword, String confirmNewPassword) {
+    public boolean changePassword(String oldPassword, final String newPassword, String confirmNewPassword) {
+        //remove this check update the place to be in the if when calling this change methos
         //if the new password doesn't match show message otherwise change password
-        if (!newPassword.equals(confirmNewPassword)) {
+        /*if (!newPassword.equals(confirmNewPassword)) {
             Toast.makeText(Editprofile.this, R.string.passwordMatch,
                     Toast.LENGTH_SHORT).show();
             newPass.setText("");
             confirmPass.setText("");
             return;
-        }//end if
+        }//end if*/
 
         //check if the the new password not the same the old password
-        if(checkPassword(oldPassword,newPassword)){
+        /*if(checkPassword(oldPassword,newPassword)){
             return;
-        }
+        }*/
         // get user email from FireBase
        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String email = "";
@@ -338,22 +484,40 @@ public class Editprofile extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(Editprofile.this, R.string.passwordUpdate, Toast.LENGTH_LONG).show();
+                                        ChangePass = true;
+                                        if (pastName != null && !TextUtils.isEmpty(name.getText().toString()) && pastName.equals(name.getText().toString())) {
+                                            Toast.makeText(Editprofile.this, R.string.passwordUpdate, Toast.LENGTH_LONG).show();
+                                            finish();
+                                        } else {
+                                            Toast.makeText(Editprofile.this, R.string.ProfileInfoUpdateSuccess, Toast.LENGTH_LONG).show();
+                                            finish();
+                                        }
 
                                     } else {
-                                        Toast.makeText(Editprofile.this, R.string.passwordNotUpdated, Toast.LENGTH_LONG).show();
+                                        ChangePass = false;
+                                        if (pastName != null && !TextUtils.isEmpty(name.getText().toString()) && pastName.equals(name.getText().toString())) {
+                                            Toast.makeText(Editprofile.this, R.string.passwordNotUpdated, Toast.LENGTH_LONG).show();
+                                        } else {
+                                            Toast.makeText(Editprofile.this, R.string.ProfileInfoUpdateFialed, Toast.LENGTH_LONG).show();
+                                        }
                                     }
                                 }
-                            });
-                        } else {
-                            Toast.makeText(Editprofile.this, R.string.wrongPassword, Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
+                                        });
+                                } else {
+                                    ChangePass = false;
+                                    Toast.makeText(Editprofile.this, R.string.wrongPassword, Toast.LENGTH_LONG).show();
+                                    oldPass.setText("");
+                                    newPass.setText("");
+                                    confirmPass.setText("");
+                                }
+                            }
+                        });
 
-    }//end changePassword()
+                        return ChangePass;
+                    }//end changePassword()
 
-    public boolean checkPassword(String oldPassword, String newPassword) {
+
+     public boolean checkPassword(String oldPassword, String newPassword) {
 
         if (oldPassword.equals(newPassword)) {
             Toast.makeText(Editprofile.this, R.string.passwordSame, Toast.LENGTH_SHORT).show();
@@ -366,4 +530,51 @@ public class Editprofile extends AppCompatActivity {
         }
 
     }
+
+    public void logout() {
+        // to delete the token after logout & avoid send him notification if he is logout
+        DocumentReference userTokenDR = FirebaseFirestore.getInstance().collection("Tokens").document(mAuth.getUid());
+        Token mToken = new Token("");
+
+        final Map<String, Object> tokenh = new HashMap<>();
+        tokenh.put("token",mToken);
+
+        userTokenDR
+                .update("token", mToken)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // [START auth_sign_out]
+                        mAuth.signOut();
+                        if (mAuth.getCurrentUser() == null) {
+                            Intent intent = new Intent(Editprofile.this, WelcomePage.class);
+                            startActivity(intent);
+                            //finish();
+                        }
+                        // [END auth_sign_out]
+                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error updating document", e);
+                    }
+                });
+
+    }
+
+    public void PastName () {
+        DocumentReference userName = db.collection("Patient").document(mAuth.getUid());
+        userName.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                //search if one of the socio quaestion founds
+                if (documentSnapshot.get("name") != null) {
+                    pastName = documentSnapshot.get("name").toString();
+                }
+            }
+        });
+    }
+
 }

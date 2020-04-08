@@ -32,10 +32,12 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.ksu.serene.controller.Constants;
+import com.ksu.serene.controller.signup.Questionnairs;
 import com.ksu.serene.controller.signup.Signup;
 import com.ksu.serene.model.Token;
 import com.nabinbhandari.android.permissions.PermissionHandler;
@@ -164,7 +166,7 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
     private void forgotPassword() {
 
         final android.app.AlertDialog.Builder resetPasswordDialog = new android.app.AlertDialog.Builder(LogInPage.this);
-        resetPasswordDialog.setTitle("Reset Password");
+        resetPasswordDialog.setTitle(R.string.ForgetPass);
 
         final EditText forgetEmailET = new EditText(LogInPage.this);
         forgetEmailET.setId(1);
@@ -173,26 +175,30 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
                 LinearLayout.LayoutParams.MATCH_PARENT);
         forgetEmailET.setLayoutParams(lp);
 
-        resetPasswordDialog.setMessage("If you do not know your current password,\nyou may change it.\nPlease enter your email");
+        resetPasswordDialog.setMessage(R.string.ForgetPassMessage);
 
         resetPasswordDialog.setView(forgetEmailET);
 
-        resetPasswordDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        resetPasswordDialog.setNegativeButton(R.string.ForgetPassCancle, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int i) {
                 dialog.cancel();
             }
         });//end setNegativeButton
 
-        resetPasswordDialog.setPositiveButton("Request New Password", new DialogInterface.OnClickListener() {
+        resetPasswordDialog.setPositiveButton(R.string.ForgetPassOK, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                if ( forgetEmailET.getText().toString().equals("") || !forgetEmailET.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
-                    Toast.makeText(getApplication(), "Please, enter your email correctly.", Toast.LENGTH_SHORT).show();
+                if ( forgetEmailET.getText().toString().equals("") ){
+                    Toast.makeText(getApplication(), R.string.EmptyEmail, Toast.LENGTH_LONG).show();
                     forgotPassword();
-
-                } else resetPassword(forgetEmailET.getText().toString());
+                }
+                if (!forgetEmailET.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
+                    Toast.makeText(getApplication(), R.string.NotCorrectEmail, Toast.LENGTH_LONG).show();
+                    forgotPassword();
+                }
+                else resetPassword(forgetEmailET.getText().toString());
 
             }
         });//end setPositiveButton
@@ -209,9 +215,9 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(LogInPage.this, "Email has been sent to reset your password!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LogInPage.this, R.string.ForgetPassSuccess, Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(LogInPage.this, "Failed to send reset email! Try again in moments.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LogInPage.this, R.string.ForgetPassFialed, Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -227,6 +233,8 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
+                        //first check if all sign up setting complate
+                        checkSingupSetting ();
                         checkIfEmailVerified();
 
                         String[] PERMISSIONS = {
@@ -253,17 +261,17 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
 
                         if (task.getException() instanceof FirebaseAuthInvalidUserException) {
                             //there is'n user with this Email
-                            Error.setText("* There is not user with this Email, Please try again!");
+                            Error.setText(R.string.NoUser);
 
                         } else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                             //the password is wrong
-                            Error.setText("* Wrong Password, Please try again!");
+                            Error.setText(R.string.wrongPassword);
 
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(LogInPage.this, R.string.auth,
-                                    Toast.LENGTH_SHORT).show();
+                                    Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -342,6 +350,51 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
         }
 
     }
+
+    private void checkSingupSetting () {
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        Log.d("user ID", user.getUid()+"");
+        //seach in firebase of that id
+        final DocumentReference userRev = FirebaseFirestore.getInstance().collection("Patient").document(user.getUid());
+        userRev.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                //search if one of the socio quaestion founds
+                if (documentSnapshot.get("age") != null) {
+                    Log.d("age", documentSnapshot.get("age").toString());
+                    Log.d("Socio", "Answered");
+                    //search if gad questions answered
+                    if (documentSnapshot.get("GAD-7ScaleScore") != null) {
+                        Log.d("GAD-7ScaleScore", documentSnapshot.get("GAD-7ScaleScore").toString());
+                        Log.d("GAD-7ScaleScore", "Answered");
+                        //search if fitbit connected
+                        if (documentSnapshot.get("fitbit_access_token") != null) {
+                            Log.d("fitbit_access_token", documentSnapshot.get("fitbit_access_token").toString());
+                            Log.d("fitbit_access_token", "Connected");
+                        }
+                        else {
+                            Log.d("fitbit_access_token", "Not Connected");
+                            //go to fit bit page
+
+                        }
+                    }
+                    else {
+                        Log.d("GAD-7ScaleScore", "Not Answered");
+                        //go to gad page
+
+                    }
+                }
+                else {
+                    Log.d("Socio", "Not Answered");
+                    Toast.makeText(LogInPage.this, R.string.SocioNotFound, Toast.LENGTH_LONG).show();
+                    //go to socio page
+                    Intent i = new Intent( LogInPage.this, Questionnairs.class );
+                    startActivity(i);
+                }
+            }
+        });
+    }
+
 
 
     @Override

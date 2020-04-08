@@ -151,7 +151,7 @@ public class Add_Appointment_Page extends AppCompatActivity {
         if ( !(TextUtils.isEmpty(AName)) && !(Time.getText().toString().equals("Set Time")) && !(Date.getText().toString().equals("Set Day"))  ){
             return true;
         }
-        Toast.makeText(Add_Appointment_Page.this,"All Fields Required", Toast.LENGTH_LONG).show();
+        Toast.makeText(Add_Appointment_Page.this,R.string.EmptyFields, Toast.LENGTH_LONG).show();
         return false;
     }
 
@@ -177,16 +177,15 @@ public class Add_Appointment_Page extends AppCompatActivity {
         if ( (AD.compareTo(CurrentDate) == 0 || AD.before(CurrentDate)) ) {
             //check for time, if it before current time return false with meaningful message
             if (AT.before(CuttentTime) || (AT.compareTo(CuttentTime) == 0)){
-                Toast.makeText(Add_Appointment_Page.this,"The chosen time must after now ", Toast.LENGTH_LONG).show();
+                Toast.makeText(Add_Appointment_Page.this, R.string.CurrentTime, Toast.LENGTH_LONG).show();
                 return false;
             }
             else {
                 return true;
             }
         }
-        else {
-            return false;
-        }
+         return false;
+
     }
 
     //save new appointment in firestore
@@ -223,11 +222,11 @@ public class Add_Appointment_Page extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             setReminder(newApp);
-                            Toast.makeText(Add_Appointment_Page.this, "The App added successfully", Toast.LENGTH_LONG).show();
+                            Toast.makeText(Add_Appointment_Page.this, R.string.AppSavedSuccess, Toast.LENGTH_LONG).show();
                             finish();
                             added = true;
                         } else {
-                            Toast.makeText(Add_Appointment_Page.this, "The App did not add", Toast.LENGTH_LONG).show();
+                            Toast.makeText(Add_Appointment_Page.this, R.string.AppSavedFialed, Toast.LENGTH_LONG).show();
                             added = false;
                         }
                     }
@@ -272,8 +271,8 @@ public class Add_Appointment_Page extends AppCompatActivity {
         // Show a toast message depending on whether or not the insertion was successful.
         if (newUri == null) {
             // If the new content URI is null, then there was an error with insertion.
-            Toast.makeText(this, "insert_reminder_failed",
-                    Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "insert_reminder_failed",Toast.LENGTH_SHORT).show();
+            Log.d("Reminder", "insert_reminder_failed");
         } else {
             // Otherwise, the insertion was successful and we can display a toast.
 
@@ -287,11 +286,11 @@ public class Add_Appointment_Page extends AppCompatActivity {
 
             //create new notification
             new AlarmScheduler().setAlarm(getApplicationContext(), selectedTimestamp, newUri);//no repeating
-            Toast.makeText(this, "Alarm time is at " + new java.text.SimpleDateFormat("dd/MM/yyyy hh:mm").format(new Date(selectedTimestamp)),
-                    Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "Alarm time is at " + new java.text.SimpleDateFormat("dd/MM/yyyy hh:mm").format(new Date(selectedTimestamp)),Toast.LENGTH_LONG).show();
+            Log.d("Alarm time is at ", new java.text.SimpleDateFormat("dd/MM/yyyy hh:mm").format(new Date(selectedTimestamp)));
 
-            Toast.makeText(this, "Reminder was successfully scheduled",
-                    Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Reminder was successfully scheduled",Toast.LENGTH_SHORT).show();
+            Log.d("Reminder: ", "Reminder was successfully scheduled");
         }
     }
 

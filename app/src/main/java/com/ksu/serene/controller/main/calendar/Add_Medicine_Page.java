@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -48,7 +49,6 @@ public class Add_Medicine_Page extends AppCompatActivity {
 
     private EditText MedicineName;
     private Button FromDay;
-    //private Button TillDay;
     private Button Time;
     private EditText Dose;
     private Button Confirm;
@@ -119,7 +119,6 @@ public class Add_Medicine_Page extends AppCompatActivity {
         back = findViewById(R.id.backButton);
         MedicineName = findViewById(R.id.nameET);
         FromDay = findViewById(R.id.MFromDays);
-        //TillDay = findViewById(R.id.MTillDays);
         Time = findViewById(R.id.MTime);
         Dose = findViewById(R.id.MedicineDose);
         //repeat inputs
@@ -151,7 +150,6 @@ public class Add_Medicine_Page extends AppCompatActivity {
         date = getIntent().getStringExtra("date");
         if (date != null){
             FromDay.setText(date);
-            //TillDay.setText(date);
         }
         //when day edit text click show calender view to choose the start and end days
         //the start day when click
@@ -165,17 +163,6 @@ public class Add_Medicine_Page extends AppCompatActivity {
                 datePickerDialogStartDate.show();
             }
         });
-        //the finish day when click
-       /* TillDay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DatePickerDialog datePickerDialogFinishDate = new DatePickerDialog(Add_Medicine_Page.this, TillDate, calendar
-                        .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                        calendar.get(Calendar.DAY_OF_MONTH));
-                datePickerDialogFinishDate.getDatePicker().setMinDate(System.currentTimeMillis());
-                datePickerDialogFinishDate.show();
-            }
-        });*/
 
         //when time text click show the watch view to choose the time of taken
         Time.setOnClickListener(new View.OnClickListener() {
@@ -192,7 +179,7 @@ public class Add_Medicine_Page extends AppCompatActivity {
                 //chack all filed filled
                 if (checkFields(MedicineName.getText().toString(), Dose.getText().toString(), repeatIntervalET.getText().toString(),repeatNOET.getText().toString())) {
                     //check the day and time in future or the day now but time in future
-                    /*if (checkDayandTime(FromDay.getText().toString() , Time.getText().toString())) {*/
+                    if (checkDayandTime(FromDay.getText().toString() , Time.getText().toString())) {
                         repeatInterval = Integer.parseInt(repeatIntervalET.getText().toString());//get repeat interval
                         repeatNO = Integer.parseInt(repeatNOET.getText().toString());//get repeat number (how many times reminder repeats)
 
@@ -200,7 +187,7 @@ public class Add_Medicine_Page extends AppCompatActivity {
                         SaveNewMed (MedicineName.getText().toString(),FromDay.getText().toString() ,Time.getText().toString() , Integer.parseInt(Dose.getText().toString()));
 
 
-                    //} //checkdayandtime if
+                    } //checkdayandtime if
 
                 }
             }
@@ -219,18 +206,18 @@ public class Add_Medicine_Page extends AppCompatActivity {
         if ( !(TextUtils.isEmpty(MName)) && !(TextUtils.isEmpty(MDose)) && !(TextUtils.isEmpty(interval)) && !(TextUtils.isEmpty(repeatNo)) && !(Time.getText().toString().equals("Set Time")) && !(FromDay.getText().toString().equals("Start"))){
             return true;
         }
-        Toast.makeText(Add_Medicine_Page.this,"All Fields Required", Toast.LENGTH_LONG).show();
+        Toast.makeText(Add_Medicine_Page.this,R.string.EmptyFields, Toast.LENGTH_LONG).show();
         return false;
     }
 
-    /*private boolean checkDayandTime (String SDate, String EDate , String time) {
+    private boolean checkDayandTime (String SDate, String time) {
         SimpleDateFormat TimeFormat = new SimpleDateFormat ("hh : mm");
         SimpleDateFormat DateFormat = new SimpleDateFormat ("dd/MM/yy");
         Date CurrentDate = new Date();
         //convert string to date to used in compare
         try {
             StartD = DateFormat.parse(SDate);
-            FinishD = DateFormat.parse(EDate);
+            /*FinishD = DateFormat.parse(EDate);*/
             MTime = TimeFormat.parse(time);
             CuttentTime = TimeFormat.parse(new SimpleDateFormat("HH : mm").format(CurrentDate));
         }
@@ -238,33 +225,20 @@ public class Add_Medicine_Page extends AppCompatActivity {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        // check if end day before start day
-        if (FinishD.before(StartD) || (FinishD.compareTo(StartD) == -1)) {
-            Toast.makeText(Add_Medicine_Page.this,"The End Day must be after or same as Start Day", Toast.LENGTH_LONG).show();
-            return false;
-        }
         //when all after current date no constraint return true
-        if ( *//*(StartD.after(CurrentDate)) && *//*(FinishD.after(CurrentDate)) &&  (FinishD.after(StartD) || (FinishD.compareTo(StartD) == 0))){
-                return true;
+        if ( (StartD.after(CurrentDate))){
+            return true;
         }
         //check if the start date is the current date the time is after or same current time, if not return false after display meaningful message
-        if (StartD.before(CurrentDate) ) {
+        if (StartD.before(CurrentDate) || StartD.compareTo(CurrentDate) ==0  ) {
             if (MTime.before(CuttentTime) || (MTime.compareTo(CuttentTime) == 0)){
-                Toast.makeText(Add_Medicine_Page.this,"The chosen time must be after now", Toast.LENGTH_LONG).show();
+                Toast.makeText(Add_Medicine_Page.this,R.string.CurrentTime, Toast.LENGTH_LONG).show();
                 return false;
             }
-            else {
-                if (StartD.compareTo(CurrentDate) != 0 || StartD.before(CurrentDate) || FinishD.compareTo(CurrentDate) != 0 || FinishD.before(CurrentDate)) {
-                    Toast.makeText(Add_Medicine_Page.this,"The chosen date must be after now", Toast.LENGTH_LONG).show();
-                    return false;
-                }
-                return true;
-            }
+            return true;
         }
-        else {
-            return false;
-        }
-    }*/
+        return false;
+    }
 
     private void SaveNewMed (String MName , String FDay,String Time, int MD ) {
         // Medicine(String id, String name, Date day, Time time, int doze, int period)
@@ -373,10 +347,10 @@ public class Add_Medicine_Page extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             //Log.d("TAG", "DocumentSnapshot added with ID: " + documentReference.getId());
                            setReminder(newMedicine);
-                           Toast.makeText(Add_Medicine_Page.this, "The Med added successfully", Toast.LENGTH_LONG).show();
+                           Toast.makeText(Add_Medicine_Page.this, R.string.MedSavedSuccess, Toast.LENGTH_LONG).show();
                             finish();
                         } else {
-                           Toast.makeText(Add_Medicine_Page.this, "The Med did not add", Toast.LENGTH_LONG).show();
+                           Toast.makeText(Add_Medicine_Page.this, R.string.MedSavedFialed, Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -410,8 +384,8 @@ public class Add_Medicine_Page extends AppCompatActivity {
         // Show a toast message depending on whether or not the insertion was successful.
         if (newUri == null) {
             // If the new content URI is null, then there was an error with insertion.
-            Toast.makeText(this, "insert_reminder_failed",
-                    Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "insert_reminder_failed",Toast.LENGTH_SHORT).show();
+            Log.d("Reminder", "insert_reminder_failed");
         } else {
             // Otherwise, the insertion was successful and we can display a toast.
 
@@ -425,11 +399,11 @@ public class Add_Medicine_Page extends AppCompatActivity {
             //create new notification
             new AlarmScheduler().setRepeatAlarm(getApplicationContext(),selectedTimestamp, newUri, repeatTime);//
             //new AlarmScheduler().setAlarm(getApplicationContext(), selectedTimestamp, newUri);
-            Toast.makeText(this, "Alarm time is at " + new java.text.SimpleDateFormat("dd/MM/yyyy hh:mm").format(new Date(selectedTimestamp)),
-                    Toast.LENGTH_LONG).show();
+           // Toast.makeText(this, "Alarm time is at " + new java.text.SimpleDateFormat("dd/MM/yyyy hh:mm").format(new Date(selectedTimestamp)),Toast.LENGTH_LONG).show();
+            Log.d("Alarm time is at ", new java.text.SimpleDateFormat("dd/MM/yyyy hh:mm").format(new Date(selectedTimestamp)));
 
-            Toast.makeText(this, "Reminder was successfully scheduled",
-                    Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Reminder was successfully scheduled",Toast.LENGTH_SHORT).show();
+            Log.d("Reminder", "Reminder was successfully scheduled");
 
         }
     }

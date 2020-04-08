@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".controller.main.drafts.AddTextDraftPage">
+    tools:context=".controller.main.drafts.AddTextDraftPage"
+    android:id="@+id/AddTextDraftPage">
 
     <ImageView
         android:id="@+id/backButton"
@@ -19,13 +20,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/Add_Text_Page"
+        android:id="@+id/Add_Text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/montserrat"
         android:gravity="center"
-        android:text="New Draft"
+        android:text="@string/NewTD"
         android:textColor="#000000"
         android:textSize="25sp"
         android:textStyle="bold"
@@ -43,9 +44,9 @@
         android:layout_marginEnd="32dp"
         android:background="@drawable/white_background"
         android:ems="10"
-        android:hint="Add Title"
-        android:gravity="center"
         android:fontFamily="@font/montserrat"
+        android:gravity="center"
+        android:hint="@string/TitleTD"
         android:inputType="textMultiLine"
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
@@ -53,7 +54,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Add_Text_Page" />
+        app:layout_constraintTop_toBottomOf="@+id/Add_Text" />
 
     <EditText
         android:id="@+id/SubjtextD"
@@ -64,14 +65,14 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="16dp"
-        android:hint="What Do You Feel ?"
-
-        android:gravity="top"
-        android:padding="7dp"
         android:background="@drawable/custom_edit_text"
+
         android:ems="10"
         android:fontFamily="@font/montserrat"
+        android:gravity="top"
+        android:hint="@string/SubTD"
         android:inputType="textMultiLine"
+        android:padding="7dp"
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
         android:text=""
@@ -89,7 +90,7 @@
         android:background="@drawable/main_button"
         android:fontFamily="@font/montserrat"
         android:padding="3dp"
-        android:text="Save"
+        android:text="@string/SaveTD"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/white"
