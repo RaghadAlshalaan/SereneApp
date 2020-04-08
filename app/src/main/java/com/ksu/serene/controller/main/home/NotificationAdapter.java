@@ -113,7 +113,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     public void updateList(List<Notification> list){
         if (list.isEmpty()){
-            Toast.makeText(this.mContext, "No notifications found", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this.mContext, "No notifications found", Toast.LENGTH_SHORT).show();
             notifications = new ArrayList<Notification>();
             notifyDataSetChanged();
         }else{
