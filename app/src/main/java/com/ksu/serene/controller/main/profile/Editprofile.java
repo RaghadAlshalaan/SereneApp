@@ -63,8 +63,8 @@ public class Editprofile extends AppCompatActivity {
     private String TAG = Editprofile.class.getSimpleName();
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private TextView save;
-    private Button ForgetPassword;
     private String email;
+    private TextView ForgetPassword;
     private String pastName;
     private boolean ChangePass = false;
 
