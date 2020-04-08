@@ -199,14 +199,11 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
-//        Thread.sleep(10000);
-
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        //getAppointment2();
+        getAppointment2();
     }
 }

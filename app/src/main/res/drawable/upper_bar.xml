@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list  xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-        <shape xmlns:android="http://schemas.android.com/apk/res/android"
-            android:shape="rectangle">
-            <solid android:color="#FFFF" />
-        </shape>
-    </item>
-    <item
-        android:left="-100dp"
-        android:right="-100dp"
-        android:top="-100dp">
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<item>
 
-        <shape xmlns:android="http://schemas.android.com/apk/res/android"
-            android:shape="oval">
+    <shape android:shape="rectangle">
+        <solid android:color="#F3F3F3"/>
 
-            <solid android:color="#FFFF" />
-        </shape>
-    </item>
-</layer-list>
+    </shape>
+</item>
+</selector>

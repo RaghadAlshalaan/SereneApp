@@ -60,8 +60,6 @@ public class PatientProfile extends Fragment {
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 
-
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -107,6 +105,8 @@ public class PatientProfile extends Fragment {
 
       if(checkIfEmailVerified() == false ){
           alert.setVisibility(View.VISIBLE);
+      }else{
+          alert.setVisibility(View.GONE);
       }
 
         listenToUpdates();
@@ -265,6 +265,13 @@ public class PatientProfile extends Fragment {
             displayName();
         }
 
+
+        if(checkIfEmailVerified() == false ){
+            alert.setVisibility(View.VISIBLE);
+        }else{
+            alert.setVisibility(View.GONE);
+        }
+
     }// end onResume
 
 
@@ -332,7 +339,6 @@ public class PatientProfile extends Fragment {
     }
     private boolean checkIfEmailVerified() {
 
-        // TODO : MOVE IT TO MAIN PAGE
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user.isEmailVerified())
