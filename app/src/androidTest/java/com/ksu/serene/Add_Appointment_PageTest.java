@@ -1,3 +1,6 @@
+//test the date and time button from this source
+//https://stackoverflow.com/questions/43149728/select-date-from-calendar-in-android-espresso?rq=1
+
 package com.ksu.serene;
 
 import android.widget.DatePicker;
@@ -75,13 +78,13 @@ public class Add_Appointment_PageTest {
         // check when click the date and time button
         onView(withId(R.id.MTillDays)).perform(click());
         //choose current date from calender
-        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2020, 4, 2));
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2020, 4, 9));
         //click ok
         onView(withText("OK")).perform(click());
         //time button clicked
         onView(withId(R.id.MTime)).perform(click());
         //choose current time or before the current time
-        onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(PickerActions.setTime(04 , 50));
+        onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(PickerActions.setTime(02 , 50));
         //click ok button
         onView(withText("OK")).perform(click());
         //Mack sure Espresso does not time out
@@ -156,7 +159,7 @@ public class Add_Appointment_PageTest {
         // check when click the date button
         onView(withId(R.id.MTillDays)).perform(click());
         //choose date after current time
-        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2021, 10 + 1, 23));
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2021, 11, 23));
         onView(withText("OK")).perform(click());
         //time button not clicked
         onView(withId(R.id.MTime)).check(matches(withText(R.string.SetTimeApp)));
@@ -248,7 +251,7 @@ public class Add_Appointment_PageTest {
         // check when click the date and time button
         onView(withId(R.id.MTillDays)).perform(click());
         //choose date after current date
-        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2020, 8 + 1, 23));
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2020, 7, 23));
         onView(withText("OK")).perform(click());
         //time button clicked
         onView(withId(R.id.MTime)).perform(click());

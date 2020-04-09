@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#DCEFF4"
     tools:context=".MainActivity"
-    android:id="@+id/Home"
+    android:id="@+id/MainActivity"
     android:orientation="vertical"
     >
 
