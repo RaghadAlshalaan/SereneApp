@@ -8,7 +8,7 @@ import static androidx.test.espresso.Espresso.unregisterIdlingResources;
 
 import java.util.concurrent.TimeUnit;
 
-class ElapsedTimeIdlingResource implements IdlingResource {
+public class ElapsedTimeIdlingResource implements IdlingResource {
     private final long startTime;
     private final long waitingTime;
     private ResourceCallback resourceCallback;
