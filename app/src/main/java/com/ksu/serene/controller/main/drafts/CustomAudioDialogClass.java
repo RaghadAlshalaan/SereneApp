@@ -16,6 +16,7 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -188,8 +189,8 @@ public class CustomAudioDialogClass extends Dialog implements
                 dismiss();
                 break;
             case R.id.delete:
-                showDialogWithOkCancelButton("Do you want to delete the draft?");
-                context.startActivity(intent);
+                showDialogWithOkCancelButton();
+                //context.startActivity(intent);
                 break;
             default:
                 break;
@@ -245,9 +246,9 @@ public class CustomAudioDialogClass extends Dialog implements
     }// seekBar
 
 
-    private void showDialogWithOkCancelButton(String msg) {
+    private void showDialogWithOkCancelButton() {
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(context);
-        builder.setMessage(msg)
+        builder.setMessage(R.string.DeleteMessageAudio)
                 .setCancelable(false)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -257,7 +258,7 @@ public class CustomAudioDialogClass extends Dialog implements
                         //context.startActivity(new Intent(context , VoiceDraftFragment.class));
                         //context.startActivity(intent);
                     }// onClick
-                }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -277,6 +278,7 @@ public class CustomAudioDialogClass extends Dialog implements
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                        Toast.makeText(getContext(), R.string.AudioDeletedSuccess, Toast.LENGTH_LONG).show();
                         voiceDraftFragment.onResume();
 
                     }
@@ -286,6 +288,7 @@ public class CustomAudioDialogClass extends Dialog implements
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error deleting document", e);
+                        Toast.makeText(getContext(), R.string.AudioDeletedFialed, Toast.LENGTH_LONG).show();
                     }
                 });
 

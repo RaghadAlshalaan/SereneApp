@@ -41,6 +41,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.ksu.serene.MainActivity;
 import com.ksu.serene.model.MySharedPreference;
 import com.ksu.serene.R;
 import com.ksu.serene.WelcomePage;
@@ -67,6 +68,7 @@ public class Editprofile extends AppCompatActivity {
     private TextView ForgetPassword;
     private String pastName;
     private boolean ChangePass = false;
+    private TextView imgInStorage;
 
 
     @Override
@@ -92,6 +94,7 @@ public class Editprofile extends AppCompatActivity {
                 finish();
             }
         });
+        imgInStorage = findViewById(R.id.ImageSavedStorage);
 
         //retrieve past name
         PastName ();
@@ -134,6 +137,7 @@ public class Editprofile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showFile();
+                //uploadFile();
 
             }
         });
@@ -141,7 +145,7 @@ public class Editprofile extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadFile();
+                //uploadFile();
                 //update name if the edit not empty && new name not equal past name or when no past name
                 if ( !(TextUtils.isEmpty(name.getText().toString())) ) {
 
@@ -351,6 +355,7 @@ public class Editprofile extends AppCompatActivity {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), filePath);
                 image.setImageBitmap(bitmap);
                 Toast.makeText(this, R.string.image, Toast.LENGTH_LONG).show();
+                uploadFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -398,6 +403,9 @@ public class Editprofile extends AppCompatActivity {
 
                                                 });
                                         Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                        //i need this toast please don't removed to ensure when test pass the image is teup in storage
+                                        //Toast.makeText(Editprofile.this, "DocumentSnapshot successfully updated!", Toast.LENGTH_LONG).show();
+                                        imgInStorage.setText("DocumentSnapshot successfully updated!");
                                    }
 
                           }

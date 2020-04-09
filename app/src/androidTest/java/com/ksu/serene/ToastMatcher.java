@@ -7,7 +7,7 @@ import androidx.test.espresso.Root;
 import android.view.WindowManager;
 import android.os.IBinder;
 
-class ToastMatcher extends TypeSafeMatcher<Root> {
+public class ToastMatcher extends TypeSafeMatcher<Root> {
 
     @Override
     protected boolean matchesSafely(Root item) {
