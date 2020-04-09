@@ -55,7 +55,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Is Image Saved in Storage?" />
+        android:text="Is Image Saved in Storage?"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout

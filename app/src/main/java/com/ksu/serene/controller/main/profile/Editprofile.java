@@ -55,7 +55,7 @@ import java.util.Map;
 public class Editprofile extends AppCompatActivity {
     private EditText name, oldPass, newPass, confirmPass;
     private ImageView image,back;
-    private Button chooseImg, delete;
+    private Button chooseImg, delete,save;
     private static final int PICK_IMAGE_REQUEST = 234;
     private Uri filePath;
     private String ImageName, nameDb;
@@ -63,7 +63,6 @@ public class Editprofile extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String TAG = Editprofile.class.getSimpleName();
     private FirebaseStorage storage = FirebaseStorage.getInstance();
-    private TextView save;
     private String email;
     private TextView ForgetPassword;
     private String pastName;
