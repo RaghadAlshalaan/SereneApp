@@ -117,7 +117,7 @@ public class FitbitWorker extends Worker {
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
-                                                Log.e("DONE: ", uri + " IMAGE UPLOADED SUCCESSFULLY");
+                                                Log.e("Quote:"," IMAGE UPLOADED SUCCESSFULLY");
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {

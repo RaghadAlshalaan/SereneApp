@@ -74,7 +74,7 @@ public class Add_Appointment_Page extends AppCompatActivity {
             calendar.set(Calendar.HOUR_OF_DAY, hours);
             calendar.set(Calendar.MINUTE, minutes);
 
-            Time.setText(hours + " : " + minutes );
+            Time.setText(String.format("%02d : %02d", hours ,minutes) );
         }
     };
 

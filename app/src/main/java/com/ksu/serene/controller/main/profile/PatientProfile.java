@@ -51,7 +51,7 @@ public class PatientProfile extends Fragment {
 
     private ImageView image, SocioArrow, doctorArrow, editProfile;
     private TextView name, email, doctor;
-    private LinearLayout alert;
+    private LinearLayout alert, resendL;
     private String nameDb, emailDb, imageDb;
     private FirebaseAuth mAuth;
     private Button  logOut;
@@ -59,8 +59,6 @@ public class PatientProfile extends Fragment {
     private FirebaseFirestore db = com.google.firebase.firestore.FirebaseFirestore.getInstance();
     private String mToken;
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-
 
 
     @Nullable
@@ -106,28 +104,12 @@ public class PatientProfile extends Fragment {
       });
 
 
-        if(checkIfEmailVerified() == false ){
-            alert.setVisibility(View.VISIBLE);
-            alert.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //Sent email for verfication
-                    user.sendEmailVerification()
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    Toast.makeText(getContext(), R.string.VervEmailSuccess, Toast.LENGTH_LONG).show();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getContext(), R.string.VervEmailFialed, Toast.LENGTH_LONG).show();
-                                }
-                            });
-                }
-            });
-        }
+      user.reload();
+      if(!user.isEmailVerified()){
+          alert.setVisibility(View.VISIBLE);
+      }else{
+          alert.setVisibility(View.GONE);
+      }
 
         listenToUpdates();
 
@@ -169,6 +151,27 @@ public class PatientProfile extends Fragment {
         doctorArrow = view.findViewById(R.id.go_to2);
         doctor = view.findViewById(R.id.doctor_text2);
         alert = view.findViewById(R.id.alert);
+        resendL = view.findViewById(R.id.resendL);
+        alert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                user.sendEmailVerification()
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Toast.makeText(getContext(), R.string.VervEmailSuccess, Toast.LENGTH_LONG).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getContext(), R.string.VervEmailFialed, Toast.LENGTH_LONG).show();
+                            }
+                        });
+
+            }
+        });
 
     }
 
@@ -285,6 +288,13 @@ public class PatientProfile extends Fragment {
             displayName();
         }
 
+        user.reload();
+        if(!user.isEmailVerified()){
+            alert.setVisibility(View.VISIBLE);
+        }else{
+            alert.setVisibility(View.GONE);
+        }
+
     }// end onResume
 
 
@@ -354,9 +364,10 @@ public class PatientProfile extends Fragment {
                 });
 
     }
+
+
     private boolean checkIfEmailVerified() {
 
-        // TODO : MOVE IT TO MAIN PAGE
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user.isEmailVerified())
@@ -384,6 +395,7 @@ public class PatientProfile extends Fragment {
         }
 
     }
+
     public  void updateToken(String token){
 
         DocumentReference userTokenDR = FirebaseFirestore.getInstance().collection("Tokens").document(mAuth.getUid());
