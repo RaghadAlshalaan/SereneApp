@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -47,9 +48,9 @@ import com.ksu.serene.R;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PatientProfile extends Fragment {
+public class PatientProfile extends AppCompatActivity {
 
-    private ImageView image, SocioArrow, doctorArrow, editProfile;
+    private ImageView image, SocioArrow, doctorArrow, editProfile, back;
     private TextView name, email, doctor;
     private LinearLayout alert, resendL;
     private String nameDb, emailDb, imageDb;
@@ -63,17 +64,21 @@ public class PatientProfile extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.profile_page, container, false);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.profile_page);
 
-        init(view);
+        // Inflate the layout for this fragment
+        getSupportActionBar().hide();
+
+        init();
 
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),Editprofile.class);
-                getActivity().startActivity(intent);
+                Intent intent = new Intent(PatientProfile.this,Editprofile.class);
+                startActivity(intent);
                  }
 
         });
@@ -81,8 +86,8 @@ public class PatientProfile extends Fragment {
         SocioArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),EditSocio.class);
-                getActivity().startActivity(intent);
+                Intent intent = new Intent(PatientProfile.this,EditSocio.class);
+                startActivity(intent);
             }
         });
 
@@ -113,7 +118,7 @@ public class PatientProfile extends Fragment {
 
         listenToUpdates();
 
-        return view;
+
     }
 
     private void listenToUpdates() {
@@ -136,22 +141,29 @@ public class PatientProfile extends Fragment {
 //            }
 //        });
 //
-
     }
 
-    private void init(View view) {
+    private void init() {
 
-        image = view.findViewById(R.id.imageView);
-        email = view.findViewById(R.id.emailET);
-        name = view.findViewById(R.id.full_name);
+        image = findViewById(R.id.imageView);
+        email = findViewById(R.id.emailET);
+        name = findViewById(R.id.full_name);
         mAuth = FirebaseAuth.getInstance();
-        editProfile = view.findViewById(R.id.edit_profile_btn);
-        SocioArrow = view.findViewById(R.id.go_to1);
-        logOut = view.findViewById(R.id.log_out_btn);
-        doctorArrow = view.findViewById(R.id.go_to2);
-        doctor = view.findViewById(R.id.doctor_text2);
-        alert = view.findViewById(R.id.alert);
-        resendL = view.findViewById(R.id.resendL);
+        editProfile = findViewById(R.id.edit_profile_btn);
+        SocioArrow = findViewById(R.id.go_to1);
+        logOut = findViewById(R.id.log_out_btn);
+        doctorArrow = findViewById(R.id.go_to2);
+        doctor = findViewById(R.id.doctor_text2);
+        back = findViewById(R.id.backButton);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        alert = findViewById(R.id.alert);
+        resendL = findViewById(R.id.resendL);
         alert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -160,16 +172,15 @@ public class PatientProfile extends Fragment {
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                Toast.makeText(getContext(), R.string.VervEmailSuccess, Toast.LENGTH_LONG).show();
+                                Toast.makeText(PatientProfile.this, R.string.VervEmailSuccess, Toast.LENGTH_LONG).show();
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getContext(), R.string.VervEmailFialed, Toast.LENGTH_LONG).show();
+                                Toast.makeText(PatientProfile.this, R.string.VervEmailFialed, Toast.LENGTH_LONG).show();
                             }
                         });
-
             }
         });
 
@@ -188,15 +199,15 @@ public class PatientProfile extends Fragment {
                             if(!task.getResult().isEmpty()){
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     if(document.exists()) {
-                                        Intent intent = new Intent(getActivity(), MyDoctor.class);
-                                        getActivity().startActivity(intent);
+                                        Intent intent = new Intent(PatientProfile.this, MyDoctor.class);
+                                        startActivity(intent);
                                     }
                                 }
                             }
                             else{
 
-                                Intent intent = new Intent(getActivity(), AddDoctor.class);
-                                getActivity().startActivity(intent);
+                                Intent intent = new Intent(PatientProfile.this, AddDoctor.class);
+                                startActivity(intent);
                             }
                         }
                         else {
@@ -225,8 +236,8 @@ public class PatientProfile extends Fragment {
                     nameDb = userInfo.getDisplayName();
                     emailDb = userInfo.getEmail();
                     // imageDb = userInfo.getPhotoUrl().toString();
-                    MySharedPreference.putString(getContext(), "name", nameDb);
-                    MySharedPreference.putString(getContext(), "email", emailDb);
+                    MySharedPreference.putString(PatientProfile.this, "name", nameDb);
+                    MySharedPreference.putString(PatientProfile.this, "email", emailDb);
                     // MySharedPreference.putString(getContext(), "Image", imageDb);
 
                 }
@@ -272,17 +283,17 @@ public class PatientProfile extends Fragment {
                 });
 
 
-        if (!MySharedPreference.getString(getContext(), "name", "").equals("")) {
-            name.setText(MySharedPreference.getString(getContext(), "name", ""));
+        if (!MySharedPreference.getString(PatientProfile.this, "name", "").equals("")) {
+            name.setText(MySharedPreference.getString(PatientProfile.this, "name", ""));
         }
 
-        if (!MySharedPreference.getString(getContext(), "Image", "").equals("")) {
-            imageDb = MySharedPreference.getString(getContext(), "Image", "");
+        if (!MySharedPreference.getString(PatientProfile.this, "Image", "").equals("")) {
+            imageDb = MySharedPreference.getString(PatientProfile.this, "Image", "");
             if(imageDb !=null)
                 Picasso.get().load(imageDb).into(image);
         }
-        if (!MySharedPreference.getString(getContext(), "email", "").equals("")) {
-            email.setText(MySharedPreference.getString(getContext(), "email", ""));
+        if (!MySharedPreference.getString(PatientProfile.this, "email", "").equals("")) {
+            email.setText(MySharedPreference.getString(PatientProfile.this, "email", ""));
         }
         else {
             displayName();
@@ -300,7 +311,7 @@ public class PatientProfile extends Fragment {
 
     public void logoutDialog() {
 
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(PatientProfile.this);
         //set Title
         alertDialog.setTitle(R.string.LogOut);
 
@@ -346,10 +357,10 @@ public class PatientProfile extends Fragment {
                         // [START auth_sign_out]
                         mAuth.signOut();
                         if (mAuth.getCurrentUser() == null) {
-                            Toast.makeText(getContext(), R.string.LogOutSuccess, Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(getActivity(), WelcomePage.class);
+                            Toast.makeText(PatientProfile.this, R.string.LogOutSuccess, Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(PatientProfile.this, WelcomePage.class);
                             startActivity(intent);
-                            getActivity().finish();
+                            finish();
                         }
                         // [END auth_sign_out]
                         Log.d(TAG, "DocumentSnapshot successfully updated!");
@@ -358,7 +369,7 @@ public class PatientProfile extends Fragment {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), R.string.LogOutFialed, Toast.LENGTH_LONG).show();
+                        Toast.makeText(PatientProfile.this, R.string.LogOutFialed, Toast.LENGTH_LONG).show();
                         Log.w(TAG, "Error updating document", e);
                     }
                 });
@@ -372,7 +383,7 @@ public class PatientProfile extends Fragment {
 
         if (user.isEmailVerified())
         {
-            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( getActivity(),  new OnSuccessListener<InstanceIdResult>() {
+            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( PatientProfile.this,  new OnSuccessListener<InstanceIdResult>() {
                 @Override
                 public void onSuccess(InstanceIdResult instanceIdResult) {
                     mToken = instanceIdResult.getToken();
@@ -381,7 +392,7 @@ public class PatientProfile extends Fragment {
             });
 
             updateToken(mToken);
-            SharedPreferences sp = getActivity().getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+            SharedPreferences sp = PatientProfile.this.getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sp.edit();
             editor.putString("CURRENT_USERID",mAuth.getCurrentUser().getUid());
             editor.apply();

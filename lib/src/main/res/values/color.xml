@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#5ECCF0</color>
-    <color name="colorPrimaryDark">#9C000000</color>
-    <color name="colorAccent">#4CA1D3</color>
+    <color name="colorPrimary">#ADD3EA</color>
+    <color name="colorPrimaryDark">#23495F</color>
+    <color name="colorAccent">#4BA0D1</color>
     <color name="recorder_bg">#F4511E</color>
 
 </resources>

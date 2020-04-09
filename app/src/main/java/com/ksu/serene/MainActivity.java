@@ -161,14 +161,8 @@ public class MainActivity extends AppCompatActivity implements
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragmentOne = new PatientProfile();
-
-                FragmentManager fm = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                fragmentTransaction.replace(R.id.nav_host_fragment, fragmentOne);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-                //profile.setVisibility(View.GONE);
+                Intent i = new Intent(MainActivity.this, PatientProfile.class);
+                startActivity(i);
             }
         });
 

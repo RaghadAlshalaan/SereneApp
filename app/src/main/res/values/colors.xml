@@ -4,10 +4,23 @@
     <color name="white">#FFFFFF</color>
     <color name="colorPrimary">#5ECCF0</color>
     <color name="colorPrimaryDark">#9C000000</color>
-    <color name="colorAccent">#4CA1D3</color>
     <color name="Grey">#B1B0B0</color>
     <color name="Error">#A02323</color>
     <color name="recorder_bg">#F4511E</color>
     <color name="babyAccent">#E9E9E9</color>
+    <color name="green">#68B165</color>
+    <color name="yellow">#FBC52B</color>
+    <color name="lightYellow">#FEF3D5</color>
+
+
+    <color name="dolphin">#669DB3FF</color>
+    <color name="dolphinn">#71708D</color>
+
+
+    <color name="lightAccent">#E1EFF7</color>
+    <color name="colorAccent">#4BA0D1</color>
+    <color name="darkAccent">#23495F</color>
+
+    <color name="lightGrey">#FAFAFA</color>
 
 </resources>

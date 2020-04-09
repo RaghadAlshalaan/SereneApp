@@ -53,7 +53,7 @@ import java.util.Map;
 
 public class Editprofile extends AppCompatActivity {
     private EditText name, oldPass, newPass, confirmPass;
-    private ImageView image;
+    private ImageView image,back;
     private Button chooseImg, delete;
     private static final int PICK_IMAGE_REQUEST = 234;
     private Uri filePath;
@@ -85,6 +85,13 @@ public class Editprofile extends AppCompatActivity {
         confirmPass = findViewById(R.id.reNewPassword);
         delete = findViewById(R.id.delete);
         ForgetPassword = findViewById(R.id.forgetPassword);
+        back = findViewById(R.id.backButton);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         //retrieve past name
         PastName ();

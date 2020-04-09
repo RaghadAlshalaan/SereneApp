@@ -3,9 +3,11 @@ package com.ksu.serene.controller.main.drafts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +23,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ksu.serene.MainActivity;
 import com.ksu.serene.R;
+
+import www.sanju.motiontoast.MotionToast;
 
 public class PatientTextDraftDetailPage extends AppCompatActivity {
 
@@ -79,7 +83,20 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
-                                                Toast.makeText(PatientTextDraftDetailPage.this, R.string.TDDeletedSuccess, Toast.LENGTH_LONG).show();
+                                               // Toast.makeText(PatientTextDraftDetailPage.this, R.string.TDDeletedSuccess, Toast.LENGTH_LONG).show();
+
+                                                Resources res = getResources();
+                                                String text = String.format(res.getString(R.string.TDDeletedSuccess));
+
+                                                MotionToast.Companion.darkToast(
+                                                        PatientTextDraftDetailPage.this,
+                                                        text,
+                                                        MotionToast.Companion.getTOAST_SUCCESS(),
+                                                        MotionToast.Companion.getGRAVITY_BOTTOM(),
+                                                        MotionToast.Companion.getLONG_DURATION(),
+                                                        ResourcesCompat.getFont( PatientTextDraftDetailPage.this, R.font.montserrat));
+
+
                                                 finish();
                                             }
                                         })

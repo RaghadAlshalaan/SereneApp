@@ -101,6 +101,8 @@ public class CalendarFragment extends Fragment{
 
         root = inflater.inflate(R.layout.fragment_calendar, container, false);
 
+
+
         //retrieve the id of patient used for searching
         patientId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -139,9 +141,14 @@ public class CalendarFragment extends Fragment{
         });
 
 
+
         //set calender view
         calenderView = root.findViewById(R.id.calendarView2);
         calendar.set(2019,1,1);
+
+        String today = new SimpleDateFormat("dd/mm/yyyy").format(new Date());
+
+
         calenderView.setMinDate(calendar.getTimeInMillis());
         calenderView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -175,7 +182,6 @@ public class CalendarFragment extends Fragment{
             }
         });
 
-       // installButton110to250();
 
         return root;
     }
@@ -246,7 +252,7 @@ public class CalendarFragment extends Fragment{
 
         //retrieve Mediciens data
         recyclerViewMedicine = root.findViewById(R.id.RecyclerViewMedicine);
-        MlayoutManager = new LinearLayoutManager(context);
+        MlayoutManager = new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL, false);
         recyclerViewMedicine.setLayoutManager(MlayoutManager);
         listMedicines = new ArrayList<>();
         adapterMedicines = new PatientMedicineAdapter(listMedicines, new PatientMedicineAdapter.OnItemClickListener() {
@@ -269,7 +275,7 @@ public class CalendarFragment extends Fragment{
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         //Medicine medicine = document.toObject(Medicine.class);
                         //listMedicines.add(medicine);
-                        MID = document.getId().toString();
+                        MID = document.getId();
                         MName = document.get("name").toString();
                         MFDay = document.get("Fday").toString();
                         MLDay = document.get("Lday").toString();
@@ -281,6 +287,7 @@ public class CalendarFragment extends Fragment{
                         Timestamp LDTS = (Timestamp) document.get("LastDayTS");
                         Calendar lCalender = Calendar.getInstance();
                         lCalender.setTimeInMillis(LDTS.getSeconds()*1000);
+
                         //convert string to date to used in compare
                         try {
                             FDay = DateFormat.parse(MFDay);

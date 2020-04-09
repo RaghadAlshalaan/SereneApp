@@ -5,10 +5,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/lightGrey"
     android:orientation="vertical"
     tools:context=".controller.main.profile.PatientProfile"
     android:id="@+id/PatientProfile">
+
+
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="23dp"
+        android:src="@drawable/ic_left_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <ImageView
@@ -17,8 +28,8 @@
         android:layout_height="33dp"
         android:layout_gravity="end"
         android:layout_margin="10dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/edit_profile_icon" />
@@ -60,19 +71,20 @@
         android:text="email@email.com"
         android:textColor="#515C6F"
         android:textSize="18sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 
 
     <LinearLayout
         android:id="@+id/linearLayout4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/layout_rounded_bg"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="90dp"
+        android:background="@drawable/new_white_card"
         android:elevation="15dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
@@ -81,12 +93,13 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
+            android:id="@+id/alert"
             android:layout_width="320dp"
             android:layout_height="60dp"
             android:layout_marginTop="30dp"
             android:background="@drawable/delete_button"
             android:focusable="auto"
-            android:id="@+id/alert"
+            android:elevation="10dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -101,32 +114,32 @@
                 android:id="@+id/resendL"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
                 android:layout_gravity="center_vertical"
+                android:layout_marginEnd="15dp"
                 android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/alarmMsg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/montserrat"
-                android:gravity="center_vertical"
-                android:paddingStart="10dp"
-                android:text="@string/VervEmail"
-                android:textColor="@color/white"
-                android:textSize="13sp" />
+                <TextView
+                    android:id="@+id/alarmMsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:text="@string/VervEmail"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
 
-            <TextView
-                android:id="@+id/resend"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:paddingStart="10dp"
-                android:fontFamily="@font/montserrat"
-                android:text="@string/resend_verification_email"
-                android:textColor="@color/white"
-                android:textSize="13sp" />
+                <TextView
+                    android:id="@+id/resend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:fontFamily="@font/montserrat"
+                    android:paddingStart="10dp"
+                    android:text="@string/resend_verification_email"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
 
             </LinearLayout>
         </LinearLayout>
@@ -283,6 +296,7 @@
 
         <Button
             android:id="@+id/log_out_btn"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:layout_marginTop="20dp"
@@ -290,7 +304,6 @@
             android:fontFamily="@font/montserrat"
             android:text="@string/logout"
             android:textColor="@color/colorAccent"
-            style="@style/Widget.AppCompat.Button.Borderless"
             android:textStyle="bold" />
 
     </LinearLayout>

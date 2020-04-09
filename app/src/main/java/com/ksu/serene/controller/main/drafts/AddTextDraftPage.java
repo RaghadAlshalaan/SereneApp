@@ -2,8 +2,10 @@ package com.ksu.serene.controller.main.drafts;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -22,6 +24,8 @@ import com.ksu.serene.R;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import www.sanju.motiontoast.MotionToast;
 
 public class AddTextDraftPage extends AppCompatActivity {
 
@@ -91,8 +95,18 @@ public class AddTextDraftPage extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        //todo: progress bar
-                        Toast.makeText(AddTextDraftPage.this, R.string.TDSavedSuccess, Toast.LENGTH_LONG).show();
+
+                        Resources res = getResources();
+                        String text = String.format(res.getString(R.string.TDSavedSuccess));
+
+                        MotionToast.Companion.darkToast(
+                                AddTextDraftPage.this,
+                                text,
+                                MotionToast.Companion.getTOAST_SUCCESS(),
+                                MotionToast.Companion.getGRAVITY_BOTTOM(),
+                                MotionToast.Companion.getLONG_DURATION(),
+                                ResourcesCompat.getFont( AddTextDraftPage.this, R.font.montserrat));
+
                         finish();
 
                     }
@@ -100,7 +114,17 @@ public class AddTextDraftPage extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(AddTextDraftPage.this, R.string.TDSavedFialed, Toast.LENGTH_LONG).show();
+
+                        Resources res = getResources();
+                        String text = String.format(res.getString(R.string.TDSavedFialed));
+
+                        MotionToast.Companion.createToast(
+                                AddTextDraftPage.this,
+                                text,
+                                MotionToast.Companion.getTOAST_ERROR(),
+                                MotionToast.Companion.getGRAVITY_BOTTOM(),
+                                MotionToast.Companion.getLONG_DURATION(),
+                                ResourcesCompat.getFont( AddTextDraftPage.this, R.font.montserrat));
 
                     }
                 });

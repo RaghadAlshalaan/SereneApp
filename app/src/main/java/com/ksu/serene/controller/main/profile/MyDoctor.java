@@ -37,7 +37,7 @@ public class MyDoctor extends AppCompatActivity {
     private TextView nameET, emailET;
     private FirebaseFirestore db = com.google.firebase.firestore.FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth;
-    private ImageView check;
+    private ImageView check,back;
     private boolean checkDoctor;
 
     @Override
@@ -54,6 +54,13 @@ public class MyDoctor extends AppCompatActivity {
         emailET = findViewById(R.id.emailET);
         save = findViewById(R.id.SaveChanges);
         check = findViewById(R.id.check);
+        back = findViewById(R.id.backButton);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
 
         delete.setOnClickListener(new View.OnClickListener() {

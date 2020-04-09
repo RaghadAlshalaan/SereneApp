@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,7 +42,7 @@ public class AddDoctor extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String TAG = AddDoctor.class.getSimpleName();
     private Random r = new Random();
-
+    private ImageView back;
 
 
     @Override
@@ -55,6 +56,13 @@ public class AddDoctor extends AppCompatActivity {
         name = findViewById(R.id.nameET);
         email = findViewById(R.id.emailET);
         confirm = findViewById(R.id.confirm);
+        back = findViewById(R.id.backButton);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override

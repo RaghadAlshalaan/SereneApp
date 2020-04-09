@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ public class EditSocio extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String TAG = EditSocio.class.getSimpleName();
     private boolean flag = false;
+    private ImageView back;
 
 
     @Override
@@ -53,6 +55,14 @@ public class EditSocio extends AppCompatActivity {
         employmentStatusET = (Spinner) findViewById(R.id.employee);
         maritalStatusET = findViewById(R.id.married);
         cigaretteSmokeET = findViewById(R.id.smoke);
+        back = findViewById(R.id.backButton);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
 
         final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(EditSocio.this,
                 R.array.employmentStatus, android.R.layout.simple_spinner_item);

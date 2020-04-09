@@ -1,118 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/layout_rounded_bg"
+    android:background="#FAFAFA"
+    android:fillViewport="true"
     android:orientation="vertical"
     android:id="@+id/CalendarFragment">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/titleofscreen"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <CalendarView
+        android:id="@+id/calendarView2"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
         android:layout_gravity="center"
-        android:fontFamily="@font/montserrat"
-        android:gravity="center"
-        android:paddingTop="10dp"
-        android:text="@string/calendar"
-        android:textColor="@color/black"
-        android:textSize="25sp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/new_white_card"
+        android:dateTextAppearance="@style/CalenderViewDateCustomText"
+        android:elevation="5dp"
+        android:weekDayTextAppearance="@style/CalenderViewWeekCustomText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="330dp"
-        android:layout_height="2dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="8dp"
-        android:background="#1A000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleofscreen" />
-
-
-    <LinearLayout
-        android:id="@+id/RootCalendar"
+    <TextView
+        android:id="@+id/text1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
-        android:orientation="vertical"
+        android:fontFamily="@font/montserrat"
+        android:text="@string/appointments"
+        android:textColor="#4A4A4A"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider">
+        app:layout_constraintTop_toBottomOf="@+id/calendarView2" />
 
-        <CalendarView
-            android:id="@+id/calendarView2"
-            android:layout_width="wrap_content"
-            android:layout_height="300dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-            android:background="@color/white" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RecyclerviewSession"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_below="@+id/text1"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:scrollbars="none"
+        tools:listitem="@layout/session_row"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text1" />
 
-        <TextView
-            android:id="@+id/text1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/montserrat"
-            android:text="@string/appointments"
-            android:textColor="@color/Error"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+    <TextView
+        android:id="@+id/text2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/RecyclerviewSession"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/montserrat"
+        android:text="Medicines"
+        android:textColor="#4A4A4A"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/RecyclerviewSession" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/RecyclerviewSession"
-            android:layout_width="wrap_content"
-            android:layout_height="76dp"
-            android:layout_below="@+id/text1"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="32dp"
-            android:scrollbars="none" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RecyclerViewMedicine"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/text2"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/medicine_row"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text2" />
 
-        <TextView
-            android:id="@+id/text2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/RecyclerviewSession"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/montserrat"
-            android:text="@string/medicine"
-            android:textColor="#4CA758"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/RecyclerviewSession" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/RecyclerViewMedicine"
-            android:layout_width="wrap_content"
-            android:layout_height="73dp"
-            android:layout_below="@+id/text2"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="32dp"
-            android:scrollbars="none"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text2" />
-    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button_expandable_110_250"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
         android:src="@drawable/ic_add_symbol"
         app:aebAnimDurationMillis="175"
         app:aebButtonElevation="7dp"
@@ -130,6 +122,7 @@
         android:id="@+id/AddMedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
         android:layout_marginBottom="20dp"
         android:src="@drawable/add_medicine"
         app:aebAnimDurationMillis="175"
@@ -149,7 +142,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="30dp"
         android:src="@drawable/add_appointment"
         app:aebAnimDurationMillis="175"
         app:aebButtonElevation="7dp"
@@ -162,6 +155,5 @@
         app:aebSubButtonSizeDp="35dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/button_expandable_110_250" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

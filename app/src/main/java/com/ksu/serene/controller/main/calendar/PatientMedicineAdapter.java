@@ -30,13 +30,14 @@ public class PatientMedicineAdapter  extends RecyclerView.Adapter<PatientMedicin
 
         TextView medicineName;
         TextView date; //month then day
-        TextView time; //time then am or pm
+        TextView time,doze; //time then am or pm
 
         public MyViewHolder (View v) {
             super(v);
-            medicineName = (TextView) itemView.findViewById(R.id.medicine_name);
-            date = (TextView) itemView.findViewById(R.id.medicine_period);
-            time = (TextView) itemView.findViewById(R.id.medicine_time);
+            medicineName = itemView.findViewById(R.id.medicine_name);
+            date = itemView.findViewById(R.id.medicine_period);
+            time = itemView.findViewById(R.id.medicine_time);
+            doze = itemView.findViewById(R.id.doze);
         }
 
         public void bind (final Medicine medicine , final OnItemClickListener listener){
@@ -62,8 +63,9 @@ public class PatientMedicineAdapter  extends RecyclerView.Adapter<PatientMedicin
         holder.bind(mAdapter.get(position) , listener);
         Medicine medicine = mAdapter.get(position);
         holder.medicineName.setText(medicine.getName());
-        holder.date.setText(medicine.getDay()+" ");
-        holder.time.setText(medicine.getTime()+" ");
+        //holder.date.setText(medicine.getDay()+"");
+        holder.time.setText(medicine.getTime()+"");
+        holder.doze.setText(medicine.getDoze()+"");
     }
 
     @Override
