@@ -1,5 +1,13 @@
 package com.ksu.serene.controller.main.profile;
 
+import java.util.Locale;
+import android.os.Bundle;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -33,6 +41,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.ksu.serene.MainActivity;
 import com.ksu.serene.controller.Constants;
 import com.ksu.serene.model.Token;
 import com.ksu.serene.WelcomePage;
@@ -51,7 +60,7 @@ import java.util.Map;
 public class PatientProfile extends AppCompatActivity {
 
     private ImageView image, SocioArrow, doctorArrow, editProfile, back;
-    private TextView name, email, doctor;
+    private TextView name, email, doctor, Eng, Ar;
     private LinearLayout alert, resendL;
     private String nameDb, emailDb, imageDb;
     private FirebaseAuth mAuth;
@@ -109,6 +118,26 @@ public class PatientProfile extends AppCompatActivity {
       });
 
 
+        Eng.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Eng.setVisibility(View.INVISIBLE);
+                Ar.setVisibility(View.VISIBLE);
+                setLocale("values");
+            }
+        });
+
+
+        Ar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Ar.setVisibility(View.INVISIBLE);
+                Eng.setVisibility(View.VISIBLE);
+                setLocale("ar");
+            }
+        });
+
+
       user.reload();
       if(!user.isEmailVerified()){
           alert.setVisibility(View.VISIBLE);
@@ -154,6 +183,8 @@ public class PatientProfile extends AppCompatActivity {
         logOut = findViewById(R.id.log_out_btn);
         doctorArrow = findViewById(R.id.go_to2);
         doctor = findViewById(R.id.doctor_text2);
+        Eng = findViewById(R.id.English);
+        Ar = findViewById(R.id.Arabic);
         back = findViewById(R.id.backButton);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -430,5 +461,17 @@ public class PatientProfile extends AppCompatActivity {
                         Log.w(TAG, "Error updating document", e);
                     }
                 });
+    }
+
+    public void setLocale(String lang) {
+        Locale myLocale = new Locale(lang);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+        Intent refresh = new Intent(this, MainActivity.class);
+        finish();
+        startActivity(refresh);
     }
 }

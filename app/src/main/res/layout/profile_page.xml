@@ -269,19 +269,20 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/textView3"
-                android:layout_width="117dp"
+                android:id="@+id/English"
+                android:layout_width="wrap_content"
                 android:layout_height="45dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:fontFamily="@font/montserrat"
                 android:gravity="center_vertical"
                 android:paddingEnd="10dp"
-                android:text="@string/language"
+                android:text="English"
                 android:textAlignment="textEnd"
                 android:textColor="#66515C6F"
                 android:textSize="15sp"
-                tools:ignore="RtlCompat" />
+                tools:ignore="RtlCompat"
+                android:clickable="true"/>
 
             <ImageView
                 android:id="@+id/go_to3"
@@ -290,6 +291,21 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/ic_go_to" />
+
+            <TextView
+                android:id="@+id/Arabic"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:fontFamily="monospace"
+                android:paddingTop="10dp"
+                android:text="Arabic"
+                android:textAlignment="textEnd"
+                android:textColor="#66515C6F"
+                android:textSize="15sp"
+                android:clickable="true" />
 
         </LinearLayout>
 

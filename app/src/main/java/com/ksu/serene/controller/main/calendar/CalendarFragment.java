@@ -130,7 +130,16 @@ public class CalendarFragment extends Fragment{
                 dayN.setText(new SimpleDateFormat("EEEE", Locale.ENGLISH).format(today.getTime()));
                 month.setText(new SimpleDateFormat("MMMM", Locale.ENGLISH).format(today.getTime()));
 
-
+                String simpleDateFormat = sdf.format(currentDate);
+                int yearCurrent = Integer.parseInt(simpleDateFormat.substring(6,simpleDateFormat.length()));
+                //check when clendar date in past
+                if ( (yearCurrent > i) ||
+                        ( yearCurrent == i && (currentDate.getMonth()+1) > (i1+1) )
+                        || (yearCurrent == i && (currentDate.getMonth()+1) == (i1+1) && currentDate.getDate() > i2) ){
+                    Log.d("Past", "Calendar Time");
+                    date = null;
+                }
+                else {
                     if ((i1 + 1) < 10) {
                         if (i2 > 10)
                             date = i2 + "/0" + (i1 + 1) + "/" + i;
@@ -142,6 +151,7 @@ public class CalendarFragment extends Fragment{
                         else if (i2 < 10)
                             date = "0" + i2 + "/" + (i1 + 1) + "/" + i;
                     }
+                }
 
             }
         });

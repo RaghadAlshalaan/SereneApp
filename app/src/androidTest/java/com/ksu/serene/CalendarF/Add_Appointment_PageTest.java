@@ -6,6 +6,7 @@ package com.ksu.serene.CalendarF;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
+import com.google.firebase.firestore.DocumentReference;
 import com.ksu.serene.ElapsedTimeIdlingResource;
 import com.ksu.serene.R;
 import com.ksu.serene.ToastMatcher;
@@ -272,6 +273,8 @@ public class Add_Appointment_PageTest {
             IdlingRegistry.getInstance().register(idlingResource);
             //click confirm button
             onView(withId(R.id.button)).perform(click());
+            //TODO write test for firebase to check the app added successfully in firebase
+            //DocumentReference doc = t
             // check toast visibility
             onView(withText(R.string.AppSavedSuccess))
                     .inRoot(new ToastMatcher())

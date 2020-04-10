@@ -26,76 +26,76 @@
     <string name="delete">حذف</string>
 
     <!-- Add Text Draft Page -->
-    <string name="NewTD">New Draft</string>
+    <string name="NewTD">مسودة جديدة</string>
     <string name="TitleTD">اضف عنوان</string>
-    <string name="SubTD">What Do You Feel?</string>
+    <string name="SubTD">بماذا تشعر؟</string>
     <string name="SaveTD">حفظ</string>
-    <string name="TDSavedSuccess">The Text Draft Saved Suessflly</string>
-    <string name="TDSavedFialed">The Text Draft Saved Suessflly</string>
+    <string name="TDSavedSuccess">تم حفظ المسودة النصية بنجاح</string>
+    <string name="TDSavedFialed">لم يتم حفظ المسودة النصية، يرجى المحاولة مرة اخرى</string>
     <string name="EmptyFields">جميع الحقول مطلوبة</string>
 
     <!-- Edit Text Draft Page -->
-    <string name="EditTD">Edit Draft</string>
+    <string name="EditTD">تعديل المسودة</string>
     <string name="SaveChangesTD">حفظ التغييرات</string>
-    <string name="DeleteTD">Delete Draft</string>
-    <string name="DeleteMessageTD">Are you sure you want to delete this Draft ? </string>
-    <string name="DeleteOKTD">Delete Draft</string>
-    <string name="DeleteCancleTD">Cancel</string>
-    <string name="TDDeletedSuccess">Text Draft Deleted Successfully</string>
-    <string name="TDDeletedFialed">The Text Draft Did not Deleted, Try Again</string>
-    <string name="TDUpdatedSuccess">Text Draft Updated Successfully</string>
-    <string name="TDUpdatedFialed">The Text Draft Did not Updated, Try Again</string>
+    <string name="DeleteTD">حذف المسودة</string>
+    <string name="DeleteMessageTD">هل انت متاكد من حذف المسودة؟</string>
+    <string name="DeleteOKTD">حذف المسودة؟</string>
+    <string name="DeleteCancleTD">الغاء</string>
+    <string name="TDDeletedSuccess">تم حذف المسودة النصية بنجاح</string>
+    <string name="TDDeletedFialed">لم يتم حذف المسودة النصية، يرجى المحاولة مرة اخرى</string>
+    <string name="TDUpdatedSuccess">تم تعديل المسودة النصية بنجاح</string>
+    <string name="TDUpdatedFialed">لم يتم تعديل المسودة النصية، يرجى المحاولة مرة اخرى</string>
 
     <!-- Add Appointment Reminder Page -->
     <string name="AddApp">موعد جديد</string>
     <string name="TitleApp">العنوان</string>
     <string name="DayApp">اليوم</string>
     <string name="TimeApp">الوقت</string>
-    <string name="SetDayApp">Set Day</string>
-    <string name="SetTimeApp">Set Time</string>
+    <string name="SetDayApp">حدد اليوم</string>
+    <string name="SetTimeApp">حدد الوقت</string>
     <string name="SaveApp">حفظ</string>
     <string name="CurrentTime">الوقت المختار يجب ان يكون بعد الوقت الحالي</string>
-    <string name="AppSavedSuccess">The Appointment Reminder Saved Successfully</string>
-    <string name="AppSavedFialed">The Appointment Reminder Did not Saved, Try Again</string>
+    <string name="AppSavedSuccess">تم حفظ تنبيه الموعد بنجاح</string>
+    <string name="AppSavedFialed">لم يتم حفظ التنبيه، يرجى المحاولة مرة اخرى</string>
 
     <!-- Delete App Reminder Page -->
     <string name="AppDetails">الموعد</string>
     <string name="DeleteApp">حذف الموعد</string>
-    <string name="DeleteMessageApp">Are you sure you want to delete this Appointment Reminder ? </string>
+    <string name="DeleteMessageApp">هل انت متأكد من حذف التنبيه؟</string>
     <string name="DeleteOKApp">حذف</string>
-    <string name="DeleteCancleApp">Cancel</string>
-    <string name="AppDeletedSuccess">The Appointment Reminder Deleted Successfully</string>
-    <string name="AppDeletedFialed">The Appointment Reminder Did not Deleted, Try Again</string>
+    <string name="DeleteCancleApp">الغاء</string>
+    <string name="AppDeletedSuccess">تم حذف التنبيه بنجاح</string>
+    <string name="AppDeletedFialed">لم يتم حذف التنبيه، يرجى المحاولة مرة اخرى</string>
 
     <!-- Add Medicine Reminder Page -->
     <string name="AddMed">دواء جديد</string>
     <string name="SDMed">البدأ بهذا اليوم</string>
     <string name="StartMedDate">Start</string>
     <string name="STMed">الوقت لاول يوم</string>
-    <string name="DoseMed">Dose</string>
-    <string name="SetDoseMed">Set Dose</string>
+    <string name="DoseMed">جرعة</string>
+    <string name="SetDoseMed">تحديد الجرعة</string>
     <string name="RepMed">التكرار</string>
     <string name="EvMed">كل</string>
     <string name="timesMed">من المرات</string>
-    <string name="MedSavedSuccess">The Medicine Reminder Saved Successfully</string>
-    <string name="MedSavedFialed">The Medicine Reminder Did not Saved, Try Again</string>
+    <string name="MedSavedSuccess">تم حفظ تنبيه الدواء بنجاح</string>
+    <string name="MedSavedFialed">لم يتم حفظ التنبيه، يرجى المحاولة مرة اخرى</string>
 
     <!-- Delete Med Reminder Page -->
     <string name="MedDetails">الدواء</string>
     <string name="DeleteMed">حذف الدواء</string>
-    <string name="DeleteMessageMed">Are you sure you want to delete this Medicine Reminder ? </string>
+    <string name="DeleteMessageMed">هل انت متأكد من حذف التنبيه؟</string>
     <string name="DeleteOKMed">حذف</string>
-    <string name="DeleteCancleMed">Cancel</string>
-    <string name="MedDeletedSuccess">The Medicine Reminder Deleted Successfully</string>
-    <string name="MedDeletedFialed">The Medicine Reminder Did not Deleted, Try Again</string>
+    <string name="DeleteCancleMed">الغاء</string>
+    <string name="MedDeletedSuccess">تم حذف التنبيه بنجاح</string>
+    <string name="MedDeletedFialed">لم يتم حذف التنبيه، يرجى المحاولة مرة اخرى</string>
 
     <!-- Add Doctor Page -->
     <string name="AddDoc">اضف الطبيب</string>
     <string name="AddDocName">اسم الطبيب</string>
     <string name="AddDocEmail">ايميل الطبيب</string>
-    <string name="PatientEmail">لا يمكنك ان تستخدم ايميلك</string>
-    <string name="AddDocSuccess">The Doctor Added Successfully</string>
-    <string name="AddDocFialed">The Doctor Did not Added, Try Again</string>
+    <string name="PatientEmail">لا يمكنك ان تستخدم بريدك الالكتروني</string>
+    <string name="AddDocSuccess">تم اضافة الطبيب بنجاح</string>
+    <string name="AddDocFialed">لم يتم اضافة الطبيب، الرجاء المحاولة مرة اخرى</string>
     <string name="SaveDoc">اضف الطبيب</string>
 
     <!-- Delete Med Reminder Page -->
@@ -106,33 +106,33 @@
         and the automatic periodic reports will be disabled.
     </string>
     <string name="DeleteOKDoc">حذف</string>
-    <string name="DeleteCancleDoc">Cancel</string>
-    <string name="DocDeletedSuccess">The Doctor Deleted Successfully</string>
-    <string name="DocDeletedFialed">The Doctor Did not Deleted, Try Again</string>
+    <string name="DeleteCancleDoc">الغاء</string>
+    <string name="DocDeletedSuccess">تم حذف الطبيب بنجاح</string>
+    <string name="DocDeletedFialed">لم يتم حذف الطبيب، الرجاء المحاولة مرة اخرى</string>
 
     <!-- Edit Profile Page -->
-    <string name="ChooseImage">Choose Image</string>
+    <string name="ChooseImage">اختار صورة</string>
     <string name="OldPassET">كلمة السر القديمة</string>
     <string name="NewPassET">كلمة السر الجديدة</string>
     <string name="CNPassET">تأكيد كلمة السر الجديدة</string>
-    <string name="ForgetPassSuccess">Reset Password was send to Your Email Successfully</string>
-    <string name="ForgetPassFialed">Try Again, Reset Password did not send</string>
-    <string name="EmptyName">Name Should not be Empty</string>
+    <string name="ForgetPassSuccess">تم ارسال اعادة تعيين كلمة المرور الى بريدك الاكتروني بنجاح</string>
+    <string name="ForgetPassFialed">لم يتم ارسال اعادة تعيين كلمة المرور الى بريدك الاكتروني، الرجاء المحاولة مرة اخرى</string>
+    <string name="EmptyName">يجب ألا يكون الاسم فارغًا</string>
     <string name="NotCorrectName">* ادخل ايميل صحيح</string>
-    <string name="UpdateNameSuccess">Your Name Updated Successfully</string>
-    <string name="UpdateNameFialed">Your Name did not Updated, Try Again</string>
-    <string name="ImageUpSuccess">Your Image Profile Updated Successfully</string>
+    <string name="UpdateNameSuccess">تم تحديث اسمك بنجاح</string>
+    <string name="UpdateNameFialed">لم يتم تحديث اسمك، الرجاء المحاولة مرة اخرى</string>
+    <string name="ImageUpSuccess">تم تحديث ملف تعريف الصورة الخاص بك بنجاح</string>
     <string name="SelectPicture">اختار صورة</string>
-    <string name="ProfileInfoUpdateSuccess">Your Profile Information Updated Successfully</string>
-    <string name="ProfileInfoUpdateFialed">Your Profile Information did not Updated, Try Again</string>
+    <string name="ProfileInfoUpdateSuccess">تم تحديث معلومات ملف التعريف الخاص بك بنجاح</string>
+    <string name="ProfileInfoUpdateFialed">لم يتم تحديث معلومات ملف التعريف الخاص بك، الرجاء المحالوة مرة اخرى</string>
     <string name="DeleteAcc">حذف الحساب</string>
     <string name="DeleteMessageAcc">
         Deleting this account will result in completely removing your account from the system,\n you will not be able to access your account again.
     </string>
     <string name="DeleteOKAcc">حذف</string>
-    <string name="DeleteCancleAcc">Cancel</string>
-    <string name="AccDeletedSuccess">Your Account Deleted Successfully</string>
-    <string name="AccDeletedFialed">Your Account Did not Deleted, Try Again</string>
+    <string name="DeleteCancleAcc">الغاء</string>
+    <string name="AccDeletedSuccess">تم حذف حسابك بنجاح</string>
+    <string name="AccDeletedFialed">لم يتم حذف حسابك، الرجاء المحاولة مرة اخرى</string>
 
     <!-- Edit Socio Page -->
     <string name="Socio">Edit Socio-demographic</string>

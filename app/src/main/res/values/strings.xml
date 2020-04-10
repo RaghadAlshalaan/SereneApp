@@ -244,8 +244,8 @@
     <string name="OldPassET">Old Password</string>
     <string name="NewPassET">New Password</string>
     <string name="CNPassET">Confirm New password</string>
-    <string name="ForgetPassSuccess">Reset Password was send to Your Email Successfully</string>
-    <string name="ForgetPassFialed">Try Again, Reset Password did not send</string>
+    <string name="ForgetPassSuccess">Reset Password was sent to Your Email Successfully</string>
+    <string name="ForgetPassFialed">Try Again, Reset Password did not sent</string>
     <string name="EmptyName">Name Should not be Empty</string>
     <string name="NotCorrectName">* Enter valid name.</string>
     <string name="UpdateNameSuccess">Your Name Updated Successfully</string>

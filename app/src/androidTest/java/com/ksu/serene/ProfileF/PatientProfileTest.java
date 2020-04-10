@@ -1,5 +1,7 @@
 package com.ksu.serene.ProfileF;
 
+import android.content.Intent;
+
 import com.ksu.serene.ElapsedTimeIdlingResource;
 import com.ksu.serene.MainActivity;
 import com.ksu.serene.R;
@@ -37,10 +39,12 @@ public class PatientProfileTest {
 
     //TODO check for change language after added to class
     @Rule
-    public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<MainActivity>(MainActivity.class);
+    public ActivityTestRule<PatientProfile> activityTestRule = new ActivityTestRule<PatientProfile>(PatientProfile.class);
 
     @Before
     public void setUp() throws Exception {
+        //launch activity
+        activityTestRule.launchActivity(new Intent());
         //Mack sure Espresso does not time out
         IdlingPolicies.setMasterPolicyTimeout(10000 * 2, TimeUnit.MILLISECONDS);
         IdlingPolicies.setIdlingResourceTimeout(10000 * 2, TimeUnit.MILLISECONDS);
@@ -48,10 +52,6 @@ public class PatientProfileTest {
         IdlingResource idlingResource = new ElapsedTimeIdlingResource(10000);
         try {
             IdlingRegistry.getInstance().register(idlingResource);
-            FragmentTransaction fragmentTransaction = activityTestRule.getActivity().getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.add(R.id.nav_host_fragment, new PatientProfile());
-            fragmentTransaction.commit();
-            getInstrumentation().waitForIdleSync();
             //check the activity is visible
             onView(withId(R.id.PatientProfile)).check(matches(isDisplayed()));
             //check the buttons visible
