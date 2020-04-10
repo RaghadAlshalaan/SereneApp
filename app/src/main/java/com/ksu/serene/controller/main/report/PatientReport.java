@@ -234,8 +234,6 @@ public class PatientReport extends AppCompatActivity {
         if ( ! locations.isEmpty() )
         startActivity(new Intent(PatientReport.this, LocationHeatMap.class));
 
-        // TODO : ADD LOCATION LIST AS EXTRAS
-
     }
 
     private void lastGeneratedPatientReport() {
@@ -257,10 +255,6 @@ public class PatientReport extends AppCompatActivity {
                             if (counter == 1){
 
                                 List<DocumentSnapshot> doc = task.getResult().getDocuments();
-
-                                //improvement
-//                                String improvement = doc.get(0).get("improvement").toString();
-//                                improvement_num.setText(improvement + " %");
 
                                 //graph
                                 String img  = doc.get(0).get("anxietyLevelGraph").toString();
@@ -377,9 +371,15 @@ public class PatientReport extends AppCompatActivity {
                                          lng = (double) document.get("lon");
 
                                     }
-                                    String anxietyLevel = document.get("anxietyLevel").toString();
-                                    String nearestLocs = document.get("nearestLoc").toString();
+                                    String anxietyLevel = "";
+                                    if(document.get("anxietyLevel") != null) {
+                                        anxietyLevel = document.get("anxietyLevel").toString();
+                                    }
 
+                                    String nearestLocs ="";
+                                    if(document.get("nearestLoc") != null) {
+                                        nearestLocs = document.get("nearestLoc").toString();
+                                    }
 
                                     Double loc_AL = Double.parseDouble(anxietyLevel);
 

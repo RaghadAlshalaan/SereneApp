@@ -376,7 +376,7 @@ public class MainActivity extends AppCompatActivity implements
         List<Address> addresses;
         geocoder = new Geocoder(this, Locale.getDefault());
 
-        addresses = geocoder.getFromLocation(24.731897 , 46.600362 , 5); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+        addresses = geocoder.getFromLocation(24.7198086026 , 46.6229448855 , 5); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
         String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
 
@@ -393,11 +393,11 @@ public class MainActivity extends AppCompatActivity implements
         final Map<String, Object> userLoc = new HashMap<>();
         userLoc.put("patientID", userID);
         userLoc.put("time", FieldValue.serverTimestamp());
-        userLoc.put("lat", 24.731897 );
-        userLoc.put("lng", 46.600362 );
+        userLoc.put("lat", 24.7198086026 );
+        userLoc.put("lng", 46.6229448855 );
         userLoc.put("name", address.substring(i+1 , ii) + " District" );
         userLoc.put("anxietyLevel", "1" );
-        findNearestLocation(24.731897,46.600362);
+        findNearestLocation(24.7198086026,46.6229448855);
 
 
         DocumentReference ref = db.collection("PatientLocations").document(draftId);

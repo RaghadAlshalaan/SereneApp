@@ -2,6 +2,7 @@ package com.ksu.serene.controller.main.report;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +15,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import com.ksu.serene.controller.Constants;
 import com.ksu.serene.R;
+import com.ksu.serene.controller.main.drafts.AddTextDraftPage;
 
 import java.util.Calendar;
+
+import www.sanju.motiontoast.MotionToast;
 
 public class ReportFragment extends Fragment {
 
@@ -39,6 +44,7 @@ public class ReportFragment extends Fragment {
     private int startDay;
     private int startMonth;
     private int startYear;
+    private Resources res;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -46,7 +52,7 @@ public class ReportFragment extends Fragment {
 
 
         root = inflater.inflate(R.layout.fragment_report, container, false);
-
+        res = getResources();
         init();
         // by default
         datePicker.setVisibility(LinearLayout.GONE);
@@ -55,6 +61,7 @@ public class ReportFragment extends Fragment {
             public void onClick(View v) {
                 //show dialog
                 dateDialog.show();
+
                 dateDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
@@ -67,7 +74,6 @@ public class ReportFragment extends Fragment {
                             startDateTxt.setText(startDate);
 
                         }
-
 
                     }
                 });
@@ -102,7 +108,16 @@ public class ReportFragment extends Fragment {
                     });
 
                 } else {
-                    dialog("Please, choose the start date first");
+
+                    String text = String.format(res.getString(R.string.date_picker));
+
+                    MotionToast.Companion.darkToast(
+                            getActivity(),
+                            text,
+                            MotionToast.Companion.getTOAST_WARNING(),
+                            MotionToast.Companion.getGRAVITY_BOTTOM(),
+                            MotionToast.Companion.getSHORT_DURATION(),
+                            ResourcesCompat.getFont( getActivity().getApplicationContext(), R.font.montserrat));
                 }//else
 
 
@@ -145,23 +160,30 @@ public class ReportFragment extends Fragment {
                     if (startDate != null && endDate != null) {
                         intent.putExtra(Constants.Keys.START_DATE, startDate);
                         intent.putExtra(Constants.Keys.END_DATE, endDate);
+                        startActivity(intent);
+
                     } else {
                         // error dialog null input
                         if (startDate == null && endDate == null) {
-                            dialog("Pleas, choose start and end date to generate your report");
+                            String text = String.format(res.getString(R.string.date_pickerr));
+
+                            dialog(text);
 
                         } else if (startDate == null) {
-                            dialog("Pleas, choose start date to generate your report");
+                            String text = String.format(res.getString(R.string.date_pickerrr));
+
+                            dialog(text);
 
                         } else if (endDate == null) {
-                            dialog("Pleas, choose  end date to generate your report");
+                            String text = String.format(res.getString(R.string.date_pickerrrr));
+
+                            dialog(text);
 
                         }//else
 
                     }//if
 
                 }//bigger if
-                startActivity(intent);
             }// onClick
 
 
@@ -184,16 +206,14 @@ public class ReportFragment extends Fragment {
 
     }//init
 
-    public void dialog(String msg) {
-        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-        alertDialog.setTitle("Invalid user input ");
-        alertDialog.setMessage(msg);
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
+    public void dialog(String text) {
+
+        MotionToast.Companion.darkToast(
+                getActivity(),
+                text,
+                MotionToast.Companion.getTOAST_WARNING(),
+                MotionToast.Companion.getGRAVITY_BOTTOM(),
+                MotionToast.Companion.getSHORT_DURATION(),
+                ResourcesCompat.getFont( getActivity().getApplicationContext(), R.font.montserrat));
     }
 }// class

@@ -127,6 +127,12 @@
     <string name="g_sleep"><b>Good News!</b> \nIt seems you\'re getting enough sleep!\nGetting a good night’s sleep can improve your mental well-being and help you to better manage your anxiety.</string>
     <string name="g_steps"><b>Great Work!</b> \nYou\'re considered an active person based on your average steps per day.\nKeep in mind that active people have lower rates of anxiety than sedentary people.</string>
 
+    <string name="date_picker">The start date must be chosen before the end.</string>
+    <string name="date_pickerr">The start and end date must be chosen to generate the report.</string>
+    <string name="date_pickerrr">The start date must be chosen to generate the report.</string>
+    <string name="date_pickerrrr">The end date must be chosen to generate the report.</string>
+
+
     <string-array name="employmentStatus">
         <item>@string/full</item>
         <item>@string/part</item>
