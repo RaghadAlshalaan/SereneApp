@@ -9,18 +9,29 @@
     android:orientation="vertical"
     >
 
+    <LinearLayout
+        android:id="@+id/linearLayout6"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/main_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal" />
+
     <TextView
         android:id="@+id/titleofscreen"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="80dp"
         android:fontFamily="@font/montserrat"
         android:gravity="center"
         android:paddingTop="10dp"
-        android:text="Drafts"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="25sp"
+        android:textStyle="bold"
+        android:text="@string/drafts"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -29,10 +40,8 @@
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:orientation="vertical"
         android:padding="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleofscreen">
@@ -41,15 +50,15 @@
             android:id="@+id/TabLayoutDraft"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabIndicatorColor="@color/colorAccent" />
+            app:tabTextColor="@color/black"
+            android:outlineSpotShadowColor="@color/white"
+            app:tabSelectedTextColor="@color/white"
+            app:tabIndicatorColor="@color/white" />
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/ViewPagerDraft"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-
-        </androidx.viewpager.widget.ViewPager>
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 

@@ -55,13 +55,14 @@ public class HomeFragment extends Fragment {
 
 
     // Next Appointment
-    private TextView nextAppointment;
+    private TextView nextAppointment,improvement;
     private String Name="", DTime="", id="";
     private Date DDate;
     private View card3;
 
+
     // Quote
-    private ImageView quote;
+    private ImageView AL_graph, quote;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -70,6 +71,8 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         init (root);
+
+        getDailyReport();
 
         getAppointment2();
 
@@ -86,16 +89,43 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+
     private void init(View root) {
 
         nextAppointment = root.findViewById(R.id.noUpcoming);
         card3 = root.findViewById(R.id.card3);
-
+        AL_graph = root.findViewById(R.id.AL_graph);
+        improvement = root.findViewById(R.id.improvement_num);
         quote = root.findViewById(R.id.picQ);
         setQuoteImage();
 
         // parse Preference file
         SharedPreferences sp = getActivity().getSharedPreferences("user_details", Context.MODE_PRIVATE);
+
+    }
+
+    private void getDailyReport() {
+
+        String docID = "daily" + mAuth.getUid();
+
+        db.collection("DailyReport").document(docID)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+
+                            DocumentSnapshot document = task.getResult();
+
+                            String quote_image_url = document.get("AL_graph").toString();
+
+                            Glide.with(getContext()).load(quote_image_url).into(AL_graph);
+
+                            String improvementPercentage = document.get("improvement").toString();
+                            improvement.setText(improvementPercentage);
+                        }
+                    }
+                });
 
     }
 

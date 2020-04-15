@@ -41,8 +41,6 @@ public class ReportFragment extends Fragment {
     private Button start;
     private Button end;
     private CustomDialogClass dateDialog;
-    private TextView startDateTxt;
-    private TextView endDateTxt;
     private LinearLayout datePicker;
     private String startDate;
     private String endDate;
@@ -58,8 +56,11 @@ public class ReportFragment extends Fragment {
 
 
         root = inflater.inflate(R.layout.fragment_report, container, false);
+
         res = getResources();
+
         init();
+
         // by default
         datePicker.setVisibility(LinearLayout.GONE);
 
@@ -73,7 +74,7 @@ public class ReportFragment extends Fragment {
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 startDate = myCalendar.get(Calendar.DAY_OF_MONTH) + "/" + myCalendar.get(Calendar.MONTH)  + "/" + myCalendar.get(Calendar.YEAR);
-                startDateTxt.setText(DateFormat.format(myCalendar.getTime()));
+                start.setText(DateFormat.format(myCalendar.getTime()));
             }
 
         };
@@ -88,7 +89,7 @@ public class ReportFragment extends Fragment {
                 myCalendarEnd.set(Calendar.MONTH, monthOfYear);
                 myCalendarEnd.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 endDate = myCalendarEnd.get(Calendar.DAY_OF_MONTH) + "/" + myCalendarEnd.get(Calendar.MONTH)  + "/" + myCalendarEnd.get(Calendar.YEAR);
-                endDateTxt.setText(DateFormat.format(myCalendarEnd.getTime()));
+                end.setText(DateFormat.format(myCalendarEnd.getTime()));
             }
 
         };
@@ -122,7 +123,7 @@ public class ReportFragment extends Fragment {
                             startDay = Integer.parseInt(dateDialog.getDay());
                             startMonth = Integer.parseInt(dateDialog.getMonth());
                             startYear = Integer.parseInt(dateDialog.getYear());
-                            startDateTxt.setText(startDate);
+                            start.setText(startDate);
 
                         }
 
@@ -150,7 +151,7 @@ public class ReportFragment extends Fragment {
                     //when that date shoosen for start is equal to current time no nned to show the dialog take the same date
                     else {
                         endDate = myCalendar.get(Calendar.DAY_OF_MONTH) + "/" + myCalendar.get(Calendar.MONTH)  + "/" + myCalendar.get(Calendar.YEAR);
-                        endDateTxt.setText(DateFormat.format(myCalendar.getTime()));
+                        end.setText(DateFormat.format(myCalendar.getTime()));
                     }
                     /*Calendar calen = Calendar.getInstance();
                     calen.set(Calendar.MONTH, startMonth);
@@ -168,7 +169,7 @@ public class ReportFragment extends Fragment {
                             if (dateDialog.getDay() != null && dateDialog.getMonth() != null && dateDialog.getYear() != null) {
 
                                 endDate = dateDialog.getDay() + "/" +(Integer.parseInt(dateDialog.getMonth())+1) + "/" + dateDialog.getYear();
-                                endDateTxt.setText(endDate);
+                                end.setText(endDate);
                             }
 
                         }//if
@@ -228,7 +229,6 @@ public class ReportFragment extends Fragment {
                         intent.putExtra(Constants.Keys.START_DATE, startDate);
                         intent.putExtra(Constants.Keys.END_DATE, endDate);
                         startActivity(intent);
-
                     } else {
                         switch (isDatesChoosen (startDate,endDate)) {
                             //here the enly missing is the start date
@@ -251,18 +251,16 @@ public class ReportFragment extends Fragment {
                         // error dialog null input
                         /*if (startDate == null && endDate == null) {
                             String text = String.format(res.getString(R.string.date_pickerr));
-
                             dialog(text);
 
                         } else if (startDate == null) {
                             String text = String.format(res.getString(R.string.date_pickerrr));
-
                             dialog(text);
 
                         } else if (endDate == null) {
                             String text = String.format(res.getString(R.string.date_pickerrrr));
-
                             dialog(text);
+                        }
 
                         }//else*/
 
@@ -286,11 +284,8 @@ public class ReportFragment extends Fragment {
         end = root.findViewById(R.id.end);
         start = root.findViewById(R.id.start);
         dateDialog = new CustomDialogClass(getActivity());
-        startDateTxt = root.findViewById(R.id.start_date);
-        endDateTxt = root.findViewById(R.id.end_date);
         datePicker = root.findViewById(R.id.data_picker);
         duration = "2week";// default value
-
     }//init
 
     public void dialog(String text) {
@@ -302,6 +297,7 @@ public class ReportFragment extends Fragment {
                 MotionToast.Companion.getGRAVITY_BOTTOM(),
                 MotionToast.Companion.getSHORT_DURATION(),
                 ResourcesCompat.getFont( getActivity().getApplicationContext(), R.font.montserrat));
+
     }
 
     public boolean isStartDateSet (String startDate){

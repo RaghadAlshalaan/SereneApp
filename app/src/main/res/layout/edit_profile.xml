@@ -215,7 +215,7 @@
             android:background="@drawable/main_button"
             android:fontFamily="@font/montserrat"
             android:padding="10dp"
-            android:text="Save"
+            android:text="@string/SaveChangesTD"
             android:textColor="@color/white"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"

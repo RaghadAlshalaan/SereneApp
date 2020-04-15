@@ -25,7 +25,7 @@
         android:layout_marginStart="50dp"
         android:layout_marginTop="105dp"
         android:fontFamily="@font/montserrat"
-        android:text="23"
+        android:text=""
         android:textColor="@color/white"
         android:textSize="60sp"
         android:textStyle="bold"
@@ -39,7 +39,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="15dp"
         android:fontFamily="@font/montserrat"
-        android:text="April"
+        android:text=""
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/day"
@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:fontFamily="@font/montserrat"
-        android:text="Saturday"
+        android:text=""
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/day"
@@ -65,7 +65,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <CalendarView
                 android:id="@+id/calendarView2"
@@ -86,15 +86,17 @@
 
             <TextView
                 android:id="@+id/text1"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
                 android:fontFamily="@font/montserrat"
                 android:text="@string/appointments"
                 android:textColor="#4A4A4A"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/calendarView2" />
 
@@ -123,8 +125,9 @@
                 android:layout_below="@+id/RecyclerviewSession"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="120dp"
+                android:layout_marginEnd="20dp"
                 android:fontFamily="@font/montserrat"
-                android:text="Medicines"
+                android:text="@string/medicines"
                 android:textColor="#4A4A4A"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -138,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/montserrat"
-                android:text="No Scheduled Medicines"
+                android:text="@string/no_scheduled_medicines"
                 android:textColor="@color/darkAccent"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -169,7 +172,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/montserrat"
-                android:text="No Scheduled Appointments"
+                android:text="@string/no_scheduled_appointments"
                 android:textColor="@color/darkAccent"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -186,7 +189,7 @@
                 android:layout_marginEnd="30dp"
                 android:fontFamily="@font/montserrat"
                 android:gravity="center"
-                android:text="No Scheduled Appointments or Medicines For Today"
+                android:text="@string/no_scheduled_appointments_or_medicines_for_today"
                 android:textColor="@color/darkAccent"
                 android:textSize="18sp"
                 android:visibility="gone"
@@ -239,7 +242,7 @@
         android:id="@+id/AddAppButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="30dp"
         android:src="@drawable/add_appointment"
         app:aebAnimDurationMillis="175"

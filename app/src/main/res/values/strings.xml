@@ -122,8 +122,8 @@
     <string name="day">day(s)</string>
     <string name="week">week(s)</string>
     <string name="resend_verification_email"><u>Resend Verification Email</u></string>
-    <string name="steps_rcmnd">It is recommended to walk at least 3000 steps per day to get lower chance of anxiety.</string>
-    <string name="sleep_rcmnd">It is recommended to sleep at least 8 hours per day to get lower chance of anxiety.</string>
+    <string name="steps_rcmnd">It is recommended to walk at least 3000 steps per day to get lower chance of anxiety.\nKeep in mind that active people have lower rates of anxiety than sedentary people.</string>
+    <string name="sleep_rcmnd">It is recommended to sleep at least 8 hours per day to get lower chance of anxiety.\nGetting a good night’s sleep can improve your mental well-being and help you to better manage your anxiety.</string>
     <string name="g_sleep"><b>Good News!</b> \nIt seems you\'re getting enough sleep!\nGetting a good night’s sleep can improve your mental well-being and help you to better manage your anxiety.</string>
     <string name="g_steps"><b>Great Work!</b> \nYou\'re considered an active person based on your average steps per day.\nKeep in mind that active people have lower rates of anxiety than sedentary people.</string>
 
@@ -342,6 +342,23 @@
     <string name="no">No</string>
     <string name="AudioDeletedSuccess">The Voice Draft Deleted Successfully</string>
     <string name="AudioDeletedFialed">The Voice Draft Did not Deleted, Try Again</string>
+    <string name="medicines">Medicines</string>
+    <string name="no_scheduled_medicines">No Scheduled Medicines</string>
+    <string name="no_scheduled_appointments">No Scheduled Appointments</string>
+    <string name="no_scheduled_appointments_or_medicines_for_today">No Scheduled Appointments or Medicines For Today</string>
+    <string name="anxiety_analysis">Anxiety Analysis</string>
+    <string name="anxiety_analysis_description">Learn more about your anxiety and health,\n just one click away!</string>
+    <string name="start_date">Start Date</string>
+    <string name="set_start">set start</string>
+    <string name="end_date">End Date</string>
+    <string name="set_end">set end</string>
+    <string name="compared_to_yesterday">Compared To Yesterday</string>
+    <string name="drafts">Drafts</string>
+    <string name="my_information">My Information</string>
+    <string name="english">English</string>
+    <string name="arabic">Arabic</string>
+    <string name="home">Home</string>
+    <string name="reports">Reports</string>
 
 </resources>
 
