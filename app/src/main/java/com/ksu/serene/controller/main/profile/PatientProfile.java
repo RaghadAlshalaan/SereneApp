@@ -110,7 +110,7 @@ public class PatientProfile extends AppCompatActivity {
         });
 
 
-      logOut.setOnClickListener(new View.OnClickListener() {
+        logOut.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
               logoutDialog();
@@ -146,7 +146,6 @@ public class PatientProfile extends AppCompatActivity {
       }
 
         listenToUpdates();
-
 
     }
 
@@ -470,8 +469,14 @@ public class PatientProfile extends AppCompatActivity {
         Configuration conf = res.getConfiguration();
         conf.locale = myLocale;
         res.updateConfiguration(conf, dm);
+
+        SharedPreferences sp = PatientProfile.this.getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("PREFERRED_LANGUAGE", lang );
+        editor.apply();
+
         Intent refresh = new Intent(this, MainActivity.class);
-        finish();
         startActivity(refresh);
+        finish();
     }
 }

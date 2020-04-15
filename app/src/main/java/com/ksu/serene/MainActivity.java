@@ -6,12 +6,16 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -47,6 +51,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.ksu.serene.controller.Constants;
 import com.ksu.serene.controller.Reminder.Notification;
 import com.ksu.serene.controller.main.home.NotificationAdapter;
 import com.ksu.serene.locationManager.MyLocationManager;
@@ -55,6 +60,7 @@ import com.ksu.serene.fitbitManager.SensorService;
 import com.ksu.serene.fitbitManager.Util;
 import com.ksu.serene.fitbitManager.FitbitWorker;
 import com.ksu.serene.controller.main.profile.PatientProfile;
+import com.ksu.serene.model.MySharedPreference;
 import com.ksu.serene.model.Patient;
 
 import androidx.annotation.NonNull;
@@ -106,16 +112,29 @@ public class MainActivity extends AppCompatActivity implements
 
     MyLocationManager locationManager;
     boolean newNotificationFlag = false;
-    String draftId;
+    String draftId, preferred_lng;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    public void setLocale(String lang) {
+        Locale myLocale = new Locale(lang);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
+
+        // CHECK & SET APPLICATION LANGUAGE
+        SharedPreferences sp = MainActivity.this.getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+        preferred_lng = sp.getString( "PREFERRED_LANGUAGE", "values");
+        setLocale(preferred_lng);
 
 /*        // Change status bar color
         Window window = this.getWindow();
@@ -376,7 +395,7 @@ public class MainActivity extends AppCompatActivity implements
         List<Address> addresses;
         geocoder = new Geocoder(this, Locale.getDefault());
 
-        addresses = geocoder.getFromLocation(24.7198086026 , 46.6229448855 , 5); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+        addresses = geocoder.getFromLocation(24.742620 , 46.610379 , 5); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
         String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
 
@@ -393,11 +412,11 @@ public class MainActivity extends AppCompatActivity implements
         final Map<String, Object> userLoc = new HashMap<>();
         userLoc.put("patientID", userID);
         userLoc.put("time", FieldValue.serverTimestamp());
-        userLoc.put("lat", 24.7198086026 );
-        userLoc.put("lng", 46.6229448855 );
+        userLoc.put("lat", 24.742620 );
+        userLoc.put("lng", 46.610379 );
         userLoc.put("name", address.substring(i+1 , ii) + " District" );
         userLoc.put("anxietyLevel", "1" );
-        findNearestLocation(24.7198086026,46.6229448855);
+        findNearestLocation(24.742620,46.610379);
 
 
         DocumentReference ref = db.collection("PatientLocations").document(draftId);

@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -106,6 +107,7 @@ public class AddTextDraftPage extends AppCompatActivity {
                                 MotionToast.Companion.getGRAVITY_BOTTOM(),
                                 MotionToast.Companion.getLONG_DURATION(),
                                 ResourcesCompat.getFont( AddTextDraftPage.this, R.font.montserrat));
+
 
                         finish();
 

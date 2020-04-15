@@ -202,13 +202,12 @@
                 <ImageView
                     android:id="@+id/AL_graph"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="240dp"
                     android:layout_gravity="center"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="24dp"
                     android:paddingTop="10dp"
-                    android:src="@drawable/test_anxiety_level_graph"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view" />

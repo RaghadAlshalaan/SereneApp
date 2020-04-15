@@ -102,7 +102,6 @@ public class PatientReport extends AppCompatActivity {
 
         // location analysis & heatmap
         location();
-        recommendation();
 
     }//onCreate
 
@@ -149,7 +148,7 @@ public class PatientReport extends AppCompatActivity {
         downSleepAvg1 = findViewById(R.id.averageSleepD);
         downSleepAvg2 = findViewById(R.id.recommendSleepD);
 
-        downStepsAvg1 = findViewById(R.id.averageStepsN);
+        downStepsAvg1 = findViewById(R.id.averageStepsD);
         downStepsAvg2 = findViewById(R.id.recommendStepsD);
 
         // Three dots options SHARE & PRINT
@@ -237,41 +236,31 @@ public class PatientReport extends AppCompatActivity {
     }
 
     private void lastGeneratedPatientReport() {
-        Task<QuerySnapshot> docRef = firebaseFirestore.collection("LastGeneratePatientReport")
-                .whereEqualTo("patientID", userId)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @SuppressLint("SetTextI18n")
+        String doc_id = "report";
+        doc_id += userId;
+
+        firebaseFirestore.collection("LastGeneratePatientReport")
+                .document(doc_id).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
 
-                            // assume that the patient has only one Doc contains his info
-                            int counter = 0;
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                counter++;
-                            }
+                            // The patient has only one Doc contains his report info
+                            DocumentSnapshot doc = task.getResult();
 
-                            if (counter == 1){
+                                // Get graphs
+                                int numberOfGraphs = Integer.parseInt(doc.get("number_of_AL_graphs").toString());
 
-                                List<DocumentSnapshot> doc = task.getResult().getDocuments();
-
-                                //graph
-                                String img  = doc.get(0).get("anxietyLevelGraph").toString();
-                                Glide.with(PatientReport.this)
-                                        .load(img + "")
-                                        .into(ALGraph);
-
-                                //highest day
-//                                String date = doc.get(0).get("highestDay").toString();
-//                                highestday_date.setText(date);
-
-//                                String date = ((Timestamp)doc.get(0).get("highestDay")).toDate().toString();
-//                                highestday_date.setText(date);
+                                if(numberOfGraphs > 0) {
+                                    String img  = doc.get("AL_graph_0").toString();
+                                    Glide.with(PatientReport.this)
+                                            .load(img + "")
+                                            .into(ALGraph);
+                                }
 
 
-                            }//if
-
+                            recommendation(doc);
 
                         }//if
                     }// onComplete
@@ -425,7 +414,6 @@ public class PatientReport extends AppCompatActivity {
 
                                 }
 
-
                             }// for every location belonging to this patient (for loop)
 
 
@@ -460,100 +448,82 @@ public class PatientReport extends AppCompatActivity {
 
     }
 
-    private void recommendation() {
-
-        Query recommendation = firebaseFirestore.collection("LastGeneratePatientReport")
-                .whereEqualTo("patient_id", "yy");
-
-        recommendation.get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-
-                        if(!queryDocumentSnapshots.isEmpty()) {
-
-                            boolean foundSleep = false;
-                            boolean foundSteps = false;
-
-                            String  avgSleep ="", avgSteps ="";
-                            String  rcmndSleep ="", rcmndSteps = "";
-
-                            for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                                //check for appointment date if it's within selected duration
-
-                                boolean sleepR = (boolean) document.get("sleepRecommendation");
-                                boolean stepsR = (boolean) document.get("stepsRecommendation");
+    private void recommendation(DocumentSnapshot doc) {
 
 
-                                // set graph
-                                String url = document.get("anxiety_level_graph").toString();
-                                anxietyGraph(url);
+            boolean foundSleep = false;
+            boolean foundSteps = false;
+
+            String  avgSleep ="", avgSteps ="";
+            String  rcmndSleep ="", rcmndSteps = "";
 
 
-                                if(sleepR){
-                                    foundSleep = true;
-                                      avgSleep = document.get("average_sleep_hours").toString();
-                                      rcmndSleep = document.get("recommended_sleep_hours").toString();
-
-                                }
-
-                                if(stepsR){
-                                    foundSteps = true;
-                                    avgSteps = document.get("average_steps").toString();
-                                    rcmndSteps = document.get("recommended_steps").toString();
-                                }
+                boolean sleepR = (boolean) doc.get("sleepRecomendation");
+                boolean stepsR = (boolean) doc.get("stepsRecomendation");
 
 
-                            }
+//                // set graph
+//                String url = doc.get("anxiety_level_graph").toString();
+//                anxietyGraph(url);
 
-                            if(foundSleep){
-                                noSleepRcmnd.setVisibility(View.GONE);
 
-                                sleepRecommendTV.setText(R.string.sleep_rcmnd);
-                                // get from strings
+                if(sleepR){
+                    foundSleep = true;
+                      avgSleep = doc.get("average_sleep_hours").toString();
+                      rcmndSleep = doc.get("recommended_sleep_hours").toString();
 
-                                sleepAvg.setText(avgSleep);
-                                sleepRcmnd.setText(rcmndSleep);
+                }
 
-                            }else {
-                                sleepRecommendTV.setVisibility(View.GONE);
-                                sleepAvg.setVisibility(View.GONE);
-                                sleepRcmnd.setVisibility(View.GONE);
-                                downSleepAvg1.setVisibility(View.GONE);
-                                downSleepAvg2.setVisibility(View.GONE);
-                                v1.setVisibility(View.GONE);
-
-                                noSleepRcmnd.setVisibility(View.VISIBLE);
-                                //noSleepRcmnd.setText(R.string);
-
-                            }
-
-                            if(foundSteps){
-                                noStepsRcmnd.setVisibility(View.GONE);
-
-                                stepsRecommendTV.setText(R.string.steps_rcmnd);
-
-                                stepsAvg.setText(avgSteps);
-                                stepsRcmnd.setText(rcmndSteps);
-
-                            }else{
-                                stepsRecommendTV.setVisibility(View.GONE);
-                                stepsAvg.setVisibility(View.GONE);
-                                stepsRcmnd.setVisibility(View.GONE);
-                                downStepsAvg1.setVisibility(View.GONE);
-                                downStepsAvg2.setVisibility(View.GONE);
-                                v2.setVisibility(View.GONE);
-
-                                noStepsRcmnd.setVisibility(View.VISIBLE);
-                                //noStepsRcmnd.setText(R.string.good_steps);
-                            }
+                if(stepsR){
+                    foundSteps = true;
+                    avgSteps = doc.get("average_steps").toString();
+                    rcmndSteps = doc.get("recommended_steps").toString();
+                }
 
 
 
-                        }// not empty
+            if(foundSleep){
+                noSleepRcmnd.setVisibility(View.GONE);
 
-                    }
-                });
+                sleepRecommendTV.setText(R.string.sleep_rcmnd);
+                // get from strings
+
+                sleepAvg.setText(avgSleep);
+                sleepRcmnd.setText(rcmndSleep);
+
+            }else {
+                sleepRecommendTV.setVisibility(View.GONE);
+                sleepAvg.setVisibility(View.GONE);
+                sleepRcmnd.setVisibility(View.GONE);
+                downSleepAvg1.setVisibility(View.GONE);
+                downSleepAvg2.setVisibility(View.GONE);
+                v1.setVisibility(View.GONE);
+
+                noSleepRcmnd.setVisibility(View.VISIBLE);
+                //noSleepRcmnd.setText(R.string);
+
+            }
+
+            if(foundSteps){
+                noStepsRcmnd.setVisibility(View.GONE);
+
+                stepsRecommendTV.setText(R.string.steps_rcmnd);
+
+                stepsAvg.setText(avgSteps);
+                stepsRcmnd.setText(rcmndSteps);
+
+            }else{
+                stepsRecommendTV.setVisibility(View.GONE);
+                stepsAvg.setVisibility(View.GONE);
+                stepsRcmnd.setVisibility(View.GONE);
+                downStepsAvg1.setVisibility(View.GONE);
+                downStepsAvg2.setVisibility(View.GONE);
+                v2.setVisibility(View.GONE);
+
+                noStepsRcmnd.setVisibility(View.VISIBLE);
+                //noStepsRcmnd.setText(R.string.good_steps);
+            }
+
 
     }//recommendation+AL
 

@@ -16,7 +16,7 @@
     <string name="passwordNotUpdated">"لم يتم تحديث كلمة المرور ، يرجى المحاولة مرة أخرى "</string>
     <string name="passwordSame">"لا يمكنك استخدام نفس كلمة المرور "</string>
     <string name="passwordUpdate">"تم تحديث كلمة المرور "</string>
-    <string name="questionnaire">"يرجى ملء الاستبيان "</string>
+    <string name="questionnaire">"يرجى ملىء الاستبيان "</string>
     <string name="selectPic">اختر صورة</string>
     <string name="student">طالب</string>
     <string name="wrongPassword">"لقد أدخلت كلمة مرور خاطئة "</string>
@@ -40,8 +40,8 @@
     <string name="DeleteTD">حذف المسودة</string>
     <string name="DeleteMessageTD">هل انت متاكد من حذف المسودة؟</string>
     <string name="DeleteOKTD">حذف المسودة؟</string>
-    <string name="DeleteCancleTD">الغاء</string>
-    <string name="TDDeletedSuccess">تم حذف المسودة النصية بنجاح</string>
+    <string name="DeleteCancleTD">إلغاء</string>
+    <string name="TDDeletedSuccess">تم حذف المسودة النصية بنجاح.</string>
     <string name="TDDeletedFialed">لم يتم حذف المسودة النصية، يرجى المحاولة مرة اخرى</string>
     <string name="TDUpdatedSuccess">تم تعديل المسودة النصية بنجاح</string>
     <string name="TDUpdatedFialed">لم يتم تعديل المسودة النصية، يرجى المحاولة مرة اخرى</string>
@@ -56,14 +56,14 @@
     <string name="SaveApp">حفظ</string>
     <string name="CurrentTime">الوقت المختار يجب ان يكون بعد الوقت الحالي</string>
     <string name="AppSavedSuccess">تم حفظ تنبيه الموعد بنجاح</string>
-    <string name="AppSavedFialed">لم يتم حفظ التنبيه، يرجى المحاولة مرة اخرى</string>
+    <string name="AppSavedFialed">لم يتم حفظ التنبية، يرجى المحاولة مرة اخرى</string>
 
     <!-- Delete App Reminder Page -->
     <string name="AppDetails">الموعد</string>
     <string name="DeleteApp">حذف الموعد</string>
     <string name="DeleteMessageApp">هل انت متأكد من حذف التنبيه؟</string>
     <string name="DeleteOKApp">حذف</string>
-    <string name="DeleteCancleApp">الغاء</string>
+    <string name="DeleteCancleApp">إلغاء</string>
     <string name="AppDeletedSuccess">تم حذف التنبيه بنجاح</string>
     <string name="AppDeletedFialed">لم يتم حذف التنبيه، يرجى المحاولة مرة اخرى</string>
 
@@ -83,7 +83,7 @@
     <!-- Delete Med Reminder Page -->
     <string name="MedDetails">الدواء</string>
     <string name="DeleteMed">حذف الدواء</string>
-    <string name="DeleteMessageMed">هل انت متأكد من حذف التنبيه؟</string>
+    <string name="DeleteMessageMed">هل أنت متأكد من حذف التنبية؟</string>
     <string name="DeleteOKMed">حذف</string>
     <string name="DeleteCancleMed">الغاء</string>
     <string name="MedDeletedSuccess">تم حذف التنبيه بنجاح</string>
@@ -126,16 +126,14 @@
     <string name="ProfileInfoUpdateSuccess">تم تحديث معلومات ملف التعريف الخاص بك بنجاح</string>
     <string name="ProfileInfoUpdateFialed">لم يتم تحديث معلومات ملف التعريف الخاص بك، الرجاء المحالوة مرة اخرى</string>
     <string name="DeleteAcc">حذف الحساب</string>
-    <string name="DeleteMessageAcc">
-        Deleting this account will result in completely removing your account from the system,\n you will not be able to access your account again.
-    </string>
+    <string name="DeleteMessageAcc">حذف الحساب سيتسبب بإزالة حسابك ومعلوماتك من النظام نهائياً، ولن تتمكن من الدخول له مرة أخرى.</string>
     <string name="DeleteOKAcc">حذف</string>
     <string name="DeleteCancleAcc">الغاء</string>
     <string name="AccDeletedSuccess">تم حذف حسابك بنجاح</string>
     <string name="AccDeletedFialed">لم يتم حذف حسابك، الرجاء المحاولة مرة اخرى</string>
 
     <!-- Edit Socio Page -->
-    <string name="Socio">Edit Socio-demographic</string>
+    <string name="Socio">تعديل معلوماتي</string>
     <string name="NotCorrectAge">Please Enter Valid Age Value Between 5 to 110 Years Old</string>
     <string name="NotCorrectHeight">Please Enter Valid Height Value Between 50 to 300 CM</string>
     <string name="NotCorrectWeight">Please Enter Valid Weight Value Between 20 to 300 KG</string>
@@ -146,32 +144,28 @@
     <string name="SaveSocioUpdate">حفظ</string>
 
     <!-- Patient Profile Page -->
-    <string name="VervEmail">To Help Ensure Your Accounts Security Please Verify Your Email.</string>
-    <string name="VervEmailSuccess">Email Was Sent For Verification</string>
-    <string name="VervEmailFialed">Email Did Not Sent, Try Again</string>
-    <string name="NoDoc">No Doctor</string>
+    <string name="VervEmail">لضمان أمان حسابك، يرجى توثيق البريك الإلكتروني.</string>
+    <string name="VervEmailSuccess">تم إرسال بريد إلكتروني للتفعيل.</string>
+    <string name="VervEmailFialed">لم يتم إرسال البريد الإلكتروني،الرجاء المحاولة مرة أخرى.</string>
+    <string name="NoDoc">لم يتم تعيين طبيب</string>
     <string name="LogOut">تسجيل الخروج</string>
-    <string name="LogOutMsg">
-        Are You Sure You Want To Logout ?
-    </string>
+    <string name="LogOutMsg">هل أنت متأكد من أنك تريد تسجيل الخروج؟</string>
     <string name="LogOutOK">تسجيل خروج</string>
-    <string name="LogOutCancle">Cancel</string>
-    <string name="LogOutSuccess">Your Account Deleted Successfully</string>
-    <string name="LogOutFialed">Your Account Did not Deleted, Try Again</string>
+    <string name="LogOutCancle">إلغاء</string>
+    <string name="LogOutSuccess">تم حذف الحساب بنجاح.</string>
+    <string name="LogOutFialed">لم تتم عملية حذف الحساب، الرجاء المحاولة مرة أخرى.</string>
 
     <!-- Log in Page -->
-    <string name="ForgetPass">Reset Password</string>
-    <string name="ForgetPassMessage">
-        If You Do not Know Your Current Password,\n
-        You may Change it.\n
-        Please Enter Your Email
+    <string name="ForgetPass">إعادة ضبط كلمة السر</string>
+    <string name="ForgetPassMessage">إذا كنت لا تتذكر كلمة السر الحالية،
+        يجب عليك تغييرها، الرجاء إدخال الإيميل
     </string>
-    <string name="ForgetPassOK">Request New Password</string>
-    <string name="ForgetPassCancle">Cancel</string>
-    <string name="EmptyEmail">Email Should not be Empty</string>
-    <string name="NotCorrectEmail">Please, Enter Your Email Correctly.</string>
-    <string name="NoUser">* There is not User With this Email, Please Try Again!</string>
-    <string name="SocioNotFound">You Have First Complete The Registration Requirements Before Log in</string>
+    <string name="ForgetPassOK">طلب كلمة سر جديدة</string>
+    <string name="ForgetPassCancle">إلغاء</string>
+    <string name="EmptyEmail">خانة الإيميل يجب أن لا تكون فارغة</string>
+    <string name="NotCorrectEmail">الرجاء إدخال الإيميل بشكل صحيح.</string>
+    <string name="NoUser">* لا يوجد حساب مستخدم مرتبط بهذا البريد الإليكتروني، الرجاء المحاولة مرة أخرى.</string>
+    <string name="SocioNotFound">يجب عليك إكمال متطلبات التسجيل قبل تسجيل الدخول.</string>
 
     <!-- Suign up Page -->
     <string name="NotValidName">* ادخل اسم صحيح</string>
@@ -179,38 +173,158 @@
     <string name="NotMatchPass">* الرقم السري لايطابق</string>
     <string name="ExistUser">* يوجد حساب بهذا الايميل</string>
     <string name="PasswordShort">* يجب ان يكون طول كلمة السر لا يقل عن ٦ احرف</string>
-    <string name="SignUpSuccess">Signed Up Success</string>
-    <string name="SignUpFialed">* Sign in Failed, Please try again</string>
+    <string name="SignUpSuccess">تم التسجيل بنجاح.</string>
+    <string name="SignUpFialed">* فشلت عملية التسجيل، الرجاء المحاولة مرة أخرى.</string>
 
     <!-- Socio in Sign up Page -->
-    <string name="NotValidAge">Please Enter Valid Age Value Between 5 to 110 Years Old</string>
-    <string name="NotValidHeight">Please Enter Valid Height Value Between 50 to 300 CM</string>
-    <string name="NotValidWeight">Please Enter Valid Weight Value Between 20 to 300 KG</string>
-    <string name="NotValidMI">Please Enter Valid Monthly Income Value should be no more than 5000000</string>
-    <string name="NotValidCD">Only Letters Accepted in Chronic Disease</string>
-    <string name="SocioSuccess">Success going to next</string>
-    <string name="SocioFialed">There is Something Wrong, Please try again</string>
+    <string name="NotValidAge">الرجاء إدخال قيمة عمر صحيحة.</string>
+    <string name="NotValidHeight">الرجاء إدخال قيمة طول صحيحة.</string>
+    <string name="NotValidWeight">الرجاء إدخال قيمة وزن صحيحة.</string>
+    <string name="NotValidMI">الرجاء إدخال قيمة دخل صحيحة.</string>
+    <string name="NotValidCD">خانة الأمراض المزمنة تقبل حروف فقط.</string>
+    <string name="SocioFialed">يوجد خطأ في العملية، الرجاء المحاولة مرة أخرى.</string>
 
-    <!-- GAD7 in Sign up Page -->
-    <string name="GADSuccess">Success going to next</string>
-    <string name="GADFialed">There is Something Wrong, Please try again</string>
 
     <!-- Draft Fragment Page -->
-    <string name="All">ALL</string>
-    <string name="TEXT">TEXT</string>
-    <string name="VOICE">VOICE</string>
+    <string name="All">الكل</string>
+    <string name="TEXT">النصية</string>
+    <string name="VOICE">الصوتية</string>
 
     <!-- All Draft Fragment Page -->
-    <string name="Text">Text Drafts</string>
-    <string name="Voice">Voice Drafts</string>
+    <string name="Text">المسودات النصية</string>
+    <string name="Voice">المسودات الصوتية</string>
 
     <!-- Voice Draft Dialog -->
     <string name="SpeedPalyAydio">X2</string>
     <string name="DeleteAudio">حذف</string>
-    <string name="DeleteMessageAudio">Are you sure you want to delete this Voice Draft ? </string>
+    <string name="DeleteMessageAudio">هل أنت متأكد من أنك تريد حذف هذة المسودة الصوتية؟</string>
     <string name="yes">نعم</string>
     <string name="no">لا</string>
-    <string name="AudioDeletedSuccess">The Voice Draft Deleted Successfully</string>
-    <string name="AudioDeletedFialed">The Voice Draft Did not Deleted, Try Again</string>
+    <string name="AudioDeletedSuccess">تم حذف المسودة الصوتية بنجاح.</string>
+    <string name="AudioDeletedFialed">لم يتم حذف المسودة الصوتية، الرجاء المحاولة مرة أخرى!</string>
+
+
+    <string name="medicines">الأدوية</string>
+    <string name="no_scheduled_medicines">لا يوجد أدوية مجدولة.</string>
+    <string name="no_scheduled_appointments">لايوجد مواعيد مجدولة.</string>
+    <string name="no_scheduled_appointments_or_medicines_for_today">لا يوجد أي مواعيد أو أدوية مجدولة لليوم.</string>
+
+    <!-- GAD7 in Sign up Page -->
+    <string name="appointments">المواعيد</string>
+    <string name="medicine">الدواء</string>
+    <string name="appointment">الموعد</string>
+    <string name="logout">تسجيل خروج</string>
+    <string name="doctor">الطبيب</string>
+    <string name="social_demographic_information">أخبرنا عنك</string>
+    <string name="language">اللغة</string>
+    <string name="edit_profile">تعديل الملف الشخصي</string>
+    <string name="full_name">الاسم الكامل</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="register">إنشاء حساب</string>
+    <string name="or">أو</string>
+    <string name="welcome_to_serene">مرحبا بك في سيرين</string>
+    <string name="password">كلمة السر</string>
+    <string name="email">البريد الألكتروني</string>
+    <string name="welcome_back">مرحباً بعودتك</string>
+    <string name="forgot_password">نسيت كلمة المرور؟</string>
+    <string name="register_caps">إنشاء حساب</string>
+    <string name="already_have_an_account">لديك حساب بالفعل؟</string>
+    <string name="error">خطأ</string>
+    <string name="signup">إنشاء حساب</string>
+    <string name="confirm_password">تأكيد كلمة المرور</string>
+    <string name="join_us">انضم لنا</string>
+    <string name="back">للخلف</string>
+    <string name="next">التالي</string>
+    <string name="gad7_description">This is a short 7 questions that measures severity of anxiety. Please read each statement and select the choice which indicates how much the statement applied to you over the past 2 weeks.</string>
+    <string name="socio_description">Please fill in the form with your socio-demographic information so we can provide you more accurate results.</string>
+    <string name="age">العمر</string>
+    <string name="martial_status">الحالة الاجتماعية</string>
+    <string name="ex_diabetes">ex; Diabetes</string>
+    <string name="chronic_diseases">أمراض مزمنة</string>
+    <string name="sr">ريال</string>
+    <string name="ex_2000">ex; 2000</string>
+    <string name="monthly_income">الدخل الشهري</string>
+    <string name="kg">كم</string>
+    <string name="weight">الوزن</string>
+    <string name="ex_55">ex; 55</string>
+    <string name="cm">سم</string>
+    <string name="ex_160">ex; 160</string>
+    <string name="height">Height</string>
+    <string name="ex_21">ex; 21</string>
+    <string name="cigarette_smoker">مدخن</string>
+    <string name="employment_status">الحالة الوظيفية</string>
+    <string name="gad_7_scale">GAD-7 مقياس</string>
+    <string name="feeling_nervous_anxious_or_on_edge">Feeling nervous, anxious, or on edge</string>
+    <string name="not_being_able_to_stop_or_control_worrying">Not being able to stop or control worrying</string>
+    <string name="nearly_every_day">Nearly every day</string>
+    <string name="several_days">Several days</string>
+    <string name="being_so_restless_that_it_s_hard_to_sit_still">Being so restless that it’s hard to sit still</string>
+    <string name="becoming_easily_annoyed_or_irritable">Becoming easily annoyed or irritable</string>
+    <string name="feeling_afraid_as_if_something_awful_might_happen">Feeling afraid as if something awful might happen</string>
+    <string name="trouble_relaxing">Trouble relaxing</string>
+    <string name="worrying_too_much_about_different_things">Worrying too much about different things</string>
+    <string name="not_at_nall_sure">Not at all sure</string>
+    <string name="over_half_nthe_days">Over half the days</string>
+    <string name="don_t_have_an_account">لا يوجد لديك حساب؟</string>
+    <string name="next_appointment">الموعد المقبل</string>
+    <string name="improvement">مستوى التحسن</string>
+    <string name="throughout_the_week">(على مدار الاسبوع)</string>
+    <string name="anxiety_level">مستوى القلق</string>
+    <string name="connect_to_fitbit">الاتصال ب Fitbit</string>
+    <string name="fitbit_desc">Serene wants to connect with your Fitbit account in order to acccess your data and behave correctly.</string>
+    <string name="finish">إنهاء</string>
+    <string name="demographic_information">أخبرنا عنك</string>
+    <string name="google_calendar">Google Calendar</string>
+    <string name="connect_google_calendar">Connect Google Calendar</string>
+    <string name="status_not_connected">الحالة : غير متصل</string>
+    <string name="success">نجاح</string>
+    <string name="generate_report">إنشاء التقرير</string>
+    <string name="duration">المدة:</string>
+    <string name="last_two_weeks">آخر اسبوعين</string>
+    <string name="last_month">الشهر الماضي</string>
+    <string name="specific_period">مدة محددة</string>
+    <string name="start">البداية</string>
+    <string name="end">النهاية</string>
+    <string name="not_at_all">Not at all</string>
+    <string name="google_calendar_description">Serene wants to connect with your google calendar to get your events in order to perform correctly.</string>
+    <string name="medicine_name">اسم الدواء</string>
+    <string name="alert">لم يتم التحقق من بريدك الإلكتروني</string>
+    <string name="empty">لا يوجد أي مواعيد مجدولة</string>
+    <string name="tips">Quote of the day</string>
+    <string name="minute">دقيقة(دقائق)</string>
+    <string name="hour">ساعة(ـات)</string>
+    <string name="day">يوم(أيام)</string>
+    <string name="week">أسبوع(أسابيع)</string>
+    <string name="resend_verification_email"><u>إعادة إرسال إيميل التحقق</u></string>
+    <string name="steps_rcmnd">يوصى بالمشي على الأقل «««« خطوة في اليوم للحصول على أقل معدل قلق.
+تذكر أن الأشخاص الأكثر نشاطاً لديهم معدلات قلق أقل من أولئك الغير نشطين.</string>
+    <string name="sleep_rcmnd">يوصى بالنوم لمدة تتراوح بين ٧-٩ ساعات في اليوم للحصول على أقل معدل قلق.
+يمكن أن يحسن النوم الجيد ليلاً من صحتك العقلية ويساعدك على إدارة قلقك بشكل أفضل.</string>
+    <string name="g_sleep"><b>أخبار جيدة!</b> \nيبدو أنك تحصل على قسط كافٍ من اليوم.
+يمكن أن يحسن النوم الجيد ليلاً من صحتك العقلية ويساعدك على إدارة قلقك بشكل أفضل.</string>
+    <string name="g_steps"><b>عمل رائع!</b> \n بناءاً على معدل خطواتك في اليوم الواحد، أنت تعتبر من الأشخاص النشطين.
+تذكر أن الأشخاص الأكثر نشاطاً لديهم معدلات قلق أقل من أولئك الغير نشطين.</string>
+
+    <string name="date_picker">The start date must be chosen before the end.</string>
+    <string name="date_pickerr">The start and end date must be chosen to generate the report.</string>
+    <string name="date_pickerrr">The start date must be chosen to generate the report.</string>
+    <string name="date_pickerrrr">The end date must be chosen to generate the report.</string>
+
+    <string name="anxiety_analysis">تحليل القلق</string>
+    <string name="anxiety_analysis_description">أنشئ تقارير وتعلم أكثر عن قلقك و صحتك</string>
+    <string name="start_date">تاريخ البداية</string>
+    <string name="set_start">اختيار البداية</string>
+    <string name="end_date">تاريخ النهاية</string>
+    <string name="set_end">اختيار النهاية</string>
+    <string name="compared_to_yesterday">مقارنة بالأمس</string>
+    <string name="drafts">المسودات</string>
+    <string name="my_information">معلوماتي</string>
+
+    <string name="english">الإنجليزية</string>
+    <string name="arabic">العربية</string>
+
+    <string name="home">الرئيسية</string>
+    <string name="reports">التقارير</string>
+    <string name="calendar">التقويم</string>
 
 </resources>
