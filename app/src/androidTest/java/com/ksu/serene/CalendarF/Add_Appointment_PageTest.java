@@ -3,6 +3,7 @@
 
 package com.ksu.serene.CalendarF;
 
+import android.content.Intent;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
@@ -47,6 +48,8 @@ public class Add_Appointment_PageTest {
 
     @Before
     public void setUp() throws Exception {
+        activityTestRule.launchActivity(new Intent());
+        addAppointmentPage = activityTestRule.getActivity();
         //add timer for all tests
         //Mack sure Espresso does not time out
         IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
@@ -55,8 +58,6 @@ public class Add_Appointment_PageTest {
         IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
         try {
             IdlingRegistry.getInstance().register(idlingResource);
-            addAppointmentPage = activityTestRule.getActivity();
-
             //check activity visible
             onView(ViewMatchers.withId(R.id.Add_Appointment_Page)).check(matches(isDisplayed()));
             //check name edit text visible

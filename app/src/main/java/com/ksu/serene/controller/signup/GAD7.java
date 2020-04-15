@@ -48,8 +48,12 @@ public class GAD7 extends Fragment {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!checkFields(radio1,radio2 ,radio3 ,radio4 ,radio5 ,radio6 ,radio7)){
+                    Toast.makeText(getActivity(), R.string.EmptyFields,Toast.LENGTH_LONG).show();
+                    return;
+                }
 
-                if(checkFields()) {
+                if(checkFields(radio1,radio2 ,radio3 ,radio4 ,radio5 ,radio6 ,radio7)) {
 
                     //Calculate the final score
 
@@ -263,15 +267,12 @@ public class GAD7 extends Fragment {
         });
     }
 
-    public boolean checkFields(){
+    public boolean checkFields(String radio1,String radio2,String radio3,String radio4,
+                                String radio5,String radio6,String radio7){
 
         // Force the user to answer all the questions
         if(radio1.matches("")|| radio2.matches("")||radio3.matches("")||radio4.matches("")||
                 radio5.matches("")|| radio6.matches("")||radio7.matches("")){
-
-            Toast.makeText(getActivity(), R.string.EmptyFields,
-                    Toast.LENGTH_LONG).show();
-
             return false;
         }
 

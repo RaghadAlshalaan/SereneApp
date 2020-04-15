@@ -55,6 +55,10 @@ public class AddTextDraftPage extends AppCompatActivity {
         Add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (! CheckFields(Title.getText().toString(), Subj.getText().toString())){
+                    Toast.makeText(AddTextDraftPage.this, R.string.EmptyFields, Toast.LENGTH_LONG).show();
+                    return;
+                }
                 if (CheckFields(Title.getText().toString(), Subj.getText().toString())){
                     SaveTextDraft(Title.getText().toString(), Subj.getText().toString());
 
@@ -70,12 +74,11 @@ public class AddTextDraftPage extends AppCompatActivity {
         });
     }
 
-    private boolean CheckFields (String TitleDraft, String Message){
+    public boolean CheckFields (String TitleDraft, String Message){
         if ( !(TextUtils.isEmpty(TitleDraft)) && !(TextUtils.isEmpty(Message))) {
             return true;
         }
         else {
-            Toast.makeText(AddTextDraftPage.this, R.string.EmptyFields, Toast.LENGTH_LONG).show();
             return false;
         }
     }

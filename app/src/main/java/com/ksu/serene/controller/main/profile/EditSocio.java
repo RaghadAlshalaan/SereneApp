@@ -181,49 +181,53 @@ public class EditSocio extends AppCompatActivity {
         monthlyincomeS = monthlyincome.getText().toString();
         chronicDS = chronicD.getText().toString();
         // Fields Validations
-        if (heightS.matches("") || wieghtS.matches("") || employmentStatus.matches("") || maritalStatus.matches("") ||
+        /*if (heightS.matches("") || wieghtS.matches("") || employmentStatus.matches("") || maritalStatus.matches("") ||
                 monthlyincomeS.matches("") || cigaretteSmoke.matches("") || ageS.matches("") || chronicDS.matches("")) {
-
-            Toast.makeText(EditSocio.this, R.string.EmptyFields,
-                    Toast.LENGTH_LONG).show();
+        }*/
+        if (!checkSocioFields(ageS,heightS,wieghtS,monthlyincomeS,chronicDS,employmentStatus,maritalStatus,cigaretteSmoke)){
+            Toast.makeText(EditSocio.this, R.string.EmptyFields,Toast.LENGTH_LONG).show();
             return flag;
-
         }
         //age format
         double ageI = Double.parseDouble(ageS);
-        if ((ageI > 110) || (ageI < 5)){
-            Toast.makeText(EditSocio.this, R.string.NotCorrectAge,
-                    Toast.LENGTH_LONG).show();
+        if ( ! isValidAge(ageI) ) {
+            Toast.makeText(EditSocio.this, R.string.NotCorrectAge,Toast.LENGTH_LONG).show();
             return flag;
         }
+        /*if ((ageI > 110) || (ageI < 5)){
+        }*/
         //height format
         double heightI = Double.parseDouble(heightS);
-        if ((heightI > 300) || (heightI < 50)){
-            Toast.makeText(EditSocio.this, R.string.NotCorrectHeight,
-                    Toast.LENGTH_LONG).show();
+        if (!isValidHeight(heightI)){
+            Toast.makeText(EditSocio.this, R.string.NotCorrectHeight,Toast.LENGTH_LONG).show();
             return flag;
         }
+        /*if ((heightI > 300) || (heightI < 50)){
+        }*/
         //weight format
         double weightI = Double.parseDouble(wieghtS);
-        if ((weightI > 300) || (weightI < 20)){
-            Toast.makeText(EditSocio.this, R.string.NotCorrectWeight,
-                    Toast.LENGTH_LONG).show();
+        if (!isValidWeight(weightI)){
+            Toast.makeText(EditSocio.this, R.string.NotCorrectWeight,Toast.LENGTH_LONG).show();
             return flag;
         }
+        /*if ((weightI > 300) || (weightI < 20)){
+        }*/
         //MI format
         double monthlyIncomeI = Double.parseDouble(monthlyincomeS);
-        if ((monthlyIncomeI > 5000000) || (monthlyIncomeI < 0)){
-            Toast.makeText(EditSocio.this, R.string.NotCorrectMI,
-                    Toast.LENGTH_LONG).show();
+        if (!isValidMonthlyIncome(monthlyIncomeI)){
+            Toast.makeText(EditSocio.this, R.string.NotCorrectMI,Toast.LENGTH_LONG).show();
             return flag;
         }
+        /*if ((monthlyIncomeI > 5000000) || (monthlyIncomeI < 0)){
+        }*/
         //CD format
         // CHECK CHRONIC DISEASE
-        if( !chronicDS.matches("^[ A-Za-z]+$")){
-            Toast.makeText(EditSocio.this, R.string.NotCorrectCD,
-                    Toast.LENGTH_LONG).show();
+        if (!isValidChronicDisease(chronicDS)){
+            Toast.makeText(EditSocio.this, R.string.NotCorrectCD,Toast.LENGTH_LONG).show();
             return flag;
         }
+        /*if( !chronicDS.matches("^[ A-Za-z]+$")){
+        }*/
         return true;
     }
 
@@ -283,7 +287,54 @@ public class EditSocio extends AppCompatActivity {
 
 
 
+
     }// updateInfo()
 
+    public boolean isValidAge (double age) {
+        if ( (age > 110) || (age < 5) ) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isValidHeight (double height) {
+        if ( (height > 300) || (height < 50) ) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isValidWeight (double weight) {
+        if ( (weight > 300) || (weight < 20) ) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isValidMonthlyIncome (double MI) {
+        if ( (MI > 5000000) || (MI < 0) ) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isValidChronicDisease (String CD) {
+        if ( !CD.matches("^[ A-Za-z]+$") ) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean checkSocioFields (String age, String height, String weight
+            , String monthlyIncome, String chronicDiseases, String employmentStatus
+            ,String maritalStatus,String cigaretteSmoke) {
+        if( age.matches("") || height.matches("") || weight.matches("")
+                || monthlyIncome.matches("") || chronicDiseases.matches("")
+                || employmentStatus.matches("") || maritalStatus.matches("")
+                || cigaretteSmoke.matches("")) {
+            return false;
+        }
+        return true;
+    }
 
 }

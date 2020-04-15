@@ -176,8 +176,16 @@ public class Add_Medicine_Page extends AppCompatActivity {
         Confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!checkFields(MedicineName.getText().toString(), Dose.getText().toString(), repeatIntervalET.getText().toString(),repeatNOET.getText().toString(), Time.getText().toString(), FromDay.getText().toString())){
+                    Toast.makeText(Add_Medicine_Page.this,R.string.EmptyFields, Toast.LENGTH_LONG).show();
+                    return;
+                }
                 //chack all filed filled
-                if (checkFields(MedicineName.getText().toString(), Dose.getText().toString(), repeatIntervalET.getText().toString(),repeatNOET.getText().toString())) {
+                if (checkFields(MedicineName.getText().toString(), Dose.getText().toString(), repeatIntervalET.getText().toString(),repeatNOET.getText().toString(), Time.getText().toString(), FromDay.getText().toString())) {
+                    if (!checkDayandTime(FromDay.getText().toString() , Time.getText().toString())){
+                        Toast.makeText(Add_Medicine_Page.this,R.string.CurrentTime, Toast.LENGTH_LONG).show();
+                        return;
+                    }
                     //check the day and time in future or the day now but time in future
                     if (checkDayandTime(FromDay.getText().toString() , Time.getText().toString())) {
                         repeatInterval = Integer.parseInt(repeatIntervalET.getText().toString());//get repeat interval
@@ -202,16 +210,15 @@ public class Add_Medicine_Page extends AppCompatActivity {
 
     }
 
-    private boolean checkFields (String MName , String MDose, String interval, String repeatNo) {
-        if ( !(TextUtils.isEmpty(MName)) && !(TextUtils.isEmpty(MDose)) && !(TextUtils.isEmpty(interval)) && !(TextUtils.isEmpty(repeatNo)) && !(Time.getText().toString().equals("Set Time")) && !(FromDay.getText().toString().equals("Start"))){
+    public boolean checkFields (String MName , String MDose, String interval, String repeatNo, String time, String date) {
+        if ( !(TextUtils.isEmpty(MName)) && !(TextUtils.isEmpty(MDose)) && !(TextUtils.isEmpty(interval)) && !(TextUtils.isEmpty(repeatNo)) && !(time.equals("Set Time")) && !(date.equals("Start"))){
             return true;
         }
-        Toast.makeText(Add_Medicine_Page.this,R.string.EmptyFields, Toast.LENGTH_LONG).show();
         return false;
     }
 
-    private boolean checkDayandTime (String SDate, String time) {
-        SimpleDateFormat TimeFormat = new SimpleDateFormat ("hh : mm");
+    public boolean checkDayandTime (String SDate, String time) {
+        SimpleDateFormat TimeFormat = new SimpleDateFormat ("HH : mm", Locale.UK);
         SimpleDateFormat DateFormat = new SimpleDateFormat ("dd/MM/yy");
         Date CurrentDate = new Date();
         //convert string to date to used in compare
@@ -219,7 +226,7 @@ public class Add_Medicine_Page extends AppCompatActivity {
             StartD = DateFormat.parse(SDate);
             /*FinishD = DateFormat.parse(EDate);*/
             MTime = TimeFormat.parse(time);
-            CuttentTime = TimeFormat.parse(new SimpleDateFormat("HH : mm").format(CurrentDate));
+            CuttentTime = TimeFormat.parse(new SimpleDateFormat("HH : mm",Locale.UK).format(CurrentDate));
         }
         catch (ParseException e) {
             // TODO Auto-generated catch block
@@ -232,7 +239,6 @@ public class Add_Medicine_Page extends AppCompatActivity {
         //check if the start date is the current date the time is after or same current time, if not return false after display meaningful message
         if (StartD.before(CurrentDate) || StartD.compareTo(CurrentDate) ==0  ) {
             if (MTime.before(CuttentTime) || (MTime.compareTo(CuttentTime) == 0)){
-                Toast.makeText(Add_Medicine_Page.this,R.string.CurrentTime, Toast.LENGTH_LONG).show();
                 return false;
             }
             return true;
@@ -243,7 +249,7 @@ public class Add_Medicine_Page extends AppCompatActivity {
     private void SaveNewMed (String MName , String FDay,String Time, int MD ) {
         // Medicine(String id, String name, Date day, Time time, int doze, int period)
         //the period is the (TD - FD0+1
-        SimpleDateFormat TimeFormat = new SimpleDateFormat("hh : mm");
+        SimpleDateFormat TimeFormat = new SimpleDateFormat("HH : mm", Locale.UK);
         //convert string to date to used in compare
         try {
             StartD = DateFormat.parse(FDay);
@@ -400,7 +406,7 @@ public class Add_Medicine_Page extends AppCompatActivity {
             new AlarmScheduler().setRepeatAlarm(getApplicationContext(),selectedTimestamp, newUri, repeatTime);//
             //new AlarmScheduler().setAlarm(getApplicationContext(), selectedTimestamp, newUri);
            // Toast.makeText(this, "Alarm time is at " + new java.text.SimpleDateFormat("dd/MM/yyyy hh:mm").format(new Date(selectedTimestamp)),Toast.LENGTH_LONG).show();
-            Log.d("Alarm time is at ", new java.text.SimpleDateFormat("dd/MM/yyyy hh:mm").format(new Date(selectedTimestamp)));
+            Log.d("Alarm time is at ", new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date(selectedTimestamp)));
 
             //Toast.makeText(this, "Reminder was successfully scheduled",Toast.LENGTH_SHORT).show();
             Log.d("Reminder", "Reminder was successfully scheduled");

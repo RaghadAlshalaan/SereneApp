@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/layout_rounded_bg"
-    android:id="@+id/layout"
+    android:id="@+id/ReportF"
     android:orientation="vertical">
 
 

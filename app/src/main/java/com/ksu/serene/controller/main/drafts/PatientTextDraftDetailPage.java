@@ -116,6 +116,10 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (! CheckFields(title.getText().toString(),subj.getText().toString()) ){
+                    Toast.makeText(PatientTextDraftDetailPage.this, R.string.EmptyFields, Toast.LENGTH_LONG).show();
+                    return;
+                }
                 if ( CheckFields (title.getText().toString(),subj.getText().toString())) {
                     db.collection("TextDraft")
                             .document(TDID)
@@ -140,11 +144,10 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
         });
 
     }
-    private boolean CheckFields (String TitleDraft, String Message) {
+    public boolean CheckFields (String TitleDraft, String Message) {
         if (!(TextUtils.isEmpty(TitleDraft)) && !(TextUtils.isEmpty(Message))) {
             return true;
         } else {
-            Toast.makeText(PatientTextDraftDetailPage.this, R.string.EmptyFields, Toast.LENGTH_LONG).show();
             return false;
         }
     }
