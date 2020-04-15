@@ -74,8 +74,18 @@ public class Signup extends AppCompatActivity {
         signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-               if (createUserAccount(emailET.getText().toString(), passwordET.getText().toString(), confirmPasswordET.getText().toString(), nameET.getText().toString())) { //;
+                if ( !validName (nameET.getText().toString())) {
+                    nameET.setText("");
+                    Error.setText(R.string.NotValidName);
+                    return;
+                }
+                if (!passMatch (passwordET.getText().toString(), confirmPasswordET.getText().toString())){
+                    passwordET.setText("");
+                    confirmPasswordET.setText("");
+                    Error.setText(R.string.NotMatchPass);
+                    return;
+                }
+               if (createUserAccount(emailET.getText().toString(), passwordET.getText().toString(), confirmPasswordET.getText().toString(), nameET.getText().toString(),mAuth)) { //;
                    /*Intent i = new Intent( Signup.this, Questionnairs.class );
                    startActivity(i);
                    finish();*/
@@ -151,7 +161,7 @@ public class Signup extends AppCompatActivity {
 
     };
 
-    public boolean createUserAccount(final String email, String password, String confirmPassword, final String name) {
+    public boolean createUserAccount(final String email, String password, String confirmPassword, final String name, final FirebaseAuth mAuth) {
 
         /*if (!name.matches("^[ A-Za-z]+$")) {
             nameET.setText("");
@@ -159,11 +169,7 @@ public class Signup extends AppCompatActivity {
 
             return false;
         }*///replaced by method
-        if ( !validName (name)) {
-            nameET.setText("");
-            Error.setText(R.string.NotValidName);
-            return false;
-        }
+
 
         /*if (!password.equals(confirmPassword)) {
             passwordET.setText("");
@@ -172,13 +178,6 @@ public class Signup extends AppCompatActivity {
 
             return false;
         }*///replaced by
-        if (!passMatch (password, confirmPassword)){
-            passwordET.setText("");
-            confirmPasswordET.setText("");
-            Error.setText(R.string.NotMatchPass);
-            return false;
-        }
-
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -338,7 +337,8 @@ public class Signup extends AppCompatActivity {
     }
 
     public boolean CheckFields (String name, String email, String password, String confirmPassword){
-        if ( !(TextUtils.isEmpty(name)) && !(TextUtils.isEmpty(email)) && !(TextUtils.isEmpty(password)) && !(TextUtils.isEmpty(confirmPassword))) {
+        if ( !name.equals("") && name!=null && !email.equals("") && email!=null
+                && !password.equals("") && password!=null && !confirmPassword.equals("") && confirmPassword!=null ) {
             return true;
         }
         return false;

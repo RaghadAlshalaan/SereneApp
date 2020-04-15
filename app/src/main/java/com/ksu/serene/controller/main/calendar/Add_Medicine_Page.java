@@ -211,7 +211,10 @@ public class Add_Medicine_Page extends AppCompatActivity {
     }
 
     public boolean checkFields (String MName , String MDose, String interval, String repeatNo, String time, String date) {
-        if ( !(TextUtils.isEmpty(MName)) && !(TextUtils.isEmpty(MDose)) && !(TextUtils.isEmpty(interval)) && !(TextUtils.isEmpty(repeatNo)) && !(time.equals("Set Time")) && !(date.equals("Start"))){
+        if ( MName!=null && !MName.equals("") && MDose!=null && !MDose.equals("")
+                && interval!=null && !interval.equals("") && repeatNo!=null
+                && !repeatNo.equals("") && !(time.equals("Set Time"))
+                && !(date.equals("Start"))){
             return true;
         }
         return false;
@@ -241,9 +244,9 @@ public class Add_Medicine_Page extends AppCompatActivity {
             if (MTime.before(CuttentTime) || (MTime.compareTo(CuttentTime) == 0)){
                 return false;
             }
-            return true;
+            //return true;
         }
-        return false;
+        return true;
     }
 
     private void SaveNewMed (String MName , String FDay,String Time, int MD ) {
@@ -414,7 +417,7 @@ public class Add_Medicine_Page extends AppCompatActivity {
         }
     }
 
-    private String getRandomID(){
+    public String getRandomID(){
         return UUID.randomUUID().toString();
     }
 }

@@ -156,7 +156,7 @@ public class Add_Appointment_Page extends AppCompatActivity {
     }
     //The method for check if all field empty or not
     public boolean checkFields (String AName, String time, String date ) {
-        if ( !(TextUtils.isEmpty(AName)) && !(time.equals("Set Time")) && !(date.equals("Set Day"))  ){
+        if ( AName != null && !(AName.equals("")) && !(time.equals("Set Time")) && !(date.equals("Set Day"))  ){
             return true;
         }
         return false;
@@ -186,11 +186,11 @@ public class Add_Appointment_Page extends AppCompatActivity {
             if (AT.before(CuttentTime) || (AT.compareTo(CuttentTime) == 0)){
                 return false;
             }
-            else {
+            /*else {
                 return true;
-            }
+            }*/
         }
-         return false;
+         return true;
 
     }
 
@@ -300,7 +300,7 @@ public class Add_Appointment_Page extends AppCompatActivity {
         }
     }
 
-    private String getRandomID(){
+    public String getRandomID(){
         return UUID.randomUUID().toString();
     }
 

@@ -405,19 +405,21 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
     }
 
     public boolean CheckLogInFields (String email, String password){
-        if ( !(TextUtils.isEmpty(email)) && !(TextUtils.isEmpty(password))) {
+        if ( !email.equals("") && email!=null
+                && !password.equals("") && password!=null ) {
             return true;
         }
         return false;
     }
 
-    //TODO for forget Password
+    // for forget Password
     public boolean CheckEmailField (String email){
-        if ( !(TextUtils.isEmpty(email))) {
+        if ( !email.equals("") && email!=null ) {
             return true;
         }
         return false;
     }
+
     public boolean isValidEmail (String email) {
         if (!email.matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
             return false;

@@ -145,7 +145,8 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
 
     }
     public boolean CheckFields (String TitleDraft, String Message) {
-        if (!(TextUtils.isEmpty(TitleDraft)) && !(TextUtils.isEmpty(Message))) {
+        if (!TitleDraft.equals("") && TitleDraft!=null
+                && !Message.equals("") && Message!=null) {
             return true;
         } else {
             return false;

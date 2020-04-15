@@ -587,7 +587,7 @@ public class Editprofile extends AppCompatActivity {
     }
 
     public boolean CheckNameField (String newName){
-        if ( !(TextUtils.isEmpty(newName))) {
+        if ( !newName.equals("") && newName!=null ) {
             return true;
         }
         return false;
@@ -601,7 +601,8 @@ public class Editprofile extends AppCompatActivity {
     }
 
     public boolean CheckPassField (String old, String newPass, String confirmNewPAss){
-        if ( !(TextUtils.isEmpty(old)) &&!(TextUtils.isEmpty(newPass)) &&!(TextUtils.isEmpty(confirmNewPAss))) {
+        if ( !old.equals("") && old!=null && !newPass.equals("")
+                && newPass!=null  && !confirmNewPAss.equals("") && confirmNewPAss!=null) {
             return true;
         }
         return false;
