@@ -4,19 +4,20 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:background="@color/colorPrimary"
-    android:id="@+id/StartRecording">
+android:background="@drawable/main_background"
+android:id="@+id/StartRecording">
 
-<Button
-    android:id="@+id/start"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerInParent="true"
-    android:padding="20dp"
-    android:text="Take a Deep Breath, Then Talk"
-    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-    android:textColor="@android:color/white"
-    style="@style/Widget.AppCompat.Button.Borderless"
-    android:onClick="recordAudio"/>
+    <Button
+        android:id="@+id/start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:padding="20dp"
+        android:fontFamily="@font/montserrat"
+        android:text="@string/take_a_deep_breath_then_talk"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@android:color/white"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:onClick="recordAudio"/>
 
 </RelativeLayout>

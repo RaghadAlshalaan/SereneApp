@@ -10,6 +10,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -90,6 +92,13 @@ public class PatientReport extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
+        // Change status bar color
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(this.getResources().getColor(R.color.darkAccent));
+
+
         // get Duration
         getExtras();
 
@@ -131,6 +140,7 @@ public class PatientReport extends AppCompatActivity {
                 heatmapActivity();
             }
         });
+
 
         sleepRecommendTV = findViewById(R.id.recommendSleep);
         sleepAvg = findViewById(R.id.averageSleepN);
@@ -185,7 +195,7 @@ public class PatientReport extends AppCompatActivity {
         String interval;
 
         Date startD;
-        String start="", end;
+        String start="", end="";
 
 
         DateFormat dateFormat = new SimpleDateFormat("d MMM");
@@ -200,7 +210,6 @@ public class PatientReport extends AppCompatActivity {
 
                 cal.add(Calendar.DATE, -14);
                 startD = cal.getTime();
-
                 start = dateFormat.format(startD);
 
                 break;
@@ -209,15 +218,22 @@ public class PatientReport extends AppCompatActivity {
 
                 cal.add(Calendar.MONTH, -1);
                 startD = cal.getTime();
-
                 start = dateFormat.format(startD);
 
                 break;
 
             case "custom":
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                Date startDate1 = null, endDate1 = null;
+                try {
+                    startDate1 = formatter.parse(startDate);
+                    endDate1 = formatter.parse(endDate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
 
-                start = dateFormat.format(startDate);
-                end = dateFormat.format(endDate);
+                start = dateFormat.format(startDate1);
+                end = dateFormat.format(endDate1);//
 
                 break;
 
@@ -347,6 +363,7 @@ public class PatientReport extends AppCompatActivity {
 
                                 if (locationFound) {
 
+
                                     showHeatmap.setEnabled(true);
 
 
@@ -386,15 +403,43 @@ public class PatientReport extends AppCompatActivity {
                                         break;
                                     }
 
-                                    // for the recycler view
-                                    if ( anxietyLevel.equals("High Anxiet")) {
+
+                                    int freq = 1; // for every location we assume frequency = 1
+
+                                    // for the highest anxiety locations recycler view
+                                    if ( anxietyLevel.equals("Medium")) {
+
                                         noResult.setVisibility(View.GONE);
-                                        highLocations.add(new Location(locationName, anxietyLevel, daysBetween(loc_date, today), lat, lng, nearestLocs));
+                                        boolean newLoc = true; // assume it is a new location
+
+                                        for (Location hList : highLocations) { // loop on the highest location list
+
+                                            if ( hList.getNearestLoc().equals(nearestLocs)){ // if nearby locations are equals
+
+                                            newLoc = false; // not new locations
+                                            freq = hList.getFrequency() + 1; // increment the old frequency
+
+                                            highLocations.remove(hList); // remove the old location
+
+                                            // update it with the new one with new frequency
+                                            highLocations.add(new Location(locationName, anxietyLevel, daysBetween(loc_date, today), lat, lng, nearestLocs, freq));
+
+                                            break;
+                                            }
+
+                                        }// end loop
+
+                                        if(newLoc){ // add new loc with freq = 1
+                                            highLocations.add(new Location(locationName, anxietyLevel, daysBetween(loc_date, today), lat, lng, nearestLocs, freq));
+                                        }
                                     }
+
+
+                                    // Heat map locations ( all )
 
                                     LatLng current = new LatLng(lat,lng);
                                     boolean found = false;
-                                    locations.add(new WeightedLatLng( current, loc_AL));
+                                    //locations.add(new WeightedLatLng( current, loc_AL));
 
                                     for(WeightedLatLng lis : locations){
 
@@ -424,7 +469,7 @@ public class PatientReport extends AppCompatActivity {
                             if (highLocations.size() == 0){
                                 locationRecyclerView.setVisibility(View.GONE);
                                 noResult.setVisibility(View.VISIBLE);
-                                noResult.setText("No locations were found associated with a high anxiety level.");
+                                noResult.setText(R.string.no_loc_high);
                             }else{
                                 locationRecyclerView.setVisibility(View.VISIBLE);
                             }

@@ -5,7 +5,16 @@ import java.util.Date;
 
 public class Location {
     private String name;
-    private int timesVisited;
+
+    public int getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(int frequency) {
+        this.frequency = frequency;
+    }
+
+    private int frequency;
     private String AL_level;
     private double latitude;
 
@@ -46,12 +55,13 @@ public class Location {
         this.AL_level = AL_level;
     }//constructor
 
-    public Location(String name, String AL_level, long daysBetween , double latitude, double longitude, String nearest){
+    public Location(String name, String AL_level, long daysBetween , double latitude, double longitude, String nearest, int frequency){
         this.name = name;
         this.AL_level = AL_level;
         this.daysBetween = daysBetween;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.frequency = frequency;
 
         if (nearest != null)
         nearestLoc = nearest;

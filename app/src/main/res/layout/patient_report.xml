@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DCEFF4"
+    android:background="@color/lightGrey"
     android:id="@+id/container"
     >
 
@@ -16,7 +16,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:background="@drawable/upper_bar"
+        android:background="@drawable/upper_bar_sub"
         android:elevation="10dp">
 
         <ImageView
@@ -32,12 +32,12 @@
 
         <TextView
             android:id="@+id/titleofscreen"
-            android:layout_width="160dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:fontFamily="@font/montserrat"
-            android:text="Anxiety Analysis"
-            android:textColor="#000000"
+            android:text="@string/anxiety_analysis"
+            android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -51,8 +51,7 @@
             android:layout_marginBottom="15dp"
             android:fontFamily="@font/montserrat"
             android:gravity="center"
-            android:text="-Report Duration-"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -62,8 +61,8 @@
 
         <ImageView
             android:id="@+id/more"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="20dp"
@@ -72,32 +71,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_more" />
 
-
-        <!--        <ImageView-->
-        <!--            android:id="@+id/print_icon"-->
-        <!--            android:layout_width="35dp"-->
-        <!--            android:layout_height="35dp"-->
-        <!--            android:layout_alignParentTop="true"-->
-        <!--            android:layout_alignParentEnd="true"-->
-        <!--            android:layout_marginTop="25dp"-->
-        <!--            android:layout_marginEnd="16dp"-->
-        <!--            app:layout_constraintBottom_toTopOf="@+id/nav_host_fragment"-->
-        <!--            app:layout_constraintEnd_toStartOf="@+id/share_icon"-->
-        <!--            app:layout_constraintTop_toTopOf="parent"-->
-        <!--            app:layout_constraintVertical_bias="1.0"-->
-        <!--            app:srcCompat="@drawable/ic_print_black_24dp" />-->
-
-        <!--        <ImageView-->
-        <!--            android:id="@+id/share_icon"-->
-        <!--            android:layout_width="35dp"-->
-        <!--            android:layout_height="35dp"-->
-        <!--            android:layout_alignParentTop="true"-->
-        <!--            android:layout_alignParentEnd="true"-->
-        <!--            android:layout_marginTop="24dp"-->
-        <!--            android:layout_marginEnd="24dp"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="parent"-->
-        <!--            app:srcCompat="@drawable/ic_share_icon" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -167,13 +140,14 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/text1"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_c2" />
 
 
                 <TextView
                     android:id="@+id/text1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="16dp"
                     android:fontFamily="@font/montserrat"
@@ -182,6 +156,7 @@
                     android:textColor="#817889"
                     android:textSize="18sp"
                     android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/graphIcon"
                     app:layout_constraintTop_toTopOf="@+id/graphIcon" />
 
@@ -250,7 +225,7 @@
                     android:layout_marginStart="16dp"
                     android:fontFamily="@font/montserrat"
                     android:gravity="center_vertical"
-                    android:text="Location Analysis"
+                    android:text="@string/location_analysis"
                     android:textColor="#817889"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -266,7 +241,7 @@
                     android:enabled="false"
                     android:fontFamily="@font/montserrat"
                     android:padding="5dp"
-                    android:text="Show Map"
+                    android:text="@string/show_map"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -287,7 +262,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat"
-                    android:text="No Results Available To Analyze."
+                    android:text="@string/no_results_available_to_analyze"
                     android:textSize="15sp"
                     android:gravity="center"
                     android:layout_margin="20dp"
@@ -346,7 +321,7 @@
                     android:layout_marginStart="16dp"
                     android:fontFamily="@font/montserrat"
                     android:gravity="center_vertical"
-                    android:text="Sleep Analysis"
+                    android:text="@string/sleep_analysis"
                     android:textColor="#817889"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -370,15 +345,15 @@
                     android:id="@+id/noResultSleep"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat"
-                    android:textSize="15sp"
-                    android:text="@string/g_sleep"
-                    android:gravity="center"
-                    android:visibility="gone"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="center"
+                    android:text="@string/g_sleep"
                     android:textColor="@color/black"
+                    android:textSize="13sp"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -388,14 +363,13 @@
                     android:id="@+id/recommendSleep"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="20dp"
                     android:fontFamily="@font/montserrat"
                     android:gravity="start"
-                    android:text=""
                     android:textColor="@color/black"
-                    android:textSize="15sp"
+                    android:textSize="13sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view3" />
@@ -409,7 +383,6 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/montserrat"
                     android:gravity="start"
-                    android:text="0"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -425,9 +398,9 @@
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/montserrat"
                     android:gravity="start"
-                    android:text="Avg. Sleep Hours"
+                    android:text="@string/avg_sleep_hours"
                     android:textColor="#817889"
-                    android:textSize="15sp"
+                    android:textSize="13sp"
                     app:layout_constraintEnd_toStartOf="@+id/viewV1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/averageSleepN" />
@@ -453,7 +426,6 @@
                     android:layout_marginEnd="10dp"
                     android:fontFamily="@font/montserrat"
                     android:gravity="start"
-                    android:text="0"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -469,9 +441,9 @@
                     android:layout_marginEnd="10dp"
                     android:fontFamily="@font/montserrat"
                     android:gravity="start"
-                    android:text="Recommended"
+                    android:text="@string/recommended"
                     android:textColor="#817889"
-                    android:textSize="15sp"
+                    android:textSize="13sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/viewV1"
                     app:layout_constraintTop_toBottomOf="@+id/recommendSleepN" />
@@ -514,7 +486,7 @@
                     android:layout_marginStart="16dp"
                     android:fontFamily="@font/montserrat"
                     android:gravity="center_vertical"
-                    android:text="Activity and Steps"
+                    android:text="@string/activity_and_steps"
                     android:textColor="#817889"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -537,30 +509,30 @@
                     android:id="@+id/recommendSteps"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="20dp"
                     android:fontFamily="@font/montserrat"
                     android:gravity="start"
                     android:textColor="@color/black"
-                    android:textSize="15sp"
+                    android:textSize="13sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view4" />
 
                 <TextView
                     android:id="@+id/noResultSteps"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat"
-                    android:text="@string/g_steps"
-                    android:visibility="gone"
-                    android:textSize="15sp"
-                    android:gravity="center"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="center"
+                    android:text="@string/g_steps"
                     android:textColor="@color/black"
+                    android:textSize="13sp"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -574,7 +546,6 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/montserrat"
                     android:gravity="start"
-                    android:text="0"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -590,9 +561,9 @@
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/montserrat"
                     android:gravity="start"
-                    android:text="Average Steps"
+                    android:text="@string/average_steps"
                     android:textColor="#817889"
-                    android:textSize="15sp"
+                    android:textSize="13sp"
                     app:layout_constraintEnd_toStartOf="@+id/viewV2"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/averageStepsN" />
@@ -618,7 +589,6 @@
                     android:layout_marginEnd="10dp"
                     android:fontFamily="@font/montserrat"
                     android:gravity="start"
-                    android:text="0"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -634,9 +604,9 @@
                     android:layout_marginEnd="10dp"
                     android:fontFamily="@font/montserrat"
                     android:gravity="start"
-                    android:text="Recommended"
+                    android:text="@string/recommended"
                     android:textColor="#817889"
-                    android:textSize="15sp"
+                    android:textSize="13sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/viewV2"
                     app:layout_constraintTop_toBottomOf="@+id/recommendStepsN" />

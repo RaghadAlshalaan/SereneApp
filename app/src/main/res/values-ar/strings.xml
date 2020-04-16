@@ -327,4 +327,17 @@
     <string name="reports">التقارير</string>
     <string name="calendar">التقويم</string>
 
+    <string name="activity_and_steps">النشاط والخطوات</string>
+    <string name="average_steps">متوسط الخطوات</string>
+    <string name="recommended">يوصى به</string>
+    <string name="avg_sleep_hours">متوسط ساعات النوم</string>
+    <string name="sleep_analysis">تحليل النوم</string>
+    <string name="no_results_available_to_analyze">لا يوجد بيانات متاحة للعرض</string>
+    <string name="show_map">اعرض الخريطة</string>
+    <string name="location_analysis">تحليل الموقع</string>
+
+    <string name="no_loc_high">لم يتم العثور على مواقع ذات علاقة بإرتفاع في مستوى القلق.</string>
+
+
+
 </resources>

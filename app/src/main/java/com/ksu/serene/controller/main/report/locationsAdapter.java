@@ -47,6 +47,9 @@ public class locationsAdapter extends RecyclerView.Adapter<locationsAdapter.View
         String nearestLoc = locations.get(i).getNearestLoc();
         viewHolder.nearestLoc.setText(nearestLoc);
 
+        int frequency = locations.get(i).getFrequency();
+        viewHolder.frequency.setText(String.valueOf(frequency));
+
     }
 
 
@@ -57,7 +60,7 @@ public class locationsAdapter extends RecyclerView.Adapter<locationsAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView location_name, location_AL, nearestLoc;
+        TextView location_name, location_AL, nearestLoc, frequency;
 
 
         public ViewHolder(View itemView) {
@@ -66,6 +69,7 @@ public class locationsAdapter extends RecyclerView.Adapter<locationsAdapter.View
             location_name = itemView.findViewById(R.id.parent_loc);
             location_AL = itemView.findViewById(R.id.location_AL);
             nearestLoc = itemView.findViewById(R.id.nearestPlaces);
+            frequency = itemView.findViewById(R.id.freqN);
 
         }
 

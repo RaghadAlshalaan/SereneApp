@@ -169,6 +169,7 @@ public class FitbitWorker extends Worker {
                                         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                                         cal.add(Calendar.DATE, -1);
                                         String date = dateFormat.format(cal.getTime());
+                                        date = "2020-04-13";
 
                                         final String[] category =
                                                 {

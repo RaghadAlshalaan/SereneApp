@@ -27,7 +27,7 @@ tools:context=".controller.signup.FitbitConnection"
         android:layout_marginTop="50dp"
         android:text="@string/connect_to_fitbit"
         android:gravity="center"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="25sp" />
 
         <LinearLayout
