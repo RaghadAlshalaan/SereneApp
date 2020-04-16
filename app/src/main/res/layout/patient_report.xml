@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lightGrey"
-    android:id="@+id/container"
+    tools:context=".controller.main.report.PatientReport"
+    android:id="@+id/PatientReport"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout

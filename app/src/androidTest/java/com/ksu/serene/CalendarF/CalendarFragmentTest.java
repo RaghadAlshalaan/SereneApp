@@ -1,4 +1,4 @@
-package com.ksu.serene.DraftF;
+package com.ksu.serene.CalendarF;
 
 import com.fangxu.allangleexpandablebutton.ButtonData;
 import com.ksu.serene.ElapsedTimeIdlingResource;
@@ -27,6 +27,7 @@ import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -47,10 +48,9 @@ public class CalendarFragmentTest {
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<MainActivity>(MainActivity.class);
 
-
     @Before
     public void setUp() throws Exception {
-        activityTestRule.getActivity().runOnUiThread(new Runnable() {
+        /*activityTestRule.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 //set fragment
@@ -63,13 +63,14 @@ public class CalendarFragmentTest {
             }
         });
 
-        getInstrumentation().waitForIdleSync();
+        getInstrumentation().waitForIdleSync();*/
+        onView(withId(R.id.navigation_calendar)).perform(click());
         //add tiemr
         //Mack sure Espresso does not time out
-        IdlingPolicies.setMasterPolicyTimeout(10000 * 2, TimeUnit.MILLISECONDS);
-        IdlingPolicies.setIdlingResourceTimeout(10000 * 2, TimeUnit.MILLISECONDS);
+        IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
+        IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
         //Now we waite
-        IdlingResource idlingResource = new ElapsedTimeIdlingResource(10000);
+        IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
         try {
             IdlingRegistry.getInstance().register(idlingResource);
             //check the activity is visible
@@ -121,6 +122,37 @@ public class CalendarFragmentTest {
         onView(allOf(withId(R.id.AddAppButton))).perform(click());
         //check the add app activity appears
         onView(withId(R.id.Add_Appointment_Page)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void ProfilePage () {
+        //check the profile icon button visible
+        onView(allOf(withId(R.id.profile_icon), isDisplayed())).check(matches(isDisplayed()));
+        //click the button
+        onView(allOf(withId(R.id.profile_icon), isDisplayed())).perform(click());
+        //check the profile page visible
+        onView(withId(R.id.PatientProfile)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void checkReportNavBarNavig () {
+        onView(withId(R.id.navigation_report)).perform(click());
+        //check the report activity showen
+        onView(withId(R.id.ReportF)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void checkDraftNavBarNavig () {
+        onView(withId(R.id.navigation_drafts)).perform(click());
+        //check the report activity showen
+        onView(withId(R.id.drafts)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void checkHomeNavBarNavig () {
+        onView(withId(R.id.navigation_home)).perform(click());
+        //check the report activity showen
+        onView(withId(R.id.Home)).check(matches(isDisplayed()));
     }
 
     //TODO check for recyclers view

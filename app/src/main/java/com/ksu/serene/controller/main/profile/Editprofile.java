@@ -145,60 +145,73 @@ public class Editprofile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //uploadFile();
-                //update name if the edit not empty && new name not equal past name or when no past name
-                if ( !(TextUtils.isEmpty(name.getText().toString())) ) {
-
-                    if (!name.getText().toString().matches("^[ A-Za-z]+$")) {
+                //use method for check if name empty
+                if (! CheckNameField( name.getText().toString() ) ) {
+                    Toast.makeText(Editprofile.this, R.string.EmptyName, Toast.LENGTH_LONG).show();
+                    if (pastName != null)
+                        name.setText(pastName);
+                    return;
+                }
+                //check if name not empty
+                if (CheckNameField( name.getText().toString()) ) {
+                    //check for valid name
+                    if (! isValidName(name.getText().toString())) {
+                        Toast.makeText(Editprofile.this, R.string.NotCorrectName, Toast.LENGTH_LONG).show();
                         if (pastName != null)
                             name.setText(pastName);
-                        Toast.makeText(Editprofile.this,R.string.NotCorrectName , Toast.LENGTH_LONG).show();
                         return;
                     }
-                    if ( pastName!= null && !(pastName.equals(name.getText().toString())))
+                    //here the name not empty && valid check if name not equal old name
+                    //update name if the edit not empty && new name not equal past name or when no past name
+                    if (pastName != null && !(pastName.equals(name.getText().toString())))
                         updateName(name.getText().toString());
 
                     else if (pastName == null)
                         updateName(name.getText().toString());
                 }
-                //when name empty
-                else {
-                    Toast.makeText(Editprofile.this, R.string.EmptyName, Toast.LENGTH_LONG).show();
-                    return;
-                }
 
-                if(!oldPass.getText().toString().equals("") &&! newPass.getText().toString().equals("")
+                /*if(!oldPass.getText().toString().equals("") &&! newPass.getText().toString().equals("")
                         && !confirmPass.getText().toString().equals("") && (oldPass.getText().toString().length()>=6
                         && newPass.getText().toString().length()>=6
-                        && confirmPass.getText().toString().length()>=6)){
-                    //first check when new pass == confirm new pass
-                    if (!newPass.getText().toString().equals(confirmPass.getText().toString())) {
-                        Toast.makeText(Editprofile.this, R.string.passwordMatch,Toast.LENGTH_LONG).show();
+                        && confirmPass.getText().toString().length()>=6)){*/
+                //first check if pass/s not mepty
+                if ( CheckPassField(oldPass.getText().toString(), newPass.getText().toString(),confirmPass.getText().toString() ) ){
+                    //Second check for pass length
+                    if (checkResetPassLength(oldPass.getText().toString(), newPass.getText().toString(),confirmPass.getText().toString())) {
+                        //Third check when new pass == confirm new pass
+                        /*if (!newPass.getText().toString().equals(confirmPass.getText().toString())) {*/
+                        if ( ! isPasswordMatch(newPass.getText().toString(),confirmPass.getText().toString()) ){
+                            Toast.makeText(Editprofile.this, R.string.passwordMatch, Toast.LENGTH_LONG).show();
+                            newPass.setText("");
+                            confirmPass.setText("");
+                            return;
+                        }//end if
+                        //check if new pass == old pass
+                        if (sameOldPassword(oldPass.getText().toString(), newPass.getText().toString())) {
+                            Toast.makeText(Editprofile.this, R.string.passwordSame, Toast.LENGTH_SHORT).show();
+                            oldPass.setText("");
+                            newPass.setText("");
+                            confirmPass.setText("");
+                            return;
+                        }
+                        //call method when all if condition consulude then new pass == confirm && new pass not equal old pass
+                        changePassword(oldPass.getText().toString(), newPass.getText().toString(), confirmPass.getText().toString());
+                    }
+                    //here the length for one or all of them <6
+                    else if (! checkResetPassLength(oldPass.getText().toString(), newPass.getText().toString(),confirmPass.getText().toString())) {
+                        Toast.makeText(Editprofile.this, R.string.passwordChar,Toast.LENGTH_LONG).show();
+                        oldPass.setText("");
                         newPass.setText("");
                         confirmPass.setText("");
                         return;
-                    }//end if
-                    //check if new pass == old pass
-                    if(checkPassword(oldPass.getText().toString(),newPass.getText().toString())){
-                        return;
                     }
-                    //call method when all if condition consulude then new pass == confirm && new pass not equal old pass
-                    changePassword(oldPass.getText().toString(),newPass.getText().toString(),confirmPass.getText().toString());
                 }
 
-                else if(!oldPass.getText().toString().equals("") &&! newPass.getText().toString().equals("")
+               /* else if(!oldPass.getText().toString().equals("") &&! newPass.getText().toString().equals("")
                         && !confirmPass.getText().toString().equals("") &&(oldPass.getText().toString().length()<6
                         ||newPass.getText().toString().length()<6
                         || confirmPass.getText().toString().length()<6)){
-
-                    Toast.makeText(Editprofile.this, R.string.passwordChar,
-                            Toast.LENGTH_LONG).show();
-
-                    oldPass.setText("");
-                    newPass.setText("");
-                    confirmPass.setText("");
-                    return;
-
-                }
+                }*/
 
                 finish();
 
@@ -460,20 +473,6 @@ public class Editprofile extends AppCompatActivity {
     }// updateName()
 
     public boolean changePassword(String oldPassword, final String newPassword, String confirmNewPassword) {
-        //remove this check update the place to be in the if when calling this change methos
-        //if the new password doesn't match show message otherwise change password
-        /*if (!newPassword.equals(confirmNewPassword)) {
-            Toast.makeText(Editprofile.this, R.string.passwordMatch,
-                    Toast.LENGTH_SHORT).show();
-            newPass.setText("");
-            confirmPass.setText("");
-            return;
-        }//end if*/
-
-        //check if the the new password not the same the old password
-        /*if(checkPassword(oldPassword,newPassword)){
-            return;
-        }*/
         // get user email from FireBase
        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String email = "";
@@ -531,13 +530,9 @@ public class Editprofile extends AppCompatActivity {
                     }//end changePassword()
 
 
-     public boolean checkPassword(String oldPassword, String newPassword) {
+     public boolean sameOldPassword(String oldPassword, String newPassword) {
 
         if (oldPassword.equals(newPassword)) {
-            Toast.makeText(Editprofile.this, R.string.passwordSame, Toast.LENGTH_SHORT).show();
-            oldPass.setText("");
-            newPass.setText("");
-            confirmPass.setText("");
             return true;
         } else {
             return false;
@@ -589,6 +584,42 @@ public class Editprofile extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public boolean CheckNameField (String newName){
+        if ( !newName.equals("") && newName!=null ) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isValidName (String newName) {
+        if (!newName.matches("^[ A-Za-z]+$")) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean CheckPassField (String old, String newPass, String confirmNewPAss){
+        if ( !old.equals("") && old!=null && !newPass.equals("")
+                && newPass!=null  && !confirmNewPAss.equals("") && confirmNewPAss!=null) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean checkResetPassLength (String oldPassword, String newPassword, String confirmNewPassword){
+        if (oldPassword.length()<6 || newPassword.length()<6 || confirmNewPassword.length()<6 ) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isPasswordMatch (String password, String confrimPassword){
+        if (!password.equals(confrimPassword)) {
+            return false;
+        }
+        return true;
     }
 
 }

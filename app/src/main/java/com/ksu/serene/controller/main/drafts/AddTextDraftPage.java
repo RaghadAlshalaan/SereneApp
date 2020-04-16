@@ -22,6 +22,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ksu.serene.MainActivity;
 import com.ksu.serene.R;
+import com.ksu.serene.model.TextDraft;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +39,7 @@ public class AddTextDraftPage extends AppCompatActivity {
     private String patientID;
     private FirebaseFirestore db;
     ImageView back;
+    private TextDraft textDraft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +58,12 @@ public class AddTextDraftPage extends AppCompatActivity {
         Add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (! CheckFields(Title.getText().toString(), Subj.getText().toString())){
+                    Toast.makeText(AddTextDraftPage.this, R.string.EmptyFields, Toast.LENGTH_LONG).show();
+                    return;
+                }
                 if (CheckFields(Title.getText().toString(), Subj.getText().toString())){
-                    SaveTextDraft(Title.getText().toString(), Subj.getText().toString());
+                    SaveTextDraft(Title.getText().toString(), Subj.getText().toString(),patientID);
 
                 }
             }
@@ -71,19 +77,19 @@ public class AddTextDraftPage extends AppCompatActivity {
         });
     }
 
-    private boolean CheckFields (String TitleDraft, String Message){
-        if ( !(TextUtils.isEmpty(TitleDraft)) && !(TextUtils.isEmpty(Message))) {
+    public boolean CheckFields (String TitleDraft, String Message){
+        if ( TitleDraft!=null && !TitleDraft.equals("")
+                && Message!=null && !Message.equals("")) {
             return true;
         }
         else {
-            Toast.makeText(AddTextDraftPage.this, R.string.EmptyFields, Toast.LENGTH_LONG).show();
             return false;
         }
     }
 
-    private void SaveTextDraft (String TitleDraft, String Message) {
+    public TextDraft SaveTextDraft (final String TitleDraft,final String Message, String patientID) {
 
-        draftId = getDraftID();
+        draftId = getDraftID(TitleDraft);
 
 
         Map<String, Object> draft = new HashMap<>();
@@ -110,7 +116,7 @@ public class AddTextDraftPage extends AppCompatActivity {
 
 
                         finish();
-
+                        textDraft = new TextDraft(draftId,TitleDraft,FieldValue.serverTimestamp()+"",Message);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -127,15 +133,15 @@ public class AddTextDraftPage extends AppCompatActivity {
                                 MotionToast.Companion.getGRAVITY_BOTTOM(),
                                 MotionToast.Companion.getLONG_DURATION(),
                                 ResourcesCompat.getFont( AddTextDraftPage.this, R.font.montserrat));
-
+                        textDraft = null;
                     }
                 });
-
+        return textDraft;
     }
 
 
-    private String getDraftID() {
-        titleTxt = Title.getText().toString();
+    public String getDraftID(String title) {
+        titleTxt = title;//Title.getText().toString();
         String id = titleTxt;
         id = id.toLowerCase();
         id = id.replace(" ", "_");

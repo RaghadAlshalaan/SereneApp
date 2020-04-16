@@ -131,8 +131,16 @@ public class Add_Appointment_Page extends AppCompatActivity {
         Confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!checkFields(AppName.getText().toString(), Time.getText().toString(), Date.getText().toString())){
+                    Toast.makeText(Add_Appointment_Page.this,R.string.EmptyFields, Toast.LENGTH_LONG).show();
+                    return;
+                }
                 //check all filed filled
-                if (checkFields(AppName.getText().toString())) {
+                if (checkFields(AppName.getText().toString(), Time.getText().toString(), Date.getText().toString())) {
+                    if (!checkDayandTime(Date.getText().toString(), Time.getText().toString())){
+                        Toast.makeText(Add_Appointment_Page.this, R.string.CurrentTime, Toast.LENGTH_LONG).show();
+                        return;
+                    }
                     //check the day and time in future or the day now but time in future
                     if (checkDayandTime(Date.getText().toString(), Time.getText().toString())) {
                         // if all checked successfully save medicine in firestore with user id
@@ -147,24 +155,23 @@ public class Add_Appointment_Page extends AppCompatActivity {
         });
     }
     //The method for check if all field empty or not
-    private boolean checkFields (String AName ) {
-        if ( !(TextUtils.isEmpty(AName)) && !(Time.getText().toString().equals("Set Time")) && !(Date.getText().toString().equals("Set Day"))  ){
+    public boolean checkFields (String AName, String time, String date ) {
+        if ( AName != null && !(AName.equals("")) && !(time.equals("Set Time")) && !(date.equals("Set Day"))  ){
             return true;
         }
-        Toast.makeText(Add_Appointment_Page.this,R.string.EmptyFields, Toast.LENGTH_LONG).show();
         return false;
     }
 
     //check if time after current time when the Date is current date
-    private boolean checkDayandTime (String date, String time) {
-        SimpleDateFormat TimeFormat = new SimpleDateFormat ("hh : mm");
+    public boolean checkDayandTime (String date, String time) {
+        SimpleDateFormat TimeFormat = new SimpleDateFormat ("HH : mm", Locale.UK);
         SimpleDateFormat DateFormat = new SimpleDateFormat ("dd/MM/yy");
         Date CurrentDate = new Date();
         //convert string to date to used in compare
         try {
             AD = DateFormat.parse(date);
             AT = TimeFormat.parse(time);
-            CuttentTime = TimeFormat.parse(new SimpleDateFormat("HH : mm").format(new Date()));
+            CuttentTime = TimeFormat.parse(new SimpleDateFormat("HH : mm",Locale.UK).format(new Date()));
         }
         catch (ParseException e) {
             e.printStackTrace();
@@ -177,14 +184,13 @@ public class Add_Appointment_Page extends AppCompatActivity {
         if ( (AD.compareTo(CurrentDate) == 0 || AD.before(CurrentDate)) ) {
             //check for time, if it before current time return false with meaningful message
             if (AT.before(CuttentTime) || (AT.compareTo(CuttentTime) == 0)){
-                Toast.makeText(Add_Appointment_Page.this, R.string.CurrentTime, Toast.LENGTH_LONG).show();
                 return false;
             }
-            else {
+            /*else {
                 return true;
-            }
+            }*/
         }
-         return false;
+         return true;
 
     }
 
@@ -287,14 +293,14 @@ public class Add_Appointment_Page extends AppCompatActivity {
             //create new notification
             new AlarmScheduler().setAlarm(getApplicationContext(), selectedTimestamp, newUri);//no repeating
             //Toast.makeText(this, "Alarm time is at " + new java.text.SimpleDateFormat("dd/MM/yyyy hh:mm").format(new Date(selectedTimestamp)),Toast.LENGTH_LONG).show();
-            Log.d("Alarm time is at ", new java.text.SimpleDateFormat("dd/MM/yyyy hh:mm").format(new Date(selectedTimestamp)));
+            Log.d("Alarm time is at ", new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date(selectedTimestamp)));
 
             //Toast.makeText(this, "Reminder was successfully scheduled",Toast.LENGTH_SHORT).show();
             Log.d("Reminder: ", "Reminder was successfully scheduled");
         }
     }
 
-    private String getRandomID(){
+    public String getRandomID(){
         return UUID.randomUUID().toString();
     }
 

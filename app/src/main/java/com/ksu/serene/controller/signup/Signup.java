@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -52,7 +53,7 @@ public class Signup extends AppCompatActivity {
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+    private boolean createAcc = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +75,22 @@ public class Signup extends AppCompatActivity {
         signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                createUserAccount(emailET.getText().toString(), passwordET.getText().toString(), confirmPasswordET.getText().toString(), nameET.getText().toString());
+                if ( !validName (nameET.getText().toString())) {
+                    nameET.setText("");
+                    Error.setText(R.string.NotValidName);
+                    return;
+                }
+                if (!passMatch (passwordET.getText().toString(), confirmPasswordET.getText().toString())){
+                    passwordET.setText("");
+                    confirmPasswordET.setText("");
+                    Error.setText(R.string.NotMatchPass);
+                    return;
+                }
+               if (createUserAccount(emailET.getText().toString(), passwordET.getText().toString(), confirmPasswordET.getText().toString(), nameET.getText().toString(),mAuth)) { //;
+                   /*Intent i = new Intent( Signup.this, Questionnairs.class );
+                   startActivity(i);
+                   finish();*/
+               }
             }
         });
 
@@ -115,7 +130,6 @@ public class Signup extends AppCompatActivity {
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
         }
 
         @Override
@@ -127,7 +141,7 @@ public class Signup extends AppCompatActivity {
             String passwordInput = passwordET.getText().toString().trim();
             String confirmPasswordInput = confirmPasswordET.getText().toString().trim();
 
-            if(!nameInput.equals("") & !emailInput.equals("") & !passwordInput.equals("") & !confirmPasswordInput.equals("")){
+            if(CheckFields(nameInput,emailInput,passwordInput,confirmPasswordInput)){
 
                 signupBtn.setBackground(getResources().getDrawable(R.drawable.main_button));
 
@@ -148,23 +162,23 @@ public class Signup extends AppCompatActivity {
 
     };
 
-    public void createUserAccount(final String email, String password, String confirmPassword, final String name) {
+    public boolean createUserAccount(final String email, String password, String confirmPassword, final String name, final FirebaseAuth mAuth) {
 
-        if (!name.matches("^[ A-Za-z]+$")) {
+        /*if (!name.matches("^[ A-Za-z]+$")) {
             nameET.setText("");
             Error.setText(R.string.NotValidName);
 
-            return;
-        }
+            return false;
+        }*///replaced by method
 
-        if (!password.equals(confirmPassword)) {
+
+        /*if (!password.equals(confirmPassword)) {
             passwordET.setText("");
             confirmPasswordET.setText("");
             Error.setText(R.string.NotMatchPass);
 
-            return;
-        }
-
+            return false;
+        }*///replaced by
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -244,7 +258,7 @@ public class Signup extends AppCompatActivity {
                             editor.apply();
 
                             Toast.makeText(Signup.this, R.string.SignUpSuccess, Toast.LENGTH_LONG).show();
-
+                            createAcc = true;
                             Intent i = new Intent( Signup.this, Questionnairs.class );
                             startActivity(i);
                             sendVerificationEmail();
@@ -254,22 +268,26 @@ public class Signup extends AppCompatActivity {
 
                             if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                                 Error.setText(R.string.ExistUser);
+                                createAcc = false;
 
                             } else if (task.getException() instanceof FirebaseAuthWeakPasswordException) {
                                 Error.setText(R.string.PasswordShort);
+                                createAcc = false;
 
                             } else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 Error.setText(R.string.NotValidEmail);
+                                createAcc = false;
 
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Error.setText(R.string.SignUpFialed);
+                                createAcc = false;
                             }
 
                         }
                     }
                 });
-
+        return createAcc;
     }// end create user
 
 
@@ -319,6 +337,43 @@ public class Signup extends AppCompatActivity {
                 });
     }
 
+    public boolean CheckFields (String name, String email, String password, String confirmPassword){
+        if ( !name.equals("") && name!=null && !email.equals("") && email!=null
+                && !password.equals("") && password!=null && !confirmPassword.equals("") && confirmPassword!=null ) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean validName(String name){
+        if (!name.matches("^[ A-Za-z]+$")) {
+            return false;
+        }
+        return true;
+    }
+
+    //TODO add method to check for email validation
+    public boolean isValidEmail (String email) {
+        if (!email.matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
+            return false;
+        }
+        return true;
+    }
+    //TODO add Method for check for pass length
+    public boolean isShortPass (String password){
+        if (password.length()<6) {
+            return false;
+        }
+        return true;
+    }
+
+
+    public boolean passMatch (String pass, String confirmPass){
+        if (! (pass.equals(confirmPass)) ) {
+            return false;
+        }
+        return true;
+    }
 
     private void login(){
 

@@ -248,47 +248,109 @@ public class Sociodemo extends Fragment {
         monthlyIncome = monthlyIncomeET.getText().toString();
         chronicDisease = chronicDiseaseET.getText().toString();
 
-        if( heightET.getText().toString().matches("") || weightET.getText().toString().matches("") || employmentStatus.matches("") || maritalStatus.matches("") ||
+        /*if( heightET.getText().toString().matches("") || weightET.getText().toString().matches("") || employmentStatus.matches("") || maritalStatus.matches("") ||
                 monthlyIncomeET.getText().toString().matches("") || cigaretteSmoke.matches("") || ageET.getText().toString().matches("") || chronicDiseaseET.getText().toString().matches("")) {
 
             Toast.makeText(getActivity(), R.string.EmptyFields,Toast.LENGTH_LONG).show();
             return flag;
 
+        }*/
+        if (! checkSocioFields (age,height,weight,monthlyIncome,chronicDisease
+                ,employmentStatus,maritalStatus,cigaretteSmoke) ) {
+            Toast.makeText(getActivity(), R.string.EmptyFields,Toast.LENGTH_LONG).show();
+            return false;
         }
 
         // Fields Validations
         double ageI = Double.parseDouble(age);
-        if ((ageI > 110) || (ageI < 5)){
+        if ( ! isValidAge(ageI) ) {
             Toast.makeText(getActivity(), R.string.NotValidAge,Toast.LENGTH_LONG).show();
             return flag;
         }
+        /*if ((ageI > 110) || (ageI < 5)){
+        }*/
 
         double heightI = Double.parseDouble(height);
-        if ((heightI > 300) || (heightI < 50)){
+        if (!isValidHeight(heightI)){
             Toast.makeText(getActivity(), R.string.NotValidHeight,Toast.LENGTH_LONG).show();
             return flag;
         }
+        /*if ((heightI > 300) || (heightI < 50)){
+        }*/
 
         double weightI = Double.parseDouble(weight);
-        if ((weightI > 300) || (weightI < 20)){
+        if (!isValidWeight(weightI)){
             Toast.makeText(getActivity(), R.string.NotValidWeight,Toast.LENGTH_LONG).show();
             return flag;
         }
+        /*if ((weightI > 300) || (weightI < 20)){
+        }*/
 
         double monthlyIncomeI = Double.parseDouble(monthlyIncome);
-        if ((monthlyIncomeI > 5000000) || (monthlyIncomeI < 0)){
+        if (!isValidMonthlyIncome(monthlyIncomeI)){
             Toast.makeText(getActivity(), R.string.NotValidMI,Toast.LENGTH_LONG).show();
             return flag;
         }
+        /*if ((monthlyIncomeI > 5000000) || (monthlyIncomeI < 0)){
+        }*/
 
         // CHECK CHRONIC DISEASE
-        if( !chronicDisease.matches("^[ A-Za-z]+$")){
+        if (!isValidChronicDisease(chronicDisease)){
             Toast.makeText(getActivity(), R.string.NotValidCD,Toast.LENGTH_LONG).show();
             return flag;
         }
+        /*if( !chronicDisease.matches("^[ A-Za-z]+$")){
+        }*/
 
         return true;
     }
 
+    public boolean checkSocioFields (String age, String height, String weight
+            , String monthlyIncome, String chronicDiseases, String employmentStatus
+            ,String maritalStatus,String cigaretteSmoke) {
+        if( age.matches("") || height.matches("") || weight.matches("")
+                || monthlyIncome.matches("") || chronicDiseases.matches("")
+                    || employmentStatus.matches("") || maritalStatus.matches("")
+                 || cigaretteSmoke.matches("")) {
+            return false;
+        }
+        return true;
+    }
+
+    //TODO add the methods check for age height,weight, MI, and CD validation
+    public boolean isValidAge (double age) {
+        if ( (age > 110) || (age < 5) ) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isValidHeight (double height) {
+        if ( (height > 300) || (height < 50) ) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isValidWeight (double weight) {
+        if ( (weight > 300) || (weight < 20) ) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isValidMonthlyIncome (double MI) {
+        if ( (MI > 5000000) || (MI < 0) ) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isValidChronicDisease (String CD) {
+        if ( !CD.matches("^[ A-Za-z]+$") ) {
+            return false;
+        }
+        return true;
+    }
 
 }

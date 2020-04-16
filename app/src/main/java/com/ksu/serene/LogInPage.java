@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -113,7 +114,7 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
             String emailInput = email.getText().toString().trim();
             String passwordInput = password.getText().toString().trim();
 
-            if( !emailInput.equals("") & !passwordInput.equals("") ){
+            if(CheckLogInFields(emailInput,passwordInput)){
 
                 loginBtn.setBackground(getResources().getDrawable(R.drawable.main_button));
 
@@ -190,11 +191,11 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                if ( forgetEmailET.getText().toString().equals("") ){
+                if ( !CheckEmailField(forgetEmailET.getText().toString())){
                     Toast.makeText(getApplication(), R.string.EmptyEmail, Toast.LENGTH_LONG).show();
                     forgotPassword();
                 }
-                if (!forgetEmailET.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
+                if (!isValidEmail(forgetEmailET.getText().toString())) {
                     Toast.makeText(getApplication(), R.string.NotCorrectEmail, Toast.LENGTH_LONG).show();
                     forgotPassword();
                 }
@@ -401,6 +402,36 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
     protected void onStart() {
         super.onStart();
         checkUserState();
+    }
+
+    public boolean CheckLogInFields (String email, String password){
+        if ( !email.equals("") && email!=null
+                && !password.equals("") && password!=null ) {
+            return true;
+        }
+        return false;
+    }
+
+    // for forget Password
+    public boolean CheckEmailField (String email){
+        if ( !email.equals("") && email!=null ) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isValidEmail (String email) {
+        if (!email.matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isShortPass (String password){
+        if (password.length()<6) {
+            return false;
+        }
+        return true;
     }
 
 }
