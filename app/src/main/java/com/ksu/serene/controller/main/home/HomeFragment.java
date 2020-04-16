@@ -108,7 +108,7 @@ public class HomeFragment extends Fragment {
 
         String docID = "daily" + mAuth.getUid();
 
-        db.collection("DailyReport").document(docID)
+        db.collection("DailyReport").document("dailyUqTdL3T7MteuQHBe1aNfSE9u0Na2")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
