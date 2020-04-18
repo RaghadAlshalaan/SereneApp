@@ -14,10 +14,13 @@ public class Patient {
     private String smokeCigarettes;
     private String chronicDiseases;
 
+    public Patient(String fullName, String email) {
+        this.fullName = fullName;
+        this.email = email;
+    }
 
-
-    public Patient ( String fullName, String email, String GAD7Scalescore, String age, String gender, String height, String weight, String employmentStatus,
-                     String maritalStatus, String monthlyIncome, String smokeCigarettes, String chronicDiseases ){
+    public Patient (String fullName, String email, String GAD7Scalescore, String age, String gender, String height, String weight, String employmentStatus,
+                    String maritalStatus, String monthlyIncome, String smokeCigarettes, String chronicDiseases ){
         this.fullName = fullName;
         this.email = email;
         this.GAD7Scalescore = GAD7Scalescore;

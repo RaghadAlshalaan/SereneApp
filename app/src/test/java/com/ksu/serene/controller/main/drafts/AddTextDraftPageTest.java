@@ -40,6 +40,7 @@ public class AddTextDraftPageTest {
         PowerMockito.mockStatic(FirebaseFirestore.class);
         when(FirebaseFirestore.getInstance()).thenReturn(mockFirebaseFirestore);
         textDraft = new AddTextDraftPage();//activityTestRule.getActivity();
+        textDraft.setDb(mockFirebaseFirestore);
         onComplete = ArgumentCaptor.forClass(OnCompleteListener.class);
     }
 
@@ -104,6 +105,7 @@ public class AddTextDraftPageTest {
                 .document("123")
                 .set(draft))
                 .thenReturn(mockVoidTask);
+        textDraft.SaveTextDraft(title,msg,patientID);
         //TextDraft textDraftSaved = textDraft.SaveTextDraft(title,msg,patientID);
         //assertNotNull(textDraftSaved);
         //assertTrue(title.equals(textDraftSaved.getTitle()));

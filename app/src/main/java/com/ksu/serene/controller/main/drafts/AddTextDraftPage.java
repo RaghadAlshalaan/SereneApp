@@ -41,6 +41,10 @@ public class AddTextDraftPage extends AppCompatActivity {
     ImageView back;
     private TextDraft textDraft;
 
+    public void setDb(FirebaseFirestore mockDb) {
+        this.db = mockDb;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,8 +82,7 @@ public class AddTextDraftPage extends AppCompatActivity {
     }
 
     public boolean CheckFields (String TitleDraft, String Message){
-        if ( TitleDraft!=null && !TitleDraft.equals("")
-                && Message!=null && !Message.equals("")) {
+        if ( !TitleDraft.equals("") && !Message.equals("")) {
             return true;
         }
         else {

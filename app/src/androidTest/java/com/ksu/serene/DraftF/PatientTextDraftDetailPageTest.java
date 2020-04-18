@@ -29,10 +29,12 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.RootMatchers.isDialog;
+import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.ksu.serene.TestUtils.withRecyclerView;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class PatientTextDraftDetailPageTest {
@@ -44,7 +46,7 @@ public class PatientTextDraftDetailPageTest {
 
     @Before
     public void setUp() throws Exception {
-        activityTestRule.getActivity().runOnUiThread(new Runnable() {
+        /*activityTestRule.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 //set fragment
@@ -55,7 +57,8 @@ public class PatientTextDraftDetailPageTest {
                 fragmentTransaction.commit();
 
             }
-        });
+        });*/
+        onView(withId(R.id.navigation_drafts)).perform(click());
         //add tiemr
         //Mack sure Espresso does not time out
         IdlingPolicies.setMasterPolicyTimeout(10000 * 2, TimeUnit.MILLISECONDS);
@@ -64,6 +67,7 @@ public class PatientTextDraftDetailPageTest {
         IdlingResource idlingResource = new ElapsedTimeIdlingResource(10000);
         try {
             IdlingRegistry.getInstance().register(idlingResource);
+
             onView(withId(R.id.allDraft)).check(matches(isDisplayed()));
             onView(withRecyclerView(R.id.Recyclerview_All_DraftText).atPosition(0)).perform(click());
             //add Timer for all tests
@@ -73,7 +77,7 @@ public class PatientTextDraftDetailPageTest {
             //Now we waite
             IdlingResource idlingResource1 = new ElapsedTimeIdlingResource(5000);
             try {
-                IdlingRegistry.getInstance().register(idlingResource);
+                IdlingRegistry.getInstance().register(idlingResource1);
                 //textDraftDetailPage = activityTestRule.getActivity();
                 //check activity visible
                 onView(withId(R.id.PatientTextDraftDetailPage)).check(matches(isDisplayed()));
@@ -95,29 +99,18 @@ public class PatientTextDraftDetailPageTest {
     @Test
     public void EditDraftSuccess () {
         //enter title
-        onView(withId(R.id.TitleTextD)).perform(replaceText("New Title"));
+        onView(withId(R.id.TitleTextD)).perform(replaceText("Update Title"));
         //close keyboard
         closeSoftKeyboard();
         ///leave subj as it is
         //press button
-        IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
-        IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
-        //Now we waite
-        IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
-        try {
-            IdlingRegistry.getInstance().register(idlingResource);
             onView(withId(R.id.SaveChanges)).perform(click());
             // check toast visibility
             onView(withText(R.string.TDUpdatedSuccess))
                     .inRoot(new ToastMatcher())
                     .check(matches(withText(R.string.TDUpdatedSuccess)));
             //check activity is showen
-            onView(withId(R.id.allDraft)).check(matches(isDisplayed()));
-        }
-        //clean upp
-        finally {
-            IdlingRegistry.getInstance().unregister(idlingResource);
-        }
+            //onView(withId(R.id.allDraft)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -143,6 +136,7 @@ public class PatientTextDraftDetailPageTest {
         closeSoftKeyboard();
         //leave draft empty
         onView(withId(R.id.SubjtextD)).perform(replaceText(""));
+        closeSoftKeyboard();
         //press button
         onView(withId(R.id.SaveChanges)).perform(click());
         // check toast visibility
@@ -152,18 +146,11 @@ public class PatientTextDraftDetailPageTest {
     }
 
     @Test
-    public void DeleteCancle () {
-        //click button
-        onView(withId(R.id.delete)).perform(click());
-        //delete dialog will appear
-        onView(withText(R.string.DeleteMessageTD))
-                .inRoot(isDialog()) // <---
-                .check(matches(isDisplayed()));
-        //press the cancel button
-        onView(withText(R.string.DeleteCancleTD)).perform(click());
-        //check nothing changes
-        onView(withId(R.id.TitleTextD)).check(matches(isDisplayed()));
-        onView(withId(R.id.SubjtextD)).check(matches(isDisplayed()));
+    public void backButton () {
+        onView(withId(R.id.backButton)).check(matches(isDisplayed()));
+        onView(withId(R.id.backButton)).check(matches(isClickable()));
+        //perform click on back button
+        onView(withId(R.id.backButton)).perform(click());
     }
 
     @After

@@ -56,12 +56,14 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
     private EditText password;
     private Button loginBtn;
     private TextView signup , Error;
-    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private String mToken;
     private String TAG = LogInPage.class.getSimpleName();
     private TextView forgotPassword;
 
-
+    public void setmAuth(FirebaseAuth mockMAuth) {
+        this.mAuth = mockMAuth;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -208,7 +210,7 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
 
     }
 
-    private void resetPassword(String email){
+    public void resetPassword(String email){
 
         mAuth.sendPasswordResetEmail(email)
 
@@ -226,10 +228,10 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
 
     }
 
-    private void login(String emailIn, String passwordIn) {
+    public void login(String emailIn, String passwordIn) {
 
         mAuth.signInWithEmailAndPassword(emailIn, passwordIn)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(new MyOnCompleteListener<AuthResult>(){
 
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -280,7 +282,7 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
             });
     }
 
-    private void checkIfEmailVerified() {
+    public void checkIfEmailVerified() {
 
         // TODO : MOVE IT TO MAIN PAGE
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

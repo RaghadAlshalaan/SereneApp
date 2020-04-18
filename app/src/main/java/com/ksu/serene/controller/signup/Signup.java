@@ -37,8 +37,10 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.ksu.serene.controller.Constants;
 import com.ksu.serene.LogInPage;
 
+import com.ksu.serene.model.Patient;
 import com.ksu.serene.model.Token;
 import com.ksu.serene.R;
+import com.ksu.serene.MyOnCompleteListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,6 +56,15 @@ public class Signup extends AppCompatActivity {
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private boolean createAcc = false;
+    private  Patient user;
+
+    /*public Signup(FirebaseAuth mockMAuth) {
+        this.mAuth = mockMAuth;
+    }*/
+
+    public void setmAuth(FirebaseAuth mockMAuth) {
+        this.mAuth = mockMAuth;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +97,7 @@ public class Signup extends AppCompatActivity {
                     Error.setText(R.string.NotMatchPass);
                     return;
                 }
-               if (createUserAccount(emailET.getText().toString(), passwordET.getText().toString(), confirmPasswordET.getText().toString(), nameET.getText().toString(),mAuth)) { //;
+               if (createUserAccount(emailET.getText().toString(), passwordET.getText().toString(), confirmPasswordET.getText().toString(), nameET.getText().toString()) != null) { //;
                    /*Intent i = new Intent( Signup.this, Questionnairs.class );
                    startActivity(i);
                    finish();*/
@@ -162,56 +173,27 @@ public class Signup extends AppCompatActivity {
 
     };
 
-    public boolean createUserAccount(final String email, String password, String confirmPassword, final String name, final FirebaseAuth mAuth) {
+    public Patient createUserAccount(final String email, String password, String confirmPassword, final String name) {
 
-        /*if (!name.matches("^[ A-Za-z]+$")) {
-            nameET.setText("");
-            Error.setText(R.string.NotValidName);
-
-            return false;
-        }*///replaced by method
-
-
-        /*if (!password.equals(confirmPassword)) {
-            passwordET.setText("");
-            confirmPasswordET.setText("");
-            Error.setText(R.string.NotMatchPass);
-
-            return false;
-        }*///replaced by
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(this, new MyOnCompleteListener<AuthResult>(){//new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-
+                            user = new Patient(name,email);
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser userf = mAuth.getCurrentUser();
+
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
 
-                            userf.updateProfile(profileUpdates)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                Log.d(TAG, "User profile updated.");
-                                            }
-                                        }
-                                    });
+                            updateProfile (profileUpdates);
 
-                            userf.updateEmail(email)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                Log.d(TAG, "User email address updated.");
-                                            }
-                                        }
-                                    });
+                            updateEmail (email);
 
                             // Create a new user with a first and last name
-                            Map<String, Object> user = new HashMap<>();
+                            saveUserinDB (name,email);
+
+                            /*Map<String, Object> user = new HashMap<>();
                             user.put("email", email);
                             user.put("name", name);
 
@@ -249,7 +231,7 @@ public class Signup extends AppCompatActivity {
                                         public void onFailure(@NonNull Exception e) {
                                             Log.w(TAG, "Error writing document", e);
                                         }
-                                    });
+                                    });*/
 
                             updateToken(FirebaseInstanceId.getInstance().getToken());
                             SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
@@ -269,27 +251,98 @@ public class Signup extends AppCompatActivity {
                             if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                                 Error.setText(R.string.ExistUser);
                                 createAcc = false;
+                                //user = null;
 
                             } else if (task.getException() instanceof FirebaseAuthWeakPasswordException) {
                                 Error.setText(R.string.PasswordShort);
                                 createAcc = false;
+                                //user = null;
 
                             } else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 Error.setText(R.string.NotValidEmail);
                                 createAcc = false;
+                                //user = null;
 
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Error.setText(R.string.SignUpFialed);
                                 createAcc = false;
+                                //user = null;
                             }
 
                         }
                     }
                 });
-        return createAcc;
+        return user;
     }// end create user
 
+    public void updateProfile (UserProfileChangeRequest profileUpdates) {
+        FirebaseUser userf = mAuth.getCurrentUser();
+        userf.updateProfile(profileUpdates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "User profile updated.");
+                        }
+                    }
+                });
+    }
+
+    public void updateEmail (String email) {
+        FirebaseUser userf = mAuth.getCurrentUser();
+        userf.updateEmail(email)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "User email address updated.");
+                        }
+                    }
+                });
+    }
+
+    public void saveUserinDB (String name, String email) {
+        // Create a new user with a first and last name
+        Map<String, Object> user = new HashMap<>();
+        user.put("email", email);
+        user.put("name", name);
+        // Add a new document with a generated ID
+        db.collection("Patient")
+                .document(mAuth.getUid())
+                .set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot added with" );
+                        //add token
+                        Token mToken = new Token("");
+
+                        // Add a new document with a generated ID
+                        db.collection("Tokens")
+                                .document(mAuth.getUid())
+                                .set(mToken)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot added with" );
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
 
     public  void updateToken(String token){
 

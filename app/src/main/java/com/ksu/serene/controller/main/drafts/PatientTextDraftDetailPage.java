@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.text.TextUtils;
 
@@ -34,6 +35,7 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
     private Button edit;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String TDID;
+    ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +49,13 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
         subj = findViewById(R.id.SubjtextD);
         delete = findViewById(R.id.delete);
         edit = findViewById(R.id.SaveChanges);
-
-        if ( TDID == null ){
-            TDID = "test_text_note142753";
-        }
+        back = findViewById(R.id.backButton);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         db.collection("TextDraft")
                 .document(TDID)
@@ -145,8 +150,7 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
 
     }
     public boolean CheckFields (String TitleDraft, String Message) {
-        if (!TitleDraft.equals("") && TitleDraft!=null
-                && !Message.equals("") && Message!=null) {
+        if (!TitleDraft.equals("") && !Message.equals("") ) {
             return true;
         } else {
             return false;

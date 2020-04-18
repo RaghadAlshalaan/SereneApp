@@ -1,7 +1,10 @@
 package com.ksu.serene.DraftF;
 
+import android.Manifest;
+
 import com.ksu.serene.ElapsedTimeIdlingResource;
 import com.ksu.serene.MainActivity;
+import com.ksu.serene.PermissionGranter;
 import com.ksu.serene.R;
 import com.ksu.serene.controller.main.drafts.allDraft;
 import com.ksu.serene.controller.main.drafts.draftsFragment;
@@ -40,7 +43,7 @@ public class allDraftTest {
 
     @Before
     public void setUp() throws Exception {
-        activityTestRule.getActivity().runOnUiThread(new Runnable() {
+        /*activityTestRule.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 //set fragment
@@ -51,7 +54,8 @@ public class allDraftTest {
                 fragmentTransaction.commit();
 
             }
-        });
+        });*/
+        onView(withId(R.id.navigation_drafts)).perform(click());
         //add tiemr
         //Mack sure Espresso does not time out
         IdlingPolicies.setMasterPolicyTimeout(10000 * 2, TimeUnit.MILLISECONDS);
@@ -102,6 +106,8 @@ public class allDraftTest {
         onView(allOf(withId(R.id.button_expandable_110_250))).perform(click());
         //click add audio button
         onView(allOf(withId(R.id.AddVoiceButton))).perform(click());
+        PermissionGranter.allowPermissionsIfNeeded(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        PermissionGranter.allowPermissionsIfNeeded(Manifest.permission.RECORD_AUDIO);
         //check the add audio activity appears
         onView(withId(R.id.StartRecording)).check(matches(isDisplayed()));
     }
