@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -194,16 +195,18 @@ public class PatientReport extends AppCompatActivity {
 
         String interval;
 
-        Date startD;
+        Date startD, endD;
         String start="", end="";
 
 
         DateFormat dateFormat = new SimpleDateFormat("d MMM");
 
+        Calendar cale = Calendar.getInstance();
+        cale.add(Calendar.DATE, -1);
+//        endD = cal.getTime();
+        end = dateFormat.format(cale.getTime());
+
         Calendar cal = Calendar.getInstance();
-
-        end = dateFormat.format(cal.getTime());
-
 
         switch(duration){
             case "2week":
@@ -227,7 +230,11 @@ public class PatientReport extends AppCompatActivity {
                 Date startDate1 = null, endDate1 = null;
                 try {
                     startDate1 = formatter.parse(startDate);
+                    startDate1.setMonth(startDate1.getMonth()+1);
+
                     endDate1 = formatter.parse(endDate);
+                    endDate1.setMonth(endDate1.getMonth()+1);
+
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -311,17 +318,19 @@ public class PatientReport extends AppCompatActivity {
 
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
-
                                 // Check for locations date if it's within selected duration
 
                                 Date loc_date = ((Timestamp) document.get("time")).toDate();
-                                Date today = new Date(); // Today
+                                Calendar cal = Calendar.getInstance();
+                                cal.add(Calendar.DATE, -1);
+                                Date today = cal.getTime();
+
 
                                 long calcDuration = daysBetween(loc_date,today);
 
                                 switch(duration){
                                     case "2week":
-                                        if (calcDuration<15) {
+                                        if (0<calcDuration&&calcDuration<15) {
                                             locationFound = true;
                                             break; //get out of switch and proceed to save other attributes
                                         }
@@ -331,7 +340,7 @@ public class PatientReport extends AppCompatActivity {
                                         }
 
                                     case "month":
-                                        if (calcDuration<31){
+                                        if (0<calcDuration&&calcDuration<31){
                                             locationFound = true;
                                             break;
                                         }
@@ -345,12 +354,19 @@ public class PatientReport extends AppCompatActivity {
                                         Date startDate1 = null, endDate1 = null;
                                         try {
                                             startDate1 = formatter.parse(startDate);
+                                            startDate1.setMonth(startDate1.getMonth()+1);
                                             endDate1 = formatter.parse(endDate);
+                                            endDate1.setMonth(endDate1.getMonth()+1);
+
                                         } catch (ParseException e) {
                                             e.printStackTrace();
                                         }
 
-                                        if (startDate1.compareTo(loc_date)*loc_date.compareTo(endDate1)>=0){//if date is between start date and end date
+                                        if(!(loc_date.before(startDate1) || loc_date.after(endDate1))){
+                                            locationFound = true;
+                                            break;
+                                        }
+                                        else if(loc_date.getDay() == endDate1.getDay() && loc_date.getMonth() == endDate1.getMonth()){
                                             locationFound = true;
                                             break;
                                         }
@@ -363,9 +379,7 @@ public class PatientReport extends AppCompatActivity {
 
                                 if (locationFound) {
 
-
                                     showHeatmap.setEnabled(true);
-
 
                                     String locationName = document.get("name").toString();
                                     double lat = (double) document.get("lat");
@@ -382,7 +396,7 @@ public class PatientReport extends AppCompatActivity {
                                         anxietyLevel = document.get("anxietyLevel").toString();
                                     }
 
-                                    String nearestLocs ="";
+                                    String nearestLocs = "";
                                     if(document.get("nearestLoc") != null) {
                                         nearestLocs = document.get("nearestLoc").toString();
                                     }
@@ -407,7 +421,7 @@ public class PatientReport extends AppCompatActivity {
                                     int freq = 1; // for every location we assume frequency = 1
 
                                     // for the highest anxiety locations recycler view
-                                    if ( anxietyLevel.equals("Medium")) {
+                                    if ( anxietyLevel.equals("High Anxiety")) {
 
                                         noResult.setVisibility(View.GONE);
                                         boolean newLoc = true; // assume it is a new location
@@ -448,6 +462,7 @@ public class PatientReport extends AppCompatActivity {
                                                 locations.remove(lis);
                                                 locations.add(new WeightedLatLng(current, loc_AL));
                                                 found = true;
+                                                break;
                                             }
                                         }
 
@@ -488,8 +503,10 @@ public class PatientReport extends AppCompatActivity {
 
     private static long daysBetween(Date one, Date two) {
 
-        long difference = (one.getTime() - two.getTime() ) / 86400000 ;
-        return Math.abs(difference);
+        long diffInMillies = Math.abs(one.getTime() - two.getTime());
+        long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
+        return diff;
 
     }
 

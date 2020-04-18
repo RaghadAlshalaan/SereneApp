@@ -32,6 +32,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.ksu.serene.R;
+import com.ksu.serene.controller.liveChart.ChartView;
+import com.ksu.serene.controller.liveChart.draw.data.InputData;
 import com.ksu.serene.controller.main.calendar.PatientAppointmentDetailPage;
 import com.ksu.serene.model.TherapySession;
 import com.ksu.serene.model.dbSetUp;
@@ -45,6 +47,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class HomeFragment extends Fragment {
 
@@ -94,7 +97,7 @@ public class HomeFragment extends Fragment {
 
         nextAppointment = root.findViewById(R.id.noUpcoming);
         card3 = root.findViewById(R.id.card3);
-        AL_graph = root.findViewById(R.id.AL_graph);
+        //AL_graph = root.findViewById(R.id.AL_graph);
         improvement = root.findViewById(R.id.improvement_num);
         quote = root.findViewById(R.id.picQ);
         setQuoteImage();
@@ -102,6 +105,41 @@ public class HomeFragment extends Fragment {
         // parse Preference file
         SharedPreferences sp = getActivity().getSharedPreferences("user_details", Context.MODE_PRIVATE);
 
+        // Live Chart
+        ChartView chartView = root.findViewById(R.id.charView);
+        List<InputData> dataList = createChartData();
+        chartView.setData(dataList);
+
+    }
+
+    // Live chart
+    @NonNull
+    private List<InputData> createChartData() {
+
+        // TODO : GET CHART DATA FROM FLAST
+        List<InputData> dataList = new ArrayList<>();
+        dataList.add(new InputData(2.5));
+        dataList.add(new InputData(2));
+        dataList.add(new InputData(1.4));
+        dataList.add(new InputData(2));
+        dataList.add(new InputData(1));
+        dataList.add(new InputData(0.4));
+        dataList.add(new InputData(1.3));
+        dataList.add(new InputData(2.8));
+        dataList.add(new InputData(2.1));
+
+        long currMillis = System.currentTimeMillis();
+        currMillis -= currMillis % TimeUnit.DAYS.toMillis(1);
+
+        for (int i = 0; i < dataList.size(); i++) {
+            long position = dataList.size() - 1 - i;
+            long offsetMillis = TimeUnit.DAYS.toMillis(position);
+
+            long millis = currMillis - offsetMillis;
+            dataList.get(i).setMillis(millis);
+        }
+
+        return dataList;
     }
 
     private void getDailyReport() {
@@ -119,7 +157,7 @@ public class HomeFragment extends Fragment {
 
                             String quote_image_url = document.get("AL_graph").toString();
 
-                            Glide.with(getContext()).load(quote_image_url).into(AL_graph);
+                            //Glide.with(getContext()).load(quote_image_url).into(AL_graph);
 
                             String improvementPercentage = document.get("improvement").toString();
                             improvement.setText(improvementPercentage);

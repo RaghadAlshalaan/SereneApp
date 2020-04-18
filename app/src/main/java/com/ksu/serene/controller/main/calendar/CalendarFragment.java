@@ -132,7 +132,7 @@ public class CalendarFragment extends Fragment{
 
                 String simpleDateFormat = sdf.format(currentDate);
                 int yearCurrent = Integer.parseInt(simpleDateFormat.substring(6,simpleDateFormat.length()));
-                //check when clendar date in past
+                //check when calendar date in past
                 if ( (yearCurrent > i) ||
                         ( yearCurrent == i && (currentDate.getMonth()+1) > (i1+1) )
                         || (yearCurrent == i && (currentDate.getMonth()+1) == (i1+1) && currentDate.getDate() > i2) ){
@@ -194,7 +194,7 @@ public class CalendarFragment extends Fragment{
         addMed = root.findViewById(R.id.AddMedButton);
         addApp = root.findViewById(R.id.AddAppButton);
 
-        //by defual hide
+        //by default hide
         addMed.hide();
         addApp.hide();
 
@@ -312,8 +312,8 @@ public class CalendarFragment extends Fragment{
                 }
             }
         });
-        recyclerViewSession.setAdapter(adapterSession);
 
+        recyclerViewSession.setAdapter(adapterSession);
 
     }
 
@@ -478,6 +478,7 @@ public class CalendarFragment extends Fragment{
                 }
             }
         });
+
         recyclerViewMedicine.setAdapter(adapterMedicines);
 
     }
@@ -513,6 +514,7 @@ public class CalendarFragment extends Fragment{
         animateFab();
         addMed.hide();
         addApp.hide();
+
         /*if (year != 0 && month!=0 && day!= 0){
             listAppointements.clear();
             listMedicines.clear();

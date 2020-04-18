@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="325dp"
-            android:text="Accuracy"
+            android:text="@string/accuracy"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -44,7 +44,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="360dp"
             android:gravity="center"
-            android:text="For more accurate results, we\nrecommend wearing your smartwatch\nfor at least 12 hours a day."
+            android:text="@string/for_more_accurate_results_we_nrecommend_wearing_your_smartwatch_nfor_at_least_12_hours_a_day"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="16sp" />
 
@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="325dp"
-            android:text="success"
+            android:text="@string/success"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -93,7 +93,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="370dp"
             android:gravity="center"
-            android:text="Account created, a link has been\nsent to confirm your email ! "
+            android:text="@string/account_created_a_link_has_been_nsent_to_confirm_your_email"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="16sp" />
 
@@ -156,7 +156,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/profile_icon"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/bell" />
+            app:srcCompat="@drawable/ic_notification" />
 
         <ImageView
             android:id="@+id/profile_icon"
@@ -168,7 +168,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/user" />
+            app:srcCompat="@drawable/ic_user" />
 
         <ImageView
             android:id="@+id/notification_circle"
@@ -193,7 +193,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/mobile_navigation"
-
          />
 
 

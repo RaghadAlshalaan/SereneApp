@@ -1,7 +1,6 @@
 package com.ksu.serene.controller.main.report;
 
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -10,21 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
-import android.widget.Switch;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import com.ksu.serene.controller.Constants;
 import com.ksu.serene.R;
-import com.ksu.serene.controller.main.drafts.AddTextDraftPage;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -37,26 +32,21 @@ public class ReportFragment extends Fragment {
     private RadioGroup radioGroup;
     private View root;
     private String duration;
-    private ImageView durationBtn;
     private Button start;
     private Button end;
-    private CustomDialogClass dateDialog;
     private LinearLayout datePicker;
     private String startDate;
     private String endDate;
-    private int startDay;
-    private int startMonth;
-    private int startYear;
     private Resources res;
-    private Calendar myCalendar = Calendar.getInstance();
+    private Calendar myCalendarStart = Calendar.getInstance();
     private Calendar myCalendarEnd = Calendar.getInstance();
     private SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-
         root = inflater.inflate(R.layout.fragment_report, container, false);
-
         res = getResources();
 
         init();
@@ -64,28 +54,28 @@ public class ReportFragment extends Fragment {
         // by default
         datePicker.setVisibility(LinearLayout.GONE);
 
-        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+        final DatePickerDialog.OnDateSetListener StartDate = new DatePickerDialog.OnDateSetListener() {
 
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
-                // TODO Auto-generated method stub
-                myCalendar.set(Calendar.YEAR,year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                startDate = myCalendar.get(Calendar.DAY_OF_MONTH) + "/" + myCalendar.get(Calendar.MONTH)  + "/" + myCalendar.get(Calendar.YEAR);
-                start.setText(DateFormat.format(myCalendar.getTime()));
+
+                myCalendarStart.set(Calendar.YEAR, year);
+                myCalendarStart.set(Calendar.MONTH, monthOfYear);
+                myCalendarStart.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                startDate = myCalendarStart.get(Calendar.DAY_OF_MONTH) + "/" + myCalendarStart.get(Calendar.MONTH)  + "/" + myCalendarStart.get(Calendar.YEAR);
+                start.setText(DateFormat.format(myCalendarStart.getTime()));
             }
 
         };
 
-        final DatePickerDialog.OnDateSetListener Enddate = new DatePickerDialog.OnDateSetListener() {
+        final DatePickerDialog.OnDateSetListener EndDate = new DatePickerDialog.OnDateSetListener() {
 
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
-                // TODO Auto-generated method stub
-                myCalendarEnd.set(Calendar.YEAR,year);
+
+                myCalendarEnd.set(Calendar.YEAR, year);
                 myCalendarEnd.set(Calendar.MONTH, monthOfYear);
                 myCalendarEnd.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 endDate = myCalendarEnd.get(Calendar.DAY_OF_MONTH) + "/" + myCalendarEnd.get(Calendar.MONTH)  + "/" + myCalendarEnd.get(Calendar.YEAR);
@@ -93,42 +83,29 @@ public class ReportFragment extends Fragment {
             }
 
         };
+
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), date, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH));
-                myCalendar.set(Calendar.YEAR,(Calendar.getInstance().get(Calendar.YEAR)));
-                myCalendar.set(Calendar.MONTH,(Calendar.getInstance().get(Calendar.MONTH))-6);//
-                datePickerDialog.getDatePicker().setMinDate(myCalendar.getTimeInMillis());
-                datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());//System.currentTimeMillis());
+
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), StartDate, myCalendarStart
+                        .get(Calendar.YEAR), myCalendarStart.get(Calendar.MONTH),
+                        myCalendarStart.get(Calendar.DAY_OF_MONTH));
+
+                myCalendarStart.set(Calendar.YEAR,(Calendar.getInstance().get(Calendar.YEAR)));
+                myCalendarStart.set(Calendar.MONTH,(Calendar.getInstance().get(Calendar.MONTH))-6);//
+                myCalendarStart.set(Calendar.DAY_OF_MONTH,(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)));
+
+                Calendar cal2 = Calendar.getInstance();
+                cal2.add(Calendar.MONTH, -4);
+                datePickerDialog.getDatePicker().setMinDate(cal2.getTimeInMillis());
+
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.DATE, -1);
+                datePickerDialog.getDatePicker().setMaxDate(cal.getTimeInMillis());
                 datePickerDialog.show();
-                //show dialog
-                /*myCalendar.set(Calendar.YEAR,(Calendar.getInstance().get(Calendar.YEAR)));
-                myCalendar.set(Calendar.MONTH, (Calendar.getInstance().get(Calendar.MONTH))-6);
-                myCalendar.set(Calendar.DAY_OF_MONTH, (Calendar.getInstance().get(Calendar.DAY_OF_MONTH)));
-                startDateTxt.setText(myCalendar.getTimeInMillis()+"");//DateFormat.format(myCalendar.getTime()));
-               // dateDialog.datePicker.setMinDate(myCalendar.getTimeInMillis());
 
-                dateDialog.datePicker.setMaxDate(System.currentTimeMillis());
-                dateDialog.show();
-                //dateDialog.datePicker.setMaxDate(System.currentTimeMillis());
-                dateDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        // validate user choice (end> start , not null)
-                        if (dateDialog.getDay() != null && dateDialog.getMonth() != null && dateDialog.getYear() != null) {
-                            startDate = dateDialog.getDay() + "/" + (Integer.parseInt(dateDialog.getMonth())+1) + "/" + dateDialog.getYear();
-                            startDay = Integer.parseInt(dateDialog.getDay());
-                            startMonth = Integer.parseInt(dateDialog.getMonth());
-                            startYear = Integer.parseInt(dateDialog.getYear());
-                            start.setText(startDate);
-
-                        }
-
-                    }
-                });*/
 
             }
         });
@@ -136,44 +113,28 @@ public class ReportFragment extends Fragment {
         end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (isStartDateSet (startDate)){//(startDate != null) {
-                    //check the start date not equal to current date
-                    if (!isStartDEqualToCurrent(myCalendar)) {
-                        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), Enddate, myCalendarEnd
-                                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                    //check the start StartDate not equal to current StartDate
+                    if (!isStartDEqualToCurrent(myCalendarStart)) {
+
+                        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), EndDate, myCalendarEnd
+                                .get(Calendar.YEAR), myCalendarStart.get(Calendar.MONTH),
                                 myCalendarEnd.get(Calendar.DAY_OF_MONTH));
-                        //myCalendarEnd.set(Calendar.YEAR,(Calendar.getInstance().get(Calendar.YEAR)));
-                        //myCalendarEnd.set(Calendar.MONTH,(Calendar.getInstance().get(Calendar.MONTH))-6);//
-                        datePickerDialog.getDatePicker().setMinDate(myCalendar.getTimeInMillis());
-                        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());//System.currentTimeMillis());
+
+                        datePickerDialog.getDatePicker().setMinDate(myCalendarStart.getTimeInMillis());
+                        Calendar cal = Calendar.getInstance();
+                        cal.add(Calendar.DATE, -1);
+                        datePickerDialog.getDatePicker().setMaxDate(cal.getTimeInMillis());
                         datePickerDialog.show();
                     }
-                    //when that date shoosen for start is equal to current time no nned to show the dialog take the same date
+
+                    //when that StartDate chosen for start is equal to current time no need to show the dialog take the same StartDate
                     else {
-                        endDate = myCalendar.get(Calendar.DAY_OF_MONTH) + "/" + myCalendar.get(Calendar.MONTH)  + "/" + myCalendar.get(Calendar.YEAR);
-                        end.setText(DateFormat.format(myCalendar.getTime()));
+                        endDate = myCalendarStart.get(Calendar.DAY_OF_MONTH) + "/" + myCalendarStart.get(Calendar.MONTH)  + "/" + myCalendarStart.get(Calendar.YEAR);
+                        end.setText(DateFormat.format(myCalendarStart.getTime()));
                     }
-                    /*Calendar calen = Calendar.getInstance();
-                    calen.set(Calendar.MONTH, startMonth);
-                    calen.set(Calendar.DAY_OF_MONTH, startDay);
-                    calen.set(Calendar.YEAR, startYear);
-                    //show dialog
 
-                    // enable showing the dialog if the patient has chosen start date
-                    // disable choosing date older then the start date
-                    dateDialog.datePicker.setMinDate(calen.getTimeInMillis());
-                    dateDialog.show();
-                    dateDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            if (dateDialog.getDay() != null && dateDialog.getMonth() != null && dateDialog.getYear() != null) {
-
-                                endDate = dateDialog.getDay() + "/" +(Integer.parseInt(dateDialog.getMonth())+1) + "/" + dateDialog.getYear();
-                                end.setText(endDate);
-                            }
-
-                        }//if
-                    });*/
 
                 } else {
 
@@ -186,6 +147,7 @@ public class ReportFragment extends Fragment {
                             MotionToast.Companion.getGRAVITY_BOTTOM(),
                             MotionToast.Companion.getSHORT_DURATION(),
                             ResourcesCompat.getFont( getActivity().getApplicationContext(), R.font.montserrat));
+
                 }//else
 
 
@@ -196,15 +158,34 @@ public class ReportFragment extends Fragment {
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+
                 switch (checkedId) {
                     case R.id.radioButton1:
                         datePicker.setVisibility(LinearLayout.GONE);
                         duration = "2week";
+                        Calendar calw = Calendar.getInstance();
+                        calw.add(Calendar.DATE, -1);
+                        endDate = dateFormat.format(calw.getTime());
+
+                        Calendar cals = Calendar.getInstance();
+                        cals.add(Calendar.DATE, -15);
+                        startDate = dateFormat.format(cals.getTime());
+
                         break;
+
                     case R.id.radioButton2:
                         datePicker.setVisibility(LinearLayout.GONE);
                         duration = "month";
+                        Calendar calm = Calendar.getInstance();
+                        calm.add(Calendar.DATE, -1);
+                        endDate = dateFormat.format(calm.getTime());
+                        Calendar calms = Calendar.getInstance();
+                        calms.add(Calendar.MONTH, -1);
+                        startDate = dateFormat.format(calms.getTime());
+
                         break;
+
                     case R.id.radioButton3:
                         duration = "custom";
                         datePicker.setVisibility(LinearLayout.VISIBLE);
@@ -221,7 +202,6 @@ public class ReportFragment extends Fragment {
                 // error dialog if no selection is made
                 // intent to next activity
                 final Intent intent = new Intent(getContext(), PatientReport.class);
-
                 intent.putExtra(Constants.Keys.DURATION, duration);
 
                 if (duration.equals("custom")) {
@@ -230,13 +210,14 @@ public class ReportFragment extends Fragment {
                         intent.putExtra(Constants.Keys.END_DATE, endDate);
                         startActivity(intent);
                     } else {
+
                         switch (isDatesChoosen (startDate,endDate)) {
-                            //here the enly missing is the start date
+                            //here the only missing is the start StartDate
                             case 1 : {
                                 String text = String.format(res.getString(R.string.date_pickerrr));
                                 dialog(text);
                                 break;}
-                            //here the enly missing is the end date
+                            //here the only missing is the end StartDate
                             case -1 : {
                                 String text = String.format(res.getString(R.string.date_pickerrrr));
                                 dialog(text);
@@ -245,24 +226,10 @@ public class ReportFragment extends Fragment {
                             case 2: {
                                 String text = String.format(res.getString(R.string.date_pickerr));
                                 dialog(text);
-                                break;}
+                                break;
+                            }
 
                         }
-                        // error dialog null input
-                        /*if (startDate == null && endDate == null) {
-                            String text = String.format(res.getString(R.string.date_pickerr));
-                            dialog(text);
-
-                        } else if (startDate == null) {
-                            String text = String.format(res.getString(R.string.date_pickerrr));
-                            dialog(text);
-
-                        } else if (endDate == null) {
-                            String text = String.format(res.getString(R.string.date_pickerrrr));
-                            dialog(text);
-                        }
-
-                        }//else*/
 
                     }//if
                 }//bigger if
@@ -283,7 +250,6 @@ public class ReportFragment extends Fragment {
         radioGroup = root.findViewById(R.id.radio_group);
         end = root.findViewById(R.id.end);
         start = root.findViewById(R.id.start);
-        dateDialog = new CustomDialogClass(getActivity());
         datePicker = root.findViewById(R.id.data_picker);
         duration = "2week";// default value
     }//init

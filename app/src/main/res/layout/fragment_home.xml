@@ -56,18 +56,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text1" />
 
-        <ImageView
-            android:id="@+id/AL_graph"
+        <com.ksu.serene.controller.liveChart.ChartView
+            android:id="@+id/charView"
             android:layout_width="wrap_content"
-            android:layout_height="240dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
-            android:paddingTop="10dp"
+            android:layout_height="400dp"
+            android:layout_margin="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text11" />
+
+<!--        <ImageView-->
+<!--            android:id="@+id/AL_graph"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="240dp"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_marginStart="24dp"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:layout_marginEnd="24dp"-->
+<!--            android:paddingTop="10dp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/text11" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
