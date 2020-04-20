@@ -14,6 +14,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.print.PrintAttributes;
+import android.print.PrintDocumentAdapter;
+import android.print.PrintJob;
+import android.print.PrintManager;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.MenuItem;
@@ -55,6 +59,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.maps.android.heatmaps.WeightedLatLng;
 import com.google.android.gms.maps.model.LatLng;
 import com.ksu.serene.controller.Constants;
+import com.ksu.serene.controller.main.report.print.PdfDocumentAdapter;
+import com.ksu.serene.controller.main.report.print.PrintJobMonitorService;
 import com.ksu.serene.model.Location;
 import com.ksu.serene.R;
 
@@ -73,7 +79,7 @@ public class PatientReport extends AppCompatActivity {
     private String endDate;
 
     // Upper
-    private ImageView ALGraph ;
+    private ImageView ALGraph;
     private TextView reportDuration;
     private ImageView backBtn;
 
@@ -87,9 +93,9 @@ public class PatientReport extends AppCompatActivity {
 
 
     // Recommendation
-    private TextView sleepRecommendTV, sleepAvg, sleepRcmnd, noSleepRcmnd,downSleepAvg1,downSleepAvg2;
-    private TextView stepsRecommendTV, stepsAvg, stepsRcmnd, noStepsRcmnd,downStepsAvg1,downStepsAvg2;
-    private View v1,v2;
+    private TextView sleepRecommendTV, sleepAvg, sleepRcmnd, noSleepRcmnd, downSleepAvg1, downSleepAvg2;
+    private TextView stepsRecommendTV, stepsAvg, stepsRcmnd, noStepsRcmnd, downStepsAvg1, downStepsAvg2;
+    private View v1, v2;
 
 
     // Print & Share
@@ -131,7 +137,7 @@ public class PatientReport extends AppCompatActivity {
 
     }//onCreate
 
-    private void init (){
+    private void init() {
         mAuth = FirebaseAuth.getInstance();
         ALGraph = findViewById(R.id.AL_graph);
 
@@ -186,27 +192,25 @@ public class PatientReport extends AppCompatActivity {
         reportOptions = new ReportOptions(this, options);
         optionsRV.setAdapter(reportOptions);
 
-        threeDots.setOnClickListener(new View.OnClickListener(){
+        threeDots.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
-//                //options list --> visibility = true
-//                optionsRV.setVisibility(View.VISIBLE);
-//                outsideOptions.setVisibility(View.VISIBLE);
-//                reportOptions.updateView();
+            public void onClick(View v) {
 
                 //init the wrapper with style
                 Context wrapper = new ContextThemeWrapper(getApplicationContext(), R.style.PopupMenu);
 
                 //creating a popup menu
                 PopupMenu popup = new PopupMenu(wrapper, threeDots);
+
                 //inflating menu from xml resource
                 popup.inflate(R.menu.report_menu);
+
                 //adding click listener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         if (item.getItemId() == R.id.menu_print) {//handle menu1 click
-                            //print();
+                            print();
                         }
 
                         if (item.getItemId() == R.id.menu_share) {//handle menu1 click
@@ -221,9 +225,9 @@ public class PatientReport extends AppCompatActivity {
             }
         });
 
-        outsideOptions.setOnClickListener(new View.OnClickListener(){
+        outsideOptions.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 optionsRV.setVisibility(View.GONE);
                 outsideOptions.setVisibility(View.GONE);
             }
@@ -232,10 +236,428 @@ public class PatientReport extends AppCompatActivity {
 
     }
 
+    private String reportDate() {
+
+        String interval;
+
+        Date startD, endD;
+        String start = "", end;
+
+
+        DateFormat dateFormat = new SimpleDateFormat("d MMM");
+
+        Calendar cale = Calendar.getInstance();
+        cale.add(Calendar.DATE, -1);
+//        endD = cal.getTime();
+        end = dateFormat.format(cale.getTime());
+
+        Calendar cal = Calendar.getInstance();
+
+        switch (duration) {
+            case "2week":
+
+                cal.add(Calendar.DATE, -14);
+                startD = cal.getTime();
+                start = dateFormat.format(startD);
+
+                break;
+
+            case "month":
+
+                cal.add(Calendar.MONTH, -1);
+                startD = cal.getTime();
+                start = dateFormat.format(startD);
+
+                break;
+
+            case "custom":
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                Date startDate1 = null, endDate1 = null;
+                try {
+                    startDate1 = formatter.parse(startDate);
+                    startDate1.setMonth(startDate1.getMonth() + 1);
+
+                    endDate1 = formatter.parse(endDate);
+                    endDate1.setMonth(endDate1.getMonth() + 1);
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                start = dateFormat.format(startDate1);
+                end = dateFormat.format(endDate1);//
+
+                break;
+
+        }//end of switch
+
+        interval = start + " - " + end;
+        return interval;
+
+    }
+
+    private void heatmapActivity() {
+
+        if (!locations.isEmpty())
+            startActivity(new Intent(PatientReport.this, LocationHeatMap.class));
+
+    }
+
+    private void lastGeneratedPatientReport() {
+        String doc_id = "report";
+        doc_id += userId;
+
+        firebaseFirestore.collection("LastGeneratePatientReport")
+                .document(doc_id).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+
+                            // The patient has only one Doc contains his report info
+                            DocumentSnapshot doc = task.getResult();
+
+                            // Get graphs
+                            int numberOfGraphs = Integer.parseInt(doc.get("number_of_AL_graphs").toString());
+
+                            if (numberOfGraphs > 0) {
+                                String img = doc.get("AL_graph_0").toString();
+                                Glide.with(PatientReport.this)
+                                        .load(img + "")
+                                        .into(ALGraph);
+                            }
+
+
+                            recommendation(doc);
+
+                        }//if
+                    }// onComplete
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });//addOnCompleteListener
+
+
+    }
+
+    private void location() {
+
+        highLocations = new ArrayList<Location>();
+        locations = new ArrayList<WeightedLatLng>();
+
+        locationRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        firebaseFirestore.collection("PatientLocations")
+                .whereEqualTo("patientID", userId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        if (task.isSuccessful()) {
+
+                            boolean locationFound = false;
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                // Check for locations date if it's within selected duration
+
+                                Date loc_date = ((Timestamp) document.get("time")).toDate();
+                                Calendar cal = Calendar.getInstance();
+                                cal.add(Calendar.DATE, -1);
+                                Date today = cal.getTime();
+
+
+                                long calcDuration = daysBetween(loc_date, today);
+
+                                switch (duration) {
+                                    case "2week":
+                                        if (0 < calcDuration && calcDuration < 15) {
+                                            locationFound = true;
+                                            break; //get out of switch and proceed to save other attributes
+                                        } else {
+                                            locationFound = false;
+                                            break;
+                                        }
+
+                                    case "month":
+                                        if (0 < calcDuration && calcDuration < 31) {
+                                            locationFound = true;
+                                            break;
+                                        } else {
+                                            locationFound = false;
+                                            break;
+                                        }
+
+                                    case "custom":
+                                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                                        Date startDate1 = null, endDate1 = null;
+                                        try {
+                                            startDate1 = formatter.parse(startDate);
+                                            startDate1.setMonth(startDate1.getMonth() + 1);
+                                            endDate1 = formatter.parse(endDate);
+                                            endDate1.setMonth(endDate1.getMonth() + 1);
+
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        if (!(loc_date.before(startDate1) || loc_date.after(endDate1))) {
+                                            locationFound = true;
+                                            break;
+                                        } else if (loc_date.getDay() == endDate1.getDay() && loc_date.getMonth() == endDate1.getMonth()) {
+                                            locationFound = true;
+                                            break;
+                                        } else {
+                                            locationFound = false;
+                                            break;
+                                        }
+
+                                }//end of switch
+
+                                if (locationFound) {
+
+                                    showHeatmap.setEnabled(true);
+
+                                    String locationName = document.get("name").toString();
+                                    double lat = (double) document.get("lat");
+                                    double lng;
+                                    try {
+                                        lng = (double) document.get("lng");
+
+                                    } catch (NullPointerException e) {
+                                        lng = (double) document.get("lon");
+
+                                    }
+                                    String anxietyLevel = "";
+                                    if (document.get("anxietyLevel") != null) {
+                                        anxietyLevel = document.get("anxietyLevel").toString();
+                                    }
+
+                                    String nearestLocs = "";
+                                    if (document.get("nearestLoc") != null) {
+                                        nearestLocs = document.get("nearestLoc").toString();
+                                    }
+
+                                    Double loc_AL = Double.parseDouble(anxietyLevel);
+
+                                    switch (anxietyLevel) {
+                                        case "1":
+                                            anxietyLevel = "Low";
+                                            break;
+
+                                        case "2":
+                                            anxietyLevel = "Medium";
+                                            break;
+
+                                        case "3":
+                                            anxietyLevel = "High Anxiety";
+                                            break;
+
+                                        default:
+                                            anxietyLevel = "Low";
+                                            break;
+                                    }
+
+
+                                    int freq = 1; // for every location we assume frequency = 1
+
+                                    // for the highest anxiety locations recycler view
+                                    if (anxietyLevel.equals("High Anxiety")) {
+
+                                        noResult.setVisibility(View.GONE);
+                                        boolean newLoc = true; // assume it is a new location
+
+                                        for (Location hList : highLocations) { // loop on the highest location list
+
+                                            if (hList.getNearestLoc().equals(nearestLocs)) { // if nearby locations are equals
+
+                                                newLoc = false; // not new locations
+                                                freq = hList.getFrequency() + 1; // increment the old frequency
+
+                                                highLocations.remove(hList); // remove the old location
+
+                                                // update it with the new one with new frequency
+                                                highLocations.add(new Location(locationName, anxietyLevel, daysBetween(loc_date, today), lat, lng, nearestLocs, freq));
+
+                                                break;
+                                            }
+
+                                        }// end loop
+
+                                        if (newLoc) { // add new loc with freq = 1
+                                            highLocations.add(new Location(locationName, anxietyLevel, daysBetween(loc_date, today), lat, lng, nearestLocs, freq));
+                                        }
+                                    }
+
+
+                                    // Heat map locations ( all )
+
+                                    LatLng current = new LatLng(lat, lng);
+                                    boolean found = false;
+                                    //locations.add(new WeightedLatLng( current, loc_AL));
+
+                                    for (WeightedLatLng lis : locations) {
+
+                                        if (lis.getPoint().equals(current)) {
+                                            if (lis.getIntensity() < loc_AL) {
+                                                locations.remove(lis);
+                                                locations.add(new WeightedLatLng(current, loc_AL));
+                                                found = true;
+                                                break;
+                                            }
+                                        }
+
+                                    }
+
+                                    if (!found) {
+                                        locations.add(new WeightedLatLng(current, loc_AL));
+                                    }
+
+                                }
+
+                            }// for every location belonging to this patient (for loop)
+
+
+                            locationRecyclerView.setHasFixedSize(true);
+                            locationAdapter = new locationsAdapter(PatientReport.this, highLocations);
+                            locationRecyclerView.setAdapter(locationAdapter);
+
+                            if (highLocations.size() == 0) {
+                                locationRecyclerView.setVisibility(View.GONE);
+                                noResult.setVisibility(View.VISIBLE);
+                                noResult.setText(R.string.no_loc_high);
+                            } else {
+                                locationRecyclerView.setVisibility(View.VISIBLE);
+                            }
+
+                        }// end if
+
+                    }// onComplete
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });//addOnCompleteListener
+
+    }
+
+    private static long daysBetween(Date one, Date two) {
+
+        long diffInMillies = Math.abs(one.getTime() - two.getTime());
+        long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
+        return diff;
+
+    }
+
+    private void recommendation(DocumentSnapshot doc) {
+
+        boolean foundSleep = false;
+        boolean foundSteps = false;
+
+        String avgSleep = "", avgSteps = "";
+        String rcmndSleep = "", rcmndSteps = "";
+
+
+        boolean sleepR = (boolean) doc.get("sleepRecomendation");
+        boolean stepsR = (boolean) doc.get("stepsRecomendation");
+
+
+//                // set graph
+//                String url = doc.get("anxiety_level_graph").toString();
+//                anxietyGraph(url);
+
+
+        if (sleepR) {
+            foundSleep = true;
+            avgSleep = doc.get("average_sleep_hours").toString();
+            rcmndSleep = doc.get("recommended_sleep_hours").toString();
+
+        }
+
+        if (stepsR) {
+            foundSteps = true;
+            avgSteps = doc.get("average_steps").toString();
+            rcmndSteps = doc.get("recommended_steps").toString();
+        }
+
+
+        if (foundSleep) {
+            noSleepRcmnd.setVisibility(View.GONE);
+
+            sleepRecommendTV.setText(R.string.sleep_rcmnd);
+            // get from strings
+
+            sleepAvg.setText(avgSleep);
+            sleepRcmnd.setText(rcmndSleep);
+
+        } else {
+            sleepRecommendTV.setVisibility(View.GONE);
+            sleepAvg.setVisibility(View.GONE);
+            sleepRcmnd.setVisibility(View.GONE);
+            downSleepAvg1.setVisibility(View.GONE);
+            downSleepAvg2.setVisibility(View.GONE);
+            v1.setVisibility(View.GONE);
+
+            noSleepRcmnd.setVisibility(View.VISIBLE);
+            //noSleepRcmnd.setText(R.string);
+
+        }
+
+        if (foundSteps) {
+            noStepsRcmnd.setVisibility(View.GONE);
+
+            stepsRecommendTV.setText(R.string.steps_rcmnd);
+
+            stepsAvg.setText(avgSteps);
+            stepsRcmnd.setText(rcmndSteps);
+
+        } else {
+            stepsRecommendTV.setVisibility(View.GONE);
+            stepsAvg.setVisibility(View.GONE);
+            stepsRcmnd.setVisibility(View.GONE);
+            downStepsAvg1.setVisibility(View.GONE);
+            downStepsAvg2.setVisibility(View.GONE);
+            v2.setVisibility(View.GONE);
+
+            noStepsRcmnd.setVisibility(View.VISIBLE);
+            //noStepsRcmnd.setText(R.string.good_steps);
+        }
+
+
+    }
+
+    private void anxietyGraph(String url) {
+
+        Glide.with(getApplicationContext()).load(url).into(ALGraph);
+
+    }
+
+    // Highest Google Calendar Event
+    private void events() {
+
+    }//events
+
+    public void getExtras() {
+        Intent intent = getIntent();
+        duration = intent.getExtras().getString(Constants.Keys.DURATION);
+
+        if (duration.equals("custom")) {
+            startDate = intent.getExtras().getString(Constants.Keys.START_DATE);
+            endDate = intent.getExtras().getString(Constants.Keys.END_DATE);
+        }
+    }
+
     private void share() {
 
         Locale current = getResources().getConfiguration().locale;
-        tag("AppInfo").d("current Language: %s", current.getDisplayLanguage());
+        //tag("AppInfo").d("current Language: %s", current.getDisplayLanguage());
+
         String filename = "";
         if (current.getLanguage().equals("ar")) {
             filename = "patientReport-AR";
@@ -245,20 +667,20 @@ public class PatientReport extends AppCompatActivity {
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-        tag("AppInfo").d("storageRef Path: " + storageRef.getPath());
+        //tag("AppInfo").d("storageRef Path: " + storageRef.getPath());
 
-        tag("AppInfo").d("Path: " + storageRef.child(userId).child("lastGeneratedPatientReport").child(filename).getPath());
+        //tag("AppInfo").d("Path: " + storageRef.child(userId).child("lastGeneratedPatientReport").child(filename).getPath());
 
-        tag("AppInfo").d("userId: " + userId);
+        //tag("AppInfo").d("userId: " + userId);
         storageRef = storageRef.child(userId + "/lastGeneratedPatientReport/" + filename);
-        tag("AppInfo").d("storageRef: " + storageRef.toString());
+        //tag("AppInfo").d("storageRef: " + storageRef.toString());
 
         File rootPath = new File(Environment.getExternalStorageDirectory(), "files");
-        if(!rootPath.exists()) {
+        if (!rootPath.exists()) {
             rootPath.mkdirs();
         }
-        final File localFile = new File(rootPath,filename + " - " + getCurrentDateTime() + ".pdf");
 
+        final File localFile = new File(rootPath, filename + " - " + getCurrentDateTime() + ".pdf");
 
         final File finalLocalFile = localFile;
         final String finalFilename = filename;
@@ -271,7 +693,7 @@ public class PatientReport extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                tag("AppInfo").d("Error: " + exception.getMessage());
+                //tag("AppInfo").d("Error: " + exception.getMessage());
                 exception.printStackTrace();
             }
         });
@@ -298,429 +720,73 @@ public class PatientReport extends AppCompatActivity {
             intent.putExtra(Intent.EXTRA_STREAM, pdfUri);
             intent.setType("application/pdf");
             startActivity(Intent.createChooser(intent, "Share File"));
+
         } else {
             Log.i("AppInfo", "File doesn't exist");
         }
     }
 
-    private String reportDate() {
-
-        String interval;
-
-        Date startD, endD;
-        String start="", end="";
-
-
-        DateFormat dateFormat = new SimpleDateFormat("d MMM");
-
-        Calendar cale = Calendar.getInstance();
-        cale.add(Calendar.DATE, -1);
-//        endD = cal.getTime();
-        end = dateFormat.format(cale.getTime());
-
-        Calendar cal = Calendar.getInstance();
-
-        switch(duration){
-            case "2week":
-
-                cal.add(Calendar.DATE, -14);
-                startD = cal.getTime();
-                start = dateFormat.format(startD);
-
-                break;
-
-            case "month":
-
-                cal.add(Calendar.MONTH, -1);
-                startD = cal.getTime();
-                start = dateFormat.format(startD);
-
-                break;
-
-            case "custom":
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                Date startDate1 = null, endDate1 = null;
-                try {
-                    startDate1 = formatter.parse(startDate);
-                    startDate1.setMonth(startDate1.getMonth()+1);
-
-                    endDate1 = formatter.parse(endDate);
-                    endDate1.setMonth(endDate1.getMonth()+1);
-
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                start = dateFormat.format(startDate1);
-                end = dateFormat.format(endDate1);//
-
-                break;
-
-        }//end of switch
-
-        interval = start + " - " + end;
-        return interval;
-
-    }
-
-    private void heatmapActivity() {
-
-        if ( ! locations.isEmpty() )
-        startActivity(new Intent(PatientReport.this, LocationHeatMap.class));
-
-    }
-
-    private void lastGeneratedPatientReport() {
-        String doc_id = "report";
-        doc_id += userId;
-
-        firebaseFirestore.collection("LastGeneratePatientReport")
-                .document(doc_id).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-
-                            // The patient has only one Doc contains his report info
-                            DocumentSnapshot doc = task.getResult();
-
-                                // Get graphs
-                                int numberOfGraphs = Integer.parseInt(doc.get("number_of_AL_graphs").toString());
-
-                                if(numberOfGraphs > 0) {
-                                    String img  = doc.get("AL_graph_0").toString();
-                                    Glide.with(PatientReport.this)
-                                            .load(img + "")
-                                            .into(ALGraph);
-                                }
-
-
-                            recommendation(doc);
-
-                        }//if
-                    }// onComplete
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                });//addOnCompleteListener
-
-
-    }//lastGeneratedPatientReport
-
-    private void location() {
-
-        highLocations = new ArrayList<Location>();
-        locations = new ArrayList<WeightedLatLng>();
-
-        locationRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        firebaseFirestore.collection("PatientLocations")
-                .whereEqualTo("patientID", userId)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @SuppressLint("SetTextI18n")
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                        if(task.isSuccessful()){
-
-                            boolean locationFound = false;
-
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-
-                                // Check for locations date if it's within selected duration
-
-                                Date loc_date = ((Timestamp) document.get("time")).toDate();
-                                Calendar cal = Calendar.getInstance();
-                                cal.add(Calendar.DATE, -1);
-                                Date today = cal.getTime();
-
-
-                                long calcDuration = daysBetween(loc_date,today);
-
-                                switch(duration){
-                                    case "2week":
-                                        if (0<calcDuration&&calcDuration<15) {
-                                            locationFound = true;
-                                            break; //get out of switch and proceed to save other attributes
-                                        }
-                                        else{
-                                            locationFound = false;
-                                            break;
-                                        }
-
-                                    case "month":
-                                        if (0<calcDuration&&calcDuration<31){
-                                            locationFound = true;
-                                            break;
-                                        }
-                                        else{
-                                            locationFound = false;
-                                            break;
-                                        }
-
-                                    case "custom":
-                                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                                        Date startDate1 = null, endDate1 = null;
-                                        try {
-                                            startDate1 = formatter.parse(startDate);
-                                            startDate1.setMonth(startDate1.getMonth()+1);
-                                            endDate1 = formatter.parse(endDate);
-                                            endDate1.setMonth(endDate1.getMonth()+1);
-
-                                        } catch (ParseException e) {
-                                            e.printStackTrace();
-                                        }
-
-                                        if(!(loc_date.before(startDate1) || loc_date.after(endDate1))){
-                                            locationFound = true;
-                                            break;
-                                        }
-                                        else if(loc_date.getDay() == endDate1.getDay() && loc_date.getMonth() == endDate1.getMonth()){
-                                            locationFound = true;
-                                            break;
-                                        }
-                                        else{
-                                            locationFound = false;
-                                            break;
-                                        }
-
-                                }//end of switch
-
-                                if (locationFound) {
-
-                                    showHeatmap.setEnabled(true);
-
-                                    String locationName = document.get("name").toString();
-                                    double lat = (double) document.get("lat");
-                                    double lng;
-                                    try {
-                                         lng = (double) document.get("lng");
-
-                                    }catch (NullPointerException e){
-                                         lng = (double) document.get("lon");
-
-                                    }
-                                    String anxietyLevel = "";
-                                    if(document.get("anxietyLevel") != null) {
-                                        anxietyLevel = document.get("anxietyLevel").toString();
-                                    }
-
-                                    String nearestLocs = "";
-                                    if(document.get("nearestLoc") != null) {
-                                        nearestLocs = document.get("nearestLoc").toString();
-                                    }
-
-                                    Double loc_AL = Double.parseDouble(anxietyLevel);
-
-                                    switch (anxietyLevel){
-                                        case "1" : anxietyLevel = "Low";
-                                        break;
-
-                                        case "2" : anxietyLevel = "Medium";
-                                        break;
-
-                                        case "3" : anxietyLevel = "High Anxiety";
-                                        break;
-
-                                        default: anxietyLevel = "Low";
-                                        break;
-                                    }
-
-
-                                    int freq = 1; // for every location we assume frequency = 1
-
-                                    // for the highest anxiety locations recycler view
-                                    if ( anxietyLevel.equals("High Anxiety")) {
-
-                                        noResult.setVisibility(View.GONE);
-                                        boolean newLoc = true; // assume it is a new location
-
-                                        for (Location hList : highLocations) { // loop on the highest location list
-
-                                            if ( hList.getNearestLoc().equals(nearestLocs)){ // if nearby locations are equals
-
-                                            newLoc = false; // not new locations
-                                            freq = hList.getFrequency() + 1; // increment the old frequency
-
-                                            highLocations.remove(hList); // remove the old location
-
-                                            // update it with the new one with new frequency
-                                            highLocations.add(new Location(locationName, anxietyLevel, daysBetween(loc_date, today), lat, lng, nearestLocs, freq));
-
-                                            break;
-                                            }
-
-                                        }// end loop
-
-                                        if(newLoc){ // add new loc with freq = 1
-                                            highLocations.add(new Location(locationName, anxietyLevel, daysBetween(loc_date, today), lat, lng, nearestLocs, freq));
-                                        }
-                                    }
-
-
-                                    // Heat map locations ( all )
-
-                                    LatLng current = new LatLng(lat,lng);
-                                    boolean found = false;
-                                    //locations.add(new WeightedLatLng( current, loc_AL));
-
-                                    for(WeightedLatLng lis : locations){
-
-                                        if(lis.getPoint().equals(current)){
-                                            if(lis.getIntensity() < loc_AL ){
-                                                locations.remove(lis);
-                                                locations.add(new WeightedLatLng(current, loc_AL));
-                                                found = true;
-                                                break;
-                                            }
-                                        }
-
-                                    }
-
-                                    if (!found){
-                                        locations.add(new WeightedLatLng(current, loc_AL));
-                                    }
-
-                                }
-
-                            }// for every location belonging to this patient (for loop)
-
-
-                            locationRecyclerView.setHasFixedSize(true);
-                            locationAdapter = new locationsAdapter(PatientReport.this, highLocations);
-                            locationRecyclerView.setAdapter(locationAdapter);
-
-                            if (highLocations.size() == 0){
-                                locationRecyclerView.setVisibility(View.GONE);
-                                noResult.setVisibility(View.VISIBLE);
-                                noResult.setText(R.string.no_loc_high);
-                            }else{
-                                locationRecyclerView.setVisibility(View.VISIBLE);
-                            }
-
-                        }// end if
-
-                    }// onComplete
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                });//addOnCompleteListener
-
-    }//location
-
-    private static long daysBetween(Date one, Date two) {
-
-        long diffInMillies = Math.abs(one.getTime() - two.getTime());
-        long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-
-        return diff;
-
-    }
-
-    private void recommendation(DocumentSnapshot doc) {
-
-
-            boolean foundSleep = false;
-            boolean foundSteps = false;
-
-            String  avgSleep ="", avgSteps ="";
-            String  rcmndSleep ="", rcmndSteps = "";
-
-
-                boolean sleepR = (boolean) doc.get("sleepRecomendation");
-                boolean stepsR = (boolean) doc.get("stepsRecomendation");
-
-
-//                // set graph
-//                String url = doc.get("anxiety_level_graph").toString();
-//                anxietyGraph(url);
-
-
-                if(sleepR){
-                    foundSleep = true;
-                      avgSleep = doc.get("average_sleep_hours").toString();
-                      rcmndSleep = doc.get("recommended_sleep_hours").toString();
-
-                }
-
-                if(stepsR){
-                    foundSteps = true;
-                    avgSteps = doc.get("average_steps").toString();
-                    rcmndSteps = doc.get("recommended_steps").toString();
-                }
-
-
-
-            if(foundSleep){
-                noSleepRcmnd.setVisibility(View.GONE);
-
-                sleepRecommendTV.setText(R.string.sleep_rcmnd);
-                // get from strings
-
-                sleepAvg.setText(avgSleep);
-                sleepRcmnd.setText(rcmndSleep);
-
-            }else {
-                sleepRecommendTV.setVisibility(View.GONE);
-                sleepAvg.setVisibility(View.GONE);
-                sleepRcmnd.setVisibility(View.GONE);
-                downSleepAvg1.setVisibility(View.GONE);
-                downSleepAvg2.setVisibility(View.GONE);
-                v1.setVisibility(View.GONE);
-
-                noSleepRcmnd.setVisibility(View.VISIBLE);
-                //noSleepRcmnd.setText(R.string);
-
-            }
-
-            if(foundSteps){
-                noStepsRcmnd.setVisibility(View.GONE);
-
-                stepsRecommendTV.setText(R.string.steps_rcmnd);
-
-                stepsAvg.setText(avgSteps);
-                stepsRcmnd.setText(rcmndSteps);
-
-            }else{
-                stepsRecommendTV.setVisibility(View.GONE);
-                stepsAvg.setVisibility(View.GONE);
-                stepsRcmnd.setVisibility(View.GONE);
-                downStepsAvg1.setVisibility(View.GONE);
-                downStepsAvg2.setVisibility(View.GONE);
-                v2.setVisibility(View.GONE);
-
-                noStepsRcmnd.setVisibility(View.VISIBLE);
-                //noStepsRcmnd.setText(R.string.good_steps);
-            }
-
-
-    }//recommendation+AL
-
-    private void anxietyGraph(String url) {
-
-        Glide.with(getApplicationContext()).load(url).into(ALGraph);
-
-    }
-
-    // Google Calendar
-    private void events(){
-
-    }//events
-
-    public void getExtras() {
-        Intent intent = getIntent();
-        duration = intent.getExtras().getString(Constants.Keys.DURATION);
-
-        if (duration.equals("custom")) {
-            startDate = intent.getExtras().getString(Constants.Keys.START_DATE);
-            endDate = intent.getExtras().getString(Constants.Keys.END_DATE);
+    private void print() {
+
+        Locale current = getResources().getConfiguration().locale;
+//        tag("AppInfo").d("current Language: %s", current.getDisplayLanguage());
+        String filename = "";
+        if (current.getLanguage().equals("ar")) {
+            filename = "patientReport-AR";
+        } else {
+            filename = "patientReport-EN";
         }
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+//        tag("AppInfo").d("storageRef Path: " + storageRef.getPath());
+//
+//        tag("AppInfo").d("Path: " + storageRef.child(userId).child("lastGeneratedPatientReport").child(filename).getPath());
+//
+//        tag("AppInfo").d("userId: " + userId);
+        storageRef = storageRef.child(userId + "/lastGeneratedPatientReport/" + filename);
+        //tag("AppInfo").d("storageRef: " + storageRef.toString());
+
+        File rootPath = new File(Environment.getExternalStorageDirectory(), "files");
+        if (!rootPath.exists()) {
+            rootPath.mkdirs();
+        }
+        final File localFile = new File(rootPath, filename + " - " + getCurrentDateTime() + ".pdf");
+
+
+        final File finalLocalFile = localFile;
+        final String finalFilename = filename;
+        storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+
+
+                doPrint("Test PDF",
+                        new PdfDocumentAdapter(PatientReport.this, finalLocalFile, finalFilename),
+                        new PrintAttributes.Builder().build());
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                //tag("AppInfo").d("Error: " + exception.getMessage());
+                exception.printStackTrace();
+            }
+        });
+
     }
 
+    private PrintManager mgr = null;
+
+    private PrintJob doPrint(String name, PrintDocumentAdapter adapter,
+                             PrintAttributes attrs) {
+
+        mgr = (PrintManager) getSystemService(PRINT_SERVICE);
+
+        startService(new Intent(this, PrintJobMonitorService.class));
+
+        return (mgr.print(name, adapter, attrs));
+
+    }
 
 }//end of class
