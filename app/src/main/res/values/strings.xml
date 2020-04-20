@@ -390,6 +390,8 @@
     <string name="status_connected">Status : Connected</string>
     <string name="status_connect">Status : Connected!</string>
     <string name="disabled">Disabled</string>
+    <string name="print_report">Print Report</string>
+    <string name="share_report">Share Report</string>
 
 </resources>
 
