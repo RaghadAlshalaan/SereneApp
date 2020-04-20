@@ -37,7 +37,7 @@
     <string name="appointments">Appointments</string>
     <string name="calendar">Calendar</string>
     <string name="medicine">Medicine</string>
-    <string name="appointment">Appointment</string>
+    <string name="event">Appointment</string>
     <string name="logout">Logout</string>
     <string name="doctor">Doctor</string>
     <string name="social_demographic_information">Social-Demographic Information</string>
@@ -382,6 +382,8 @@
     <string name="success">Success</string>
     <string name="account_created_a_link_has_been_nsent_to_confirm_your_email">Account created, a link has been\nsent to confirm your email !</string>
     <string name="reset">Reset</string>
+
+    <string name="appointment">Appointment</string>
 
     <string name="google_events">Google Events</string>
     <string name="no_scheduled_google_events">No Scheduled Google Events</string>

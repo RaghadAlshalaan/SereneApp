@@ -1,6 +1,6 @@
 package com.ksu.serene.model;
 
-public class Appointment {
+public class Event {
     private String summary;
     private String startTime;
 

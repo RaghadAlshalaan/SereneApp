@@ -33,6 +33,8 @@
     <string name="TDSavedSuccess">تم حفظ المسودة النصية بنجاح</string>
     <string name="TDSavedFialed">لم يتم حفظ المسودة النصية، يرجى المحاولة مرة اخرى</string>
     <string name="EmptyFields">جميع الحقول مطلوبة</string>
+    <string name="appointment">الموعد</string>
+
 
     <!-- Edit Text Draft Page -->
     <string name="EditTD">تعديل المسودة</string>

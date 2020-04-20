@@ -13,7 +13,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class PatientSessionsAdapter  extends RecyclerView.Adapter<PatientSessionsAdapter.MyViewHolder>{
+public class PatientAppointmentAdapter extends RecyclerView.Adapter<PatientAppointmentAdapter.MyViewHolder>{
     public interface OnItemClickListener {
         void onItemClick(TherapySession item);
     }
@@ -21,7 +21,7 @@ public class PatientSessionsAdapter  extends RecyclerView.Adapter<PatientSession
     private List<TherapySession> mAdapter;
     private final OnItemClickListener listener;
 
-    public PatientSessionsAdapter(List<TherapySession> mAdapter, OnItemClickListener listener) {
+    public PatientAppointmentAdapter(List<TherapySession> mAdapter, OnItemClickListener listener) {
         //super(options);
         this.mAdapter = mAdapter;
         this.listener = listener;

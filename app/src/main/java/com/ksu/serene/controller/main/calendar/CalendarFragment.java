@@ -39,7 +39,6 @@ import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.CalendarList;
 import com.google.api.services.calendar.model.CalendarListEntry;
-import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,7 +47,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.ksu.serene.model.Appointment;
+import com.ksu.serene.model.Event;
 import com.ksu.serene.model.Medicine;
 import com.ksu.serene.model.Reminder;
 import com.ksu.serene.model.TherapySession;
@@ -84,7 +83,7 @@ public class CalendarFragment extends Fragment {
     private RecyclerView recyclerViewSession;
     private RecyclerView.LayoutManager ApplayoutManager;
     private List<TherapySession> listAppointements;
-    private PatientSessionsAdapter adapterSession;
+    private PatientAppointmentAdapter adapterSession;
     private String AppID, AppName, AppDay, AppTime;
     private Date ADay;
     private Date ATime;
@@ -121,8 +120,8 @@ public class CalendarFragment extends Fragment {
     static final int REQUEST_AUTHORIZATION = 1;
     static final int REQUEST_ACCOUNT_PICKER = 2;
     com.google.api.services.calendar.Calendar client;
-    PatientAppointmentsAdapter appointmentsAdapter;
-    List<Appointment> appointments = new ArrayList<>();
+    PatientEventAdapter eventAdapter;
+    List<Event> events = new ArrayList<>();
 
     static final String FIELDS = "id,summary";
     static final String FEED_FIELDS = "items(" + FIELDS + ")";
@@ -180,7 +179,7 @@ public class CalendarFragment extends Fragment {
 
                 String simpleDateFormat = sdf.format(currentDate);
                 int yearCurrent = Integer.parseInt(simpleDateFormat.substring(6, simpleDateFormat.length()));
-                //check when clendar date in past
+                //check when calendar date in past
                 if ((yearCurrent > i) ||
                         (yearCurrent == i && (currentDate.getMonth() + 1) > (i1 + 1))
                         || (yearCurrent == i && (currentDate.getMonth() + 1) == (i1 + 1) && currentDate.getDate() > i2)) {
@@ -232,6 +231,7 @@ public class CalendarFragment extends Fragment {
     }
 
     private void initGoogleApi() {
+
         credential =
                 GoogleAccountCredential.usingOAuth2(getActivity(), Collections.singleton(CalendarScopes.CALENDAR));
 
@@ -249,22 +249,18 @@ public class CalendarFragment extends Fragment {
             RecyclerViewEvents.setVisibility(GONE);
         }
 
-
     }
 
 
     private void updateAppointments() {
-        Log.i("AppInfo", currentDate.toString());
-
 
         // check if there is already an account selected
         String accountName = Prefs.getString(PREF_ACCOUNT_NAME, "");
         if (credential.getSelectedAccountName() == null) {
             // ask user to choose account
-//            chooseAccount();
+            // chooseAccount();
         } else {
             // load calendars
-            //AsyncLoadCalendars.run(this);
             readCalendar();
         }
 
@@ -278,7 +274,7 @@ public class CalendarFragment extends Fragment {
     }
 
 
-    private class LoadCalendarAsyncTask extends AsyncTask<Void, Void, List<Appointment>> {
+    private class LoadCalendarAsyncTask extends AsyncTask<Void, Void, List<Event>> {
 
 
         LoadCalendarAsyncTask() {
@@ -290,8 +286,8 @@ public class CalendarFragment extends Fragment {
         }
 
         @Override
-        protected List<Appointment> doInBackground(Void... args) {
-            List<Appointment> appts = new ArrayList<>();
+        protected List<Event> doInBackground(Void... args) {
+            List<Event> events1 = new ArrayList<>();
             try {
                 CalendarList feed = client.calendarList().list().setFields(FEED_FIELDS).execute();
                 Log.i("AppInfo", "number of items: " + feed.getItems().size());
@@ -314,9 +310,9 @@ public class CalendarFragment extends Fragment {
                         .setSingleEvents(true)
                         .execute();
 
-                List<Event> items = events.getItems();
+                List<com.google.api.services.calendar.model.Event> items = events.getItems();
 
-                for (Event event : items) {
+                for (com.google.api.services.calendar.model.Event event : items) {
                     if (event != null) {
 
                         DateTime start = event.getStart().getDateTime();
@@ -327,18 +323,17 @@ public class CalendarFragment extends Fragment {
                         Log.i("AppInfo", "ID: " + event.getId() + " - Summary: " + event.getSummary() + " - Start: " + start);
 
 
-                        Appointment app = new Appointment();
-                        app.setSummary(event.getSummary());
+                        Event event1 = new Event();
+                        event1.setSummary(event.getSummary());
                         Long dt = start.getValue();
 
-                        String DATE_FORMAT_NOW = "E, dd MMM yyyy hh:mm aa";
+                        String DATE_FORMAT_NOW = "h:mm aa";
                         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
                         String s = sdf.format(dt);
 
-                        Log.i("AppInfo", "s = " + s);
 
-                        app.setStartTime(s);
-                        appts.add(app);
+                        event1.setStartTime(s);
+                        events1.add(event1);
                     }
                 }
 
@@ -350,12 +345,12 @@ public class CalendarFragment extends Fragment {
             }
 
 
-            return appts;
+            return events1;
         }
 
 
         @Override
-        protected void onPostExecute(List<Appointment> appts) {
+        protected void onPostExecute(List<Event> appts) {
             super.onPostExecute(appts);
 
             Log.i("AppInfo", "Number of Appts: " + appts.size());
@@ -364,9 +359,9 @@ public class CalendarFragment extends Fragment {
                 Log.i("AppInfo", "Clearing appointments");
                 googleEventsTV.setVisibility(VISIBLE);
                 RecyclerViewEvents.setVisibility(VISIBLE);
-                appointments.clear();
-                appointments.addAll(appts);
-                appointmentsAdapter.notifyDataSetChanged();
+                events.clear();
+                events.addAll(appts);
+                eventAdapter.notifyDataSetChanged();
                 noGoogleEvents.setVisibility(GONE);
             } else {
                 googleEventsTV.setVisibility(VISIBLE);
@@ -507,10 +502,10 @@ public class CalendarFragment extends Fragment {
         googleEventsTV = root.findViewById(R.id.text3);
         noGoogleEvents  = root.findViewById(R.id.noGoogleEvents);
         RecyclerViewEvents = root.findViewById(R.id.RecyclerViewEvents);
-        appointmentsAdapter = new PatientAppointmentsAdapter(getContext(), appointments);
+        eventAdapter = new PatientEventAdapter(getContext(), events);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         RecyclerViewEvents.setLayoutManager(layoutManager);
-        RecyclerViewEvents.setAdapter(appointmentsAdapter);
+        RecyclerViewEvents.setAdapter(eventAdapter);
 
 
         currentCalendar = Calendar.getInstance();
@@ -534,7 +529,7 @@ public class CalendarFragment extends Fragment {
         ApplayoutManager = new LinearLayoutManager(context);
         recyclerViewSession.setLayoutManager(ApplayoutManager);
         listAppointements = new ArrayList<>();
-        adapterSession = new PatientSessionsAdapter(listAppointements, new PatientSessionsAdapter.OnItemClickListener() {
+        adapterSession = new PatientAppointmentAdapter(listAppointements, new PatientAppointmentAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(TherapySession item) {
                 Intent intent = new Intent(getContext(), PatientAppointmentDetailPage.class);

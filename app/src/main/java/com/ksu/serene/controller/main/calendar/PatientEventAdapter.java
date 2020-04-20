@@ -10,20 +10,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ksu.serene.R;
-import com.ksu.serene.model.Appointment;
+import com.ksu.serene.model.Event;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class PatientAppointmentsAdapter extends
-        RecyclerView.Adapter<PatientAppointmentsAdapter.ViewHolder>  {
-    private List<Appointment> appointments;
+public class PatientEventAdapter extends
+
+        RecyclerView.Adapter<PatientEventAdapter.ViewHolder>  {
+    private List<Event> events;
     private final Context mContext;
 
-    public PatientAppointmentsAdapter(Context context, List<Appointment> apps) {
+    public PatientEventAdapter(Context context, List<Event> apps) {
         this.mContext = context;
-        appointments = apps;
+        events = apps;
 
     }
 
@@ -40,16 +41,16 @@ public class PatientAppointmentsAdapter extends
     @Override
     public int getItemCount() {
 
-        return appointments.size();
+        return events.size();
     }
 
     @Override
     public void onBindViewHolder(@NotNull ViewHolder holder, int pos) {
-        final Appointment appointment = appointments.get(pos);
+        final Event event = events.get(pos);
         final ViewHolder genericViewHolder = holder;
 
-        genericViewHolder.textViewAppointment.setText(appointment.getSummary());
-        genericViewHolder.textViewStartTime.setText(appointment.getStartTime());
+        genericViewHolder.textViewAppointment.setText(event.getSummary());
+        genericViewHolder.textViewStartTime.setText(event.getStartTime());
 
     }
 
