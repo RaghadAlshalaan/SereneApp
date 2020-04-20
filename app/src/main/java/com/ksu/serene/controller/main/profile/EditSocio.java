@@ -330,8 +330,7 @@ public class EditSocio extends AppCompatActivity {
             ,String maritalStatus,String cigaretteSmoke) {
         if( age.matches("") || height.matches("") || weight.matches("")
                 || monthlyIncome.matches("") || chronicDiseases.matches("")
-                || employmentStatus.matches("") || maritalStatus.matches("")
-                || cigaretteSmoke.matches("")) {
+                ) {//|| employmentStatus.matches("") || maritalStatus.matches("")|| cigaretteSmoke.matches("") -> always false
             return false;
         }
         return true;

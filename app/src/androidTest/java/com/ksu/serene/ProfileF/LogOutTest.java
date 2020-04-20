@@ -83,7 +83,7 @@ public class LogOutTest {
         //nothing happened
     }
 
-   @Test
+   /*@Test
     public void LogOutOK () {
         //click the log out
         onView(withId(R.id.log_out_btn)).perform(click());
@@ -99,7 +99,7 @@ public class LogOutTest {
                 .check(matches(withText(R.string.LogOutSuccess)));
         //check the welcome activity appear
         onView(withId(R.id.WelcomePage)).check(matches(isDisplayed()));
-    }
+    }*/
 
     @After
     public void tearDown() throws Exception {

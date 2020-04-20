@@ -27,9 +27,11 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class AddDoctorTest {
@@ -40,6 +42,8 @@ public class AddDoctorTest {
 
     @Before
     public void setUp() throws Exception {
+        activityTestRule.launchActivity(new Intent());
+        //addDoctor = activityTestRule.getActivity();
         //add timer
         //Mack sure Espresso does not time out
         IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
@@ -48,8 +52,7 @@ public class AddDoctorTest {
         IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
         try {
             IdlingRegistry.getInstance().register(idlingResource);
-            //addDoctor = activityTestRule.getActivity();
-            activityTestRule.launchActivity(new Intent());
+            //activityTestRule.launchActivity(new Intent());
             //check the activity visible
             onView(ViewMatchers.withId(R.id.AddDoctor)).check(matches(isDisplayed()));
             //check the button visible
@@ -84,7 +87,7 @@ public class AddDoctorTest {
                 .check(matches(withText(R.string.EmptyFields)));
     }
 
-    @Test
+    //@Test
     public void NameEmpty () {
         //enter valid email
         onView(withId(R.id.emailET)).perform(typeText("user@hotmail.com"));
@@ -159,7 +162,7 @@ public class AddDoctorTest {
     @Test
     public void UserEmail () {
         //enter valid email that same as patient email
-        onView(withId(R.id.emailET)).perform(typeText("user@hotmail.com"));
+        onView(withId(R.id.emailET)).perform(typeText("lama-almarshad@hotmail.com"));
         //close Keyboard
         closeSoftKeyboard();
         //enter valid name
@@ -205,10 +208,18 @@ public class AddDoctorTest {
 
     }
 
-
+    @Test
+    public void backButton () {
+        onView(withId(R.id.backButton)).check(matches(isDisplayed()));
+        onView(withId(R.id.backButton)).check(matches(isClickable()));
+        //perform click on back button
+        onView(withId(R.id.backButton)).perform(click());
+       // assertTrue(addDoctor.isFinishing());
+    }
 
     @After
     public void tearDown() throws Exception {
+        //activityTestRule.finishActivity();//.launchActivity(new Intent());
         addDoctor = null;
     }
 }

@@ -72,6 +72,9 @@ public class PatientProfile extends AppCompatActivity {
     private String mToken;
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+    public void setmAuth(FirebaseAuth mockMAuth) {
+        this.mAuth = mockMAuth;
+    }
 
     @Nullable
     @Override
@@ -372,13 +375,20 @@ public class PatientProfile extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         // [START auth_sign_out]
-                        mAuth.signOut();
+                        signOutFirebase();
                         if (mAuth.getCurrentUser() == null) {
                             Toast.makeText(PatientProfile.this, R.string.LogOutSuccess, Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(PatientProfile.this, WelcomePage.class);
                             startActivity(intent);
                             finish();
                         }
+                        /*mAuth.signOut();
+                        if (mAuth.getCurrentUser() == null) {
+                            Toast.makeText(PatientProfile.this, R.string.LogOutSuccess, Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(PatientProfile.this, WelcomePage.class);
+                            startActivity(intent);
+                            finish();
+                        }*/
                         // [END auth_sign_out]
                         Log.d(TAG, "DocumentSnapshot successfully updated!");
                     }
@@ -447,4 +457,7 @@ public class PatientProfile extends AppCompatActivity {
     }
 
 
+    public void signOutFirebase () {
+        mAuth.signOut();
+    }
 }

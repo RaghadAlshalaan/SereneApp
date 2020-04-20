@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="#FAFAFA"
-    android:id="@+id/layout"
+    android:id="@+id/ReportF"
     android:orientation="vertical">
 
     <LinearLayout

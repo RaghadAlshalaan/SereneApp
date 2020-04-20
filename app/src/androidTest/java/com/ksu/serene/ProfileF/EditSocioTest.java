@@ -26,9 +26,12 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.junit.Assert.assertTrue;
+
 @RunWith(AndroidJUnit4.class)
 public class EditSocioTest {
 
@@ -53,7 +56,6 @@ public class EditSocioTest {
             IdlingRegistry.getInstance().unregister(idlingResource);
         }
     }
-
     //TODO check when failed empty after added to class
     //TODO check for valid age, weight, height and monthly income as in register
 
@@ -365,6 +367,14 @@ public class EditSocioTest {
         finally {
             IdlingRegistry.getInstance().unregister(idlingResource);
         }
+    }
+
+    @Test
+    public void backButton () {
+        onView(withId(R.id.backButton)).check(matches(isDisplayed()));
+        onView(withId(R.id.backButton)).check(matches(isClickable()));
+        //perform click on back button
+        onView(withId(R.id.backButton)).perform(click());
     }
 
     @After

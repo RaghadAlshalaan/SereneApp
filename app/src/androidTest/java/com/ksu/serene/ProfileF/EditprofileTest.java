@@ -29,9 +29,11 @@ import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.RootMatchers.isDialog;
+import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class EditprofileTest {
@@ -59,8 +61,16 @@ public class EditprofileTest {
             IdlingRegistry.getInstance().unregister(idlingResource);
         }
     }
-
     //TODO make test for forget password
+
+    //back button pressed
+    @Test
+    public void backButton () {
+        onView(withId(R.id.backButton)).check(matches(isDisplayed()));
+        onView(withId(R.id.backButton)).check(matches(isClickable()));
+        //perform click on back button
+        onView(withId(R.id.backButton)).perform(click());
+    }
 
     //i make it constant with firebase the short pass is less than 6
     @Test
@@ -118,15 +128,15 @@ public class EditprofileTest {
         //onView(withId(R.id.username)).check(matches(withText("user")));
         onView(withId(R.id.username)).check(matches(isDisplayed()));
         //enter correct past password
-        onView(withId(R.id.oldPassword)).perform(typeText("password99"));
+        onView(withId(R.id.oldPassword)).perform(typeText("sereneuser"));
         //close keyboard
         closeSoftKeyboard();
         //enter new pass that same as old
-        onView(withId(R.id.newPassword)).perform(typeText("password99"));
+        onView(withId(R.id.newPassword)).perform(typeText("sereneuser"));
         //close keyboard
         closeSoftKeyboard();
         //renter again the new pass that same as old
-        onView(withId(R.id.reNewPassword)).perform(typeText("password99"));
+        onView(withId(R.id.reNewPassword)).perform(typeText("sereneuser"));
         //close keyboard
         closeSoftKeyboard();
         //click the button

@@ -153,8 +153,7 @@ public class AddDoctor extends AppCompatActivity {
     }
 
     public boolean EmptyFields (String name, String email) {
-        if ( name == null || name.equals("") || email == null
-                || email.equals("") ){
+        if ( name.equals("") || email.equals("") ){// name == null || email == null
             return false;
         }
         return true;

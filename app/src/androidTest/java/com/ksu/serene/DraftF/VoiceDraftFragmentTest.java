@@ -1,5 +1,6 @@
 package com.ksu.serene.DraftF;
 
+import android.Manifest;
 import com.ksu.serene.ElapsedTimeIdlingResource;
 import com.ksu.serene.MainActivity;
 import com.ksu.serene.R;
@@ -33,6 +34,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static com.ksu.serene.TestUtils.withRecyclerView;
 import static org.hamcrest.core.AllOf.allOf;
+
+import com.ksu.serene.PermissionGranter;
 import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 public class VoiceDraftFragmentTest {
@@ -42,7 +45,7 @@ public class VoiceDraftFragmentTest {
 
     @Before
     public void setUp() throws Exception {
-        activityTestRule.getActivity().runOnUiThread(new Runnable() {
+        /*activityTestRule.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 //set fragment
@@ -53,27 +56,42 @@ public class VoiceDraftFragmentTest {
                 fragmentTransaction.commit();
 
             }
-        });
-        onView(withText(R.string.VOICE)).perform(click());
+        });*/
         //add tiemr
         //Mack sure Espresso does not time out
-        IdlingPolicies.setMasterPolicyTimeout(10000 * 2, TimeUnit.MILLISECONDS);
-        IdlingPolicies.setIdlingResourceTimeout(10000 * 2, TimeUnit.MILLISECONDS);
+        IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
+        IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
         //Now we waite
-        IdlingResource idlingResource = new ElapsedTimeIdlingResource(10000);
+        IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
         try {
             IdlingRegistry.getInstance().register(idlingResource);
-            //check the activity is visible
-            onView(withId(R.id.VoiceDraftFragment)).check(matches(isDisplayed()));
-            //check the button visible
-            onView(allOf(withId(R.id.button_expandable_110_250))).check(matches(isDisplayed()));
-            //check recycler voice visible
-            onView(allOf(withId(R.id.Recyclerview_Voice_Draft))).check(matches(isDisplayed()));
+            onView(withId(R.id.navigation_drafts)).perform(click());
+            onView(withText(R.string.VOICE)).perform(click());
+            //add tiemr
+            //Mack sure Espresso does not time out
+            IdlingPolicies.setMasterPolicyTimeout(10000 * 2, TimeUnit.MILLISECONDS);
+            IdlingPolicies.setIdlingResourceTimeout(10000 * 2, TimeUnit.MILLISECONDS);
+            //Now we waite
+            IdlingResource idlingResource1 = new ElapsedTimeIdlingResource(10000);
+            try {
+                IdlingRegistry.getInstance().register(idlingResource1);
+                //check the activity is visible
+                onView(withId(R.id.VoiceDraftFragment)).check(matches(isDisplayed()));
+                //check the button visible
+                onView(allOf(withId(R.id.button_expandable_110_250))).check(matches(isDisplayed()));
+                //check recycler voice visible
+                onView(allOf(withId(R.id.Recyclerview_Voice_Draft))).check(matches(isDisplayed()));
+            }
+            //clean upp
+            finally {
+                IdlingRegistry.getInstance().unregister(idlingResource1);
+            }
         }
         //clean upp
         finally {
             IdlingRegistry.getInstance().unregister(idlingResource);
         }
+
     }
 
     @Test
@@ -103,6 +121,8 @@ public class VoiceDraftFragmentTest {
         onView(allOf(withId(R.id.button_expandable_110_250))).perform(click());
         //click add audio button
         onView(allOf(withId(R.id.AddVoiceButton))).perform(click());
+        PermissionGranter.allowPermissionsIfNeeded(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        PermissionGranter.allowPermissionsIfNeeded(Manifest.permission.RECORD_AUDIO);
         //check the add audio activity appears
         onView(withId(R.id.StartRecording)).check(matches(isDisplayed()));
     }

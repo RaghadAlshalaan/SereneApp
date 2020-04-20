@@ -1,11 +1,15 @@
 package com.ksu.serene.controller.signup;
 
+import android.text.TextUtils;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.ksu.serene.MyOnCompleteListener;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,11 +26,14 @@ import org.powermock.modules.junit4.PowerMockRunnerDelegate;
 import java.util.function.Predicate;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
 @PowerMockRunnerDelegate(JUnit4.class)
-@PrepareForTest({ FirebaseFirestore.class, FirebaseAuth.class})
+@PrepareForTest({ FirebaseFirestore.class, FirebaseAuth.class, FirebaseUser.class, TextUtils.class})
 public class SignupTest {
 
     FirebaseAuth mockFirebaseAuth;
@@ -39,13 +46,24 @@ public class SignupTest {
 
     @Before
     public void setUp() throws Exception {
+        //make mock obj for fireAuth
         mockFirebaseAuth = Mockito.mock(FirebaseAuth.class);
         PowerMockito.mockStatic(FirebaseAuth.class);
         when(FirebaseAuth.getInstance()).thenReturn(mockFirebaseAuth);
+        //make mock obj for fireStore
         FirebaseFirestore mockFirebaseFirestore = Mockito.mock(FirebaseFirestore.class);
         PowerMockito.mockStatic(FirebaseFirestore.class);
         when(FirebaseFirestore.getInstance()).thenReturn(mockFirebaseFirestore);
+        //make mock obj for firebase user
+        mockFirebaseUser = Mockito.mock(FirebaseUser.class);
+        PowerMockito.mockStatic(FirebaseUser.class);
+        when(FirebaseAuth.getInstance().getCurrentUser()).thenReturn(mockFirebaseUser);
+        //mock for TextUtil used in UserProfile
+        TextUtils mockTextUtil = Mockito.mock(TextUtils.class);
+        PowerMockito.mockStatic(TextUtils.class);
+        PowerMockito.when(TextUtils.isEmpty(any(CharSequence.class))).thenReturn(true);
         signup = new Signup();//activityTestRule.getActivity();
+        signup.setmAuth(mockFirebaseAuth);
         /*name = signup.findViewById(R.id.username);
         email = signup.findViewById(R.id.emailInput);
         pass = signup.findViewById(R.id.passwordInput);
@@ -186,50 +204,64 @@ public class SignupTest {
     }
 
     @Test public void testCreateUserWithNameEmailAndPassword() {
-        when(mockFirebaseUser.getDisplayName()).thenReturn("foo");
-        when(mockFirebaseUser.getEmail()).thenReturn("foo@Hotmail.com");
+        //set the mock data for registration
+        String email = "somusername@hotmail.com";
+        String password = "password";
+        String name = "user";
+        //call createuser from mock firebase
+        Task taskMock = Mockito.mock(Task.class);
+        when(mockFirebaseAuth.createUserWithEmailAndPassword(email,password)).thenReturn(taskMock);
+        //call method that create user in sign up activity
+        //assertNotNull(signup.createUserAccount(email, password, password, name));
+        signup.createUserAccount(email, password, password, name);
+        verify(mockFirebaseAuth, times(1)).createUserWithEmailAndPassword(email,password);
+        verify(taskMock, times(1)).addOnCompleteListener(any(Signup.class), any(MyOnCompleteListener.class));
 
-        mockSuccessfulAuthResult();
-
-        when(mockFirebaseAuth.createUserWithEmailAndPassword("foo@Hotmail.com", "password")).thenReturn(
-                mockAuthResultTask);
-
-        assertNotNull(signup.createUserAccount("foo@hotmail.com", "password", "password", "foo",mockFirebaseAuth));
-
-        //TestObserver<FirebaseUser> obs = TestObserver.create();
-
-        /*RxFirebaseAuth.createUserWithEmailAndPassword(mockFirebaseAuth, "foo@bar.com", "password")
-                .subscribe(obs);*/
-
-        /*callOnComplete(mockAuthResultTask);
-        obs.dispose();*/
-
-        // Ensure no more values are emitted after unsubscribe
-        //callOnComplete(mockAuthResultTask);
-
-        /*obs.assertNoErrors();
-        obs.assertComplete();*/
-
-       /* obs.assertValue(new Predicate<FirebaseUser>() {
-            @Override public boolean test(FirebaseUser firebaseUser) throws Exception {
-                return "foo@bar.com".equals(firebaseUser.getEmail());
-            }
-        });*/
+        //after that test when the email and profile updated
+        //test update profile
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
+        when(mockFirebaseUser.updateProfile(profileUpdates)).thenReturn(taskMock);
+        //here call the delete account method
+        signup.updateProfile(profileUpdates);//,profileUpdates);
+        //
+        verify(mockFirebaseUser, times(1)).updateProfile(profileUpdates);
+        verify(taskMock, times(1)).addOnCompleteListener(any(OnCompleteListener.class));
+        //test update email
+        when(mockFirebaseUser.updateEmail(email)).thenReturn(taskMock);
+        //call update emial form sign up page
+        signup.updateEmail(email);
+        verify(mockFirebaseUser, times(1)).updateEmail(email);
+        verify(taskMock, times(1)).addOnCompleteListener(any(Signup.class), any(MyOnCompleteListener.class));
     }
 
-    private void mockSuccessfulAuthResult() {
-        when(mockAuthResult.getUser()).thenReturn(mockFirebaseUser);
-        mockSuccessfulResultForTask(mockAuthResultTask, mockAuthResult);
+    @Test public void testCreateUserWithUnvalidEmail() {
+        //set the mock data for registration
+        String email = "somusername@45.com";
+        String password = "password";
+        String name = "user";
+        //call createuser from mock firebase
+        Task taskMock = Mockito.mock(Task.class);
+        when(mockFirebaseAuth.createUserWithEmailAndPassword(email,password)).thenReturn(taskMock);
+        //call method that create user in sign up activity
+        assertNull(signup.createUserAccount(email, password, password, name));
+
+        verify(mockFirebaseAuth, times(1)).createUserWithEmailAndPassword(email,password);
+        verify(taskMock, times(1)).addOnCompleteListener(any(Signup.class), any(MyOnCompleteListener.class));
     }
 
-    private <T> void mockSuccessfulResultForTask(Task<T> task, T result) {
-        when(task.getResult()).thenReturn(result);
-        mockSuccessfulResultForTask(task);
+    @Test public void testCreateUserWithShortPass() {
+        //set the mock data for registration
+        String email = "somusername@hotmail.com";
+        String password = "pass";
+        String name = "user";
+        //call createuser from mock firebase
+        Task taskMock = Mockito.mock(Task.class);
+        when(mockFirebaseAuth.createUserWithEmailAndPassword(email,password)).thenReturn(taskMock);
+        //call method that create user in sign up activity
+        assertNull(signup.createUserAccount(email, password, password, name));
+
+        verify(mockFirebaseAuth, times(1)).createUserWithEmailAndPassword(email,password);
+        verify(taskMock, times(1)).addOnCompleteListener(any(Signup.class), any(MyOnCompleteListener.class));
     }
 
-    private void mockSuccessfulResultForTask(Task task) {
-        when(task.isSuccessful()).thenReturn(true);
-        //noinspection unchecked
-        when(task.addOnCompleteListener(onComplete.capture())).thenReturn(task);
-    }
 }
