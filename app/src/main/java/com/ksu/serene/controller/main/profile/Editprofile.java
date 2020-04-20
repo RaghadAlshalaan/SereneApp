@@ -1,8 +1,12 @@
 package com.ksu.serene.controller.main.profile;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -42,6 +47,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.ksu.serene.MainActivity;
+import com.ksu.serene.controller.Constants;
 import com.ksu.serene.model.MySharedPreference;
 import com.ksu.serene.R;
 import com.ksu.serene.WelcomePage;
@@ -49,6 +55,7 @@ import com.ksu.serene.model.Token;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -56,6 +63,7 @@ public class Editprofile extends AppCompatActivity {
     private EditText name, oldPass, newPass, confirmPass;
     private ImageView image,back;
     private Button chooseImg, delete,save;
+    private TextView Eng, Ar;
     private static final int PICK_IMAGE_REQUEST = 234;
     private Uri filePath;
     private String ImageName, nameDb;
@@ -94,6 +102,8 @@ public class Editprofile extends AppCompatActivity {
             }
         });
         imgInStorage = findViewById(R.id.ImageSavedStorage);
+        Eng = findViewById(R.id.English);
+        Ar = findViewById(R.id.Arabic);
 
         //retrieve past name
         PastName ();
@@ -311,6 +321,25 @@ public class Editprofile extends AppCompatActivity {
             }
         });
 
+        Eng.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Eng.setVisibility(View.INVISIBLE);
+                Ar.setVisibility(View.VISIBLE);
+                setLocale("values");
+            }
+        });
+
+
+        Ar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Ar.setVisibility(View.INVISIBLE);
+                Eng.setVisibility(View.VISIBLE);
+                setLocale("ar");
+            }
+        });
+
 
     }
 
@@ -381,23 +410,23 @@ public class Editprofile extends AppCompatActivity {
             final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
             StorageReference storageRef = storage.getReference(userId);
             final StorageReference ref = storageRef.child(ImageName);
-               UploadTask uploadTask = ref.putFile(filePath);
+            UploadTask uploadTask = ref.putFile(filePath);
 
-           Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-               @Override
+            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
                 public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                   if (!task.isSuccessful()) {
-                       throw task.getException();
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
 
-                   }
+                    }
 
                     // Continue with the task to get the download URL
-                   return ref.getDownloadUrl();
-               }
+                    return ref.getDownloadUrl();
+                }
             }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-               @Override
-               public void onComplete(@NonNull Task<Uri> task) {
-                   if (task.isSuccessful()) {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
 
 
                         final Uri downloadUri = task.getResult();
@@ -411,23 +440,23 @@ public class Editprofile extends AppCompatActivity {
                                         final Uri download = downloadUri;
 
                                         MySharedPreference.putString(Editprofile.this, "Image", download.toString());
-                                                   }
+                                    }
 
-                                                });
-                                        Log.d(TAG, "DocumentSnapshot successfully updated!");
-                                        //i need this toast please don't removed to ensure when test pass the image is teup in storage
-                                        //Toast.makeText(Editprofile.this, "DocumentSnapshot successfully updated!", Toast.LENGTH_LONG).show();
-                                        imgInStorage.setText("DocumentSnapshot successfully updated!");
-                                   }
-
-                          }
-                    });
-
-                   }
-                    else{
-                        //
+                                });
+                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                        //i need this toast please don't removed to ensure when test pass the image is teup in storage
+                        //Toast.makeText(Editprofile.this, "DocumentSnapshot successfully updated!", Toast.LENGTH_LONG).show();
+                        imgInStorage.setText("DocumentSnapshot successfully updated!");
                     }
+
                 }
+            });
+
+        }
+        else{
+            //
+        }
+    }
 
 
     public void updateName(final String newName) {
@@ -474,7 +503,7 @@ public class Editprofile extends AppCompatActivity {
 
     public boolean changePassword(String oldPassword, final String newPassword, String confirmNewPassword) {
         // get user email from FireBase
-       final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String email = "";
         if (user != null) {
             email = user.getEmail();
@@ -515,22 +544,22 @@ public class Editprofile extends AppCompatActivity {
                                         }
                                     }
                                 }
-                                        });
-                                } else {
-                                    ChangePass = false;
-                                    Toast.makeText(Editprofile.this, R.string.wrongPassword, Toast.LENGTH_LONG).show();
-                                    oldPass.setText("");
-                                    newPass.setText("");
-                                    confirmPass.setText("");
-                                }
-                            }
-                        });
+                            });
+                        } else {
+                            ChangePass = false;
+                            Toast.makeText(Editprofile.this, R.string.wrongPassword, Toast.LENGTH_LONG).show();
+                            oldPass.setText("");
+                            newPass.setText("");
+                            confirmPass.setText("");
+                        }
+                    }
+                });
 
-                        return ChangePass;
-                    }//end changePassword()
+        return ChangePass;
+    }//end changePassword()
 
 
-     public boolean sameOldPassword(String oldPassword, String newPassword) {
+    public boolean sameOldPassword(String oldPassword, String newPassword) {
 
         if (oldPassword.equals(newPassword)) {
             return true;
@@ -620,6 +649,24 @@ public class Editprofile extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    public void setLocale(String lang) {
+        Locale myLocale = new Locale(lang);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+
+        SharedPreferences sp = Editprofile.this.getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("PREFERRED_LANGUAGE", lang );
+        editor.apply();
+
+        Intent refresh = new Intent(this, MainActivity.class);
+        startActivity(refresh);
+        finish();
     }
 
 }

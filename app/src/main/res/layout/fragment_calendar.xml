@@ -112,7 +112,6 @@
                 android:scrollbars="none"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:visibility="gone"
-
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text1"
                 tools:listitem="@layout/session_row" />
@@ -124,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/RecyclerviewSession"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="120dp"
+                android:layout_marginTop="70dp"
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/montserrat"
                 android:text="@string/medicines"
@@ -156,11 +155,9 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="10dp"
                 android:orientation="horizontal"
-                android:visibility="gone"
                 android:scrollbars="none"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text2"
@@ -178,6 +175,55 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text1" />
+
+
+            <TextView
+                android:id="@+id/text3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/RecyclerviewSession"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="70dp"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/montserrat"
+                android:text="@string/google_events"
+                android:textColor="#4A4A4A"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text2" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/RecyclerViewEvents"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_below="@+id/text2"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text3"
+                tools:listitem="@layout/appointments_row" />
+
+            <TextView
+                android:id="@+id/noGoogleEvents"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="30dp"
+                android:fontFamily="@font/montserrat"
+                android:gravity="center"
+                android:text="@string/no_scheduled_google_events"
+                android:textColor="@color/darkAccent"
+                android:textSize="16sp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text3" />
 
 
             <TextView

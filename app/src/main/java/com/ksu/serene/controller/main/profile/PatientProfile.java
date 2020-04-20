@@ -1,6 +1,7 @@
 package com.ksu.serene.controller.main.profile;
 
 import java.util.Locale;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -43,6 +44,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.ksu.serene.MainActivity;
 import com.ksu.serene.controller.Constants;
+import com.ksu.serene.controller.signup.GoogleCalendarConnection;
 import com.ksu.serene.model.Token;
 import com.ksu.serene.WelcomePage;
 import com.squareup.picasso.Picasso;
@@ -59,12 +61,12 @@ import java.util.Map;
 
 public class PatientProfile extends AppCompatActivity {
 
-    private ImageView image, SocioArrow, doctorArrow, editProfile, back;
-    private TextView name, email, doctor, Eng, Ar;
+    private ImageView image, SocioArrow, doctorArrow, editProfile, back, googleCalendarArrow;
+    private TextView name, email, doctor;
     private LinearLayout alert, resendL;
     private String nameDb, emailDb, imageDb;
     private FirebaseAuth mAuth;
-    private Button  logOut;
+    private Button logOut;
     private String TAG = PatientProfile.class.getSimpleName();
     private FirebaseFirestore db = com.google.firebase.firestore.FirebaseFirestore.getInstance();
     private String mToken;
@@ -86,16 +88,16 @@ public class PatientProfile extends AppCompatActivity {
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PatientProfile.this,Editprofile.class);
+                Intent intent = new Intent(PatientProfile.this, Editprofile.class);
                 startActivity(intent);
-                 }
+            }
 
         });
 
         SocioArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PatientProfile.this,EditSocio.class);
+                Intent intent = new Intent(PatientProfile.this, EditSocio.class);
                 startActivity(intent);
             }
         });
@@ -109,41 +111,30 @@ public class PatientProfile extends AppCompatActivity {
             }
         });
 
+        googleCalendarArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PatientProfile.this, GoogleCalendarConnection.class);
+                intent.putExtra("fromProfile", true);
+                startActivity(intent);
+            }
+        });
+
 
         logOut.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-              logoutDialog();
-          }
-      });
-
-
-        Eng.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Eng.setVisibility(View.INVISIBLE);
-                Ar.setVisibility(View.VISIBLE);
-                setLocale("values");
+            public void onClick(View v) {
+                logoutDialog();
             }
         });
 
 
-        Ar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Ar.setVisibility(View.INVISIBLE);
-                Eng.setVisibility(View.VISIBLE);
-                setLocale("ar");
-            }
-        });
-
-
-      user.reload();
-      if(!user.isEmailVerified()){
-          alert.setVisibility(View.VISIBLE);
-      }else{
-          alert.setVisibility(View.GONE);
-      }
+        user.reload();
+        if (!user.isEmailVerified()) {
+            alert.setVisibility(View.VISIBLE);
+        } else {
+            alert.setVisibility(View.GONE);
+        }
 
         listenToUpdates();
 
@@ -181,9 +172,8 @@ public class PatientProfile extends AppCompatActivity {
         SocioArrow = findViewById(R.id.go_to1);
         logOut = findViewById(R.id.log_out_btn);
         doctorArrow = findViewById(R.id.go_to2);
+        googleCalendarArrow = findViewById(R.id.go_to3);
         doctor = findViewById(R.id.doctor_text2);
-        Eng = findViewById(R.id.English);
-        Ar = findViewById(R.id.Arabic);
         back = findViewById(R.id.backButton);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -226,21 +216,19 @@ public class PatientProfile extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            if(!task.getResult().isEmpty()){
+                            if (!task.getResult().isEmpty()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                    if(document.exists()) {
+                                    if (document.exists()) {
                                         Intent intent = new Intent(PatientProfile.this, MyDoctor.class);
                                         startActivity(intent);
                                     }
                                 }
-                            }
-                            else{
+                            } else {
 
                                 Intent intent = new Intent(PatientProfile.this, AddDoctor.class);
                                 startActivity(intent);
                             }
-                        }
-                        else {
+                        } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
@@ -248,7 +236,7 @@ public class PatientProfile extends AppCompatActivity {
     }
 
 
-    public void displayName(){
+    public void displayName() {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -272,10 +260,10 @@ public class PatientProfile extends AppCompatActivity {
 
                 }
             }
-            if(nameDb != null)
+            if (nameDb != null)
                 name.setText(nameDb);
 
-            if(emailDb != null)
+            if (emailDb != null)
                 email.setText(emailDb);
 
             // if(imageDb !=null)
@@ -296,16 +284,16 @@ public class PatientProfile extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            if(!task.getResult().isEmpty()){
+                            if (!task.getResult().isEmpty()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                    if(document.exists()) {
+                                    if (document.exists()) {
                                         doctor.setText(document.getString("name"));
-                                    }} }
-                            else{
+                                    }
+                                }
+                            } else {
                                 doctor.setText(R.string.NoDoc);
                             }
-                        }
-                        else {
+                        } else {
 
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
@@ -319,20 +307,19 @@ public class PatientProfile extends AppCompatActivity {
 
         if (!MySharedPreference.getString(PatientProfile.this, "Image", "").equals("")) {
             imageDb = MySharedPreference.getString(PatientProfile.this, "Image", "");
-            if(imageDb !=null)
+            if (imageDb != null)
                 Picasso.get().load(imageDb).into(image);
         }
         if (!MySharedPreference.getString(PatientProfile.this, "email", "").equals("")) {
             email.setText(MySharedPreference.getString(PatientProfile.this, "email", ""));
-        }
-        else {
+        } else {
             displayName();
         }
 
         user.reload();
-        if(!user.isEmailVerified()){
+        if (!user.isEmailVerified()) {
             alert.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             alert.setVisibility(View.GONE);
         }
 
@@ -377,7 +364,7 @@ public class PatientProfile extends AppCompatActivity {
         Token mToken = new Token("");
 
         final Map<String, Object> tokenh = new HashMap<>();
-        tokenh.put("token",mToken);
+        tokenh.put("token", mToken);
 
         userTokenDR
                 .update("token", mToken)
@@ -411,25 +398,22 @@ public class PatientProfile extends AppCompatActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        if (user.isEmailVerified())
-        {
-            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( PatientProfile.this,  new OnSuccessListener<InstanceIdResult>() {
+        if (user.isEmailVerified()) {
+            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(PatientProfile.this, new OnSuccessListener<InstanceIdResult>() {
                 @Override
                 public void onSuccess(InstanceIdResult instanceIdResult) {
                     mToken = instanceIdResult.getToken();
-                    Log.e("Token",mToken);
+                    Log.e("Token", mToken);
                 }
             });
 
             updateToken(mToken);
             SharedPreferences sp = PatientProfile.this.getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sp.edit();
-            editor.putString("CURRENT_USERID",mAuth.getCurrentUser().getUid());
+            editor.putString("CURRENT_USERID", mAuth.getCurrentUser().getUid());
             editor.apply();
-           return true;
-        }
-        else
-        {
+            return true;
+        } else {
 
             return false;
 
@@ -437,12 +421,12 @@ public class PatientProfile extends AppCompatActivity {
 
     }
 
-    public  void updateToken(String token){
+    public void updateToken(String token) {
 
         DocumentReference userTokenDR = FirebaseFirestore.getInstance().collection("Tokens").document(mAuth.getUid());
         Token mToken = new Token(token);
         final Map<String, Object> tokenh = new HashMap<>();
-        tokenh.put("token",mToken.getToken());
+        tokenh.put("token", mToken.getToken());
 
         userTokenDR
                 .update(tokenh)
@@ -462,21 +446,5 @@ public class PatientProfile extends AppCompatActivity {
                 });
     }
 
-    public void setLocale(String lang) {
-        Locale myLocale = new Locale(lang);
-        Resources res = getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        Configuration conf = res.getConfiguration();
-        conf.locale = myLocale;
-        res.updateConfiguration(conf, dm);
 
-        SharedPreferences sp = PatientProfile.this.getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString("PREFERRED_LANGUAGE", lang );
-        editor.apply();
-
-        Intent refresh = new Intent(this, MainActivity.class);
-        startActivity(refresh);
-        finish();
-    }
 }

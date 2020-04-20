@@ -1,32 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:background="@drawable/main_background"
-tools:context=".controller.signup.GoogleCalendarConnection">
-
-
-<View
-    android:id="@+id/white_bg"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="130dp"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentTop="true" />
+    android:layout_height="match_parent"
+    android:background="@drawable/main_background"
+    tools:context=".controller.signup.GoogleCalendarConnection">
 
-<TextView
-    android:id="@+id/titleofscreen"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:fontFamily="@font/montserrat"
-    android:layout_centerHorizontal="true"
-    android:layout_marginTop="50dp"
-    android:text="@string/google_calendar"
-    android:gravity="center"
-    android:textColor="@color/white"
-    android:textSize="25sp" />
+
+    <View
+        android:id="@+id/white_bg"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
+
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/white_bg"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="75dp"
+        app:srcCompat="@drawable/ic_left_arrow" />
+
+
+    <TextView
+        android:id="@+id/titleofscreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="@string/google_calendar"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="25sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,16 +50,16 @@ tools:context=".controller.signup.GoogleCalendarConnection">
         android:orientation="vertical">
 
 
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="370dp"
-        android:layout_height="85dp"
-        android:fontFamily="@font/montserrat"
-        android:gravity="center"
-        android:text="@string/google_calendar_description"
-        android:layout_marginTop="30dp"
-        android:textColor="@color/Grey"
-        android:textSize="15sp" />
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="370dp"
+            android:layout_height="85dp"
+            android:fontFamily="@font/montserrat"
+            android:gravity="center"
+            android:text="@string/google_calendar_description"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/Grey"
+            android:textSize="15sp" />
 
 
         <LinearLayout
@@ -59,13 +71,13 @@ tools:context=".controller.signup.GoogleCalendarConnection">
             android:orientation="vertical"
             android:paddingEnd="10dp">
 
-        <ImageView
-            android:id="@+id/fitbitLogo"
-            android:layout_width="300dp"
-            android:layout_height="150dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp"
-            android:src="@drawable/google_calendar" />
+            <ImageView
+                android:id="@+id/fitbitLogo"
+                android:layout_width="300dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:src="@drawable/google_calendar" />
 
             <TextView
                 android:id="@+id/status"
@@ -90,7 +102,7 @@ tools:context=".controller.signup.GoogleCalendarConnection">
                 android:text="@string/connect_google_calendar"
                 android:textColor="#ffffff" />
 
-    </LinearLayout><!--End main layout-->
+        </LinearLayout><!--End main layout-->
 
 
     </LinearLayout>

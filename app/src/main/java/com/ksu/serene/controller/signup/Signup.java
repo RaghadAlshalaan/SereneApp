@@ -75,22 +75,22 @@ public class Signup extends AppCompatActivity {
         signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if ( !validName (nameET.getText().toString())) {
+                if (!validName(nameET.getText().toString())) {
                     nameET.setText("");
                     Error.setText(R.string.NotValidName);
                     return;
                 }
-                if (!passMatch (passwordET.getText().toString(), confirmPasswordET.getText().toString())){
+                if (!passMatch(passwordET.getText().toString(), confirmPasswordET.getText().toString())) {
                     passwordET.setText("");
                     confirmPasswordET.setText("");
                     Error.setText(R.string.NotMatchPass);
                     return;
                 }
-               if (createUserAccount(emailET.getText().toString(), passwordET.getText().toString(), confirmPasswordET.getText().toString(), nameET.getText().toString(),mAuth)) { //;
+                if (createUserAccount(emailET.getText().toString(), passwordET.getText().toString(), confirmPasswordET.getText().toString(), nameET.getText().toString(), mAuth)) { //;
                    /*Intent i = new Intent( Signup.this, Questionnairs.class );
                    startActivity(i);
                    finish();*/
-               }
+                }
             }
         });
 
@@ -102,7 +102,7 @@ public class Signup extends AppCompatActivity {
     }//end onCreate()
 
 
-    private void init(){
+    private void init() {
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -141,13 +141,13 @@ public class Signup extends AppCompatActivity {
             String passwordInput = passwordET.getText().toString().trim();
             String confirmPasswordInput = confirmPasswordET.getText().toString().trim();
 
-            if(CheckFields(nameInput,emailInput,passwordInput,confirmPasswordInput)){
+            if (CheckFields(nameInput, emailInput, passwordInput, confirmPasswordInput)) {
 
                 signupBtn.setBackground(getResources().getDrawable(R.drawable.main_button));
 
                 signupBtn.setEnabled(true);
 
-            }else{
+            } else {
 
                 signupBtn.setBackground(getResources().getDrawable(R.drawable.off_button));
 
@@ -222,7 +222,7 @@ public class Signup extends AppCompatActivity {
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            Log.d(TAG, "DocumentSnapshot added with" );
+                                            Log.d(TAG, "DocumentSnapshot added with");
                                             //add token
                                             Token mToken = new Token("");
 
@@ -233,7 +233,7 @@ public class Signup extends AppCompatActivity {
                                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                         @Override
                                                         public void onSuccess(Void aVoid) {
-                                                            Log.d(TAG, "DocumentSnapshot added with" );
+                                                            Log.d(TAG, "DocumentSnapshot added with");
                                                         }
                                                     })
                                                     .addOnFailureListener(new OnFailureListener() {
@@ -254,12 +254,12 @@ public class Signup extends AppCompatActivity {
                             updateToken(FirebaseInstanceId.getInstance().getToken());
                             SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sp.edit();
-                            editor.putString("CURRENT_USERID",mAuth.getCurrentUser().getUid());
+                            editor.putString("CURRENT_USERID", mAuth.getCurrentUser().getUid());
                             editor.apply();
 
                             Toast.makeText(Signup.this, R.string.SignUpSuccess, Toast.LENGTH_LONG).show();
                             createAcc = true;
-                            Intent i = new Intent( Signup.this, Questionnairs.class );
+                            Intent i = new Intent(Signup.this, Questionnairs.class);
                             startActivity(i);
                             sendVerificationEmail();
                             finish();
@@ -291,12 +291,12 @@ public class Signup extends AppCompatActivity {
     }// end create user
 
 
-    public  void updateToken(String token){
+    public void updateToken(String token) {
 
         DocumentReference userTokenDR = FirebaseFirestore.getInstance().collection("Tokens").document(mAuth.getUid());
         Token mToken = new Token(token);
         final Map<String, Object> tokenU = new HashMap<>();
-        tokenU.put("token",mToken.getToken());
+        tokenU.put("token", mToken.getToken());
 
         userTokenDR
                 .update(tokenU)
@@ -337,15 +337,15 @@ public class Signup extends AppCompatActivity {
                 });
     }
 
-    public boolean CheckFields (String name, String email, String password, String confirmPassword){
-        if ( !name.equals("") && name!=null && !email.equals("") && email!=null
-                && !password.equals("") && password!=null && !confirmPassword.equals("") && confirmPassword!=null ) {
+    public boolean CheckFields(String name, String email, String password, String confirmPassword) {
+        if (!name.equals("") && name != null && !email.equals("") && email != null
+                && !password.equals("") && password != null && !confirmPassword.equals("") && confirmPassword != null) {
             return true;
         }
         return false;
     }
 
-    public boolean validName(String name){
+    public boolean validName(String name) {
         if (!name.matches("^[ A-Za-z]+$")) {
             return false;
         }
@@ -353,29 +353,30 @@ public class Signup extends AppCompatActivity {
     }
 
     //TODO add method to check for email validation
-    public boolean isValidEmail (String email) {
+    public boolean isValidEmail(String email) {
         if (!email.matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
             return false;
         }
         return true;
     }
+
     //TODO add Method for check for pass length
-    public boolean isShortPass (String password){
-        if (password.length()<6) {
+    public boolean isShortPass(String password) {
+        if (password.length() < 6) {
             return false;
         }
         return true;
     }
 
 
-    public boolean passMatch (String pass, String confirmPass){
-        if (! (pass.equals(confirmPass)) ) {
+    public boolean passMatch(String pass, String confirmPass) {
+        if (!(pass.equals(confirmPass))) {
             return false;
         }
         return true;
     }
 
-    private void login(){
+    private void login() {
 
         //Login button
         Intent i = new Intent(this, LogInPage.class);
@@ -383,261 +384,6 @@ public class Signup extends AppCompatActivity {
         finish();
 
     }
-
-
-   /* private FirebaseAuth mAuth;
-
-    private TextView loginTV;
-
-    private EditText nameET, emailET, passwordET, confirmPasswordET;
-    private Button signUpBtn;
-    private String fullName, password, email, confirmPassword;
-    private String TAG = Signup.class.getSimpleName();
-    private boolean isNewUser;
-    //image view for sign in with google
-
-
-    private ImageView signInWithGoogle ;
-    // TODO : MOVE SIGN UP WITH GOOGLE TO WELCOME PAGE
-
-    private Task<SignInMethodQueryResult> result;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-
-    //create googleAPClient object
-    private GoogleApiClient mGoogleApiClient;//
-    private GoogleSignInClient mGoogleSignInClient;
-    private boolean foundEmail = false;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup);
-       // initToolBar();
-        mAuth = FirebaseAuth.getInstance();
-        loginTV = findViewById(R.id.loginBtn);
-        nameET = findViewById(R.id.username);
-        emailET = findViewById(R.id.emailInput);
-        passwordET = findViewById(R.id.passwordInput);
-        confirmPasswordET = findViewById(R.id.CpasswordInput);
-        signUpBtn = findViewById(R.id.signupBtn);
-        isNewUser = true;
-        signInWithGoogle = findViewById(R.id.signup_withgoogle);
-
-        //for sign in with google need to create GoogleSigninOption object
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this , gso);
-
-
-        //when click to sign up with google will show sign up with google page
-        signInWithGoogle.setOnClickListener(new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View view) {
-                                                    //Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);//
-                                                    Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                                                    startActivityForResult(signInIntent, 9001);
-                                                }
-                                            }
-        );
-
-
-
-        loginTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Signup.this,LogInPage.class);
-                startActivity(intent);
-            }
-        });
-
-        signUpBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-                    fullName = nameET.getText().toString();
-                    email = emailET.getText().toString();
-                    password = passwordET.getText().toString();
-                    confirmPassword = confirmPasswordET.getText().toString();
-
-
-             if(email != null) {
-
-                 mAuth.fetchSignInMethodsForEmail(email)
-                         .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
-                             @Override
-                             public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
-
-                                 isNewUser = task.getResult().getSignInMethods().isEmpty();
-
-                                 if (isNewUser) {
-                                     //
-
-                                 } else {
-                                     isNewUser = false;
-                                     Toast.makeText(Signup.this, "Email already exist, please go back and enter new email",
-                                             Toast.LENGTH_SHORT).show();
-                                     emailET.setText("");
-
-                                 }
-
-                             }
-                         });
-             }
-
-                    //empty field validation
-                  else if (fullName.matches("") || password.matches("") || confirmPassword.matches("") || email.matches("")) {
-                        Toast.makeText(Signup.this, R.string.allFields,
-                                Toast.LENGTH_SHORT).show();
-                        return;
-                    } //name validity only characters no numbers
-                    else if (!fullName.matches("^[ A-Za-z]+$")) {
-                        Toast.makeText(Signup.this, R.string.nameFormat,
-                                Toast.LENGTH_SHORT).show();
-                        nameET.setText("");
-                        return;
-                    }
-                    //if the passwordET doesn't match show dialog otherwise create account
-                    else if (!password.equals(confirmPassword)) {
-                        Toast.makeText(Signup.this, R.string.passwordMatch,
-                                Toast.LENGTH_SHORT).show();
-                        passwordET.setText("");
-                        confirmPasswordET.setText("");
-                        return;
-                    } //if password is less than 8, show message
-                    else if (password.length() < 8) {
-                        Toast.makeText(Signup.this, R.string.passwordChar,
-                                Toast.LENGTH_SHORT).show();
-                        passwordET.setText("");
-                        confirmPasswordET.setText("");
-                        return;
-                    } //email format
-                    else if (!email.matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")){
-                        Toast.makeText(Signup.this, R.string.emailFormat,
-                                Toast.LENGTH_SHORT).show();
-                        emailET.setText("");
-                        return;
-                    }
-
-
-
-                    Bundle bundle = new Bundle();
-                    bundle.putString("fullName", fullName);
-                    bundle.putString("email", email);
-                    bundle.putString("password", password);
-                    Fragment fragmentOne = new GAD7();
-                    fragmentOne.setArguments(bundle);
-
-
-                    FragmentManager fm = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                    fragmentTransaction.replace(R.id.layout, fragmentOne);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
-
-
-            }
-        });
-
-
-
-
-        //loginTV.setOnClickListener(new View.OnClickListener() {
-         //   @Override
-           // public void onClick(View view) {
-           //     Intent intent = new Intent(SignUp.this, LoginActivity.class);
-           //     startActivity(intent);
-          //      finish();
-        //    }
-     //   });
-
-    }//end onCreate()
-
-    //for sign up with google
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode,  Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 9001){
-            //GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);//
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                //if (account != null){
-                //make request with firebase
-                firebaseAuthWithGoogle(account);
-
-            }
-            catch (ApiException e){
-                e.printStackTrace();
-            }
-
-        }
-    }
-
-    private void firebaseAuthWithGoogle (GoogleSignInAccount account){
-        Log.d("TAG" , "firebaseAuthWithGoogle: " + account.getId());
-        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken() , null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>(){
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Log.d("TAG", "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            final String name = user.getDisplayName();
-                            final String email = user.getEmail();
-
-                            //if it first time go to Que either go to Home
-                            //search in firebase for same emil
-                            CollectionReference reference = FirebaseFirestore.getInstance().collection("Patient");
-                            final Query query = reference.whereEqualTo("email",email);
-                            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        for (QueryDocumentSnapshot doc : task.getResult()) {
-                                            //so here the email founded so the user sign up before go to Home page
-                                            Intent intent = new Intent(Signup.this, HomeFragment.class);
-                                            intent.putExtra("Name" , name);
-                                            intent.putExtra("Email" , email);
-                                            startActivity(intent);
-                                            foundEmail = true;
-                                        }
-                                    }
-                                    else {
-                                        Log.d("TAG", "Query Failed");
-                                    }
-                                    if (!foundEmail){
-                                        // here the email not founded so go to next step of register and then save the name and email in firebase
-                                        Bundle bundle = new Bundle();
-                                        bundle.putString("fullName", name);
-                                        bundle.putString("email", email);
-                                        bundle.putString("password", "password");
-                                        Fragment fragmentOne = new GAD7();
-                                        fragmentOne.setArguments(bundle);
-                                        FragmentManager fm = getSupportFragmentManager();
-                                        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                                        fragmentTransaction.replace(R.id.layout, fragmentOne);
-                                        fragmentTransaction.addToBackStack(null);
-                                        fragmentTransaction.commit();
-                                    }
-                                }
-                            });
-                        } else {
-                            Log.w("TAG", "signInWithCredential:failure", task.getException());
-
-                            Toast.makeText(Signup.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-*/
-
 
 
 }

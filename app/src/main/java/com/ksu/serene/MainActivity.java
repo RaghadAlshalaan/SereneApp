@@ -133,14 +133,8 @@ public class MainActivity extends AppCompatActivity implements
 
         // CHECK & SET APPLICATION LANGUAGE
         SharedPreferences sp = MainActivity.this.getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
-        preferred_lng = sp.getString( "PREFERRED_LANGUAGE", "values");
+        preferred_lng = sp.getString("PREFERRED_LANGUAGE", "values");
         setLocale(preferred_lng);
-
-/*        // Change status bar color
-        Window window = this.getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(this.getResources().getColor(R.color.white));*/
 
         //create notification channel upon opening app for the first time
         createNotificationChannel();
@@ -148,9 +142,9 @@ public class MainActivity extends AppCompatActivity implements
         init();
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_report, R.id.navigation_drafts, R.id.navigation_calendar)
                 .build();
@@ -161,6 +155,10 @@ public class MainActivity extends AppCompatActivity implements
 
 
         if (getExtras().equals("1")) {
+
+            w1.setVisibility(View.VISIBLE);
+            w2.setVisibility(View.VISIBLE);
+            overbox.setVisibility(View.VISIBLE);
 
             overbox.setAlpha(1);
             overbox.startAnimation(from_nothing);
@@ -198,9 +196,9 @@ public class MainActivity extends AppCompatActivity implements
         //NotificationAdapter.addNotification(new Notification("Sample appointment", "app", Calendar.getInstance().getTime(), "782ccad5-a267-4773-939b-100b376bbbd6"));
 
         bell = findViewById(R.id.bell_icon);
-        bell.setOnClickListener(new View.OnClickListener(){
+        bell.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 //view list --> visibility = true
                 findViewById(R.id.notification_circle).setVisibility(View.GONE);
                 notificationGroup.setVisibility(View.VISIBLE);//notification list box and background of it are now visible
@@ -210,14 +208,13 @@ public class MainActivity extends AppCompatActivity implements
         });
 
         //if user clicks outside notification box, it will disappear
-        outside_notification_box.setOnClickListener(new View.OnClickListener(){
+        outside_notification_box.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 //set notification group visibility to gone
                 notificationGroup.setVisibility(View.GONE);
             }
         });
-
 
 
     }// end onCreate()
@@ -286,10 +283,10 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void locationUpdated(Location location) {
 
-        if (lastLocation == null){
+        if (lastLocation == null) {
             lastLocation = location;
             startLocationUpdateRepeatingTask();
-        }else {
+        } else {
             lastLocation = location;
         }
 
@@ -317,15 +314,15 @@ public class MainActivity extends AppCompatActivity implements
 
 
     void startLocationUpdateRepeatingTask() {
-        if (locationUpdateHandler == null){
+        if (locationUpdateHandler == null) {
             locationUpdateHandler = new Handler();
         }
         locationUpdateRunnable.run();
     }
 
     void stopLocationUpdateRepeatingTask() {
-        if (locationUpdateHandler!= null)
-        locationUpdateHandler.removeCallbacks(locationUpdateRunnable);
+        if (locationUpdateHandler != null)
+            locationUpdateHandler.removeCallbacks(locationUpdateRunnable);
     }
 
 
@@ -359,7 +356,7 @@ public class MainActivity extends AppCompatActivity implements
 
 
     void startSaveDataRepeatingTask() {
-        if (saveDateHandler == null){
+        if (saveDateHandler == null) {
             saveDateHandler = new Handler();
         }
         saveDateRunnable.run();
@@ -395,34 +392,35 @@ public class MainActivity extends AppCompatActivity implements
         List<Address> addresses;
         geocoder = new Geocoder(this, Locale.getDefault());
 
-        addresses = geocoder.getFromLocation(24.8072766 , 46.7157474 , 5); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+        addresses = geocoder.getFromLocation(24.750074, 46.854267, 5); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
         String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
 
         // Get Neighborhood name from the address
-        int i ;
+        int i;
 
-        if(address.indexOf('،') != -1){
-            i = address.indexOf('،')+1;
-        }else {
-            i = address.indexOf(',')+1;
+        if (address.indexOf('،') != -1) {
+            i = address.indexOf('،') + 1;
+        } else {
+            i = address.indexOf(',') + 1;
         }
         int ii = address.indexOf(',', i);
 
         final Map<String, Object> userLoc = new HashMap<>();
         userLoc.put("patientID", userID);
         userLoc.put("time", FieldValue.serverTimestamp());
-        userLoc.put("lat", 24.8072766 );
-        userLoc.put("lng", 46.7157474 );
-        userLoc.put("name", address.substring(i+1 , ii) + " District" );
-        userLoc.put("anxietyLevel", "1" );
-        findNearestLocation(24.8072766,46.7157474);
+        userLoc.put("lat", 24.750074);
+        userLoc.put("lng", 46.854267);
+        userLoc.put("name", address.substring(i + 1, ii) + " District");
+        userLoc.put("anxietyLevel", "1");
+        userLoc.put("anxiety_assigned", false);
+        findNearestLocation(24.750074, 46.854267);
 
 
         DocumentReference ref = db.collection("PatientLocations").document(draftId);
 
 
-        if(ref == null) {
+        if (ref == null) {
 
             ref.set(userLoc)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -441,7 +439,7 @@ public class MainActivity extends AppCompatActivity implements
 
                         }
                     });
-        }else{
+        } else {
             ref.set(userLoc, SetOptions.merge());
         }
     }
@@ -453,7 +451,7 @@ public class MainActivity extends AppCompatActivity implements
     private void findNearestLocation(double lat, double lng) {
 
         if (lat == 0) {
-            return ;
+            return;
         }
 
         // Instantiate the RequestQueue.
@@ -485,7 +483,7 @@ public class MainActivity extends AppCompatActivity implements
 
                             int num = 0;
 
-                            for (int y = 1; y < resultsArray.length() && num < 2; y++){
+                            for (int y = 1; y < resultsArray.length() && num < 2; y++) {
 
 
                                 JSONObject Loc = resultsArray.getJSONObject(y);
@@ -495,7 +493,7 @@ public class MainActivity extends AppCompatActivity implements
 
                                     String type = String.valueOf(l1.get(i));
 
-                                    if (type.equals("cafe")  || type.equals("mosque") ||
+                                    if (type.equals("cafe") || type.equals("mosque") ||
                                             type.equals("store") || type.equals("hospital") ||
                                             type.equals("shopping_mall") || type.equals("university") ||
                                             type.equals("gym") || type.equals("health") ||
@@ -518,10 +516,10 @@ public class MainActivity extends AppCompatActivity implements
 
                             // UPLOAD TO DB
                             String nearestLoc = "No Nearby Places Found";
-                            if (!nearbyLocation[0].equals("")){
+                            if (!nearbyLocation[0].equals("")) {
                                 nearestLoc = nearbyLocation[0];
 
-                                if(!nearbyLocation[1].equals(""))
+                                if (!nearbyLocation[1].equals(""))
                                     nearestLoc += " - " + nearbyLocation[1];
                             }
 
@@ -532,11 +530,11 @@ public class MainActivity extends AppCompatActivity implements
                             nearestLocation.put("nearestLoc", nearestLoc);
 
 
-                            if (ref != null){
+                            if (ref != null) {
 
                                 ref.set(nearestLocation, SetOptions.merge());
 
-                            }else {
+                            } else {
                                 ref.set(nearestLocation)
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
@@ -566,7 +564,7 @@ public class MainActivity extends AppCompatActivity implements
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // TODO: Handle error
-                        if(true);
+                        if (true) ;
                     }
                 });
 
@@ -579,7 +577,6 @@ public class MainActivity extends AppCompatActivity implements
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
     }
-
 
 
     Intent mServiceIntent;
@@ -639,7 +636,7 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    private void todayNotifications(){
+    private void todayNotifications() {
         final List<Notification> notifications = new ArrayList<Notification>();
         notificationList.setLayoutManager(new LinearLayoutManager(this));
         notificationList.setAdapter(notificationAdapter);
@@ -653,7 +650,7 @@ public class MainActivity extends AppCompatActivity implements
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         Task<QuerySnapshot> docRef = firebaseFirestore.collection("Notifications")
                 .whereEqualTo("day", today)
-                .whereEqualTo("userID",userID)
+                .whereEqualTo("userID", userID)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @SuppressLint("SetTextI18n")
@@ -668,12 +665,12 @@ public class MainActivity extends AppCompatActivity implements
 
                                 String name = doc.get(i).get("name").toString();
                                 String type = doc.get(i).get("type").toString();
-                                String time = doc.get(i).get("day").toString()+" "+doc.get(0).get("time").toString();
+                                String time = doc.get(i).get("day").toString() + " " + doc.get(0).get("time").toString();
                                 String documentID = doc.get(i).get("documentID").toString();
-                                boolean read = (Boolean)doc.get(i).get("read");
+                                boolean read = (Boolean) doc.get(i).get("read");
                                 String notificationID = doc.get(i).get("notificationID").toString();
 
-                                notifications.add(new Notification(name,type,time,documentID, notificationID, read));
+                                notifications.add(new Notification(name, type, time, documentID, notificationID, read));
 
                                 if (!read)
                                     unread = true;
@@ -681,9 +678,10 @@ public class MainActivity extends AppCompatActivity implements
                                 i++;
 
                             }
+
                             //after going through all docs
                             //display red circle if unread = true
-                            if (unread==true){
+                            if (unread == true) {
                                 ImageView notification_circle = findViewById(R.id.notification_circle);
                                 notification_circle.setVisibility(View.VISIBLE);
                             }

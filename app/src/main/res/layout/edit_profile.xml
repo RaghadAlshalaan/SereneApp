@@ -96,7 +96,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout5"
         android:layout_width="match_parent"
-        android:layout_height="530dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:background="@drawable/layout_rounded_bg"
@@ -113,7 +113,6 @@
             android:id="@+id/fullName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:fontFamily="@font/montserrat"
             android:text="@string/full_name"
             android:textColor="#817889"
@@ -237,6 +236,83 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/reNewText" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout9"
+            android:layout_width="320dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/white_background"
+            android:clickable="true"
+            android:focusable="auto"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/delete"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reNewPassword">
+
+            <ImageView
+                android:id="@+id/language_icon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="15dp"
+                app:srcCompat="@drawable/ic_language_icon" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:fontFamily="@font/montserrat"
+                android:gravity="center_vertical"
+                android:paddingStart="10dp"
+                android:text="@string/language"
+                android:textColor="#515C6F"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/English"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:fontFamily="@font/montserrat"
+                android:gravity="center_vertical"
+                android:paddingEnd="10dp"
+                android:text="@string/english"
+                android:textAlignment="textEnd"
+                android:textColor="#66515C6F"
+                android:textSize="15sp"
+                tools:ignore="RtlCompat" />
+
+            <ImageView
+                android:id="@+id/go_to3"
+                android:layout_width="30dp"
+                android:layout_height="33dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_go_to" />
+
+            <TextView
+                android:id="@+id/Arabic"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:fontFamily="monospace"
+                android:paddingTop="10dp"
+                android:text="@string/arabic"
+                android:textAlignment="textEnd"
+                android:textColor="#66515C6F"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
 
         <Button
             android:id="@+id/save"
