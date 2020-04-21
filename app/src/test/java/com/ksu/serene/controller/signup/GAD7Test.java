@@ -21,6 +21,8 @@ import static org.mockito.Mockito.when;
 public class GAD7Test {
     private GAD7 gad;
 
+    //TODO test when add gadScore to DB
+
     @Before
     public void setUp() throws Exception {
         FirebaseFirestore mockFirebaseFirestore = Mockito.mock(FirebaseFirestore.class);

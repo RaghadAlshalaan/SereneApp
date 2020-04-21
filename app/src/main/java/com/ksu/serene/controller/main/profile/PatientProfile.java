@@ -190,8 +190,8 @@ public class PatientProfile extends AppCompatActivity {
         alert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                user.sendEmailVerification()
+                sendVerificationEmail();
+                /*user.sendEmailVerification()
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
@@ -203,7 +203,7 @@ public class PatientProfile extends AppCompatActivity {
                             public void onFailure(@NonNull Exception e) {
                                 Toast.makeText(PatientProfile.this, R.string.VervEmailFialed, Toast.LENGTH_LONG).show();
                             }
-                        });
+                        });*/
             }
         });
 
@@ -460,4 +460,21 @@ public class PatientProfile extends AppCompatActivity {
     public void signOutFirebase () {
         mAuth.signOut();
     }
+
+    public void sendVerificationEmail() {
+        user.sendEmailVerification()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(PatientProfile.this, R.string.VervEmailSuccess, Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            Toast.makeText(PatientProfile.this, R.string.VervEmailFialed, Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+                });
+    }
+
 }

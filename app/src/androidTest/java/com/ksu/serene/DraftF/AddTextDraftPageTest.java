@@ -61,7 +61,6 @@ public class AddTextDraftPageTest {
         //clean upp
         finally {
             IdlingRegistry.getInstance().unregister(idlingResource);
-            Espresso.unregisterIdlingResources(idlingResource);
         }
     }
     @Test
@@ -93,17 +92,6 @@ public class AddTextDraftPageTest {
                 .check(matches(withText(R.string.EmptyFields)));
     }
 
-   /* @Test
-    public void addTextFail() {
-        onView(withId(R.id.TitleTextD)).perform(typeText("First Draft"));
-        onView(withId(R.id.SubjtextD)).perform(typeText("Test The First Draft"));
-        onView(withId(R.id.ConfirmTextDraft)).perform(click());
-        // check toast visibility
-        onView(withText("Not Saved"))
-                .inRoot(new ToastMatcher())
-                    .check(matches(isDisplayed()));
-    }*/
-
     @Test
     public void addTextSuccess() {
         //enter title
@@ -130,7 +118,6 @@ public class AddTextDraftPageTest {
         //clean upp
         finally {
             IdlingRegistry.getInstance().unregister(idlingResource);
-            Espresso.unregisterIdlingResources(idlingResource);
         }
     }
 
@@ -140,6 +127,30 @@ public class AddTextDraftPageTest {
         onView(withId(R.id.backButton)).check(matches(isClickable()));
         //perform click on back button
         onView(withId(R.id.backButton)).perform(click());
+    }
+
+
+   @Test
+    public void addTextFail() {
+        onView(withId(R.id.TitleTextD)).perform(typeText("First Draft"));
+        onView(withId(R.id.SubjtextD)).perform(typeText("Test The First Draft"));
+        //add timer to diconnect from internet connection
+       IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
+       IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
+       //Now we waite
+       IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
+       try {
+           IdlingRegistry.getInstance().register(idlingResource);
+           onView(withId(R.id.ConfirmTextDraft)).perform(click());
+           // check toast visibility
+           onView(withText( R.string.TDSavedFialed))
+                   .inRoot(new ToastMatcher())
+                    .check(matches(withText(R.string.TDSavedFialed)));
+       }
+       //clean upp
+       finally {
+           IdlingRegistry.getInstance().unregister(idlingResource);
+       }
     }
 
     @After

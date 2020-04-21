@@ -125,6 +125,7 @@ public class AddTextDraftPage extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AddTextDraftPage.this, R.string.TDSavedFialed, Toast.LENGTH_LONG).show();
 
                         Resources res = getResources();
                         String text = String.format(res.getString(R.string.TDSavedFialed));

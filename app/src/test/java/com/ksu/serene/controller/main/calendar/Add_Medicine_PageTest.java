@@ -24,6 +24,8 @@ import static org.mockito.Mockito.when;
 @PrepareForTest({ FirebaseFirestore.class})
 public class Add_Medicine_PageTest {
 
+    //TODO test saveMed in DB
+    //TODO test set reminder
     private Add_Medicine_Page medicine;
     String name,time,date,dose,interval,repeatNo;
     Calendar current = Calendar.getInstance();
@@ -139,7 +141,7 @@ public class Add_Medicine_PageTest {
     //TODO update this data it depend on current date
     @Test
     public void TimePastCurrentDate () {
-        date = current.get(Calendar.DAY_OF_MONTH)+"/"+current.get(Calendar.MONTH)+"/"+current.get(Calendar.YEAR);
+        date = current.get(Calendar.DAY_OF_MONTH)+"/"+(current.get(Calendar.MONTH)+1)+"/"+current.get(Calendar.YEAR);
         try {
             currentTime=TimeFormat.parse(new SimpleDateFormat("HH : mm",Locale.UK).format(new Date()));
         }
@@ -153,7 +155,7 @@ public class Add_Medicine_PageTest {
 
     @Test
     public void CurrentTimeCurrentDate () {
-        date = current.get(Calendar.DAY_OF_MONTH)+"/"+current.get(Calendar.MONTH)+"/"+current.get(Calendar.YEAR);
+        date = current.get(Calendar.DAY_OF_MONTH)+"/"+(current.get(Calendar.MONTH)+1)+"/"+current.get(Calendar.YEAR);
         try {
             currentTime=TimeFormat.parse(new SimpleDateFormat("HH : mm",Locale.UK).format(new Date()));
         }
@@ -167,7 +169,7 @@ public class Add_Medicine_PageTest {
 
     @Test
     public void FutureTimeCurrentDate () {
-        date = current.get(Calendar.DAY_OF_MONTH)+"/"+current.get(Calendar.MONTH)+"/"+current.get(Calendar.YEAR);
+        date = current.get(Calendar.DAY_OF_MONTH)+"/"+(current.get(Calendar.MONTH)+1)+"/"+current.get(Calendar.YEAR);
         try {
             currentTime=TimeFormat.parse(new SimpleDateFormat("HH : mm",Locale.UK).format(new Date()));
         }
@@ -181,7 +183,15 @@ public class Add_Medicine_PageTest {
 
     @Test
     public void FutureTimeFutureDate () {
-        date = current.get(Calendar.DAY_OF_MONTH)+"/"+current.get(Calendar.MONTH)+"/"+(current.get(Calendar.YEAR)+1);
+        date = (current.get(Calendar.DAY_OF_MONTH)+2)+"/"+(current.get(Calendar.MONTH)+1)+"/"+(current.get(Calendar.YEAR));
+        String time = "23 : 14";
+        boolean isFutureTime = medicine.checkDayandTime(date,time);
+        assertTrue(isFutureTime);
+    }
+
+    @Test
+    public void FutureTimeFutureYear () {
+        date = (current.get(Calendar.DAY_OF_MONTH))+"/"+(current.get(Calendar.MONTH)+1)+"/"+(current.get(Calendar.YEAR)+1);
         String time = "23 : 14";
         boolean isFutureTime = medicine.checkDayandTime(date,time);
         assertTrue(isFutureTime);

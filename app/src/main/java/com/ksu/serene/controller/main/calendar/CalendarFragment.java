@@ -180,7 +180,12 @@ public class CalendarFragment extends Fragment {
                 String simpleDateFormat = sdf.format(currentDate);
                 int yearCurrent = Integer.parseInt(simpleDateFormat.substring(6, simpleDateFormat.length()));
                 //check when calendar date in past
-                if ((yearCurrent > i) ||
+                date = checkCalendarDate (i2, (i1+1) , i);
+                if ( date == null){
+                    Log.d("Past Date",i2+"/"+(i1+1)+"/"+i);
+                }
+
+                /*if ((yearCurrent > i) ||
                         (yearCurrent == i && (currentDate.getMonth() + 1) > (i1 + 1))
                         || (yearCurrent == i && (currentDate.getMonth() + 1) == (i1 + 1) && currentDate.getDate() > i2)) {
                     Log.d("Past", "Calendar Time");
@@ -197,7 +202,7 @@ public class CalendarFragment extends Fragment {
                         else if (i2 < 10)
                             date = "0" + i2 + "/" + (i1 + 1) + "/" + i;
                     }
-                }
+                }*/
 
             }
         });
@@ -776,4 +781,27 @@ public class CalendarFragment extends Fragment {
             SetMedRecyView(root, year, month, day);
         }*/
     }
+
+    public String checkCalendarDate (int day, int month, int year) {
+        Calendar current = Calendar.getInstance();
+        if ( ( year > current.get(Calendar.YEAR) )
+                || ( year == current.get(Calendar.YEAR) && month > (current.get(Calendar.MONTH)+1) )
+                || ( year == current.get(Calendar.YEAR) && month == (current.get(Calendar.MONTH)+1) && day > current.get(Calendar.DAY_OF_MONTH) )
+                ||  year == current.get(Calendar.YEAR) && month == (current.get(Calendar.MONTH)+1) && day == current.get(Calendar.DAY_OF_MONTH) ) {
+            if ( month < 10) {
+                if (day > 10)
+                    return day + "/0" + month + "/" + year;
+                else if (day < 10)
+                    return "0" + day + "/0" + month + "/" + year;
+            }
+            else {
+                if (day > 10)
+                    return day + "/" + month + "/" + year;
+                else if (day < 10)
+                    return "0" + day + "/" + month + "/" + year;
+            }
+        }
+        return null;
+    }
+
 }

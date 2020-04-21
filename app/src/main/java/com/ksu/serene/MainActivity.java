@@ -60,6 +60,8 @@ import com.ksu.serene.fitbitManager.SensorService;
 import com.ksu.serene.fitbitManager.Util;
 import com.ksu.serene.fitbitManager.FitbitWorker;
 import com.ksu.serene.controller.main.profile.PatientProfile;
+import com.ksu.serene.controller.signup.Questionnairs;
+import com.ksu.serene.controller.signup.FitbitConnection;
 import com.ksu.serene.model.MySharedPreference;
 import com.ksu.serene.model.Patient;
 
@@ -271,6 +273,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
+        checkSingupSetting ();
         todayNotifications();
         profile.setVisibility(View.VISIBLE);
     }
@@ -699,5 +702,56 @@ public class MainActivity extends AppCompatActivity implements
 
     }//end of method
 
+    //check sign up setting
+    private void checkSingupSetting () {
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        Log.d("user ID", user.getUid()+"");
+        //seach in firebase of that id
+        final DocumentReference userRev = FirebaseFirestore.getInstance().collection("Patient").document(user.getUid());
+        userRev.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                //search if one of the socio quaestion founds
+                if (documentSnapshot.get("age") != null) {
+                    Log.d("age", documentSnapshot.get("age").toString());
+                    Log.d("Socio", "Answered");
+                    //search if gad questions answered
+                    if (documentSnapshot.get("GAD-7ScaleScore") != null) {
+                        Log.d("GAD-7ScaleScore", documentSnapshot.get("GAD-7ScaleScore").toString());
+                        Log.d("GAD-7ScaleScore", "Answered");
+                        //search if fitbit connected
+                        if (documentSnapshot.get("fitbit_access_token") != null) {
+                            Log.d("fitbit_access_token", documentSnapshot.get("fitbit_access_token").toString());
+                            Log.d("fitbit_access_token", "Connected");
+                        }
+                        else {
+                            Log.d("fitbit_access_token", "Not Connected");
+                            //go to fit bit page
+                            Toast.makeText(getApplicationContext(), R.string.SocioNotFound, Toast.LENGTH_LONG).show();
+                            Intent i = new Intent( getApplicationContext(), FitbitConnection.class );
+                            i.putExtra("Not Connected","MainActivity");
+                            startActivity(i);
+
+                        }
+                    }
+                    else {
+                        Log.d("GAD-7ScaleScore", "Not Answered");
+                        //go to gad page
+                        Toast.makeText(getApplicationContext(), R.string.SocioNotFound, Toast.LENGTH_LONG).show();
+                        //go to socio page
+                        Intent i = new Intent( getApplicationContext(), Questionnairs.class );
+                        startActivity(i);
+                    }
+                }
+                else {
+                    Log.d("Socio", "Not Answered");
+                    Toast.makeText(getApplicationContext(), R.string.SocioNotFound, Toast.LENGTH_LONG).show();
+                    //go to socio page
+                    Intent i = new Intent( getApplicationContext(), Questionnairs.class );
+                    startActivity(i);
+                }
+            }
+        });
+    }
 
 }

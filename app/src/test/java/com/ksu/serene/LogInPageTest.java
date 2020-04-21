@@ -33,6 +33,10 @@ public class LogInPageTest {
     FirebaseAuth mockFirebaseAuth;
     FirebaseUser mockFirebaseUser;
 
+    //TODO test for update token
+    //TODO test for check user state
+    //TODO test for check sign up setting
+
     @Before
     public void setUp() throws Exception {
         //make mock obg for firbaseAuth

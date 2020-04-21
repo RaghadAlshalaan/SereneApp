@@ -22,6 +22,7 @@ public class AddDoctorTest {
     private AddDoctor addDoctor;
     private String name, email;
 
+    //TODO test when add Doctor in DB
     @Before
     public void setUp() throws Exception {
         FirebaseFirestore mockFirebaseFirestore = Mockito.mock(FirebaseFirestore.class);

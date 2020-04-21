@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -43,6 +44,9 @@ public class FitbitConnection extends AppCompatActivity implements View.OnClickL
     private Button next, back;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String access_token;
+    private String main;
+    private LinearLayout linearLayout;
+
 
 
     @Override
@@ -61,6 +65,13 @@ public class FitbitConnection extends AppCompatActivity implements View.OnClickL
 
         next = findViewById(R.id.nextBtn);
         back = findViewById(R.id.backBtn);
+
+        linearLayout = findViewById(R.id.nav);
+        main =  getIntent().getStringExtra("Not Connected");
+        if (main.equals("MainActivity")) {
+            linearLayout.setVisibility(View.INVISIBLE);
+        }
+
 
         // go to next page
         next.setOnClickListener(new View.OnClickListener() {
@@ -201,5 +212,17 @@ public class FitbitConnection extends AppCompatActivity implements View.OnClickL
                 });
 
     }
+
+    @Override
+    public void onBackPressed() {
+        if (main.equals("MainActivity")) {
+            //do nothing
+        }
+        //else
+        else {
+            super.onBackPressed();
+        }
+    }
+
 
 }

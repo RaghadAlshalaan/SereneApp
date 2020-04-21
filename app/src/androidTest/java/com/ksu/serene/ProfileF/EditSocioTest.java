@@ -325,19 +325,6 @@ public class EditSocioTest {
                 .check(matches(withText(R.string.NotCorrectCD)));
     }
 
-   /* @Test
-    public void updateSocioFail () {
-        onView(withId(R.id.age)).perform(typeText("20"));
-        onView(withId(R.id.height)).perform(typeText("150"));
-        onView(withId(R.id.weight)).perform(typeText("50"));
-        onView(withId(R.id.income)).perform(typeText("500"));
-        onView(withId(R.id.button)).perform(click());
-        // check toast visibility
-        onView(withText("Error updating document"))
-                .inRoot(new ToastMatcher())
-                    .check(matches(withText("Error updating document")));
-    }*/
-
     @Test
     public void updateSocioSucccess () {
         onView(withId(R.id.age)).perform(replaceText("23"));
@@ -362,6 +349,31 @@ public class EditSocioTest {
             onView(withText(R.string.SocioInfoUpdateSuccess))
                     .inRoot(new ToastMatcher())
                     .check(matches(withText(R.string.SocioInfoUpdateSuccess)));
+        }
+        //clean upp
+        finally {
+            IdlingRegistry.getInstance().unregister(idlingResource);
+        }
+    }
+
+    @Test
+    public void updateSocioFail () {
+        onView(withId(R.id.age)).perform(typeText("20"));
+        onView(withId(R.id.height)).perform(typeText("150"));
+        onView(withId(R.id.weight)).perform(typeText("50"));
+        onView(withId(R.id.income)).perform(typeText("500"));
+        //add timer to disconnect internet connection from simulater
+        IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
+        IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
+        //Now we waite
+        IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
+        try {
+            IdlingRegistry.getInstance().register(idlingResource);
+            onView(withId(R.id.button)).perform(click());
+            // check toast visibility
+            onView(withText(R.string.SocioInfoUpdateFialed))
+                    .inRoot(new ToastMatcher())
+                    .check(matches(withText(R.string.SocioInfoUpdateFialed)));
         }
         //clean upp
         finally {

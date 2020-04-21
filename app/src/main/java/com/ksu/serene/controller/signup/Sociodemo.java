@@ -83,7 +83,10 @@ public class Sociodemo extends Fragment {
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     final String userEmail = user.getEmail();
 
-                    final Map<String, Object> userSocio = new HashMap<>();
+                    saveSocioDB (age, chronicDisease , employmentStatus, height, maritalStatus
+                            , monthlyIncome, cigaretteSmoke, weight, userEmail);
+
+                    /*final Map<String, Object> userSocio = new HashMap<>();
                     userSocio.put("age", age);
                     userSocio.put("chronicDiseases", chronicDisease);
                     userSocio.put("employmentStatus", employmentStatus);
@@ -135,7 +138,7 @@ public class Sociodemo extends Fragment {
                                         }
                                     }
                                 }
-                            });
+                            });*/
 
                 }
 
@@ -248,13 +251,6 @@ public class Sociodemo extends Fragment {
         monthlyIncome = monthlyIncomeET.getText().toString();
         chronicDisease = chronicDiseaseET.getText().toString();
 
-        /*if( heightET.getText().toString().matches("") || weightET.getText().toString().matches("") || employmentStatus.matches("") || maritalStatus.matches("") ||
-                monthlyIncomeET.getText().toString().matches("") || cigaretteSmoke.matches("") || ageET.getText().toString().matches("") || chronicDiseaseET.getText().toString().matches("")) {
-
-            Toast.makeText(getActivity(), R.string.EmptyFields,Toast.LENGTH_LONG).show();
-            return flag;
-
-        }*/
         if (! checkSocioFields (age,height,weight,monthlyIncome,chronicDisease
                 ,employmentStatus,maritalStatus,cigaretteSmoke) ) {
             Toast.makeText(getActivity(), R.string.EmptyFields,Toast.LENGTH_LONG).show();
@@ -267,40 +263,30 @@ public class Sociodemo extends Fragment {
             Toast.makeText(getActivity(), R.string.NotValidAge,Toast.LENGTH_LONG).show();
             return flag;
         }
-        /*if ((ageI > 110) || (ageI < 5)){
-        }*/
 
         double heightI = Double.parseDouble(height);
         if (!isValidHeight(heightI)){
             Toast.makeText(getActivity(), R.string.NotValidHeight,Toast.LENGTH_LONG).show();
             return flag;
         }
-        /*if ((heightI > 300) || (heightI < 50)){
-        }*/
 
         double weightI = Double.parseDouble(weight);
         if (!isValidWeight(weightI)){
             Toast.makeText(getActivity(), R.string.NotValidWeight,Toast.LENGTH_LONG).show();
             return flag;
         }
-        /*if ((weightI > 300) || (weightI < 20)){
-        }*/
 
         double monthlyIncomeI = Double.parseDouble(monthlyIncome);
         if (!isValidMonthlyIncome(monthlyIncomeI)){
             Toast.makeText(getActivity(), R.string.NotValidMI,Toast.LENGTH_LONG).show();
             return flag;
         }
-        /*if ((monthlyIncomeI > 5000000) || (monthlyIncomeI < 0)){
-        }*/
 
         // CHECK CHRONIC DISEASE
         if (!isValidChronicDisease(chronicDisease)){
             Toast.makeText(getActivity(), R.string.NotValidCD,Toast.LENGTH_LONG).show();
             return flag;
         }
-        /*if( !chronicDisease.matches("^[ A-Za-z]+$")){
-        }*/
 
         return true;
     }
@@ -353,4 +339,65 @@ public class Sociodemo extends Fragment {
         return true;
     }
 
+    public void saveSocioDB (String age, String chronicDisease
+            , String employmentStatus, String  height, String maritalStatus
+            , String monthlyIncome, String cigaretteSmoke, String weight, String userEmail) {
+        // Upload socio data to user document in DB
+
+
+        final Map<String, Object> userSocio = new HashMap<>();
+        userSocio.put("age", age);
+        userSocio.put("chronicDiseases", chronicDisease);
+        userSocio.put("employmentStatus", employmentStatus);
+        userSocio.put("height", height);
+        userSocio.put("maritalStatus", maritalStatus);
+        userSocio.put("monthlyIncome", monthlyIncome);
+        userSocio.put("smokeCigarettes", cigaretteSmoke);
+        userSocio.put("weight", weight);
+
+        db.collection("Patient").whereEqualTo("email", userEmail)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (!task.getResult().isEmpty()) {
+                                for (DocumentSnapshot document : task.getResult()) {
+
+                                    String id = document.getId();
+
+                                    db.collection("Patient")
+                                            .document(id).update(userSocio)
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    //added this toast needed in test
+                                                    Toast.makeText(getActivity(), R.string.SocioSuccess,
+                                                            Toast.LENGTH_SHORT).show();
+
+                                                    GAD7 fragmentGAD = new GAD7();
+                                                    FragmentManager fm = getFragmentManager();
+                                                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                                                    fragmentTransaction.replace(R.id.qContainer, fragmentGAD);
+                                                    fragmentTransaction.addToBackStack(null);
+                                                    fragmentTransaction.commit();
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(getActivity(), R.string.SocioFialed,
+                                                    Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                                }
+                            } else {
+
+                                Toast.makeText(getActivity(), R.string.SocioFialed,
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+                });
+
+    }
 }

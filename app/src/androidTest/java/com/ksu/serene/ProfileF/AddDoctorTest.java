@@ -217,6 +217,37 @@ public class AddDoctorTest {
        // assertTrue(addDoctor.isFinishing());
     }
 
+    @Test
+    public void addDoctorFailer () {
+        //enter valid email
+        onView(withId(R.id.emailET)).perform(typeText("lama449@gmail.com"));
+        //close Keyboard
+        closeSoftKeyboard();
+        //enter valid name
+        onView(withId(R.id.nameET)).perform(typeText("Ahmed"));
+        //close Keyboard
+        closeSoftKeyboard();
+        //add timer to disconnect internet connection from simulater
+        IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
+        IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
+        //Now we waite
+        IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
+        try {
+            IdlingRegistry.getInstance().register(idlingResource);
+            //click the button
+            onView(withId(R.id.confirm)).perform(click());
+            // check toast visibility
+            onView(withText(R.string.AddDocFialed))
+                    .inRoot(new ToastMatcher())
+                    .check(matches(withText(R.string.AddDocFialed)));
+        }
+        //clean upp
+        finally {
+            IdlingRegistry.getInstance().unregister(idlingResource);
+        }
+
+    }
+
     @After
     public void tearDown() throws Exception {
         //activityTestRule.finishActivity();//.launchActivity(new Intent());

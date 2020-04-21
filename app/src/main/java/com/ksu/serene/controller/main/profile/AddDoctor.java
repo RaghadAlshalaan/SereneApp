@@ -67,32 +67,19 @@ public class AddDoctor extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*if ( TextUtils.isEmpty(name.getText().toString() ) || TextUtils.isEmpty(email.getText().toString() ) ){
-                    Toast.makeText(AddDoctor.this, R.string.EmptyFields, Toast.LENGTH_LONG).show();
-                }*/
                 if ( ! EmptyFields(name.getText().toString(),email.getText().toString() )) {
                     Toast.makeText(AddDoctor.this, R.string.EmptyFields, Toast.LENGTH_LONG).show();
                     return;
                 }
                 else {
 
-                    /*if (!email.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
-                        Toast.makeText(AddDoctor.this, R.string.emailFormat,
-                                Toast.LENGTH_LONG).show();
-                        email.setText("");
-                        return;
-                    }*/
+
                     if (! checkEmailValidation (email.getText().toString())){
                         Toast.makeText(AddDoctor.this, R.string.emailFormat,Toast.LENGTH_LONG).show();
                         email.setText("");
                         return;
                     }
 
-                    /*if (!name.getText().toString().matches("^[ A-Za-z-.]+$")) {
-                    Toast.makeText(AddDoctor.this, R.string.nameFormat,
-                            Toast.LENGTH_LONG).show();
-                    name.setText("");
-                    return;}*/
                     if (! checkNameValidation(name.getText().toString())){
                         Toast.makeText(AddDoctor.this, R.string.nameFormat,Toast.LENGTH_LONG).show();
                         name.setText("");

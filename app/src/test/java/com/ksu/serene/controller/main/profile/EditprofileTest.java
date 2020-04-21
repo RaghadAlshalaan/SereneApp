@@ -35,6 +35,11 @@ public class EditprofileTest {
     FirebaseAuth mockFirebaseAuth;
     FirebaseUser mockFirebaseUser;
 
+    //TODO test retrieve name form DB
+    //TODO test update Token in DB
+    //TODO test chang password DB && Auth
+    //TODO test change image
+
     @Before
     public void setUp() throws Exception {
         //make mock obj for firestore
@@ -204,6 +209,7 @@ public class EditprofileTest {
         verify(taskMock, times(1)).addOnCompleteListener(any(OnCompleteListener.class));
     }
 
+    //TODO test update name in DB
     @Test
     public void updateName () {
         name = "newName";

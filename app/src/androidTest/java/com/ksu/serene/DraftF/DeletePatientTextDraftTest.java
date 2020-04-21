@@ -117,21 +117,36 @@ public class DeletePatientTextDraftTest {
         //click delete button
         onView(withText(R.string.DeleteOKTD)).perform(click());
         // check toast visibility
-       // onView(withText(R.string.TDDeletedSuccess)).inRoot(new ToastMatcher()).check(matches(withText(R.string.TDDeletedSuccess)));
-        //check activity will showen
-        //onView(withId(R.id.allDraft)).check(matches(isDisplayed()));
-        /*IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
+        // onView(withText(R.string.TDDeletedSuccess)).inRoot(new ToastMatcher()).check(matches(withText(R.string.TDDeletedSuccess)));
+        // TODO check the activity is finish
+    }
+
+    @Test
+    public void DeleteOKFailer () {
+        //click button
+        onView(withId(R.id.delete)).perform(click());
+        //delete dialog will appear
+        onView(withText(R.string.DeleteMessageTD))
+                .inRoot(isDialog()) // <---
+                .check(matches(isDisplayed()));
+        //add timer to disconnect internet connection form simulater
+        IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
         IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
         //Now we waite
         IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
         try {
             IdlingRegistry.getInstance().register(idlingResource);
+            //click delete button
+            onView(withText(R.string.DeleteOKTD)).perform(click());
+            // check toast visibility
+            onView(withText(R.string.TDDeletedFialed))
+                    .inRoot(new ToastMatcher())
+                    .check(matches(withText(R.string.TDDeletedFialed)));
         }
         //clean upp
         finally {
             IdlingRegistry.getInstance().unregister(idlingResource);
-        }*/
-
+        }
     }
 
     @After

@@ -34,6 +34,8 @@ public class AddTextDraftPageTest {
     private ArgumentCaptor<OnCompleteListener> onComplete;
 
 
+    //TODO test when saveDraft in DB
+
     @Before
     public void setUp() throws Exception {
         mockFirebaseFirestore = Mockito.mock(FirebaseFirestore.class);

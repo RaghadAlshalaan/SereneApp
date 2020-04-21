@@ -44,6 +44,9 @@ public class SignupTest {
     @Mock Task<AuthResult> mockAuthResultTask;
     @Mock AuthResult mockAuthResult;
 
+    //TODO test for update token
+    //TODO test save user in DB
+
     @Before
     public void setUp() throws Exception {
         //make mock obj for fireAuth
@@ -203,7 +206,8 @@ public class SignupTest {
         assertTrue(lengthConfirmPassFine);
     }
 
-    @Test public void testCreateUserWithNameEmailAndPassword() {
+    @Test
+    public void testCreateUserWithNameEmailAndPassword() {
         //set the mock data for registration
         String email = "somusername@hotmail.com";
         String password = "password";
@@ -234,7 +238,8 @@ public class SignupTest {
         verify(taskMock, times(1)).addOnCompleteListener(any(Signup.class), any(MyOnCompleteListener.class));
     }
 
-    @Test public void testCreateUserWithUnvalidEmail() {
+    @Test
+    public void testCreateUserWithUnvalidEmail() {
         //set the mock data for registration
         String email = "somusername@45.com";
         String password = "password";
@@ -249,7 +254,8 @@ public class SignupTest {
         verify(taskMock, times(1)).addOnCompleteListener(any(Signup.class), any(MyOnCompleteListener.class));
     }
 
-    @Test public void testCreateUserWithShortPass() {
+    @Test
+    public void testCreateUserWithShortPass() {
         //set the mock data for registration
         String email = "somusername@hotmail.com";
         String password = "pass";
@@ -262,6 +268,16 @@ public class SignupTest {
 
         verify(mockFirebaseAuth, times(1)).createUserWithEmailAndPassword(email,password);
         verify(taskMock, times(1)).addOnCompleteListener(any(Signup.class), any(MyOnCompleteListener.class));
+    }
+
+    @Test
+    public void sendVerficstionEmail () {
+        Task taskMock = Mockito.mock(Task.class);
+        when(mockFirebaseUser.sendEmailVerification()).thenReturn(taskMock);
+        signup.sendVerificationEmail();
+        verify(mockFirebaseUser, times(1)).sendEmailVerification();
+        //verify(taskMock, times(1)).addOnCompleteListener(any(), any());
+
     }
 
 }

@@ -367,7 +367,7 @@ public class Signup extends AppCompatActivity {
                 });
     }
 
-    private void sendVerificationEmail() {
+    public void sendVerificationEmail() {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 

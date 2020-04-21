@@ -22,6 +22,9 @@ public class PatientTextDraftDetailPageTest {
     private PatientTextDraftDetailPage textDraft;
     String title, msg;
 
+    //TODO test retrieve data from DB
+    //TODO test update data in DB
+    //TODO test delete data in DB
 
     @Before
     public void setUp() throws Exception {

@@ -226,30 +226,28 @@ public class EditprofileTest {
                 .check(matches(withText(R.string.UpdateNameSuccess)));
     }
 
-
-     /*  @Test
-    public void passUpdateSFail () {
-        onView(withId(R.id.username)).perform(typeText("user"));
-        onView(withId(R.id.oldPassword)).perform(typeText("password00"));
-        onView(withId(R.id.newPassword)).perform(typeText("password99"));
-        onView(withId(R.id.reNewPassword)).perform(typeText("password00"));
-        onView(withId(R.id.save)).perform(click());
-        // check toast visibility
-        onView(withText(R.string.passwordNotUpdated))
-                .inRoot(new ToastMatcher())
-                    .check(matches(withText(R.string.passwordNotUpdated)));
-    }*/
-
-    /* @Test
+    @Test
     public void updateNameFail () {
         onView(withId(R.id.username)).check(matches(withText("user")));
         onView(withId(R.id.username)).perform(replaceText("user11"));
-        onView(withId(R.id.save)).perform(click());
-        // check toast visibility
-        onView(withText("Error updating document"))
-                .inRoot(new ToastMatcher())
-                    .check(matches(withText("Error updating document")));
-    }*/
+        //add timer to disconnect internet connection form simulater
+        IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
+        IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
+        //Now we waite
+        IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
+        try {
+            IdlingRegistry.getInstance().register(idlingResource);
+            onView(withId(R.id.save)).perform(click());
+            // check toast visibility
+            onView(withText(R.string.UpdateNameFialed))
+                    .inRoot(new ToastMatcher())
+                    .check(matches(withText(R.string.UpdateNameFialed)));
+        }
+        //clean upp
+        finally {
+            IdlingRegistry.getInstance().unregister(idlingResource);
+        }
+    }
 
     @After
     public void tearDown() throws Exception {

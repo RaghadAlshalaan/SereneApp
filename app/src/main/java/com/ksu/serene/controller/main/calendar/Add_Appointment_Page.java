@@ -48,11 +48,13 @@ public class Add_Appointment_Page extends AppCompatActivity {
     private Button Confirm;
     private ImageView back;
     private Calendar calendar ;
+    private Calendar current = Calendar.getInstance();
     private SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String appDocumentID;
     private Timestamp dateTS;
     private String date;
+    private Calendar calendarTimeStamp = Calendar.getInstance();
 
     //for  day
     private final DatePickerDialog.OnDateSetListener AppDate = new DatePickerDialog.OnDateSetListener() {
@@ -63,7 +65,8 @@ public class Add_Appointment_Page extends AppCompatActivity {
             calendar.set(Calendar.MONTH, monthOfYear);
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-            Date.setText(DateFormat.format(calendar.getTime()));
+            //Date.setText(DateFormat.format(calendar.getTime()));
+            Date.setText(calendar.get(Calendar.DAY_OF_MONTH)+"/"+calendar.get(Calendar.MONTH)+"/"+calendar.get(Calendar.YEAR) );
         }
     };
 
@@ -156,7 +159,7 @@ public class Add_Appointment_Page extends AppCompatActivity {
     }
     //The method for check if all field empty or not
     public boolean checkFields (String AName, String time, String date ) {
-        if ( AName != null && !(AName.equals("")) && !(time.equals("Set Time")) && !(date.equals("Set Day"))  ){
+        if ( !(AName.equals("")) && !(time.equals("Set Time")) && !(date.equals("Set Day"))  ){
             return true;
         }
         return false;
@@ -165,11 +168,12 @@ public class Add_Appointment_Page extends AppCompatActivity {
     //check if time after current time when the Date is current date
     public boolean checkDayandTime (String date, String time) {
         SimpleDateFormat TimeFormat = new SimpleDateFormat ("HH : mm", Locale.UK);
-        SimpleDateFormat DateFormat = new SimpleDateFormat ("dd/MM/yy");
         Date CurrentDate = new Date();
         //convert string to date to used in compare
         try {
             AD = DateFormat.parse(date);
+            dateTS = new Timestamp(AD);
+            calendarTimeStamp.setTimeInMillis(dateTS.getSeconds()*1000);
             AT = TimeFormat.parse(time);
             CuttentTime = TimeFormat.parse(new SimpleDateFormat("HH : mm",Locale.UK).format(new Date()));
         }
@@ -177,26 +181,29 @@ public class Add_Appointment_Page extends AppCompatActivity {
             e.printStackTrace();
         }
         // if the  day after current date no need for check for time
-        if ( (AD.after(CurrentDate))  ){
+        if ( calendarTimeStamp.get(Calendar.YEAR) > current.get(Calendar.YEAR)
+                || ( calendarTimeStamp.get(Calendar.YEAR) == current.get(Calendar.YEAR)
+                        && (calendarTimeStamp.get(Calendar.MONTH)+1)> (current.get(Calendar.MONTH)+1) )
+                || ( calendarTimeStamp.get(Calendar.YEAR) == current.get(Calendar.YEAR)
+                        && (calendarTimeStamp.get(Calendar.MONTH)+1)  == (current.get(Calendar.MONTH)+1)
+                        && calendarTimeStamp.get(Calendar.DAY_OF_MONTH) > current.get(Calendar.DAY_OF_MONTH) ) )  {
             return true;
         }
         //check if the  date is the current date the time is after or same current time, if not return false after display meaningful message
-        if ( (AD.compareTo(CurrentDate) == 0 || AD.before(CurrentDate)) ) {
-            //check for time, if it before current time return false with meaningful message
-            if (AT.before(CuttentTime) || (AT.compareTo(CuttentTime) == 0)){
-                return false;
-            }
-            /*else {
+         else if (calendarTimeStamp.get(Calendar.YEAR) == current.get(Calendar.YEAR)
+                && (calendarTimeStamp.get(Calendar.MONTH)+1)== (current.get(Calendar.MONTH)+1)
+                && calendarTimeStamp.get(Calendar.DAY_OF_MONTH) == current.get(Calendar.DAY_OF_MONTH)) {
+            if ( AT.getHours() > CuttentTime.getHours()
+                    || ( AT.getHours() == CuttentTime.getHours() && AT.getMinutes() > CuttentTime.getMinutes() ) ){
                 return true;
-            }*/
+            }
         }
-         return true;
-
+         return false;
     }
 
     //save new appointment in firestore
     private void SaveNewApp (String AppName , String date , String time) {
-        SimpleDateFormat TimeFormat = new SimpleDateFormat ("hh : mm");
+        SimpleDateFormat TimeFormat = new SimpleDateFormat ("HH : mm",Locale.UK);
         Date CurrentDate = new Date();
         //convert string to date to used in make TherapySession obj
         try {

@@ -94,7 +94,6 @@ public class EditprofileTestUpdatePassName {
     @Test
     public void updateProfileSuccess () {
         //check the display name as expected
-//onView(withId(R.id.username)).check(matches(withText("user")));
         onView(withId(R.id.username)).check(matches(isDisplayed()));
         //change name to new valid name
         onView(withId(R.id.username)).perform(replaceText("lama"));
@@ -127,7 +126,6 @@ public class EditprofileTestUpdatePassName {
             IdlingRegistry.getInstance().unregister(idlingResource);
         }
     }
-
 
     @After
     public void tearDown() throws Exception {

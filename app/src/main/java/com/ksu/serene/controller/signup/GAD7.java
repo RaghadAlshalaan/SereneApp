@@ -66,7 +66,8 @@ public class GAD7 extends Fragment {
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     final String userEmail = user.getEmail();
 
-                    final Map<String, Object> userInfo = new HashMap<>();
+                    saveGadScoreDB ( userEmail, GAD7ScaleScore);
+                    /*final Map<String, Object> userInfo = new HashMap<>();
                     userInfo.put("GAD-7ScaleScore", GAD7ScaleScore);
 
 
@@ -97,7 +98,7 @@ public class GAD7 extends Fragment {
                                     }
 
                                 }
-                            });
+                            });*/
                 }
             }
         });
@@ -277,6 +278,40 @@ public class GAD7 extends Fragment {
         }
 
         return true;
+
+    }
+
+    public void saveGadScoreDB (String userEmail,String GAD7ScaleScore) {
+        final Map<String, Object> userInfo = new HashMap<>();
+        userInfo.put("GAD-7ScaleScore", GAD7ScaleScore);
+        db.collection("Patient")
+                .whereEqualTo("email", userEmail)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : task.getResult()) {
+                                String id = document.getId();
+
+                                db.collection("Patient")
+                                        .document(id).update(userInfo);
+                            }
+
+                            //added this toast needed in test
+                            Toast.makeText(getActivity(), R.string.GADSuccess,
+                                    Toast.LENGTH_LONG).show();
+                            Intent i = new Intent(getActivity(), FitbitConnection.class);
+                            getActivity().startActivity(i);
+
+                        } else {System.out.println("Error getting documents: ");
+                            //added this toast needed in test
+                            Toast.makeText(getActivity(), R.string.GADFialed,
+                                    Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                });
 
     }
 

@@ -38,6 +38,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.ksu.serene.controller.Constants;
+import com.ksu.serene.controller.signup.FitbitConnection;
 import com.ksu.serene.controller.signup.Questionnairs;
 import com.ksu.serene.controller.signup.Signup;
 import com.ksu.serene.model.Token;
@@ -236,8 +237,6 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        //first check if all sign up setting complate
-                        checkSingupSetting ();
                         checkIfEmailVerified();
 
                         String[] PERMISSIONS = {
@@ -354,61 +353,15 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
 
     }
 
-    private void checkSingupSetting () {
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        Log.d("user ID", user.getUid()+"");
-        //seach in firebase of that id
-        final DocumentReference userRev = FirebaseFirestore.getInstance().collection("Patient").document(user.getUid());
-        userRev.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                //search if one of the socio quaestion founds
-                if (documentSnapshot.get("age") != null) {
-                    Log.d("age", documentSnapshot.get("age").toString());
-                    Log.d("Socio", "Answered");
-                    //search if gad questions answered
-                    if (documentSnapshot.get("GAD-7ScaleScore") != null) {
-                        Log.d("GAD-7ScaleScore", documentSnapshot.get("GAD-7ScaleScore").toString());
-                        Log.d("GAD-7ScaleScore", "Answered");
-                        //search if fitbit connected
-                        if (documentSnapshot.get("fitbit_access_token") != null) {
-                            Log.d("fitbit_access_token", documentSnapshot.get("fitbit_access_token").toString());
-                            Log.d("fitbit_access_token", "Connected");
-                        }
-                        else {
-                            Log.d("fitbit_access_token", "Not Connected");
-                            //go to fit bit page
-
-                        }
-                    }
-                    else {
-                        Log.d("GAD-7ScaleScore", "Not Answered");
-                        //go to gad page
-
-                    }
-                }
-                else {
-                    Log.d("Socio", "Not Answered");
-                    Toast.makeText(LogInPage.this, R.string.SocioNotFound, Toast.LENGTH_LONG).show();
-                    //go to socio page
-                    Intent i = new Intent( LogInPage.this, Questionnairs.class );
-                    startActivity(i);
-                }
-            }
-        });
-    }
-
-
-
     @Override
     protected void onStart() {
         super.onStart();
+        //checkSingupSetting ();
         checkUserState();
     }
 
     public boolean CheckLogInFields (String email, String password){
-        if ( !email.equals("") && email!=null
-                && !password.equals("") && password!=null ) {
+        if ( !email.equals("") && !password.equals("")  ) {
             return true;
         }
         return false;
@@ -416,7 +369,7 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
 
     // for forget Password
     public boolean CheckEmailField (String email){
-        if ( !email.equals("") && email!=null ) {
+        if ( !email.equals("") ) {
             return true;
         }
         return false;

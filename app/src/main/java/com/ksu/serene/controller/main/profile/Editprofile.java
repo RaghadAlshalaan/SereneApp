@@ -424,9 +424,8 @@ public class Editprofile extends AppCompatActivity {
 
                                                 });
                                         Log.d(TAG, "DocumentSnapshot successfully updated!");
-                                        //i need this toast please don't removed to ensure when test pass the image is teup in storage
+                                        //i need this toast please don't removed to ensure when test pass the image is downloaded in storage
                                         Toast.makeText(Editprofile.this, "DocumentSnapshot successfully updated!", Toast.LENGTH_LONG).show();
-                                        //imgInStorage.setText("DocumentSnapshot successfully updated!");
                                    }
 
                 }

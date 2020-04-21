@@ -37,6 +37,12 @@ public class EditSocio extends AppCompatActivity {
     private String TAG = EditSocio.class.getSimpleName();
     private boolean flag = false;
     private ImageView back;
+    private ArrayAdapter <CharSequence> adapter = ArrayAdapter.createFromResource(EditSocio.this,
+            R.array.employmentStatus, android.R.layout.simple_spinner_item);
+    private ArrayAdapter<CharSequence> adapterM = ArrayAdapter.createFromResource(EditSocio.this,
+            R.array.yes_no, android.R.layout.simple_spinner_item);
+    private ArrayAdapter<CharSequence> adapterS = ArrayAdapter.createFromResource(EditSocio.this,
+            R.array.yes_no, android.R.layout.simple_spinner_item);
 
 
     @Override
@@ -64,8 +70,7 @@ public class EditSocio extends AppCompatActivity {
         });
 
 
-        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(EditSocio.this,
-                R.array.employmentStatus, android.R.layout.simple_spinner_item);
+       // final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(EditSocio.this,R.array.employmentStatus, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         employmentStatusET.setAdapter(adapter);
         employmentStatusET.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -79,8 +84,7 @@ public class EditSocio extends AppCompatActivity {
             }
         });
         // initiate the spinner 2
-        final ArrayAdapter<CharSequence> adapterM = ArrayAdapter.createFromResource(EditSocio.this,
-                R.array.yes_no, android.R.layout.simple_spinner_item);
+        //final ArrayAdapter<CharSequence> adapterM = ArrayAdapter.createFromResource(EditSocio.this,R.array.yes_no, android.R.layout.simple_spinner_item);
         adapterM.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         maritalStatusET.setAdapter(adapterM);
         maritalStatusET.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -94,8 +98,7 @@ public class EditSocio extends AppCompatActivity {
             }
         });
         // initiate the spinner 3
-        final ArrayAdapter<CharSequence> adapterS = ArrayAdapter.createFromResource(EditSocio.this,
-                R.array.yes_no, android.R.layout.simple_spinner_item);
+        //final ArrayAdapter<CharSequence> adapterS = ArrayAdapter.createFromResource(EditSocio.this, R.array.yes_no, android.R.layout.simple_spinner_item);
         adapterS.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cigaretteSmokeET.setAdapter(adapterS);
         cigaretteSmokeET.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -110,7 +113,8 @@ public class EditSocio extends AppCompatActivity {
         });
 
         //TODO retrieve all fileds from firebase
-        db.collection("Patient")
+        retrieveData ();
+        /*db.collection("Patient")
                 .document(mAuth.getUid())
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -132,7 +136,7 @@ public class EditSocio extends AppCompatActivity {
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(EditSocio.this, "Fails to get data", Toast.LENGTH_LONG).show();
             }
-        });
+        });*/
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,9 +185,6 @@ public class EditSocio extends AppCompatActivity {
         monthlyincomeS = monthlyincome.getText().toString();
         chronicDS = chronicD.getText().toString();
         // Fields Validations
-        /*if (heightS.matches("") || wieghtS.matches("") || employmentStatus.matches("") || maritalStatus.matches("") ||
-                monthlyincomeS.matches("") || cigaretteSmoke.matches("") || ageS.matches("") || chronicDS.matches("")) {
-        }*/
         if (!checkSocioFields(ageS,heightS,wieghtS,monthlyincomeS,chronicDS,employmentStatus,maritalStatus,cigaretteSmoke)){
             Toast.makeText(EditSocio.this, R.string.EmptyFields,Toast.LENGTH_LONG).show();
             return flag;
@@ -194,40 +195,29 @@ public class EditSocio extends AppCompatActivity {
             Toast.makeText(EditSocio.this, R.string.NotCorrectAge,Toast.LENGTH_LONG).show();
             return flag;
         }
-        /*if ((ageI > 110) || (ageI < 5)){
-        }*/
         //height format
         double heightI = Double.parseDouble(heightS);
         if (!isValidHeight(heightI)){
             Toast.makeText(EditSocio.this, R.string.NotCorrectHeight,Toast.LENGTH_LONG).show();
             return flag;
         }
-        /*if ((heightI > 300) || (heightI < 50)){
-        }*/
         //weight format
         double weightI = Double.parseDouble(wieghtS);
         if (!isValidWeight(weightI)){
             Toast.makeText(EditSocio.this, R.string.NotCorrectWeight,Toast.LENGTH_LONG).show();
             return flag;
         }
-        /*if ((weightI > 300) || (weightI < 20)){
-        }*/
         //MI format
         double monthlyIncomeI = Double.parseDouble(monthlyincomeS);
         if (!isValidMonthlyIncome(monthlyIncomeI)){
             Toast.makeText(EditSocio.this, R.string.NotCorrectMI,Toast.LENGTH_LONG).show();
             return flag;
         }
-        /*if ((monthlyIncomeI > 5000000) || (monthlyIncomeI < 0)){
-        }*/
-        //CD format
         // CHECK CHRONIC DISEASE
         if (!isValidChronicDisease(chronicDS)){
             Toast.makeText(EditSocio.this, R.string.NotCorrectCD,Toast.LENGTH_LONG).show();
             return flag;
         }
-        /*if( !chronicDS.matches("^[ A-Za-z]+$")){
-        }*/
         return true;
     }
 
@@ -334,6 +324,33 @@ public class EditSocio extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    public void retrieveData () {
+        db.collection("Patient")
+                .document(mAuth.getUid())
+                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                age.setText(documentSnapshot.get("age").toString());
+                height.setText(documentSnapshot.get("height").toString());
+                wieght.setText(documentSnapshot.get("weight").toString());
+                monthlyincome.setText(documentSnapshot.get("monthlyIncome").toString());
+                chronicD.setText(documentSnapshot.get("chronicDiseases").toString());
+                int posEmp = adapter.getPosition(documentSnapshot.get("employmentStatus").toString());
+                employmentStatusET.setSelection(posEmp);
+                int posMar = adapterM.getPosition(documentSnapshot.get("maritalStatus").toString());
+                maritalStatusET.setSelection(posMar);
+                int posSmok = adapterS.getPosition(documentSnapshot.get("smokeCigarettes").toString());
+                cigaretteSmokeET.setSelection(posSmok);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(EditSocio.this, "Fails to get data", Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
 }

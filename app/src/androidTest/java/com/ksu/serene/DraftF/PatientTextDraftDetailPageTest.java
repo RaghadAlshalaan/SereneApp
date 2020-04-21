@@ -109,8 +109,6 @@ public class PatientTextDraftDetailPageTest {
             onView(withText(R.string.TDUpdatedSuccess))
                     .inRoot(new ToastMatcher())
                     .check(matches(withText(R.string.TDUpdatedSuccess)));
-            //check activity is showen
-            //onView(withId(R.id.allDraft)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -151,6 +149,33 @@ public class PatientTextDraftDetailPageTest {
         onView(withId(R.id.backButton)).check(matches(isClickable()));
         //perform click on back button
         onView(withId(R.id.backButton)).perform(click());
+    }
+
+    @Test
+    public void EditDraftFailer () {
+        //enter title
+        onView(withId(R.id.TitleTextD)).perform(replaceText("Update Title"));
+        //close keyboard
+        closeSoftKeyboard();
+        ///leave subj as it is
+        //add timer to disconnect internet connection from simulater
+        IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
+        IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
+        //Now we waite
+        IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
+        try {
+            IdlingRegistry.getInstance().register(idlingResource);
+            //press button
+            onView(withId(R.id.SaveChanges)).perform(click());
+            // check toast visibility
+            onView(withText(R.string.TDUpdatedFialed))
+                    .inRoot(new ToastMatcher())
+                    .check(matches(withText(R.string.TDUpdatedFialed)));
+        }
+        //clean upp
+        finally {
+            IdlingRegistry.getInstance().unregister(idlingResource);
+        }
     }
 
     @After

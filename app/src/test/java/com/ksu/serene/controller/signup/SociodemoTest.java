@@ -23,13 +23,14 @@ public class SociodemoTest {
     private Sociodemo socioDemo;
     private String age,height,weight,MI,CD;
 
+    ///TODO test for save the socio in DB
+
     @Before
     public void setUp() throws Exception {
         FirebaseFirestore mockFirebaseFirestore = Mockito.mock(FirebaseFirestore.class);
         PowerMockito.mockStatic(FirebaseFirestore.class);
         when(FirebaseFirestore.getInstance()).thenReturn(mockFirebaseFirestore);
         socioDemo = new Sociodemo();
-        //TODO find the how to get the edit text
     }
 
     @Test

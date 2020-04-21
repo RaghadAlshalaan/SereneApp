@@ -4,11 +4,13 @@ import com.ksu.serene.ElapsedTimeIdlingResource;
 import com.ksu.serene.MainActivity;
 import com.ksu.serene.R;
 import com.ksu.serene.controller.main.drafts.draftsFragment;
+import com.ksu.serene.ToastMatcher;
 
 import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.After;
+import org.junit.Test;
 
 import java.util.concurrent.TimeUnit;
 
@@ -25,10 +27,13 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.ksu.serene.TestUtils.withRecyclerView;
+import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static org.junit.Assert.*;
+
 @RunWith(AndroidJUnit4.class)
-public class CustomAudioDialogClassPlayTest {
+public class CustomAudioDialogClassDeleteTest {
 
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<MainActivity>(MainActivity.class);
@@ -65,27 +70,13 @@ public class CustomAudioDialogClassPlayTest {
             //Now we waite
             IdlingResource idlingResource1 = new ElapsedTimeIdlingResource(5000);
             try {
-                IdlingRegistry.getInstance().register(idlingResource);
+                IdlingRegistry.getInstance().register(idlingResource1);
                 //activity
                 onView(withId(R.id.your_dialog_root_element)).check(matches(isDisplayed()));
                 //title
                 onView(withId(R.id.title)).check(matches(isDisplayed()));
-                //currentTime
-                onView(withId(R.id.currentTime)).check(matches(isDisplayed()));
-                //remaining Time
-                onView(withId(R.id.remainingTime)).check(matches(isDisplayed()));
-                //pause
-                onView(withId(R.id.pause)).check(matches(isDisplayed()));
-                //back button
-                onView(withId(R.id.backward)).check(matches(isDisplayed()));
-                //forward button
-                onView(withId(R.id.forward)).check(matches(isDisplayed()));
-                //speed
-                onView(withId(R.id.speed)).check(matches(isDisplayed()));
                 //delete button
                 onView(withId(R.id.delete)).check(matches(isDisplayed()));
-                //cancel button
-                onView(withId(R.id.cancel)).check(matches(isDisplayed()));
             }
             //clean upp
             finally {
@@ -99,51 +90,66 @@ public class CustomAudioDialogClassPlayTest {
     }
 
     @Test
-    public void PlayAudio () {
-        //click on the play button
-        onView(withId(R.id.pause)).perform(click());
-        //TODO check the text time changed
+    public void DeleteCancle () {
+        //click button
+        onView(withId(R.id.delete)).perform(click());
+        //delete dialog will appear
+        onView(withText(R.string.DeleteMessageAudio))
+                .inRoot(isDialog()) // <---
+                .check(matches(isDisplayed()));
+        //click cancle button
+        onView(withText(R.string.no)).perform(click());
+        //nothing will be happen
     }
 
     @Test
-    public void PlayAudioBack () {
-        //click on the play button
-        onView(withId(R.id.pause)).perform(click());
-        //TODO check the text time changed
-            //click the backward button
-            onView(withId(R.id.backward)).perform(click());
-            //TODO check the text time changed
-    }
-
-    @Test
-    public void PlayAudioFor () {
-        //click on the play button
-        onView(withId(R.id.pause)).perform(click());
-        //TODO check the text time changed
-        //click the forward button
-        onView(withId(R.id.forward)).perform(click());
-        //TODO check the text time changed
-    }
-
-    @Test
-    public void PlayAudioSpeed () {
-        //click on the play button
-        onView(withId(R.id.pause)).perform(click());
-        //TODO check the text time changed
-        //click the speed button
-        onView(withId(R.id.speed)).perform(click());
-        //TODO check the text time changed
-    }
-
-    //Test When cancle button click
-    @Test
-    public void CancleButton () {
-        //cancel button click
-        onView(withId(R.id.cancel)).perform(click());
+    public void DeleteOK () {
+        //click button
+        onView(withId(R.id.delete)).perform(click());
+        //delete dialog will appear
+        onView(withText(R.string.DeleteMessageAudio))
+                .inRoot(isDialog()) // <---
+                .check(matches(isDisplayed()));
+        //click delete button
+        onView(withText(R.string.yes)).perform(click());
+        // check toast visibility
+        onView(withText(R.string.AudioDeletedSuccess))
+                .inRoot(new ToastMatcher()).check(matches(withText(R.string.AudioDeletedSuccess)));
         //check the activity is shown
         onView(withId(R.id.allDraft)).check(matches(isDisplayed()));
     }
 
+    @Test
+    public void DeleteOKFailer () {
+        //click button
+        onView(withId(R.id.delete)).perform(click());
+        //delete dialog will appear
+        onView(withText(R.string.DeleteMessageAudio))
+                .inRoot(isDialog()) // <---
+                .check(matches(isDisplayed()));
+        //add timer to disconnect internet connection from simulater
+        IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
+        IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
+        //Now we waite
+        IdlingResource idlingResource1 = new ElapsedTimeIdlingResource(5000);
+        try {
+            IdlingRegistry.getInstance().register(idlingResource1);
+            //click delete button
+            onView(withText(R.string.yes)).perform(click());
+            // check toast visibility
+            onView(withText(R.string.AudioDeletedFialed))
+                    .inRoot(new ToastMatcher()).check(matches(withText(R.string.AudioDeletedFialed)));
+            //check the activity not finished
+        }
+        //clean upp
+        finally {
+            IdlingRegistry.getInstance().unregister(idlingResource1);
+        }
+    }
+
+    @After
+    public void tearDown() throws Exception {
+    }
 
 
 }

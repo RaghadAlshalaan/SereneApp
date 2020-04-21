@@ -37,13 +37,16 @@ import static org.powermock.api.support.membermodification.MemberModifier.suppre
 @PrepareForTest({LayoutInflater.class ,Add_Appointment_Page.class,FirebaseFirestore.class})
 public class Add_Appointment_PageTest {
 
+    //TODO test saveApp in DB
+    //TODO test set reminder
+
     //@Rule
     //public ActivityTestRule<Add_Appointment_Page> activityTestRule = new ActivityTestRule<Add_Appointment_Page>(Add_Appointment_Page.class);
     private Add_Appointment_Page therapySession;
-    String name, time, date;
-    Calendar current = Calendar.getInstance();
-    SimpleDateFormat TimeFormat = new SimpleDateFormat ("HH : mm", Locale.UK);
-    java.util.Date currentTime ;
+    private String name, time, date;
+    private Calendar current = Calendar.getInstance();
+    private SimpleDateFormat TimeFormat = new SimpleDateFormat ("HH : mm", Locale.UK);
+    private java.util.Date currentTime ;
     @Mock
     private EditText AppName;
     private Button Date, Time, Confirm;
@@ -133,7 +136,9 @@ public class Add_Appointment_PageTest {
 
     @Test
     public void TimePastCurrentDate () {
-        date = current.get(Calendar.DAY_OF_MONTH)+"/"+current.get(Calendar.MONTH)+"/"+current.get(Calendar.YEAR);//"11/4/2020";
+        date = current.get(Calendar.DAY_OF_MONTH)
+                +"/"+(current.get(Calendar.MONTH)+1)
+                +"/"+current.get(Calendar.YEAR);//"11/4/2020";
         time = (current.get(Calendar.HOUR)-1)+" : "+current.get(Calendar.MINUTE);//"13 : 00";
         boolean isPastTime = therapySession.checkDayandTime(date,time);
         assertFalse(isPastTime);
@@ -141,15 +146,19 @@ public class Add_Appointment_PageTest {
 
     @Test
     public void CurrentTimeCurrentDate () {
-        date = current.get(Calendar.DAY_OF_MONTH)+"/"+current.get(Calendar.MONTH)+"/"+current.get(Calendar.YEAR);//"12/4/2020";
-        time = (current.get(Calendar.HOUR))+" : "+current.get(Calendar.MINUTE);//"15 : 44";
+        date = current.get(Calendar.DAY_OF_MONTH)
+                +"/"+(current.get(Calendar.MONTH)+1)
+                +"/"+current.get(Calendar.YEAR);//"12/4/2020";
+        time = (current.get(Calendar.HOUR)+1)+" : "+current.get(Calendar.MINUTE);//"15 : 44";
         boolean isPastTime = therapySession.checkDayandTime(date,time);
         assertFalse(isPastTime);
     }
 
     @Test
     public void FutureTimeCurrentDate () {
-        date = current.get(Calendar.DAY_OF_MONTH)+"/"+current.get(Calendar.MONTH)+"/"+current.get(Calendar.YEAR);//"12/4/2020";
+        date = current.get(Calendar.DAY_OF_MONTH)
+                +"/"+(current.get(Calendar.MONTH)+1)
+                +"/"+current.get(Calendar.YEAR);//"12/4/2020";
         try {
             currentTime=TimeFormat.parse(new SimpleDateFormat("HH : mm",Locale.UK).format(new Date()));
         }
@@ -163,7 +172,9 @@ public class Add_Appointment_PageTest {
 
     @Test
     public void FutureTimeFutureDate () {
-        date = current.get(Calendar.DAY_OF_MONTH)+"/"+current.get(Calendar.MONTH)+"/"+(current.get(Calendar.YEAR)+1);//"12/4/2021";
+        date = (current.get(Calendar.DAY_OF_MONTH)+2)
+                +"/"+(current.get(Calendar.MONTH)+1)
+                +"/"+(current.get(Calendar.YEAR));//"12/4/2021";
         time = "23 : 14";
         boolean isFutureTime = therapySession.checkDayandTime(date,time);
         assertTrue(isFutureTime);

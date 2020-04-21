@@ -67,7 +67,8 @@ public class Add_Medicine_Page extends AppCompatActivity {
     private String repeatType;
     private String medDocumentID;
     private long selectedTimestamp;
-
+    private Calendar calendarTimeStamp = Calendar.getInstance();
+    private Calendar current = Calendar.getInstance();
 
     //for from day
     private final DatePickerDialog.OnDateSetListener FromDate = new DatePickerDialog.OnDateSetListener() {
@@ -211,10 +212,9 @@ public class Add_Medicine_Page extends AppCompatActivity {
     }
 
     public boolean checkFields (String MName , String MDose, String interval, String repeatNo, String time, String date) {
-        if ( MName!=null && !MName.equals("") && MDose!=null && !MDose.equals("")
-                && interval!=null && !interval.equals("") && repeatNo!=null
-                && !repeatNo.equals("") && !(time.equals("Set Time"))
-                && !(date.equals("Start"))){
+        if ( !MName.equals("") && !MDose.equals("")
+                && !interval.equals("") && !repeatNo.equals("")
+                && !(time.equals("Set Time")) && !(date.equals("Start"))){
             return true;
         }
         return false;
@@ -222,12 +222,12 @@ public class Add_Medicine_Page extends AppCompatActivity {
 
     public boolean checkDayandTime (String SDate, String time) {
         SimpleDateFormat TimeFormat = new SimpleDateFormat ("HH : mm", Locale.UK);
-        SimpleDateFormat DateFormat = new SimpleDateFormat ("dd/MM/yy");
         Date CurrentDate = new Date();
         //convert string to date to used in compare
         try {
             StartD = DateFormat.parse(SDate);
-            /*FinishD = DateFormat.parse(EDate);*/
+            FDTS = new Timestamp(StartD);
+            calendarTimeStamp.setTimeInMillis(FDTS.getSeconds()*1000);
             MTime = TimeFormat.parse(time);
             CuttentTime = TimeFormat.parse(new SimpleDateFormat("HH : mm",Locale.UK).format(CurrentDate));
         }
@@ -235,18 +235,25 @@ public class Add_Medicine_Page extends AppCompatActivity {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        //when all after current date no constraint return true
-        if ( (StartD.after(CurrentDate))){
+        //when all after current date no constraint return true//(StartD.after(CurrentDate))
+        if ( calendarTimeStamp.get(Calendar.YEAR) > current.get(Calendar.YEAR)
+                || ( calendarTimeStamp.get(Calendar.YEAR) == current.get(Calendar.YEAR) && (calendarTimeStamp.get(Calendar.MONTH)+1)> (current.get(Calendar.MONTH)+1) )
+                || ( calendarTimeStamp.get(Calendar.YEAR) == current.get(Calendar.YEAR)
+                && (calendarTimeStamp.get(Calendar.MONTH)+1)  == (current.get(Calendar.MONTH)+1)
+                && calendarTimeStamp.get(Calendar.DAY_OF_MONTH) > current.get(Calendar.DAY_OF_MONTH) ) )  {
             return true;
         }
-        //check if the start date is the current date the time is after or same current time, if not return false after display meaningful message
-        if (StartD.before(CurrentDate) || StartD.compareTo(CurrentDate) ==0  ) {
-            if (MTime.before(CuttentTime) || (MTime.compareTo(CuttentTime) == 0)){
-                return false;
+        //check if the start date is the current date the time is after or same current time, if not return false after display meaningful message//StartD.before(CurrentDate) || StartD.compareTo(CurrentDate) ==0
+        if (  calendarTimeStamp.get(Calendar.YEAR) == current.get(Calendar.YEAR)
+                && (calendarTimeStamp.get(Calendar.MONTH)+1)== (current.get(Calendar.MONTH)+1)
+                && calendarTimeStamp.get(Calendar.DAY_OF_MONTH) == current.get(Calendar.DAY_OF_MONTH) ) {
+            if ( MTime.getHours() > CuttentTime.getHours()
+                    || ( MTime.getHours() == CuttentTime.getHours()
+                    && MTime.getMinutes() > CuttentTime.getMinutes() ) ){//MTime.before(CuttentTime) || (MTime.compareTo(CuttentTime) == 0
+                return true;
             }
-            //return true;
         }
-        return true;
+        return false;
     }
 
     private void SaveNewMed (String MName , String FDay,String Time, int MD ) {
