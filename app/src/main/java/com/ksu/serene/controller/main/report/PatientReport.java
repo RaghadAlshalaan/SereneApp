@@ -344,8 +344,8 @@ public class PatientReport extends AppCompatActivity {
 
     private void location() {
 
-        highLocations = new ArrayList<Location>();
-        locations = new ArrayList<WeightedLatLng>();
+        highLocations = new ArrayList<>();
+        locations = new ArrayList<>();
 
         locationRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -445,9 +445,6 @@ public class PatientReport extends AppCompatActivity {
                                     Double loc_AL = Double.parseDouble(anxietyLevel);
 
                                     switch (anxietyLevel) {
-                                        case "1":
-                                            anxietyLevel = "Low";
-                                            break;
 
                                         case "2":
                                             anxietyLevel = "Medium";
@@ -481,6 +478,7 @@ public class PatientReport extends AppCompatActivity {
                                                 highLocations.remove(hList); // remove the old location
 
                                                 // update it with the new one with new frequency
+                                                if(!(locationName.equals("") || nearestLocs.equals("")))
                                                 highLocations.add(new Location(locationName, anxietyLevel, daysBetween(loc_date, today), lat, lng, nearestLocs, freq));
 
                                                 break;
@@ -489,7 +487,8 @@ public class PatientReport extends AppCompatActivity {
                                         }// end loop
 
                                         if (newLoc) { // add new loc with freq = 1
-                                            highLocations.add(new Location(locationName, anxietyLevel, daysBetween(loc_date, today), lat, lng, nearestLocs, freq));
+                                            if(!(locationName.equals("") || nearestLocs.equals("")))
+                                                highLocations.add(new Location(locationName, anxietyLevel, daysBetween(loc_date, today), lat, lng, nearestLocs, freq));
                                         }
                                     }
 
@@ -566,11 +565,6 @@ public class PatientReport extends AppCompatActivity {
 
         boolean sleepR = (boolean) doc.get("sleepRecomendation");
         boolean stepsR = (boolean) doc.get("stepsRecomendation");
-
-
-//                // set graph
-//                String url = doc.get("anxiety_level_graph").toString();
-//                anxietyGraph(url);
 
 
         if (sleepR) {
@@ -693,7 +687,6 @@ public class PatientReport extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                //tag("AppInfo").d("Error: " + exception.getMessage());
                 exception.printStackTrace();
             }
         });
@@ -729,7 +722,7 @@ public class PatientReport extends AppCompatActivity {
     private void print() {
 
         Locale current = getResources().getConfiguration().locale;
-//        tag("AppInfo").d("current Language: %s", current.getDisplayLanguage());
+        tag("AppInfo").d("current Language: %s", current.getDisplayLanguage());
         String filename = "";
         if (current.getLanguage().equals("ar")) {
             filename = "patientReport-AR";
@@ -742,10 +735,9 @@ public class PatientReport extends AppCompatActivity {
 //        tag("AppInfo").d("storageRef Path: " + storageRef.getPath());
 //
 //        tag("AppInfo").d("Path: " + storageRef.child(userId).child("lastGeneratedPatientReport").child(filename).getPath());
-//
-//        tag("AppInfo").d("userId: " + userId);
+
         storageRef = storageRef.child(userId + "/lastGeneratedPatientReport/" + filename);
-        //tag("AppInfo").d("storageRef: " + storageRef.toString());
+
 
         File rootPath = new File(Environment.getExternalStorageDirectory(), "files");
         if (!rootPath.exists()) {
@@ -760,8 +752,7 @@ public class PatientReport extends AppCompatActivity {
             @Override
             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
 
-
-                doPrint("Test PDF",
+                doPrint("Serene - Patient Report",
                         new PdfDocumentAdapter(PatientReport.this, finalLocalFile, finalFilename),
                         new PrintAttributes.Builder().build());
 
@@ -769,7 +760,6 @@ public class PatientReport extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                //tag("AppInfo").d("Error: " + exception.getMessage());
                 exception.printStackTrace();
             }
         });
