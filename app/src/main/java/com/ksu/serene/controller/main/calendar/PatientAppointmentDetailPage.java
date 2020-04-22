@@ -62,11 +62,6 @@ public class PatientAppointmentDetailPage extends AppCompatActivity {
             }
         });
 
-        //test
-        /*if ( AppID == null ){
-            AppID = "fe9621e0-8f4b-4f0e-b04d-3f821b6328f2";
-        }*/
-
         db.collection("PatientSessions")
                 .document(AppID)
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {

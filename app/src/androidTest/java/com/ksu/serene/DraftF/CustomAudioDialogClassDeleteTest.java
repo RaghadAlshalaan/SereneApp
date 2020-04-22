@@ -100,6 +100,8 @@ public class CustomAudioDialogClassDeleteTest {
         //click cancle button
         onView(withText(R.string.no)).perform(click());
         //nothing will be happen
+        //check the activity still showen
+        onView(withId(R.id.your_dialog_root_element)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -119,7 +121,7 @@ public class CustomAudioDialogClassDeleteTest {
         onView(withId(R.id.allDraft)).check(matches(isDisplayed()));
     }
 
-    @Test
+    //@Test
     public void DeleteOKFailer () {
         //click button
         onView(withId(R.id.delete)).perform(click());

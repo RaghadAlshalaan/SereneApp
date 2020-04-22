@@ -13,6 +13,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 import androidx.fragment.app.Fragment;
@@ -34,6 +35,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.ksu.serene.TestUtils.withRecyclerView;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
@@ -42,22 +44,11 @@ public class PatientTextDraftDetailPageTest {
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<MainActivity>(MainActivity.class);
     //public ActivityTestRule<PatientTextDraftDetailPage> activityTestRule = new ActivityTestRule<PatientTextDraftDetailPage>(PatientTextDraftDetailPage.class);
-    //private PatientTextDraftDetailPage textDraftDetailPage = null;
+    private PatientTextDraftDetailPage textDraftDetailPage = null;
+    private Calendar calendar = Calendar.getInstance();
 
     @Before
     public void setUp() throws Exception {
-        /*activityTestRule.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                //set fragment
-                Fragment draftFragment = new draftsFragment();
-                FragmentTransaction fragmentTransaction = activityTestRule.getActivity().getSupportFragmentManager().beginTransaction();
-                //fragmentTransaction.replace(R.id.Home, CalendarF);
-                fragmentTransaction.add(R.id.MainActivity, draftFragment);
-                fragmentTransaction.commit();
-
-            }
-        });*/
         onView(withId(R.id.navigation_drafts)).perform(click());
         //add tiemr
         //Mack sure Espresso does not time out
@@ -99,7 +90,7 @@ public class PatientTextDraftDetailPageTest {
     @Test
     public void EditDraftSuccess () {
         //enter title
-        onView(withId(R.id.TitleTextD)).perform(replaceText("Update Title"));
+        onView(withId(R.id.TitleTextD)).perform(replaceText("Update Title "+calendar.get(Calendar.DAY_OF_MONTH)+"/"+calendar.get(Calendar.MONTH+1)));
         //close keyboard
         closeSoftKeyboard();
         ///leave subj as it is
@@ -109,6 +100,8 @@ public class PatientTextDraftDetailPageTest {
             onView(withText(R.string.TDUpdatedSuccess))
                     .inRoot(new ToastMatcher())
                     .check(matches(withText(R.string.TDUpdatedSuccess)));
+        //check all draft display
+            onView(withId(R.id.allDraft)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -124,6 +117,9 @@ public class PatientTextDraftDetailPageTest {
             onView(withText(R.string.EmptyFields))
                     .inRoot(new ToastMatcher())
                     .check(matches(withText(R.string.EmptyFields)));
+            //check activity still showen
+        onView(withId(R.id.PatientTextDraftDetailPage)).check(matches(isDisplayed()));
+
     }
 
     @Test
@@ -141,6 +137,8 @@ public class PatientTextDraftDetailPageTest {
         onView(withText(R.string.EmptyFields))
                 .inRoot(new ToastMatcher())
                 .check(matches(withText(R.string.EmptyFields)));
+        //check activity still showen
+        onView(withId(R.id.PatientTextDraftDetailPage)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -149,9 +147,11 @@ public class PatientTextDraftDetailPageTest {
         onView(withId(R.id.backButton)).check(matches(isClickable()));
         //perform click on back button
         onView(withId(R.id.backButton)).perform(click());
+        //check all draft display
+        onView(withId(R.id.allDraft)).check(matches(isDisplayed()));
     }
 
-    @Test
+    //@Test
     public void EditDraftFailer () {
         //enter title
         onView(withId(R.id.TitleTextD)).perform(replaceText("Update Title"));

@@ -45,18 +45,6 @@ public class TextDraftFragmentTest {
 
     @Before
     public void setUp() throws Exception {
-        /*activityTestRule.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                //set fragment
-                Fragment draft = new draftsFragment();
-                FragmentTransaction fragmentTransaction = activityTestRule.getActivity().getSupportFragmentManager().beginTransaction();
-                //fragmentTransaction.replace(R.id.Home, CalendarF);
-                fragmentTransaction.add(R.id.MainActivity, draft);
-                fragmentTransaction.commit();
-
-            }
-        });*/
         //Mack sure Espresso does not time out
         IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
         IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);

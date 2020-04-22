@@ -30,6 +30,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
@@ -41,6 +42,7 @@ public class EditSocioTest {
 
     @Before
     public void setUp() throws Exception {
+        editSocio = activityTestRule.getActivity();
         //Mack sure Espresso does not time out
         IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
         IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
@@ -48,8 +50,7 @@ public class EditSocioTest {
         IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
         try {
             IdlingRegistry.getInstance().register(idlingResource);
-            editSocio = activityTestRule.getActivity();
-            onView(ViewMatchers.withId(R.id.EditSocio)).check(matches(isDisplayed()));
+            onView(withId(R.id.EditSocio)).check(matches(isDisplayed()));
         }
         //clean upp
         finally {
@@ -74,6 +75,9 @@ public class EditSocioTest {
         onView(withText(R.string.EmptyFields))
                 .inRoot(new ToastMatcher())
                 .check(matches(withText(R.string.EmptyFields)));
+        //check activity still showen
+        assertFalse(activityTestRule.getActivity().isFinishing());
+        onView(withId(R.id.EditSocio)).check(matches(isDisplayed()));
     }
 
     //TODO should i test for valid format for age, height, weight and monthly income when the edit text is only for numbers.
@@ -107,6 +111,9 @@ public class EditSocioTest {
         onView(withText(R.string.NotCorrectAge))
                 .inRoot(new ToastMatcher())
                 .check(matches(withText(R.string.NotCorrectAge)));
+        //check activity still showen
+        assertFalse(activityTestRule.getActivity().isFinishing());
+        onView(withId(R.id.EditSocio)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -138,6 +145,9 @@ public class EditSocioTest {
         onView(withText(R.string.NotCorrectAge))
                 .inRoot(new ToastMatcher())
                 .check(matches(withText(R.string.NotCorrectAge)));
+        //check activity still showen
+        assertFalse(activityTestRule.getActivity().isFinishing());
+        onView(withId(R.id.EditSocio)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -169,6 +179,9 @@ public class EditSocioTest {
         onView(withText(R.string.NotCorrectHeight))
                 .inRoot(new ToastMatcher())
                 .check(matches(withText(R.string.NotCorrectHeight)));
+        //check activity still showen
+        assertFalse(activityTestRule.getActivity().isFinishing());
+        onView(withId(R.id.EditSocio)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -200,6 +213,9 @@ public class EditSocioTest {
         onView(withText(R.string.NotCorrectHeight))
                 .inRoot(new ToastMatcher())
                 .check(matches(withText(R.string.NotCorrectHeight)));
+        //check activity still showen
+        assertFalse(activityTestRule.getActivity().isFinishing());
+        onView(withId(R.id.EditSocio)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -231,6 +247,9 @@ public class EditSocioTest {
         onView(withText(R.string.NotCorrectWeight))
                 .inRoot(new ToastMatcher())
                 .check(matches(withText(R.string.NotCorrectWeight)));
+        //check activity still showen
+        assertFalse(activityTestRule.getActivity().isFinishing());
+        onView(withId(R.id.EditSocio)).check(matches(isDisplayed()));
     }
 
     @Test

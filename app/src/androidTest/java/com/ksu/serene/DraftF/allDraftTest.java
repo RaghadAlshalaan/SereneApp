@@ -43,18 +43,6 @@ public class allDraftTest {
 
     @Before
     public void setUp() throws Exception {
-        /*activityTestRule.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                //set fragment
-                Fragment draftFragment = new draftsFragment();
-                FragmentTransaction fragmentTransaction = activityTestRule.getActivity().getSupportFragmentManager().beginTransaction();
-                //fragmentTransaction.replace(R.id.Home, CalendarF);
-                fragmentTransaction.add(R.id.MainActivity, draftFragment);
-                fragmentTransaction.commit();
-
-            }
-        });*/
         onView(withId(R.id.navigation_drafts)).perform(click());
         //add tiemr
         //Mack sure Espresso does not time out

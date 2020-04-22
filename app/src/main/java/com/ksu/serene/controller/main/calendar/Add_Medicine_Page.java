@@ -82,18 +82,6 @@ public class Add_Medicine_Page extends AppCompatActivity {
             FromDay.setText(DateFormat.format(calendar.getTime()));
         }
     };
-    //for end day
-    private final DatePickerDialog.OnDateSetListener TillDate = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear,
-                              int dayOfMonth) {
-            // TODO Auto-generated method stub
-            calendar.set(Calendar.YEAR,year);
-            calendar.set(Calendar.MONTH, monthOfYear);
-            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            //TillDay.setText(DateFormat.format(calendar.getTime()));
-        }
-    };
     //for time
     private final TimePickerDialog.OnTimeSetListener Mtime = new TimePickerDialog.OnTimeSetListener() {
         @Override
@@ -214,7 +202,7 @@ public class Add_Medicine_Page extends AppCompatActivity {
     public boolean checkFields (String MName , String MDose, String interval, String repeatNo, String time, String date) {
         if ( !MName.equals("") && !MDose.equals("")
                 && !interval.equals("") && !repeatNo.equals("")
-                && !(time.equals("Set Time")) && !(date.equals("Start"))){
+                && !(time.equals("Set Time")) && !(date.equals("Set Date"))){
             return true;
         }
         return false;

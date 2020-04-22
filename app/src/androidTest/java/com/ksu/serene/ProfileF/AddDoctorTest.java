@@ -31,6 +31,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
@@ -42,8 +43,8 @@ public class AddDoctorTest {
 
     @Before
     public void setUp() throws Exception {
-        activityTestRule.launchActivity(new Intent());
-        //addDoctor = activityTestRule.getActivity();
+        addDoctor = activityTestRule.getActivity();
+        //activityTestRule.launchActivity(new Intent());
         //add timer
         //Mack sure Espresso does not time out
         IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
@@ -54,7 +55,7 @@ public class AddDoctorTest {
             IdlingRegistry.getInstance().register(idlingResource);
             //activityTestRule.launchActivity(new Intent());
             //check the activity visible
-            onView(ViewMatchers.withId(R.id.AddDoctor)).check(matches(isDisplayed()));
+            onView(withId(R.id.AddDoctor)).check(matches(isDisplayed()));
             //check the button visible
             onView(withId(R.id.confirm)).check(matches(isDisplayed()));
             //check edit texts visible
@@ -85,6 +86,9 @@ public class AddDoctorTest {
         onView(withText(R.string.EmptyFields))
                 .inRoot(new ToastMatcher())
                 .check(matches(withText(R.string.EmptyFields)));
+        //check activity still showen
+        assertFalse(activityTestRule.getActivity().isFinishing());
+        onView(withId(R.id.AddDoctor)).check(matches(isDisplayed()));
     }
 
     //@Test
@@ -103,6 +107,9 @@ public class AddDoctorTest {
         onView(withText(R.string.EmptyFields))
                 .inRoot(new ToastMatcher())
                 .check(matches(withText(R.string.EmptyFields)));
+        //check activity still showen
+        assertFalse(activityTestRule.getActivity().isFinishing());
+        onView(withId(R.id.AddDoctor)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -121,6 +128,9 @@ public class AddDoctorTest {
         onView(withText(R.string.EmptyFields))
                 .inRoot(new ToastMatcher())
                 .check(matches(withText(R.string.EmptyFields)));
+        //check activity still showen
+        assertFalse(activityTestRule.getActivity().isFinishing());
+        onView(withId(R.id.AddDoctor)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -139,6 +149,9 @@ public class AddDoctorTest {
         onView(withText(R.string.emailFormat))
                 .inRoot(new ToastMatcher())
                 .check(matches(withText(R.string.emailFormat)));
+        //check activity still showen
+        assertFalse(activityTestRule.getActivity().isFinishing());
+        onView(withId(R.id.AddDoctor)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -157,12 +170,15 @@ public class AddDoctorTest {
         onView(withText(R.string.nameFormat))
                 .inRoot(new ToastMatcher())
                 .check(matches(withText(R.string.nameFormat)));
+        //check activity still showen
+        assertFalse(activityTestRule.getActivity().isFinishing());
+        onView(withId(R.id.AddDoctor)).check(matches(isDisplayed()));
     }
 
     @Test
     public void UserEmail () {
         //enter valid email that same as patient email
-        onView(withId(R.id.emailET)).perform(typeText("lama-almarshad@hotmail.com"));
+        onView(withId(R.id.emailET)).perform(typeText("user@hotmail.com"));
         //close Keyboard
         closeSoftKeyboard();
         //enter valid name
@@ -175,6 +191,9 @@ public class AddDoctorTest {
         onView(withText(R.string.PatientEmail))
                 .inRoot(new ToastMatcher())
                 .check(matches(withText(R.string.PatientEmail)));
+        //check activity still showen
+        assertFalse(activityTestRule.getActivity().isFinishing());
+        onView(withId(R.id.AddDoctor)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -187,25 +206,14 @@ public class AddDoctorTest {
         onView(withId(R.id.nameET)).perform(typeText("Ahmed"));
         //close Keyboard
         closeSoftKeyboard();
-        //Mack sure Espresso does not time out
-        IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
-        IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
-        //Now we waite
-        IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
-        try {
-            IdlingRegistry.getInstance().register(idlingResource);
             //click the button
             onView(withId(R.id.confirm)).perform(click());
             // check toast visibility
             onView(withText(R.string.AddDocSuccess))
                     .inRoot(new ToastMatcher())
                     .check(matches(withText(R.string.AddDocSuccess)));
-        }
-        //clean upp
-        finally {
-            IdlingRegistry.getInstance().unregister(idlingResource);
-        }
-
+        //check the profile is displayed
+        onView(withId(R.id.PatientProfile)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -214,10 +222,10 @@ public class AddDoctorTest {
         onView(withId(R.id.backButton)).check(matches(isClickable()));
         //perform click on back button
         onView(withId(R.id.backButton)).perform(click());
-       // assertTrue(addDoctor.isFinishing());
+        assertTrue(addDoctor.isFinishing());
     }
 
-    @Test
+    //@Test
     public void addDoctorFailer () {
         //enter valid email
         onView(withId(R.id.emailET)).perform(typeText("lama449@gmail.com"));
@@ -250,7 +258,6 @@ public class AddDoctorTest {
 
     @After
     public void tearDown() throws Exception {
-        //activityTestRule.finishActivity();//.launchActivity(new Intent());
         addDoctor = null;
     }
 }

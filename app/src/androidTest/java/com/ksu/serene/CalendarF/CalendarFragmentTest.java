@@ -55,19 +55,6 @@ public class CalendarFragmentTest {
 
     @Before
     public void setUp() throws Exception {
-        /*activityTestRule.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                //set fragment
-                Fragment CalendarF = new CalendarFragment();
-                FragmentTransaction fragmentTransaction = activityTestRule.getActivity().getSupportFragmentManager().beginTransaction();
-                //fragmentTransaction.replace(R.id.Home, CalendarF);
-                fragmentTransaction.add(R.id.MainActivity, CalendarF);
-                fragmentTransaction.commit();
-
-            }
-        });
-        getInstrumentation().waitForIdleSync();*/
         onView(withId(R.id.navigation_calendar)).perform(click());
         //add tiemr
         //Mack sure Espresso does not time out
@@ -87,8 +74,6 @@ public class CalendarFragmentTest {
             IdlingRegistry.getInstance().unregister(idlingResource);
         }
     }
-    //TODO test click on date from calender then click the med recycler view at 1
-    //TODO test click on date from calender then click the app recycler view at 1
 
     @Test
     public void TestAddButton () {

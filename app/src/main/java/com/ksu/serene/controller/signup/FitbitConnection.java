@@ -28,6 +28,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
+import com.ksu.serene.MainActivity;
 import com.ksu.serene.fitbitManager.FitbitWorker;
 import com.ksu.serene.model.FitbitAuthentication;
 import com.ksu.serene.R;
@@ -70,6 +71,7 @@ public class FitbitConnection extends AppCompatActivity implements View.OnClickL
         main =  getIntent().getStringExtra("Not Connected");
         if (main.equals("MainActivity")) {
             linearLayout.setVisibility(View.INVISIBLE);
+
         }
 
 
@@ -175,6 +177,10 @@ public class FitbitConnection extends AppCompatActivity implements View.OnClickL
                     .Builder(FitbitWorker.class, 20, TimeUnit.MINUTES).setConstraints(constraints).build();
             fitbitWorkManager.enqueue(fitbitUpload);
 
+            if (main.equals("MainActivity")) {
+                Intent intentMain = new Intent(FitbitConnection.this, MainActivity.class);
+                startActivity(intentMain);
+            }
 
         } else { // IF DENIED
             statusTV.setText("Status : Not Connected, Please try again");

@@ -47,10 +47,6 @@ public class LogOutTest {
         IdlingResource idlingResource = new ElapsedTimeIdlingResource(10000);
         try {
             IdlingRegistry.getInstance().register(idlingResource);
-            /*FragmentTransaction fragmentTransaction = activityTestRule.getActivity().getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.add(R.id.nav_host_fragment, new PatientProfile());
-            fragmentTransaction.commit();
-            getInstrumentation().waitForIdleSync();*/
             //check the activity is visible
             onView(withId(R.id.PatientProfile)).check(matches(isDisplayed()));
             //check the buttons visible

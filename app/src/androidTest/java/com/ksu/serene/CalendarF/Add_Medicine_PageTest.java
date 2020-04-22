@@ -50,12 +50,13 @@ public class Add_Medicine_PageTest {
     private Add_Medicine_Page addMedicinePage = null;
     Calendar current = Calendar.getInstance();
     int tomorrow = current.get(Calendar.DAY_OF_MONTH)+1;
-    int currentMonth = current.get(Calendar.MONTH)+1;
+    int currentMonth = current.get(Calendar.MONTH);
     int minutes = current.get(Calendar.MINUTE)+5;
-    int hours = current.get(Calendar.HOUR)+1;
+    int hours = current.get(Calendar.HOUR)-1;
 
     @Before
     public void setUp() throws Exception {
+        addMedicinePage = activityTestRule.getActivity();
         //add timer for all tests
         //Mack sure Espresso does not time out
         IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
@@ -64,7 +65,6 @@ public class Add_Medicine_PageTest {
         IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
         try {
             IdlingRegistry.getInstance().register(idlingResource);
-            addMedicinePage = activityTestRule.getActivity();
             //check activity is visible
             onView(ViewMatchers.withId(R.id.Add_Medicine_Page)).check(matches(isDisplayed()));
             //check edit texts visible
@@ -98,6 +98,8 @@ public class Add_Medicine_PageTest {
         onView(withId(R.id.backButton)).check(matches(isClickable()));
         //perform click on back button
         onView(withId(R.id.backButton)).perform(click());
+        //check the activity  finish
+        assertTrue(activityTestRule.getActivity().isFinishing());
     }
 
     //check when first date is the current date and time before or same as current time
@@ -110,7 +112,7 @@ public class Add_Medicine_PageTest {
         // check when click the date and time button
         onView(withId(R.id.MFromDays)).perform(click());
         //choose current date
-        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(current.get(Calendar.YEAR), currentMonth, current.get(Calendar.DAY_OF_MONTH)));
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(current.get(Calendar.YEAR), (currentMonth+1), current.get(Calendar.DAY_OF_MONTH)));
         //click ok dialog button
         onView(withText("OK")).perform(click());
         //time button clicked
@@ -144,13 +146,18 @@ public class Add_Medicine_PageTest {
         onView(withText(R.string.CurrentTime))
                 .inRoot(new ToastMatcher())
                 .check(matches(withText(R.string.CurrentTime)));
+        //check the activity still displayed
+        onView(withId(R.id.Add_Medicine_Page)).check(matches(isDisplayed()));
+        //check the activity not finish
+        assertFalse(activityTestRule.getActivity().isFinishing());
+        assertNotNull(addMedicinePage);
     }
 
     @Test
     public void EmptyFields () {
         //leave all fields empty and Date and time and type buttons not clicked
         onView(withId(R.id.nameET)).perform(typeText(""));
-        onView(withId(R.id.MFromDays)).check(matches(withText("Start")));
+        onView(withId(R.id.MFromDays)).check(matches(withText("Set Date")));
         onView(withId(R.id.MTime)).check(matches(withText("Set Time")));
         onView(withId(R.id.MedicineDose)).perform(typeText(""));
         //interval
@@ -162,6 +169,11 @@ public class Add_Medicine_PageTest {
         onView(withText(R.string.EmptyFields))
                 .inRoot(new ToastMatcher())
                 .check(matches(withText(R.string.EmptyFields)));
+        //check the activity still displayed
+        onView(withId(R.id.Add_Medicine_Page)).check(matches(isDisplayed()));
+        //check the activity not finish
+        assertFalse(activityTestRule.getActivity().isFinishing());
+        assertNotNull(addMedicinePage);
     }
 
     //check when the field filled and first date button pressed not set date
@@ -174,11 +186,11 @@ public class Add_Medicine_PageTest {
         // check when click the date button
         onView(withId(R.id.MFromDays)).perform(click());
         //choose date
-        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(current.get(Calendar.YEAR), currentMonth, current.get(Calendar.DAY_OF_MONTH)));
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(current.get(Calendar.YEAR), (currentMonth+1), current.get(Calendar.DAY_OF_MONTH)));
         //check when date bicker dialog cancel button clicked
         onView(withText("CANCEL")).perform(click());
         //check that text not changed for first, last date and time
-        onView(withId(R.id.MFromDays)).check(matches(withText("Start")));
+        onView(withId(R.id.MFromDays)).check(matches(withText("Set Date")));
         //click time button
         onView(withId(R.id.MTime)).perform(click());
         //choose tiem
@@ -210,6 +222,11 @@ public class Add_Medicine_PageTest {
         onView(withText(R.string.EmptyFields))
                 .inRoot(new ToastMatcher())
                 .check(matches(withText(R.string.EmptyFields)));
+        //check the activity still displayed
+        onView(withId(R.id.Add_Medicine_Page)).check(matches(isDisplayed()));
+        //check the activity not finish
+        assertFalse(activityTestRule.getActivity().isFinishing());
+        assertNotNull(addMedicinePage);
     }
 
     //check when the field filled and date button pressed with set date
@@ -222,7 +239,7 @@ public class Add_Medicine_PageTest {
         // check when click the date button
         onView(withId(R.id.MFromDays)).perform(click());
         //choose date
-        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(current.get(Calendar.YEAR), currentMonth, current.get(Calendar.DAY_OF_MONTH)));
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(current.get(Calendar.YEAR), (currentMonth+1), current.get(Calendar.DAY_OF_MONTH)));
         //click ok dialog button
         onView(withText("OK")).perform(click());
         //check the time button text not changed
@@ -252,6 +269,11 @@ public class Add_Medicine_PageTest {
         onView(withText(R.string.EmptyFields))
                 .inRoot(new ToastMatcher())
                 .check(matches(withText(R.string.EmptyFields)));
+        //check the activity still displayed
+        onView(withId(R.id.Add_Medicine_Page)).check(matches(isDisplayed()));
+        //check the activity not finish
+        assertFalse(activityTestRule.getActivity().isFinishing());
+        assertNotNull(addMedicinePage);
     }
 
     //check when the field filled and time button pressed not set time
@@ -264,7 +286,7 @@ public class Add_Medicine_PageTest {
         //click date
         onView(withId(R.id.MFromDays)).perform(click());
         //choose date
-        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(current.get(Calendar.YEAR), currentMonth, current.get(Calendar.DAY_OF_MONTH)));
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(current.get(Calendar.YEAR), (currentMonth+1), current.get(Calendar.DAY_OF_MONTH)));
         //click ok dialog button
         onView(withText("OK")).perform(click());
         //time button clicked
@@ -300,6 +322,11 @@ public class Add_Medicine_PageTest {
         onView(withText(R.string.EmptyFields))
                 .inRoot(new ToastMatcher())
                 .check(matches(withText(R.string.EmptyFields)));
+        //check the activity still displayed
+        onView(withId(R.id.Add_Medicine_Page)).check(matches(isDisplayed()));
+        //check the activity not finish
+        assertFalse(activityTestRule.getActivity().isFinishing());
+        assertNotNull(addMedicinePage);
     }
 
     //check when the field filled and date button pressed with set date
@@ -310,7 +337,7 @@ public class Add_Medicine_PageTest {
         //close keyboard
         closeSoftKeyboard();
         //check that text of date not changed
-        onView(withId(R.id.MFromDays)).check(matches(withText("Start")));
+        onView(withId(R.id.MFromDays)).check(matches(withText("Set Date")));
         //time button clicked
         onView(withId(R.id.MTime)).perform(click());
         //choose time
@@ -342,6 +369,11 @@ public class Add_Medicine_PageTest {
         onView(withText(R.string.EmptyFields))
                 .inRoot(new ToastMatcher())
                 .check(matches(withText(R.string.EmptyFields)));
+        //check the activity still displayed
+        onView(withId(R.id.Add_Medicine_Page)).check(matches(isDisplayed()));
+        //check the activity not finish
+        assertFalse(activityTestRule.getActivity().isFinishing());
+        assertNotNull(addMedicinePage);
     }
 
     @Test
@@ -353,7 +385,7 @@ public class Add_Medicine_PageTest {
         // check when click the date button
         onView(withId(R.id.MFromDays)).perform(click());
         //choose date
-        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(current.get(Calendar.YEAR), currentMonth, current.get(Calendar.DAY_OF_MONTH)));
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(current.get(Calendar.YEAR), (currentMonth+1), current.get(Calendar.DAY_OF_MONTH)));
         //click ok dialog button
         onView(withText("OK")).perform(click());
         //time button clicked
@@ -383,6 +415,11 @@ public class Add_Medicine_PageTest {
         onView(withText(R.string.EmptyFields))
                 .inRoot(new ToastMatcher())
                 .check(matches(withText(R.string.EmptyFields)));
+        //check the activity still displayed
+        onView(withId(R.id.Add_Medicine_Page)).check(matches(isDisplayed()));
+        //check the activity not finish
+        assertFalse(activityTestRule.getActivity().isFinishing());
+        assertNotNull(addMedicinePage);
     }
 
     @Test
@@ -394,7 +431,7 @@ public class Add_Medicine_PageTest {
         // check when click the date and time button
         onView(withId(R.id.MFromDays)).perform(click());
         //choose date
-        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(current.get(Calendar.YEAR), currentMonth, current.get(Calendar.DAY_OF_MONTH)));
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(current.get(Calendar.YEAR), (currentMonth+1), current.get(Calendar.DAY_OF_MONTH)));
         //click ok dialog button
         onView(withText("OK")).perform(click());
         //time button clicked
@@ -422,23 +459,14 @@ public class Add_Medicine_PageTest {
         onView(withId(R.id.repeatNO)).perform(typeText("2"));
         //close keyboard
         closeSoftKeyboard();
-        //Mack sure Espresso does not time out
-        IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
-        IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
-        //Now we waite
-        IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
-        try {
             //click confirm button
             onView(withId(R.id.button)).perform(click());
             // check toast visibility
             onView(withText(R.string.MedSavedSuccess))
                     .inRoot(new ToastMatcher())
                     .check(matches(withText(R.string.MedSavedSuccess)));
-        }
-        //clean upp
-        finally {
-            IdlingRegistry.getInstance().unregister(idlingResource);
-        }
+        //check the activity  finish
+        assertTrue(activityTestRule.getActivity().isFinishing());
     }
 
     @Test
@@ -450,7 +478,7 @@ public class Add_Medicine_PageTest {
         // check when click the date and time button
         onView(withId(R.id.MFromDays)).perform(click());
         //choose date
-        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(current.get(Calendar.YEAR), currentMonth, tomorrow ));
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(current.get(Calendar.YEAR), (currentMonth+1), tomorrow ));
         //click ok dialog button
         onView(withText("OK")).perform(click());
         //time button clicked
@@ -478,26 +506,17 @@ public class Add_Medicine_PageTest {
         onView(withId(R.id.repeatNO)).perform(typeText("2"));
         //close keyboard
         closeSoftKeyboard();
-        //Mack sure Espresso does not time out
-        IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
-        IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
-        //Now we waite
-        IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
-        try {
             //click confirm button
             onView(withId(R.id.button)).perform(click());
             // check toast visibility
             onView(withText(R.string.MedSavedSuccess))
                     .inRoot(new ToastMatcher())
                     .check(matches(withText(R.string.MedSavedSuccess)));
-        }
-        //clean upp
-        finally {
-            IdlingRegistry.getInstance().unregister(idlingResource);
-        }
+        //check the activity  finish
+        assertTrue(activityTestRule.getActivity().isFinishing());
     }
 
-     @Test
+    // @Test
      public void addMedFiald () {
          onView(withId(R.id.nameET)).perform(typeText("First Med"));
          //close keyboard
@@ -505,7 +524,7 @@ public class Add_Medicine_PageTest {
          // check when click the date and time button
          onView(withId(R.id.MFromDays)).perform(click());
          //choose date
-         onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(current.get(Calendar.YEAR), currentMonth, tomorrow ));
+         onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(current.get(Calendar.YEAR), (currentMonth+1), tomorrow ));
          //click ok dialog button
          onView(withText("OK")).perform(click());
          //time button clicked

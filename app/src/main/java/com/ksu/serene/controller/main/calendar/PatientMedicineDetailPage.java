@@ -63,11 +63,6 @@ public class PatientMedicineDetailPage extends AppCompatActivity {
             }
         });
 
-        // needed for test
-        if (MedID == null){
-            MedID = "0854b3f6-e8a5-40cd-af7b-228576911ef3";
-        }
-
         db.collection("PatientMedicin")
                 .document(MedID)
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {

@@ -1,5 +1,6 @@
 package com.ksu.serene.controller.main.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,12 +38,12 @@ public class EditSocio extends AppCompatActivity {
     private String TAG = EditSocio.class.getSimpleName();
     private boolean flag = false;
     private ImageView back;
-    private ArrayAdapter <CharSequence> adapter = ArrayAdapter.createFromResource(EditSocio.this,
+    /*private ArrayAdapter <CharSequence> adapter = ArrayAdapter.createFromResource(EditSocio.this,
             R.array.employmentStatus, android.R.layout.simple_spinner_item);
     private ArrayAdapter<CharSequence> adapterM = ArrayAdapter.createFromResource(EditSocio.this,
             R.array.yes_no, android.R.layout.simple_spinner_item);
     private ArrayAdapter<CharSequence> adapterS = ArrayAdapter.createFromResource(EditSocio.this,
-            R.array.yes_no, android.R.layout.simple_spinner_item);
+            R.array.yes_no, android.R.layout.simple_spinner_item);*/
 
 
     @Override
@@ -69,8 +70,7 @@ public class EditSocio extends AppCompatActivity {
             }
         });
 
-
-       // final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(EditSocio.this,R.array.employmentStatus, android.R.layout.simple_spinner_item);
+        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(EditSocio.this,R.array.employmentStatus, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         employmentStatusET.setAdapter(adapter);
         employmentStatusET.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -84,7 +84,7 @@ public class EditSocio extends AppCompatActivity {
             }
         });
         // initiate the spinner 2
-        //final ArrayAdapter<CharSequence> adapterM = ArrayAdapter.createFromResource(EditSocio.this,R.array.yes_no, android.R.layout.simple_spinner_item);
+        final ArrayAdapter<CharSequence> adapterM = ArrayAdapter.createFromResource(EditSocio.this,R.array.yes_no, android.R.layout.simple_spinner_item);
         adapterM.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         maritalStatusET.setAdapter(adapterM);
         maritalStatusET.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -98,7 +98,7 @@ public class EditSocio extends AppCompatActivity {
             }
         });
         // initiate the spinner 3
-        //final ArrayAdapter<CharSequence> adapterS = ArrayAdapter.createFromResource(EditSocio.this, R.array.yes_no, android.R.layout.simple_spinner_item);
+        final ArrayAdapter<CharSequence> adapterS = ArrayAdapter.createFromResource(EditSocio.this, R.array.yes_no, android.R.layout.simple_spinner_item);
         adapterS.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cigaretteSmokeET.setAdapter(adapterS);
         cigaretteSmokeET.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -113,7 +113,7 @@ public class EditSocio extends AppCompatActivity {
         });
 
         //TODO retrieve all fileds from firebase
-        retrieveData ();
+        retrieveData (adapter,adapterM,adapterS);
         /*db.collection("Patient")
                 .document(mAuth.getUid())
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -258,7 +258,9 @@ public class EditSocio extends AppCompatActivity {
 
                                             Toast.makeText(EditSocio.this, R.string.SocioInfoUpdateSuccess,
                                                     Toast.LENGTH_LONG).show();
-                                            finish();
+                                            //finish();
+                                            Intent intent = new Intent(EditSocio.this, PatientProfile.class);
+                                            startActivity(intent);
                                         }
                                     }
                                 });
@@ -326,7 +328,7 @@ public class EditSocio extends AppCompatActivity {
         return true;
     }
 
-    public void retrieveData () {
+    public void retrieveData (final ArrayAdapter <CharSequence> adapter,final ArrayAdapter <CharSequence> adapterM,final ArrayAdapter <CharSequence> adapterS) {
         db.collection("Patient")
                 .document(mAuth.getUid())
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {

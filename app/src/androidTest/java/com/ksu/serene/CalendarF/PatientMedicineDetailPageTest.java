@@ -1,6 +1,8 @@
 package com.ksu.serene.CalendarF;
 
 import static org.junit.Assert.*;
+
+import android.content.Context;
 import android.content.Intent;
 import com.ksu.serene.ElapsedTimeIdlingResource;
 import com.ksu.serene.R;
@@ -16,6 +18,7 @@ import androidx.test.espresso.IdlingPolicies;
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.IdlingResource;
 import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 import static androidx.test.espresso.Espresso.onView;
@@ -32,11 +35,20 @@ import static org.junit.Assert.assertTrue;
 public class PatientMedicineDetailPageTest {
 
     @Rule
-    public ActivityTestRule<PatientMedicineDetailPage> activityTestRule = new ActivityTestRule<PatientMedicineDetailPage>(PatientMedicineDetailPage.class);
-    private PatientMedicineDetailPage medicineDetailPage = null;
+    public ActivityTestRule<PatientMedicineDetailPage> activityTestRule = new ActivityTestRule<PatientMedicineDetailPage>(PatientMedicineDetailPage.class) {
+
+        @Override
+        protected Intent getActivityIntent() {
+            Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+            Intent intent = new Intent(context, PatientMedicineDetailPage.class);
+            intent.putExtra("MedicineID", "93073a13-f737-4289-8493-1bdc29f73c83");
+            return intent;
+        }
+    };
 
     @Before
     public void setUp() throws Exception {
+       //medicineDetailPage = activityTestRule.getActivity();
         //add timer for all tests
         //Mack sure Espresso does not time out
         IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
@@ -45,8 +57,7 @@ public class PatientMedicineDetailPageTest {
         IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
         try {
             IdlingRegistry.getInstance().register(idlingResource);
-            //medicineDetailPage = activityTestRule.getActivity();
-            activityTestRule.launchActivity(new Intent());
+            //activityTestRule.launchActivity(new Intent());
             onView(ViewMatchers.withId(R.id.PatientMedicineDetailPage)).check(matches(isDisplayed()));
             //check button visible
             onView(withId(R.id.DeleteMedicine)).check(matches(isDisplayed()));
@@ -72,6 +83,8 @@ public class PatientMedicineDetailPageTest {
         //click the cancel button
         onView(withText(R.string.DeleteCancleMed)).perform(click());
         //nothing happened
+        assertFalse(activityTestRule.getActivity().isFinishing());
+        onView(withId(R.id.PatientMedicineDetailPage)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -92,9 +105,11 @@ public class PatientMedicineDetailPageTest {
         // check toast visibility
         onView(withText(R.string.MedDeletedSuccess))
                 .inRoot(new ToastMatcher()).check(matches(withText(R.string.MedDeletedSuccess)));
+        //check activity finished
+        assertTrue(activityTestRule.getActivity().isFinishing());
     }
 
-    @Test
+    //@Test
     public void DeleteOKFailer () {
         onView(withId(R.id.nameET)).check(matches(isDisplayed()));
         onView(withId(R.id.MFromDays)).check(matches(isDisplayed()));
@@ -129,7 +144,7 @@ public class PatientMedicineDetailPageTest {
 
     @After
     public void tearDown() throws Exception {
-        medicineDetailPage = null;
+        //medicineDetailPage = null;
     }
 
 }

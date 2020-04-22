@@ -21,6 +21,7 @@ import org.junit.runner.RunWith;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -42,22 +43,27 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
+
 public class Add_Appointment_PageTest {
 
     @Rule
     public ActivityTestRule<Add_Appointment_Page> activityTestRule = new ActivityTestRule<Add_Appointment_Page>(Add_Appointment_Page.class);
     private Add_Appointment_Page addAppointmentPage = null;
-    Calendar current = Calendar.getInstance();
-    int tomorrow = current.get(Calendar.DAY_OF_MONTH)+1;
-    int currentMonth = current.get(Calendar.MONTH)+1;
-    int minutes = current.get(Calendar.MINUTE)+5;
-    int hours = current.get(Calendar.HOUR)-1;
+    private Calendar current = Calendar.getInstance();
+    private int tomorrow = current.get(Calendar.DAY_OF_MONTH)+1;
+    private int currentMonth = current.get(Calendar.MONTH);
+    private int minutes = current.get(Calendar.MINUTE)+20;
+    private int hours = current.get(Calendar.HOUR)-1;
 
     @Before
     public void setUp() throws Exception {
-        activityTestRule.launchActivity(new Intent());
+       // activityTestRule.launchActivity(new Intent());
         addAppointmentPage = activityTestRule.getActivity();
         //add timer for all tests
         //Mack sure Espresso does not time out
@@ -91,6 +97,8 @@ public class Add_Appointment_PageTest {
         onView(withId(R.id.backButton)).check(matches(isClickable()));
         //perform click on back button
         onView(withId(R.id.backButton)).perform(click());
+        //check the activity  finish
+        assertTrue(activityTestRule.getActivity().isFinishing());
     }
 
     @Test
@@ -102,7 +110,7 @@ public class Add_Appointment_PageTest {
         // check when click the date and time button
         onView(withId(R.id.MTillDays)).perform(click());
         //choose current date from calender
-        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(current.get(Calendar.YEAR), currentMonth, current.get(Calendar.DAY_OF_MONTH) ));
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(current.get(Calendar.YEAR), (currentMonth+1), current.get(Calendar.DAY_OF_MONTH) ));
         //click ok
         onView(withText("OK")).perform(click());
         //time button clicked
@@ -111,12 +119,17 @@ public class Add_Appointment_PageTest {
         onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(PickerActions.setTime(hours , current.get(Calendar.MINUTE) ));
         //click ok button
         onView(withText("OK")).perform(click());
-            //click confirm button
-            onView(withId(R.id.button)).perform(click());
-            // check toast visibility
-            onView(withText(R.string.CurrentTime))
+        //click confirm button
+        onView(withId(R.id.button)).perform(click());
+        // check toast visibility
+        onView(withText(R.string.CurrentTime))
                     .inRoot(new ToastMatcher())
                     .check(matches(withText(R.string.CurrentTime)));
+        //check the activity still displayed
+        onView(withId(R.id.Add_Appointment_Page)).check(matches(isDisplayed()));
+        //check the activity not finish
+        assertFalse(activityTestRule.getActivity().isFinishing());
+        assertNotNull(addAppointmentPage);
     }
 
     @Test
@@ -239,7 +252,7 @@ public class Add_Appointment_PageTest {
         // check when click the date and time button
         onView(withId(R.id.MTillDays)).perform(click());
         //choose date after current date
-        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(current.get(Calendar.YEAR), currentMonth, tomorrow));
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(current.get(Calendar.YEAR), (currentMonth+1), tomorrow));
         onView(withText("OK")).perform(click());
         //time button clicked
         onView(withId(R.id.MTime)).perform(click());
@@ -247,26 +260,12 @@ public class Add_Appointment_PageTest {
         onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(PickerActions.setTime(03 , 00));
         //click ok button
         onView(withText("OK")).perform(click());
-        //Mack sure Espresso does not time out
-        IdlingPolicies.setMasterPolicyTimeout(6000 * 2, TimeUnit.MILLISECONDS);
-        IdlingPolicies.setIdlingResourceTimeout(6000 * 2, TimeUnit.MILLISECONDS);
-        //Now we waite
-        IdlingResource idlingResource = new ElapsedTimeIdlingResource(6000);
-        try {
-            IdlingRegistry.getInstance().register(idlingResource);
             //click confirm button
             onView(withId(R.id.button)).perform(click());
-            //TODO write test for firebase to check the app added successfully in firebase
-            //DocumentReference doc = t
             // check toast visibility
             onView(withText(R.string.AppSavedSuccess))
                     .inRoot(new ToastMatcher())
                     .check(matches(withText(R.string.AppSavedSuccess)));
-        }
-        //clean upp
-        finally {
-            IdlingRegistry.getInstance().unregister(idlingResource);
-        }
     }
 
     @Test
@@ -277,7 +276,7 @@ public class Add_Appointment_PageTest {
         // check when click the date and time button
         onView(withId(R.id.MTillDays)).perform(click());
         //choose date after current date
-        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(current.get(Calendar.YEAR), currentMonth, current.get(Calendar.DAY_OF_MONTH) ));
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(current.get(Calendar.YEAR), (currentMonth+1), current.get(Calendar.DAY_OF_MONTH) ));
         onView(withText("OK")).perform(click());
         //time button clicked
         onView(withId(R.id.MTime)).perform(click());
@@ -285,31 +284,16 @@ public class Add_Appointment_PageTest {
         onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(PickerActions.setTime((current.get(Calendar.HOUR)) , minutes ));
         //click ok button
         onView(withText("OK")).perform(click());
-        //Mack sure Espresso does not time out
-        IdlingPolicies.setMasterPolicyTimeout(6000 * 2, TimeUnit.MILLISECONDS);
-        IdlingPolicies.setIdlingResourceTimeout(6000 * 2, TimeUnit.MILLISECONDS);
-        //Now we waite
-        IdlingResource idlingResource = new ElapsedTimeIdlingResource(6000);
-        try {
-            IdlingRegistry.getInstance().register(idlingResource);
             //click confirm button
             onView(withId(R.id.button)).perform(click());
-            //TODO write test for firebase to check the app added successfully in firebase
-            //DocumentReference doc = t
             // check toast visibility
             onView(withText(R.string.AppSavedSuccess))
                     .inRoot(new ToastMatcher())
                     .check(matches(withText(R.string.AppSavedSuccess)));
-        }
-        //clean upp
-        finally {
-            IdlingRegistry.getInstance().unregister(idlingResource);
-        }
     }
 
-      @Test
+      //@Test
       public void appAppFialed () {
-          //due no problem in networl connection or undefined reason
           onView(withId(R.id.nameET)).perform(typeText("First App"));
           closeSoftKeyboard();
           // check when click the date and time button

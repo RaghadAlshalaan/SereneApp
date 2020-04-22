@@ -509,10 +509,14 @@ public class Editprofile extends AppCompatActivity {
                                         ChangePass = true;
                                         if (pastName != null && !TextUtils.isEmpty(name.getText().toString()) && pastName.equals(name.getText().toString())) {
                                             Toast.makeText(Editprofile.this, R.string.passwordUpdate, Toast.LENGTH_LONG).show();
-                                            finish();
+                                            //finish();
+                                            Intent intent = new Intent(Editprofile.this, PatientProfile.class);
+                                            startActivity(intent);
                                         } else {
                                             Toast.makeText(Editprofile.this, R.string.ProfileInfoUpdateSuccess, Toast.LENGTH_LONG).show();
-                                            finish();
+                                            //finish();
+                                            Intent intent = new Intent(Editprofile.this, PatientProfile.class);
+                                            startActivity(intent);
                                         }
 
                                     } else {
@@ -661,7 +665,9 @@ public class Editprofile extends AppCompatActivity {
                             MySharedPreference.putString(Editprofile.this, "name", newName);
                             if ( oldPass.getText().toString().equals("") && newPass.getText().toString().equals("") && confirmPass.getText().toString().equals("")  ){
                                 Toast.makeText(Editprofile.this, R.string.UpdateNameSuccess, Toast.LENGTH_LONG).show();
-                                finish();
+                                //finish();
+                                Intent intent = new Intent(Editprofile.this, PatientProfile.class);
+                                startActivity(intent);
                             }
 
                         }

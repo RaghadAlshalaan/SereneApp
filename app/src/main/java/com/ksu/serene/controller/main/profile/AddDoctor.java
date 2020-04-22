@@ -88,7 +88,7 @@ public class AddDoctor extends AppCompatActivity {
 
                     addDoctor(name.getText().toString(), email.getText().toString());
 
-                    finish();
+                    //finish();
                 }
 
             }
@@ -122,6 +122,8 @@ public class AddDoctor extends AppCompatActivity {
                                     Log.d(TAG, "DocumentSnapshot added successfully");
                                     Toast.makeText(AddDoctor.this, R.string.AddDocSuccess,
                                             Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(AddDoctor.this, PatientProfile.class);
+                                    startActivity(intent);
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {

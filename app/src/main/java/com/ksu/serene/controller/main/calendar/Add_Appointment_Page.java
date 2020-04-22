@@ -65,8 +65,8 @@ public class Add_Appointment_Page extends AppCompatActivity {
             calendar.set(Calendar.MONTH, monthOfYear);
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-            //Date.setText(DateFormat.format(calendar.getTime()));
-            Date.setText(calendar.get(Calendar.DAY_OF_MONTH)+"/"+calendar.get(Calendar.MONTH)+"/"+calendar.get(Calendar.YEAR) );
+            Date.setText(DateFormat.format(calendar.getTime()));
+           // Date.setText(calendar.get(Calendar.DAY_OF_MONTH)+"/"+(calendar.get(Calendar.MONTH))+"/"+calendar.get(Calendar.YEAR) );
         }
     };
 
@@ -180,6 +180,14 @@ public class Add_Appointment_Page extends AppCompatActivity {
         catch (ParseException e) {
             e.printStackTrace();
         }
+
+        Log.d("CurrentDate",current.get(Calendar.DAY_OF_MONTH)+"/"+(current.get(Calendar.MONTH)+1)+"/"+current.get(Calendar.YEAR));
+        Log.d("CurrentTime",current.get(Calendar.HOUR)+":"+current.get(Calendar.MINUTE));
+
+        Log.d("ChosenDate",calendarTimeStamp.get(Calendar.DAY_OF_MONTH)+"/"+(calendarTimeStamp.get(Calendar.MONTH)+1)+"/"+calendarTimeStamp.get(Calendar.YEAR));
+        Log.d("ChosenTime",AT.getHours()+":"+AT.getMinutes());
+
+
         // if the  day after current date no need for check for time
         if ( calendarTimeStamp.get(Calendar.YEAR) > current.get(Calendar.YEAR)
                 || ( calendarTimeStamp.get(Calendar.YEAR) == current.get(Calendar.YEAR)
