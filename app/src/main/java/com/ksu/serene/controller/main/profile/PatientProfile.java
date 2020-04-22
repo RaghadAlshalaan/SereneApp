@@ -1,5 +1,5 @@
 package com.ksu.serene.controller.main.profile;
-
+import static com.ksu.serene.model.MySharedPreference.getInstance;
 import java.util.Locale;
 
 import android.os.Bundle;
@@ -71,6 +71,7 @@ public class PatientProfile extends AppCompatActivity {
     private FirebaseFirestore db = com.google.firebase.firestore.FirebaseFirestore.getInstance();
     private String mToken;
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private String googleCalendar;
 
     public void setmAuth(FirebaseAuth mockMAuth) {
         this.mAuth = mockMAuth;
@@ -184,6 +185,11 @@ public class PatientProfile extends AppCompatActivity {
                 finish();
             }
         });
+        SharedPreferences preferences = PatientProfile.this.getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+        boolean connect = preferences.getBoolean("Connect",false);
+        if (connect){
+            findViewById(R.id.googleCalender).setVisibility(View.GONE);
+        }
 
         alert = findViewById(R.id.alert);
         resendL = findViewById(R.id.resendL);

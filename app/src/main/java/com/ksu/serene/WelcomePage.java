@@ -50,17 +50,17 @@ public class WelcomePage extends AppCompatActivity {
 
     private Button logIn;
     private Button register;
-    private ImageView signInWithGoogle;
+    //private ImageView signInWithGoogle;
 
     private String TAG = WelcomePage.class.getSimpleName();
 
     //create googleAPClient object
-    private GoogleApiClient mGoogleApiClient;
+    //private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    private GoogleSignInClient mGoogleSignInClient;
-    private boolean foundEmail = false;
+    //private GoogleSignInClient mGoogleSignInClient;
+    //private boolean foundEmail = false;
     private Task<SignInMethodQueryResult> result;
 
 
@@ -82,7 +82,7 @@ public class WelcomePage extends AppCompatActivity {
 
         logIn = findViewById(R.id.login);
         register = findViewById(R.id.register);
-        signInWithGoogle = findViewById(R.id.signup_withgoogle);
+        //signInWithGoogle = findViewById(R.id.signup_withgoogle);
 
 
         logIn.setOnClickListener( new View.OnClickListener(){
@@ -102,8 +102,6 @@ public class WelcomePage extends AppCompatActivity {
         });
 
         if (checkUserLogin()) {
-            //TODO check if all sign up completed then go to main
-            //TODO else got to the sign up settings pages
             //user is logged in
             Intent intent = new Intent(WelcomePage.this, MainActivity.class);
             startActivity(intent);
@@ -112,7 +110,7 @@ public class WelcomePage extends AppCompatActivity {
         }
 
         // Configure sign-in to request the user's ID, email address, and basic
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+       /* GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
@@ -125,12 +123,12 @@ public class WelcomePage extends AppCompatActivity {
                 Intent signInIntent = mGoogleSignInClient.getSignInIntent();
                 startActivityForResult(signInIntent, 9001);
             }
-        });
+        });*/
 
 
     }// End onCreate
 
-    @Override
+   /* @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -283,7 +281,7 @@ public class WelcomePage extends AppCompatActivity {
                         Log.w(TAG, "Error updating document", e);
                     }
                 });
-    }
+    }*/
 
     private boolean checkUserLogin() {
 

@@ -79,9 +79,10 @@ public class FitbitConnection extends AppCompatActivity implements View.OnClickL
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent i = new Intent(FitbitConnection.this, GoogleCalendarConnection.class);
-                startActivity(i);
+                if (statusTV.getText().equals(R.string.status_connect)) {
+                    Intent i = new Intent(FitbitConnection.this, GoogleCalendarConnection.class);
+                    startActivity(i);
+                }
             }
         });
 

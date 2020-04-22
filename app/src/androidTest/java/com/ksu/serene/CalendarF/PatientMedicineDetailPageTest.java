@@ -58,7 +58,7 @@ public class PatientMedicineDetailPageTest {
         try {
             IdlingRegistry.getInstance().register(idlingResource);
             //activityTestRule.launchActivity(new Intent());
-            onView(ViewMatchers.withId(R.id.PatientMedicineDetailPage)).check(matches(isDisplayed()));
+            onView(withId(R.id.PatientMedicineDetailPage)).check(matches(isDisplayed()));
             //check button visible
             onView(withId(R.id.DeleteMedicine)).check(matches(isDisplayed()));
         }

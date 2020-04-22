@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/main_background"
-    tools:context=".controller.signup.GoogleCalendarConnection">
+    tools:context=".controller.signup.GoogleCalendarConnection"
+    android:id="@+id/GoogleCalendarConnection">
 
 
     <View

@@ -34,24 +34,27 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static com.ksu.serene.ImageViewMatcher.hasDrawable;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
+
 public class PatientProfileTest {
 
-    //TODO check for change language after added to class
     @Rule
     public ActivityTestRule<PatientProfile> activityTestRule = new ActivityTestRule<PatientProfile>(PatientProfile.class);
+    private PatientProfile patientProfile = null;
 
     @Before
     public void setUp() throws Exception {
+        patientProfile = activityTestRule.getActivity();
         //launch activity
-        activityTestRule.launchActivity(new Intent());
+        //activityTestRule.launchActivity(new Intent());
         //Mack sure Espresso does not time out
-        IdlingPolicies.setMasterPolicyTimeout(10000 * 2, TimeUnit.MILLISECONDS);
-        IdlingPolicies.setIdlingResourceTimeout(10000 * 2, TimeUnit.MILLISECONDS);
+        IdlingPolicies.setMasterPolicyTimeout(6000 * 2, TimeUnit.MILLISECONDS);
+        IdlingPolicies.setIdlingResourceTimeout(6000 * 2, TimeUnit.MILLISECONDS);
         //Now we waite
-        IdlingResource idlingResource = new ElapsedTimeIdlingResource(10000);
+        IdlingResource idlingResource = new ElapsedTimeIdlingResource(6000);
         try {
             IdlingRegistry.getInstance().register(idlingResource);
             //check the activity is visible
@@ -76,10 +79,7 @@ public class PatientProfileTest {
     @Test
     public void CheckSetting () {
         //check the name
-        onView(withId(R.id.full_name)).check(matches(isDisplayed()));//.check(matches(withText("userSerene")));
-        //check the email
-        onView(withId(R.id.emailET)).check(matches(withText("lama-almarshad@hotmail.com")));
-        //TODO check for image that exactly as apear
+        onView(withId(R.id.full_name)).check(matches(isDisplayed()));
         //check the image
         onView(withId(R.id.imageView)).check(matches(isDisplayed()));
         onView(withId(R.id.imageView)).check(matches(hasDrawable()));
@@ -91,23 +91,7 @@ public class PatientProfileTest {
         onView(withId(R.id.backButton)).check(matches(isClickable()));
         //perform click on back button
         onView(withId(R.id.backButton)).perform(click());
-    }
-
-    //check the alert dialog appear when email not verified
-    //@Test
-    public void AlertENVSuccess () {
-        //check the alert dialog
-        onView(withId(R.id.alert)).check(matches(isDisplayed()));
-        //check the message
-        onView(withId(R.id.alarmMsg)).check(matches(withText(R.string.VervEmail)));
-        //TODO CHECK WHEN CLICK ON THE DIALOG EMAIL WILL BE SENT FOR VERVICATION AND TOAST APEAR INDICATE IF EMAIL SENT OR NOT
-        //click dialog to sent email verfication
-        onView(withId(R.id.alert)).perform(click());
-        // check toast visibility
-        onView(withText(R.string.VervEmailSuccess))
-                .inRoot(new ToastMatcher())
-                .check(matches(withText(R.string.VervEmailSuccess)));
-
+        assertTrue(activityTestRule.getActivity().isFinishing());
     }
 
     /*@Test
@@ -144,28 +128,60 @@ public class PatientProfileTest {
         onView(withId(R.id.EditSocio)).check(matches(isDisplayed()));
     }
 
-    //check when click the doctor and user doesn't have doctor go to add doctor page
-    //@Test
-    public void AddDoctor () {
-        //click the button
-        onView(withId(R.id.go_to2)).perform(click());
-        //check the add doctor page apear
-        //onView(withId(R.id.AddDoctor)).check(matches(isDisplayed()));
-    }
-
     //check when click the doctor and user have doctor go to doctor page details
-    //@Test
+    @Test
     public void ViewDoctor () {
         //check the doctor name will viewd
         //onView(withId(R.id.doctor_text2)).check(matches(withText("")));
         onView(withId(R.id.doctor_text2)).check(matches(isDisplayed()));
         //click the button
         onView(withId(R.id.go_to2)).perform(click());
-        //check the edit profile page apear
-        onView(withId(R.id.MyDoctor)).check(matches(isDisplayed()));
+        //Mack sure Espresso does not time out
+        IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
+        IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
+        //Now we waite
+        IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
+        try {
+            IdlingRegistry.getInstance().register(idlingResource);
+            //check the doc info page apear
+            onView(withId(R.id.MyDoctor)).check(matches(isDisplayed()));
+            onView(withId(R.id.nameET)).check(matches(withText("Ahmed")));
+            onView(withId(R.id.emailET)).check(matches(withText("lama449@gmail.com")));
+        }
+        //clean upp
+        finally {
+            IdlingRegistry.getInstance().unregister(idlingResource);
+        }
+    }
+
+    //check when click to log out the Dialog appear
+    @Test
+    public void LogOutCancel () {
+        //click the log out
+        onView(withId(R.id.log_out_btn)).perform(click());
+        //check the dialog appear
+        onView(withText(R.string.LogOutMsg))
+                .inRoot(isDialog()) // <---
+                .check(matches(isDisplayed()));
+        //click the cancel button
+        onView(withText(R.string.LogOutCancle)).perform(click());
+        //nothing happened
+        assertFalse(activityTestRule.getActivity().isFinishing());
+        onView(withId(R.id.PatientProfile)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void googleCalendarConnectionP () {
+        //check calendar disonncect
+        onView(withId(R.id.connection_status)).check(matches(withText(R.string.disabled)));
+        //click connect to calendar
+        onView(withId(R.id.go_to3)).perform(click());
+        //check the connect page display
+        onView(withId(R.id.GoogleCalendarConnection)).check(matches(isDisplayed()));
     }
 
     @After
     public void tearDown() throws Exception {
+            patientProfile = null;
     }
 }

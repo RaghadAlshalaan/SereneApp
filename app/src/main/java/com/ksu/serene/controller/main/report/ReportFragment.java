@@ -161,18 +161,18 @@ public class ReportFragment extends Fragment {
 
                 switch (isDatesChoosen(startDate, endDate)) {
                     //here the only missing is the start StartDate
-                    case 1: {
+                    /*case 1: {
                         String text = String.format(res.getString(R.string.date_pickerrr));
                         dialog(text);
                         break;
-                    }
+                    }*/
                     //here the only missing is the end StartDate
                     case -1: {
                         String text = String.format(res.getString(R.string.date_pickerrrr));
                         dialog(text);
                     }
                     //here the missing are the tow dates
-                    case 2: {
+                    case 1: {
                         String text = String.format(res.getString(R.string.date_pickerr));
                         dialog(text);
                         break;
@@ -334,7 +334,7 @@ public class ReportFragment extends Fragment {
         Calendar currentTime = Calendar.getInstance();
         if (calenderMillis.get(Calendar.YEAR) == currentTime.get(Calendar.YEAR)
                 && calenderMillis.get(Calendar.MONTH) == currentTime.get(Calendar.MONTH)
-                && calenderMillis.get(Calendar.DAY_OF_MONTH) == currentTime.get(Calendar.DAY_OF_MONTH)) {
+                && calenderMillis.get(Calendar.DAY_OF_MONTH)+1 == currentTime.get(Calendar.DAY_OF_MONTH)) {
             return true;
         }
         return false;
@@ -342,12 +342,10 @@ public class ReportFragment extends Fragment {
 
     public int isDatesChoosen(String startDate, String endDate) {
         if (startDate == null && endDate == null) {
-            return 2;
-        }
-        if (startDate == null && endDate != null) {
             return 1;
         }
-        if (startDate != null && endDate == null) {
+        //if (startDate == null && endDate != null) {return 1;}
+        if ( endDate == null) {
             return -1;
         }
         return 0;

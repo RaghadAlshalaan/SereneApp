@@ -270,7 +270,8 @@
             android:background="@drawable/white_background"
             android:clickable="true"
             android:focusable="auto"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:id="@+id/googleCalender">
 
             <ImageView
                 android:id="@+id/calendar_icon"

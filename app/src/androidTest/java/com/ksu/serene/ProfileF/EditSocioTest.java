@@ -281,6 +281,9 @@ public class EditSocioTest {
         onView(withText(R.string.NotCorrectWeight))
                 .inRoot(new ToastMatcher())
                 .check(matches(withText(R.string.NotCorrectWeight)));
+        //check activity still showen
+        assertFalse(activityTestRule.getActivity().isFinishing());
+        onView(withId(R.id.EditSocio)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -312,6 +315,9 @@ public class EditSocioTest {
         onView(withText(R.string.NotCorrectMI))
                 .inRoot(new ToastMatcher())
                 .check(matches(withText(R.string.NotCorrectMI)));
+        //check activity still showen
+        assertFalse(activityTestRule.getActivity().isFinishing());
+        onView(withId(R.id.EditSocio)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -342,6 +348,9 @@ public class EditSocioTest {
         onView(withText(R.string.NotCorrectCD))
                 .inRoot(new ToastMatcher())
                 .check(matches(withText(R.string.NotCorrectCD)));
+        //check activity still showen
+        assertFalse(activityTestRule.getActivity().isFinishing());
+        onView(withId(R.id.EditSocio)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -356,26 +365,16 @@ public class EditSocioTest {
         closeSoftKeyboard();
         onView(withId(R.id.chronic)).perform(replaceText("No"));//chronic disease
         closeSoftKeyboard();
-        //Mack sure Espresso does not time out
-        IdlingPolicies.setMasterPolicyTimeout(8000 * 2, TimeUnit.MILLISECONDS);
-        IdlingPolicies.setIdlingResourceTimeout(8000 * 2, TimeUnit.MILLISECONDS);
-        //Now we waite
-        IdlingResource idlingResource = new ElapsedTimeIdlingResource(8000);
-        try {
-            IdlingRegistry.getInstance().register(idlingResource);
             onView(withId(R.id.button)).perform(click());
             // check toast visibility
             onView(withText(R.string.SocioInfoUpdateSuccess))
                     .inRoot(new ToastMatcher())
                     .check(matches(withText(R.string.SocioInfoUpdateSuccess)));
-        }
-        //clean upp
-        finally {
-            IdlingRegistry.getInstance().unregister(idlingResource);
-        }
+            //check the profile showen
+        onView(withId(R.id.PatientProfile)).check(matches(isDisplayed()));
     }
 
-    @Test
+    //@Test
     public void updateSocioFail () {
         onView(withId(R.id.age)).perform(typeText("20"));
         onView(withId(R.id.height)).perform(typeText("150"));
@@ -406,6 +405,7 @@ public class EditSocioTest {
         onView(withId(R.id.backButton)).check(matches(isClickable()));
         //perform click on back button
         onView(withId(R.id.backButton)).perform(click());
+        assertTrue(activityTestRule.getActivity().isFinishing());
     }
 
     @After

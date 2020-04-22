@@ -1,4 +1,5 @@
 package com.ksu.serene.controller.signup;
+import static com.ksu.serene.model.MySharedPreference.getInstance;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +7,9 @@ import android.Manifest;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +31,9 @@ import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.CalendarList;
 import com.ksu.serene.MainActivity;
 import com.ksu.serene.R;
+import com.ksu.serene.controller.Constants;
+import com.ksu.serene.controller.main.profile.PatientProfile;
+import com.ksu.serene.model.MySharedPreference;
 import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -82,6 +88,16 @@ public class GoogleCalendarConnection extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(fromProfile ){
+                    if (textViewStatus.getText().toString().equals("Connected")) {
+                        SharedPreferences preferences = GoogleCalendarConnection.this.getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putBoolean("Connect",true);
+                        editor.apply();
+                    }
+                    Intent intent = new Intent(GoogleCalendarConnection.this, PatientProfile.class);
+                    startActivity(intent);
+                }
                 finish();
             }
         });

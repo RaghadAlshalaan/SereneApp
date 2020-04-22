@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 //import java.util.Calendar;
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 import androidx.test.espresso.IdlingPolicies;
@@ -33,12 +34,16 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.junit.Assert.*;
+
 @RunWith(AndroidJUnit4.class)
 public class ReportFragmentTest {
 
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<MainActivity>(MainActivity.class);
     //private Calendar current = Calendar.getInstance();
+    private Calendar current = Calendar.getInstance();
+    private int yesterday = current.get(Calendar.DAY_OF_MONTH)-1;
+    private int currentMonth = current.get(Calendar.MONTH);
 
     @Before
     public void setUp() throws Exception {
@@ -66,6 +71,7 @@ public class ReportFragmentTest {
             IdlingRegistry.getInstance().unregister(idlingResource);
         }
     }
+
     @Test
     public void checkSpecificPeriodShowsDateB() {
         //click on specific option
@@ -77,7 +83,7 @@ public class ReportFragmentTest {
         onView(withId(R.id.end)).check(matches(isDisplayed()));
     }
 
-    //@Test
+    @Test
     public void lastTwoWeekSelected() {
         //click on last two option
         onView(withId(R.id.radioButton1)).perform(click());
@@ -89,7 +95,7 @@ public class ReportFragmentTest {
         onView(withId(R.id.PatientReport)).check(matches(isDisplayed()));
     }
 
-   //@Test
+   @Test
     public void lastMonthSelected() {
         //click on last month option
         onView(withId(R.id.radioButton2)).perform(click());
@@ -101,9 +107,8 @@ public class ReportFragmentTest {
         onView(withId(R.id.PatientReport)).check(matches(isDisplayed()));
     }
 
-    //TODO check for all condition if specific date
-    //TODO test the toast msg
-    //@Test
+    // check for all condition if specific date
+    @Test
     public void SpecificPeriodEndClickBStart() {
         //click on specific option
         onView(withId(R.id.radioButton3)).perform(click());
@@ -112,14 +117,15 @@ public class ReportFragmentTest {
         //check the dates button appears
         onView(withId(R.id.start)).check(matches(isDisplayed()));
         onView(withId(R.id.end)).check(matches(isDisplayed()));
+        //check the text of buttons
+        onView(withId(R.id.start)).check(matches(withText(R.string.set_start)));
+        onView(withId(R.id.end)).check(matches(withText(R.string.set_end)));
         //click the end button
         onView(withId(R.id.end)).perform(click());
         //check the generate report still showen
         onView(withId(R.id.ReportF)).check(matches(isDisplayed()));
-        //check the patient report not showen
-        //onView(withId(R.id.PatientReport)).check(matches(isDisplayed()));
     }
-    //TODO test the toast msg
+
     @Test
     public void SpecificPeriodNoDatesSet() {
         //click on specific option
@@ -129,14 +135,15 @@ public class ReportFragmentTest {
         //check the dates button appears
         onView(withId(R.id.start)).check(matches(isDisplayed()));
         onView(withId(R.id.end)).check(matches(isDisplayed()));
+        //check the text of buttons
+        onView(withId(R.id.start)).check(matches(withText(R.string.set_start)));
+        onView(withId(R.id.end)).check(matches(withText(R.string.set_end)));
         //click the generate button button
         onView(withId(R.id.generate_report_btn)).perform(click());
         //check the generate report still showen
         onView(withId(R.id.ReportF)).check(matches(isDisplayed()));
-        //check the patient report not showen
-        //onView(withId(R.id.PatientReport)).check(matches(isDisplayed()));
     }
-    //TODO test when select specific date and the start date click select only should no enable to go to patient report
+    // test when select specific date and the start date click select only should no enable to go to patient report
     @Test
     public void SpecificPeriodStartDateSelect() {
         //click on specific option
@@ -156,10 +163,10 @@ public class ReportFragmentTest {
         onView(withId(R.id.start)).check(matches(withText("12/04/2020")));
         //click the generate button button
         onView(withId(R.id.generate_report_btn)).perform(click());
+        //check the text of end button
+        onView(withId(R.id.end)).check(matches(withText(R.string.set_end)));
         //check the generate report still showen
         onView(withId(R.id.ReportF)).check(matches(isDisplayed()));
-        //check the patient report not showen
-        //onView(withId(R.id.PatientReport)).check(matches(isDisplayed()));
     }
     //Test all condition when start date dialog click cancle
     @Test
@@ -177,12 +184,13 @@ public class ReportFragmentTest {
         onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2020, 4, 12));
         //click cancle
         onView(withText("CANCEL")).perform(click());
+        //check the text of buttons
+        onView(withId(R.id.start)).check(matches(withText(R.string.set_start)));
+        onView(withId(R.id.end)).check(matches(withText(R.string.set_end)));
         //click the generate button button
         onView(withId(R.id.generate_report_btn)).perform(click());
         //check the generate report still showen
         onView(withId(R.id.ReportF)).check(matches(isDisplayed()));
-        //check the patient report not showen
-        //onView(withId(R.id.PatientReport)).check(matches(isDisplayed()));
     }
     @Test
     public void SpecificPeriodStartDateCancleClickEnd() {
@@ -201,16 +209,18 @@ public class ReportFragmentTest {
         onView(withText("CANCEL")).perform(click());
         //click the end
         onView(withId(R.id.end)).perform(click());
+        //check the text of buttons
+        onView(withId(R.id.start)).check(matches(withText(R.string.set_start)));
+        onView(withId(R.id.end)).check(matches(withText(R.string.set_end)));
         //click the generate button button
         onView(withId(R.id.generate_report_btn)).perform(click());
         //check the generate report still showen
         onView(withId(R.id.ReportF)).check(matches(isDisplayed()));
-        //check the patient report not showen
-        //onView(withId(R.id.PatientReport)).check(matches(isDisplayed()));
     }
+
     //Test all condition after select start date
     @Test
-    public void SpecificPeriodStartEndDatesSelectNotCurrent() {
+    public void SpecificPeriodStartEndDatesSelectNotYesterday() {
         //click on specific option
         onView(withId(R.id.radioButton3)).perform(click());
         //check that the option selected
@@ -236,12 +246,13 @@ public class ReportFragmentTest {
         //check the start date text contains the exact date
         onView(withId(R.id.end)).check(matches(withText("13/04/2020")));
         //click the generate button button
-        //onView(withId(R.id.generate_report_btn)).perform(click());crash
+        onView(withId(R.id.generate_report_btn)).perform(click());
         //check the generate report still showen
         //onView(withId(R.id.ReportF)).check(matches(isDisplayed()));
         //check the patient report not showen
-        //onView(withId(R.id.PatientReport)).check(matches(isDisplayed()));
+        onView(withId(R.id.PatientReport)).check(matches(isDisplayed()));
     }
+
     @Test
     public void SpecificPeriodEndDatesSelectDateCancle() {
         //click on specific option
@@ -266,16 +277,17 @@ public class ReportFragmentTest {
         onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2020, 4, 13));
         //click ok
         onView(withText("CANCEL")).perform(click());
+        //check the text of end button
+        onView(withId(R.id.end)).check(matches(withText(R.string.set_end)));
         //click the generate button button
         onView(withId(R.id.generate_report_btn)).perform(click());
         //check the generate report still showen
         onView(withId(R.id.ReportF)).check(matches(isDisplayed()));
-        //check the patient report not showen
-        //onView(withId(R.id.PatientReport)).check(matches(isDisplayed()));
     }
+
     //here check when start date choose the current date
     //@Test
-    public void SpecificPeriodStartEndDatesSelectCurrent() {
+    public void SpecificPeriodStartEndDatesSelectYesterday() {
         //click on specific option
         onView(withId(R.id.radioButton3)).perform(click());
         //check that the option selected
@@ -286,24 +298,21 @@ public class ReportFragmentTest {
         //click the end button
         onView(withId(R.id.start)).perform(click());
         //choose date
-        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2020, 4, 13));
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(current.get(Calendar.YEAR), (currentMonth+1), yesterday));
         //onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(current.get(Calendar.YEAR), current.get(Calendar.MONTH), current.get(Calendar.DAY_OF_MONTH)));
         //click ok
         onView(withText("OK")).perform(click());
         //check the start date text contains the exact date
-        onView(withId(R.id.start)).check(matches(withText("17/04/2020")));
-        //onView(withId(R.id.start_date)).check(matches(withText(current.get(Calendar.DAY_OF_MONTH)+"/"+current.get(Calendar.MONTH)+"/"+current.get(Calendar.YEAR))));
+        onView(withId(R.id.start)).check(matches(withText(yesterday+"/0"+(currentMonth+1)+"/"+current.get(Calendar.YEAR))));
         //click the end
         onView(withId(R.id.end)).perform(click());
-        onView(withId(R.id.end)).check(matches(withText("17/04/2020")));
-        //check the end date text contains the exact date
-        //onView(withId(R.id.end_date)).check(matches(withText(current.get(Calendar.DAY_OF_MONTH)+"/"+current.get(Calendar.MONTH)+"/"+current.get(Calendar.YEAR))));
+        onView(withId(R.id.end)).check(matches(withText(yesterday+"/0"+(currentMonth+1)+"/"+current.get(Calendar.YEAR))));
         //click the generate button button
-        //onView(withId(R.id.generate_report_btn)).perform(click());crash
+        onView(withId(R.id.generate_report_btn)).perform(click());
         //check the generate report still showen
         //onView(withId(R.id.ReportF)).check(matches(isDisplayed()));
         //check the patient report not showen
-        //onView(withId(R.id.PatientReport)).check(matches(isDisplayed()));
+        onView(withId(R.id.PatientReport)).check(matches(isDisplayed()));
     }
 
 

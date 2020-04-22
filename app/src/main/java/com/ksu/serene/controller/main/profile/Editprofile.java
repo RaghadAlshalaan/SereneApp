@@ -75,8 +75,6 @@ public class Editprofile extends AppCompatActivity {
     private TextView ForgetPassword;
     private String pastName;
     private boolean ChangePass = false;
-    private TextView imgInStorage;
-    private boolean changeName = false;
 
     public void setmAuth(FirebaseAuth mockMAuth) {
         this.mAuth = mockMAuth;
@@ -105,7 +103,6 @@ public class Editprofile extends AppCompatActivity {
                 finish();
             }
         });
-        imgInStorage = findViewById(R.id.ImageSavedStorage);
         Eng = findViewById(R.id.English);
         Ar = findViewById(R.id.Arabic);
 

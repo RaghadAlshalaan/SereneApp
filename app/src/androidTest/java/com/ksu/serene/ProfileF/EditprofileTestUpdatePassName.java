@@ -41,7 +41,7 @@ public class EditprofileTestUpdatePassName {
 
     @Before
     public void setUp() throws Throwable {
-        //editprofile = activityTestRule.getActivity();
+        editprofile = activityTestRule.getActivity();
         //add timer so each toast for each test
         //Mack sure Espresso does not time out
         IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
@@ -50,7 +50,7 @@ public class EditprofileTestUpdatePassName {
         IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
         try {
             IdlingRegistry.getInstance().register(idlingResource);
-            activityTestRule.launchActivity(new Intent());
+            //activityTestRule.launchActivity(new Intent());
             onView(ViewMatchers.withId(R.id.Editprofile)).check(matches(isDisplayed()));
         }
         //clean upp
@@ -74,22 +74,10 @@ public class EditprofileTestUpdatePassName {
         onView(withId(R.id.reNewPassword)).perform(typeText("serene00"));
         //close keyboard
         closeSoftKeyboard();
-        //Mack sure Espresso does not time out
-        IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
-        IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
-        //Now we waite
-        IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
-        try {
-            IdlingRegistry.getInstance().register(idlingResource);
             //click the button
             onView(withId(R.id.save)).perform(click());
-            // check toast visibility
-            //onView(withText(R.string.passwordUpdate)).inRoot(new ToastMatcher()).check(matches(withText(R.string.passwordUpdate)));
-        }
-        //clean upp
-        finally {
-            IdlingRegistry.getInstance().unregister(idlingResource);
-        }
+            // check the profile showen
+        onView(withId(R.id.PatientProfile)).check(matches(isDisplayed()));
     }
     @Test
     public void updateProfileSuccess () {
@@ -109,22 +97,10 @@ public class EditprofileTestUpdatePassName {
         onView(withId(R.id.reNewPassword)).perform(typeText("passw99"));
         //close keyboard
         closeSoftKeyboard();
-        //Mack sure Espresso does not time out
-        IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
-        IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
-        //Now we waite
-        IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
-        try {
-            IdlingRegistry.getInstance().register(idlingResource);
             //click the button
             onView(withId(R.id.save)).perform(click());
-            // check toast visibility
-            //onView(withText(R.string.ProfileInfoUpdateSuccess)).inRoot(new ToastMatcher()).check(matches(withText(R.string.ProfileInfoUpdateSuccess)));
-        }
-        //clean upp
-        finally {
-            IdlingRegistry.getInstance().unregister(idlingResource);
-        }
+        // check the profile showen
+        onView(withId(R.id.PatientProfile)).check(matches(isDisplayed()));
     }
 
     @After

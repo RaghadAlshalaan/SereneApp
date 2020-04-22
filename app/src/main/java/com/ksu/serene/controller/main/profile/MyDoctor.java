@@ -31,8 +31,6 @@ import com.ksu.serene.R;
 
 public class MyDoctor extends AppCompatActivity {
 
-
-    private TextView email, name, edit;
     private Button delete, save;
     private TextView nameET, emailET;
     private FirebaseFirestore db = com.google.firebase.firestore.FirebaseFirestore.getInstance();
@@ -90,9 +88,9 @@ public class MyDoctor extends AppCompatActivity {
                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                 Toast.makeText(MyDoctor.this,R.string.DocDeletedSuccess,
                                                                         Toast.LENGTH_LONG).show();
-                                                                Intent in = new Intent(MyDoctor.this, MainActivity.class);
+                                                                Intent in = new Intent(MyDoctor.this, PatientProfile.class);
                                                                 startActivity(in);
-                                                                finish();
+                                                                //finish();
                                                             }
                                                         })
                                                                 .addOnFailureListener(new OnFailureListener() {
@@ -130,31 +128,6 @@ public class MyDoctor extends AppCompatActivity {
 
         // Set name and email
         setData();
-
-
-       /* //TODO add verification email link when the user changes the email
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!emailET.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")){
-                    Toast.makeText(MyDoctor.this, R.string.emailFormat,
-                            Toast.LENGTH_SHORT).show();
-                    emailET.setText("");
-                    return;
-            }
-                else if (!nameET.getText().toString().matches("^[ A-Za-z]+$")) {
-                    Toast.makeText(MyDoctor.this, R.string.nameFormat,
-                            Toast.LENGTH_SHORT).show();
-                    nameET.setText("");
-                    return;}
-
-                updateDoctor(nameET.getText().toString(),emailET.getText().toString());
-
-                finish();
-
-            }
-        }); */
-
     }
 
     private void setData() {
@@ -215,33 +188,5 @@ public class MyDoctor extends AppCompatActivity {
                     }
                 });
 
-    }
-
-    public void updateDoctor(final String name, final String email){
-
-        db.collection("Doctor")
-                .whereEqualTo("patientID", mAuth.getUid())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            if(!task.getResult().isEmpty()){
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    if(document.exists()) {
-                                        DocumentReference d= document.getReference();
-                                        d.update("name",name);
-                                        d.update("email",email);
-                                        Toast.makeText(MyDoctor.this, "Changes Saved!",
-                                                Toast.LENGTH_SHORT).show();
-
-                                    }
-                                }
-                            }
-
-                        }
-
-                    }
-                });
     }
 }
