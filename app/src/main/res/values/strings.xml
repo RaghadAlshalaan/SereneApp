@@ -410,6 +410,8 @@
     <string name="no_appoiintments">No Upcoming Appointments</string>
     <string name="events_with_highest_anxiety">Events With Highest Anxiety</string>
     <string name="no_events_associated_with_high_anxiety">No Events Associated With High Anxiety.</string>
+    <string name="api_daily_sucess_msg">Daily report updated successfully</string>
+    <string name="api_daily_error_msg">Failed to update Daily report</string>
 
 </resources>
 

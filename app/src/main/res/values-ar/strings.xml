@@ -344,6 +344,8 @@
     <string name="married">متزوج</string>
     <string name="widowed">أرمل</string>
     <string name="divorced">مطلق</string>
+    <string name="api_daily_sucess_msg">تم تحديث التقرير اليومي بنجاح!</string>
+    <string name="api_daily_error_msg">فشل تحديث التقرير اليومي</string>
 
 
 </resources>
