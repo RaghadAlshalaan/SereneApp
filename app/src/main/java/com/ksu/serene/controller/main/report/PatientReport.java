@@ -61,6 +61,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.ksu.serene.controller.Constants;
 import com.ksu.serene.controller.main.report.print.PdfDocumentAdapter;
 import com.ksu.serene.controller.main.report.print.PrintJobMonitorService;
+import com.ksu.serene.model.Event;
 import com.ksu.serene.model.Location;
 import com.ksu.serene.R;
 
@@ -90,6 +91,12 @@ public class PatientReport extends AppCompatActivity {
     private ArrayList<Location> highLocations;
     public static ArrayList<WeightedLatLng> locations;
     private Button showHeatmap;
+
+    // Events
+    private RecyclerView eventRecyclerView;
+    private eventsAdapter eventAdapter;
+    private ArrayList<Event> highEvents;
+    private TextView noEvents;
 
 
     // Recommendation
@@ -135,6 +142,9 @@ public class PatientReport extends AppCompatActivity {
         // location analysis & heatmap
         location();
 
+        // retrieve events with high anxiety level
+        events();
+
     }//onCreate
 
     private void init() {
@@ -146,6 +156,11 @@ public class PatientReport extends AppCompatActivity {
         reportDuration = findViewById(R.id.reportDuration);
         reportDuration.setText(reportDate());
         locationRecyclerView = findViewById(R.id.recycleView);
+
+        eventRecyclerView = findViewById(R.id.eventsRecycleView);
+        eventAdapter = new eventsAdapter(PatientReport.this, highEvents);
+        eventRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        noEvents = findViewById(R.id.noEventResult);
 
         backBtn = findViewById(R.id.backButton);
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -216,9 +231,11 @@ public class PatientReport extends AppCompatActivity {
                         if (item.getItemId() == R.id.menu_share) {//handle menu1 click
                             share();
                         }
+
                         return false;
                     }
                 });
+
                 //displaying the popup
                 popup.show();
 
@@ -502,7 +519,7 @@ public class PatientReport extends AppCompatActivity {
                                     for (WeightedLatLng lis : locations) {
 
                                         if (lis.getPoint().equals(current)) {
-                                            if (lis.getIntensity() < loc_AL) {
+                                            if (lis.getIntensity() <= loc_AL) {
                                                 locations.remove(lis);
                                                 locations.add(new WeightedLatLng(current, loc_AL));
                                                 found = true;
@@ -521,7 +538,7 @@ public class PatientReport extends AppCompatActivity {
                             }// for every location belonging to this patient (for loop)
 
 
-                            locationRecyclerView.setHasFixedSize(true);
+//                            locationRecyclerView.setHasFixedSize(true);
                             locationAdapter = new locationsAdapter(PatientReport.this, highLocations);
                             locationRecyclerView.setAdapter(locationAdapter);
 
@@ -635,6 +652,56 @@ public class PatientReport extends AppCompatActivity {
     // Highest Google Calendar Event
     private void events() {
 
+        highEvents = new ArrayList<>();
+
+        firebaseFirestore.collection("PatientEvents")
+                .whereEqualTo("patientID", userId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        if (task.isSuccessful()) {
+
+                            //boolean eventFound = false;
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                String name = document.get("name").toString();
+                                String DateTime = document.get("date").toString();
+                                String[] DateTimeL = DateTime.split(" ");
+                                String date = DateTimeL[0];
+                                String time = DateTimeL[1]+" "+DateTimeL[2];
+
+
+                                highEvents.add(new Event(name,date,time));
+
+                            }// for every location belonging to this patient (for loop)
+
+
+//                            locationRecyclerView.setHasFixedSize(true);
+                            eventAdapter = new eventsAdapter(PatientReport.this, highEvents);
+                            eventRecyclerView.setAdapter(eventAdapter);
+
+                            if (highEvents.size() == 0) {
+
+                                eventRecyclerView.setVisibility(View.GONE);
+                                noEvents.setVisibility(View.VISIBLE);
+                                //noEvents.setText(R.string.no_loc_high);
+
+                            } else {
+                                noEvents.setVisibility(View.GONE);
+                                eventRecyclerView.setVisibility(View.VISIBLE);
+                            }
+
+                        }// end if
+
+                    }// onComplete
+
+                });
+
+
     }//events
 
     public void getExtras() {
@@ -650,7 +717,6 @@ public class PatientReport extends AppCompatActivity {
     private void share() {
 
         Locale current = getResources().getConfiguration().locale;
-        //tag("AppInfo").d("current Language: %s", current.getDisplayLanguage());
 
         String filename = "";
         if (current.getLanguage().equals("ar")) {
@@ -661,13 +727,8 @@ public class PatientReport extends AppCompatActivity {
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-        //tag("AppInfo").d("storageRef Path: " + storageRef.getPath());
 
-        //tag("AppInfo").d("Path: " + storageRef.child(userId).child("lastGeneratedPatientReport").child(filename).getPath());
-
-        //tag("AppInfo").d("userId: " + userId);
         storageRef = storageRef.child(userId + "/lastGeneratedPatientReport/" + filename);
-        //tag("AppInfo").d("storageRef: " + storageRef.toString());
 
         File rootPath = new File(Environment.getExternalStorageDirectory(), "files");
         if (!rootPath.exists()) {
@@ -677,7 +738,7 @@ public class PatientReport extends AppCompatActivity {
         final File localFile = new File(rootPath, filename + " - " + getCurrentDateTime() + ".pdf");
 
         final File finalLocalFile = localFile;
-        final String finalFilename = filename;
+
         storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -732,9 +793,6 @@ public class PatientReport extends AppCompatActivity {
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-//        tag("AppInfo").d("storageRef Path: " + storageRef.getPath());
-//
-//        tag("AppInfo").d("Path: " + storageRef.child(userId).child("lastGeneratedPatientReport").child(filename).getPath());
 
         storageRef = storageRef.child(userId + "/lastGeneratedPatientReport/" + filename);
 

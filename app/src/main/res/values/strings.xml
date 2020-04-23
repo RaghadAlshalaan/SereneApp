@@ -154,6 +154,21 @@
 
     </string-array>
 
+    <string-array name="martial_status">
+        <item>@string/single</item>
+        <item>@string/married</item>
+        <item>@string/widowed</item>
+        <item>@string/divorced</item>
+
+    </string-array>
+
+    <!-- Martial Status -->
+    <string name="single">Single</string>
+    <string name="married">Married</string>
+    <string name="widowed">Widowed</string>
+    <string name="divorced">Divorced</string>
+
+
     <!-- Add Text Draft Page -->
     <string name="NewTD">New Draft</string>
     <string name="TitleTD">Add Title</string>
@@ -392,6 +407,9 @@
     <string name="disabled">Disabled</string>
     <string name="print_report">Print Report</string>
     <string name="share_report">Share Report</string>
+    <string name="no_appoiintments">No Upcoming Appointments</string>
+    <string name="events_with_highest_anxiety">Events With Highest Anxiety</string>
+    <string name="no_events_associated_with_high_anxiety">No Events Associated With High Anxiety.</string>
 
 </resources>
 

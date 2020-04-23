@@ -53,21 +53,21 @@ public class ReportFragmentTest {
 
     @Test
     public void isDatesNotChoosen() {
-        int allDatesNotSet = fragment.isDatesChoosen(startDate, endDate);
+        int allDatesNotSet = fragment.isDatesChosen(startDate, endDate);
         assertThat(allDatesNotSet, is(2));
     }
 
     @Test
     public void isSDateNotChoosen() {
         endDate = "13/4/2020";
-        int startDateNotSet = fragment.isDatesChoosen(startDate, endDate);
+        int startDateNotSet = fragment.isDatesChosen(startDate, endDate);
         assertThat(startDateNotSet, is(1));
     }
 
     @Test
     public void isEDateNotChoosen() {
         startDate = "13/4/2020";
-        int endDateNotSet = fragment.isDatesChoosen(startDate, endDate);
+        int endDateNotSet = fragment.isDatesChosen(startDate, endDate);
         assertThat(endDateNotSet, is(-1));
     }
 
@@ -75,7 +75,7 @@ public class ReportFragmentTest {
     public void isDatesChoosen() {
         startDate = "13/4/2020";
         endDate = "13/4/2020";
-        int allDatesSet = fragment.isDatesChoosen(startDate, endDate);
+        int allDatesSet = fragment.isDatesChosen(startDate, endDate);
         assertThat(allDatesSet, is(0));
     }
 

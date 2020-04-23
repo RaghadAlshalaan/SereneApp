@@ -25,27 +25,41 @@
 
 
             <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:textColor="@color/Error"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                android:layout_marginEnd="3dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/parent_loc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/textView4" />
+
+
+            <TextView
                 android:id="@+id/parent_loc"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
                 android:text="Name"
                 android:textColor="#000000"
                 android:textSize="18dp"
                 app:layout_constraintEnd_toStartOf="@+id/location_AL"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView5"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/location_AL"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
-                android:layout_weight="1"
                 android:gravity="center"
                 android:text="anxietyLevel"
                 android:textColor="@color/Error"
                 android:textSize="15dp"
+                app:layout_constraintStart_toEndOf="@id/parent_loc"
                 app:layout_constraintBottom_toTopOf="@+id/textView4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -66,6 +80,7 @@
                 android:layout_weight="2"
                 android:text="@string/frequency"
                 android:textColor="@color/black"
+                app:layout_constraintStart_toEndOf="@id/textView4"
                 app:layout_constraintEnd_toStartOf="@+id/freqN"
                 app:layout_constraintTop_toBottomOf="@+id/location_AL" />
 

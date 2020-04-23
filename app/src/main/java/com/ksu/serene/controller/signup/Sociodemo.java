@@ -181,7 +181,7 @@ public class Sociodemo extends Fragment {
 
         // initiate the spinner 2
         ArrayAdapter<CharSequence> adapterM = ArrayAdapter.createFromResource(getContext(),
-                R.array.yes_no, android.R.layout.simple_spinner_item);
+                R.array.martial_status, android.R.layout.simple_spinner_item);
 
         adapterM.setDropDownViewResource(simple_spinner_dropdown_item);
         maritalStatusET.setAdapter(adapterM);

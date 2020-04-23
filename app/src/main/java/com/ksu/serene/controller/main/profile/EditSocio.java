@@ -29,6 +29,8 @@ import com.ksu.serene.model.MySharedPreference;
 import com.ksu.serene.R;
 
 public class EditSocio extends AppCompatActivity {
+
+
     private Button save;
     private EditText age, height, wieght, monthlyincome, chronicD;
     private String ageS, heightS, wieghtS, monthlyincomeS, chronicDS, employmentStatus, maritalStatus, cigaretteSmoke;
@@ -50,8 +52,10 @@ public class EditSocio extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_socio);
+
         // Inflate the layout for this fragment
         getSupportActionBar().hide();
+
         mAuth = FirebaseAuth.getInstance();
         save = findViewById(R.id.button);
         age = findViewById(R.id.age);
@@ -59,7 +63,7 @@ public class EditSocio extends AppCompatActivity {
         wieght = findViewById(R.id.weight);
         monthlyincome = findViewById(R.id.income);
         chronicD = findViewById(R.id.chronic);
-        employmentStatusET = (Spinner) findViewById(R.id.employee);
+        employmentStatusET = findViewById(R.id.employee);
         maritalStatusET = findViewById(R.id.married);
         cigaretteSmokeET = findViewById(R.id.smoke);
         back = findViewById(R.id.backButton);
@@ -69,6 +73,7 @@ public class EditSocio extends AppCompatActivity {
                 finish();
             }
         });
+
 
         final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(EditSocio.this,R.array.employmentStatus, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -83,8 +88,9 @@ public class EditSocio extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parentView) {
             }
         });
+
         // initiate the spinner 2
-        final ArrayAdapter<CharSequence> adapterM = ArrayAdapter.createFromResource(EditSocio.this,R.array.yes_no, android.R.layout.simple_spinner_item);
+        final ArrayAdapter<CharSequence> adapterM = ArrayAdapter.createFromResource(EditSocio.this,R.array.martial_status, android.R.layout.simple_spinner_item);
         adapterM.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         maritalStatusET.setAdapter(adapterM);
         maritalStatusET.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -97,6 +103,7 @@ public class EditSocio extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parentView) {
             }
         });
+
         // initiate the spinner 3
         final ArrayAdapter<CharSequence> adapterS = ArrayAdapter.createFromResource(EditSocio.this, R.array.yes_no, android.R.layout.simple_spinner_item);
         adapterS.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -225,7 +232,7 @@ public class EditSocio extends AppCompatActivity {
                            final String newIncome, final String newChronic, final String newEmployee,
                            final String newMarried,final String newSmoke ) {
         DocumentReference userName = db.collection("Patient").document(mAuth.getUid());
-        // Set the "isCapital" field of the city 'DC'
+
         userName.update("age", newAge);
         userName.update("height",newHeight);
         userName.update("weight",newWeight);

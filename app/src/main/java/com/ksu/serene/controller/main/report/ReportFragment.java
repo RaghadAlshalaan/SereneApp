@@ -3,7 +3,9 @@ package com.ksu.serene.controller.main.report;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,44 +18,70 @@ import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.CalendarScopes;
+import com.google.api.services.calendar.model.CalendarList;
+import com.google.api.services.calendar.model.CalendarListEntry;
+import com.google.api.services.calendar.model.EventDateTime;
+import com.google.api.services.calendar.model.Events;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.ksu.serene.controller.Constants;
 import com.ksu.serene.R;
-import com.ksu.serene.controller.main.calendar.PatientEventAdapter;
+import com.ksu.serene.controller.main.calendar.CalendarFragment;
 import com.ksu.serene.model.Event;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.TimeZone;
+import java.util.UUID;
 
 import www.sanju.motiontoast.MotionToast;
 
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static timber.log.Timber.tag;
 
 public class ReportFragment extends Fragment {
+
+    private FirebaseFirestore db = com.google.firebase.firestore.FirebaseFirestore.getInstance();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     private Button generate_report;
     private RadioGroup radioGroup;
     private View root;
     private String duration;
-    private Button start;
-    private Button end;
+    private Button start, end;
     private LinearLayout datePicker;
-    private String startDate;
-    private String endDate;
+    private String startDate, endDate;
     private Resources res;
-    private Calendar myCalendarStart = Calendar.getInstance();
-    private Calendar myCalendarEnd = Calendar.getInstance();
+    Calendar myCalendarStart = Calendar.getInstance();
+    Calendar myCalendarEnd = Calendar.getInstance();
     private SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+
 
     // Google Calendar Events
     public boolean GoogleCalendar = false;
@@ -61,9 +89,7 @@ public class ReportFragment extends Fragment {
     private static final String PREF_ACCOUNT_NAME = "accountName";
     final HttpTransport transport = new com.google.api.client.http.javanet.NetHttpTransport();
     final JsonFactory jsonFactory = GsonFactory.getDefaultInstance();
-    static final int REQUEST_GOOGLE_PLAY_SERVICES = 0;
     static final int REQUEST_AUTHORIZATION = 1;
-    static final int REQUEST_ACCOUNT_PICKER = 2;
     com.google.api.services.calendar.Calendar client;
 
     static final String FIELDS = "id,summary";
@@ -77,6 +103,7 @@ public class ReportFragment extends Fragment {
         res = getResources();
 
         init();
+
         // Initialize Google API
         initGoogleApi();
 
@@ -88,14 +115,8 @@ public class ReportFragment extends Fragment {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
-
-                myCalendarStart.set(Calendar.YEAR, year);
-                myCalendarStart.set(Calendar.MONTH, monthOfYear);
-                myCalendarStart.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                startDate = myCalendarStart.get(Calendar.DAY_OF_MONTH) + "/" + myCalendarStart.get(Calendar.MONTH) + "/" + myCalendarStart.get(Calendar.YEAR);
-                start.setText(DateFormat.format(myCalendarStart.getTime()));
+                onSetStart(year, monthOfYear, dayOfMonth);
             }
-
         };
 
         final DatePickerDialog.OnDateSetListener EndDate = new DatePickerDialog.OnDateSetListener() {
@@ -103,12 +124,7 @@ public class ReportFragment extends Fragment {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
-
-                myCalendarEnd.set(Calendar.YEAR, year);
-                myCalendarEnd.set(Calendar.MONTH, monthOfYear);
-                myCalendarEnd.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                endDate = myCalendarEnd.get(Calendar.DAY_OF_MONTH) + "/" + myCalendarEnd.get(Calendar.MONTH) + "/" + myCalendarEnd.get(Calendar.YEAR);
-                end.setText(DateFormat.format(myCalendarEnd.getTime()));
+                onSetEnd(year, monthOfYear, dayOfMonth);
             }
 
         };
@@ -127,12 +143,14 @@ public class ReportFragment extends Fragment {
         }
         });
 
+
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 setRadioButton(checkedId);
         }// onChecked
         });
+
 
         generate_report.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,48 +161,34 @@ public class ReportFragment extends Fragment {
 
 
         return root;
+
     }// onCreate
 
-    private void generateReport() {
-        // error dialog if no selection is made
-        // intent to next activity
-        final Intent intent = new Intent(getContext(), PatientReport.class);
-        intent.putExtra(Constants.Keys.DURATION, duration);
+    private void init() {
+        generate_report = root.findViewById(R.id.generate_report_btn);
+        radioGroup = root.findViewById(R.id.radio_group);
+        end = root.findViewById(R.id.end);
+        start = root.findViewById(R.id.start);
+        datePicker = root.findViewById(R.id.data_picker);
+        duration = "2week";// default value
+    }
 
-        if (duration.equals("custom")) {
-            if (isDatesChoosen(startDate, endDate) == 0) {
-                intent.putExtra(Constants.Keys.START_DATE, startDate);
-                intent.putExtra(Constants.Keys.END_DATE, endDate);
+    /** Functions to handle start date and end date selection **/
 
-                startActivity(intent);
-            } else {
+    private void onSetEnd(int year, int monthOfYear, int dayOfMonth) {
+        myCalendarEnd.set(Calendar.YEAR, year);
+        myCalendarEnd.set(Calendar.MONTH, monthOfYear);
+        myCalendarEnd.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        endDate = myCalendarEnd.get(Calendar.DAY_OF_MONTH) + "/" + myCalendarEnd.get(Calendar.MONTH) + "/" + myCalendarEnd.get(Calendar.YEAR);
+        end.setText(DateFormat.format(myCalendarEnd.getTime()));
+    }
 
-                switch (isDatesChoosen(startDate, endDate)) {
-                    //here the only missing is the start StartDate
-                    /*case 1: {
-                        String text = String.format(res.getString(R.string.date_pickerrr));
-                        dialog(text);
-                        break;
-                    }*/
-                    //here the only missing is the end StartDate
-                    case -1: {
-                        String text = String.format(res.getString(R.string.date_pickerrrr));
-                        dialog(text);
-                    }
-                    //here the missing are the tow dates
-                    case 1: {
-                        String text = String.format(res.getString(R.string.date_pickerr));
-                        dialog(text);
-                        break;
-                    }
-
-                }
-
-            }//if
-        }//bigger if
-        else {
-            startActivity(intent);
-        }
+    private void onSetStart(int year, int monthOfYear, int dayOfMonth) {
+        myCalendarStart.set(Calendar.YEAR, year);
+        myCalendarStart.set(Calendar.MONTH, monthOfYear);
+        myCalendarStart.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        startDate = myCalendarStart.get(Calendar.DAY_OF_MONTH) + "/" + myCalendarStart.get(Calendar.MONTH) + "/" + myCalendarStart.get(Calendar.YEAR);
+        start.setText(DateFormat.format(myCalendarStart.getTime()));
     }
 
     private void setRadioButton(int checkedId) {
@@ -281,14 +285,172 @@ public class ReportFragment extends Fragment {
         datePickerDialog.show();
     }
 
-    private void init() {
-        generate_report = root.findViewById(R.id.generate_report_btn);
-        radioGroup = root.findViewById(R.id.radio_group);
-        end = root.findViewById(R.id.end);
-        start = root.findViewById(R.id.start);
-        datePicker = root.findViewById(R.id.data_picker);
-        duration = "2week";// default value
-    }//init
+    public boolean isStartDateSet(String startDate) {
+        if (startDate == null) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isStartDEqualToCurrent(Calendar calenderMillis) {
+        Calendar currentTime = Calendar.getInstance();
+        if (calenderMillis.get(Calendar.YEAR) == currentTime.get(Calendar.YEAR)
+                && calenderMillis.get(Calendar.MONTH) == currentTime.get(Calendar.MONTH)
+                && calenderMillis.get(Calendar.DAY_OF_MONTH)+1 == currentTime.get(Calendar.DAY_OF_MONTH)) {
+            return true;
+        }
+        return false;
+    }
+
+    public int isDatesChosen(String startDate, String endDate) {
+        if (startDate == null && endDate == null) {
+            return 1;
+        }
+        //if (startDate == null && endDate != null) {return 1;}
+        if ( endDate == null) {
+            return -1;
+        }
+        return 0;
+    }
+
+    public void dialog(String text) {
+
+        MotionToast.Companion.darkToast(
+                getActivity(),
+                text,
+                MotionToast.Companion.getTOAST_WARNING(),
+                MotionToast.Companion.getGRAVITY_BOTTOM(),
+                MotionToast.Companion.getSHORT_DURATION(),
+                ResourcesCompat.getFont(getActivity().getApplicationContext(), R.font.montserrat));
+
+    }
+
+
+    /** Functions to handle calling API and generating the report **/
+    Intent intent;
+    private void generateReport() {
+        // error dialog if no selection is made
+        // intent to next activity
+        intent = new Intent(getContext(), PatientReport.class);
+        intent.putExtra(Constants.Keys.DURATION, duration);
+
+        if (duration.equals("custom")) {
+
+            if (isDatesChosen(startDate, endDate) == 0) {
+                intent.putExtra(Constants.Keys.START_DATE, startDate);
+                intent.putExtra(Constants.Keys.END_DATE, endDate);
+
+                tag("AppInfo").d("GoogleCalendar: " + GoogleCalendar);
+                if (GoogleCalendar) {
+                    uploadGoogleEvents();
+                }else{
+                    callAPI(duration);
+                }
+
+            } else {
+
+                switch (isDatesChoosen(startDate, endDate)) {
+                    //here the only missing is the start StartDate
+                    /*case 1: {
+                        String text = String.format(res.getString(R.string.date_pickerrr));
+                        dialog(text);
+                        break;
+                    }*/
+                    //here the only missing is the end StartDate
+                    case -1: {
+                        String text = String.format(res.getString(R.string.date_pickerrrr));
+                        dialog(text);
+                    }
+                    //here the missing are the tow dates
+                    case 1: {
+                        String text = String.format(res.getString(R.string.date_pickerr));
+                        dialog(text);
+                        break;
+                    }
+
+                }
+
+            }//if
+        }//bigger if
+        else {
+            setDates();
+            if (GoogleCalendar) {
+                uploadGoogleEvents();
+            }else{
+                callAPI(duration);
+            }
+        }
+    }
+
+    private void setDates() {
+
+        Date startD, endD;
+        String start = "", end;
+
+        
+        Calendar cale = Calendar.getInstance();
+        cale.add(Calendar.DATE, -1);
+        endD = cale.getTime();
+
+        myCalendarEnd.set(Calendar.YEAR, endD.getYear());
+        myCalendarEnd.set(Calendar.MONTH, endD.getMonth());
+        myCalendarEnd.set(Calendar.DAY_OF_MONTH, endD.getDay());
+        
+        Calendar cal = Calendar.getInstance();
+
+        switch (duration) {
+            case "2week":
+
+                cal.add(Calendar.DATE, -14);
+                startD = cal.getTime();
+
+                break;
+
+            case "month":
+
+                cal.add(Calendar.MONTH, -1);
+                startD = cal.getTime();
+                
+                break;
+
+            default:
+                startD = endD;
+        }//end of switch
+
+        myCalendarStart.set(Calendar.YEAR, startD.getYear());
+        myCalendarStart.set(Calendar.MONTH, startD.getMonth());
+        myCalendarStart.set(Calendar.DAY_OF_MONTH, startD.getDay());
+        
+    }
+
+    private int isDatesChoosen(String startDate, String endDate) {
+
+            if (startDate == null && endDate == null) {
+                return 2;
+            }
+            if (startDate == null && endDate != null) {
+                return 1;
+            }
+            if (startDate != null && endDate == null) {
+                //if (startDate == null && endDate != null) {return 1;}
+                if (endDate == null) {
+                    return -1;
+                }
+            }
+
+            return 0;
+    }
+
+    private void callAPI(String custom) {
+        tag("AppInfo").d("callAPI");
+
+        // TODO : CALL API , WHEN RESPONSE ON COMPLETE , START NEW ACTIVITY
+        startActivity(intent);
+
+    }
+
+
+    /** Functions to handle retrieving the events from google calendar **/
 
     private void initGoogleApi() {
 
@@ -311,43 +473,286 @@ public class ReportFragment extends Fragment {
 
     }
 
-    public void dialog(String text) {
+    private void uploadGoogleEvents() {
+        tag("AppInfo").d("uploadGoogleEvents");
 
-        MotionToast.Companion.darkToast(
-                getActivity(),
-                text,
-                MotionToast.Companion.getTOAST_WARNING(),
-                MotionToast.Companion.getGRAVITY_BOTTOM(),
-                MotionToast.Companion.getSHORT_DURATION(),
-                ResourcesCompat.getFont(getActivity().getApplicationContext(), R.font.montserrat));
+        String docID = "report" + mAuth.getUid();
+
+        // TODO : THIS ATTRIBUTE IS NOT CREATED B4
+
+        // upload to Firebase storage
+        db.collection("LastGeneratePatientReport")
+                .document(docID)
+                .update("googleCalendar",GoogleCalendar)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Log.e("GoogleCalendar:"," UPDATED!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+
+        if (GoogleCalendar){
+
+            // there is already an account selected do (Read & upload) if not do nothing
+            if (credential.getSelectedAccountName() != null) {
+
+                // load events from calendar
+                readCalendar();
+
+            }
+
+        }// if google calendar true
+
 
     }
 
-    public boolean isStartDateSet(String startDate) {
-        if (startDate == null) {
-            return false;
-        }
-        return true;
+    void readCalendar() {
+        tag("AppInfo").d("readCalendar");
+        // Reads the calendar events using AsyncTask
+        new ReportFragment.LoadCalendarAsyncTask().execute();
     }
 
-    public boolean isStartDEqualToCurrent(Calendar calenderMillis) {
-        Calendar currentTime = Calendar.getInstance();
-        if (calenderMillis.get(Calendar.YEAR) == currentTime.get(Calendar.YEAR)
-                && calenderMillis.get(Calendar.MONTH) == currentTime.get(Calendar.MONTH)
-                && calenderMillis.get(Calendar.DAY_OF_MONTH)+1 == currentTime.get(Calendar.DAY_OF_MONTH)) {
-            return true;
+    private class LoadCalendarAsyncTask extends AsyncTask<Void, Void, List<Event>> {
+
+
+        LoadCalendarAsyncTask() {
         }
-        return false;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected List<Event> doInBackground(Void... args) {
+            List<Event> listOfEvents = new ArrayList<>();
+
+            try {
+
+                CalendarList feed = client.calendarList().list().setFields(FEED_FIELDS).execute();
+                Log.i("AppInfo", "number of items: " + feed.getItems().size());
+
+                for (CalendarListEntry item : feed.getItems()) {
+                    Log.i("AppInfo", "ID: " + item.getId() + " - Summary: " + item.getSummary());
+                }
+
+                // Take the start and end date (duration of report)
+                Date startDate = myCalendarStart.getTime();
+                Date endDate = myCalendarEnd.getTime();
+
+                DateTime startRange = new DateTime(startDate, TimeZone.getTimeZone("UTC"));
+                DateTime endRange = new DateTime(endDate, TimeZone.getTimeZone("UTC"));
+
+//                DateTime startRange = new DateTime(myCalendarStart.getTimeInMillis());
+//                DateTime endRange = new DateTime(myCalendarStart.getTimeInMillis()+(24 * 60 * 60 * 1000));
+
+
+                Log.i("CalInfo", "min: " + startRange.toString());
+                Log.i("CalInfo", "max: " + endRange.toString());
+
+                
+                Events events = client.events().list(feed.getItems().get(0).getId())
+                        .setMaxResults(100)
+                        .setTimeMin(startRange)
+                        .setTimeMax(endRange)
+                        .setOrderBy("startTime")
+                        .setSingleEvents(true)
+                        .execute();
+
+                List<com.google.api.services.calendar.model.Event> items = events.getItems();
+
+                for (com.google.api.services.calendar.model.Event event : items) {
+                    if (event != null) {
+
+                        DateTime start = event.getStart().getDateTime();
+                        if (start == null) {
+                            start = event.getStart().getDate();
+                        }
+
+                        Log.i("AppInfo", "ID: " + event.getId() + " - Summary: " + event.getSummary() + " - Start: " + start);
+
+
+                        Event newEvent = new Event();
+
+                        newEvent.setSummary(event.getSummary());
+
+                        Long dt = start.getValue();
+                        String DATE_FORMAT_NOW = "yyy/MM/dd hh:mm aa";
+                        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+                        String s = sdf.format(dt);
+                        newEvent.setStartTime(s);
+
+
+                        listOfEvents.add(newEvent); // list of event to be upload it to the DB
+                    }
+                }
+
+            } catch (UserRecoverableAuthIOException ex) {
+                startActivityForResult(ex.getIntent(), REQUEST_AUTHORIZATION);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            return listOfEvents;
+        }
+
+
+        @Override
+        protected void onPostExecute(List<Event> newEvents) {
+            super.onPostExecute(newEvents);
+
+            Log.i("AppInfo", "Number of Events: " + newEvents.size());
+
+
+
+            if (newEvents.size() > 0) {
+                Log.i("AppInfo", "Uploading new events");
+
+                reUploadEvents(newEvents);
+
+            }else{
+                // Delete All old events
+                deleteOldEvents();
+
+                // no new events
+                callAPI(duration);
+            }
+
+        }
+
+        private void reUploadEvents(final List<Event> newEvents) {
+            tag("AppInfo").d("reUploadEvents");
+
+            db.collection("PatientEvents")
+                    .whereEqualTo("patientID", mAuth.getUid())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                if (!task.getResult().isEmpty()) {
+
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        String id = document.getId();
+                                        deleteDoc(id);
+                                    }
+
+                                }
+
+                                uploadNewEvents(newEvents);
+                            } else {
+                                Log.i("AppInfo", "Clearing events from DB then uploading new one");
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    //uploadNewEvents(newEvents);
+                }
+            });
+
+        }
+
+        private void deleteOldEvents() {
+            tag("AppInfo").d("deleteOldEvents");
+
+            db.collection("PatientEvents")
+                    .whereEqualTo("patientID", mAuth.getUid())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                if (!task.getResult().isEmpty()) {
+
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        String id = document.getId();
+                                        deleteDoc(id);
+                                    }
+
+                                }
+                            } else {
+                                Log.i("AppInfo", "Clearing events from DB then uploading new one");
+                            }
+                        }
+                    });
+
+        }
+
+        private void deleteDoc(String id){
+
+            db.collection("PatientEvents")
+                    .document(id)
+                    .delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.i("AppInfo", "Event Deleted");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.i("AppInfo", "Failed to delete Event");
+                        }
+                    });
+
+        }
+
     }
 
-    public int isDatesChoosen(String startDate, String endDate) {
-        if (startDate == null && endDate == null) {
-            return 1;
+    int i;
+    boolean done = false;
+    private void uploadNewEvents(final List<Event> newEvents) {
+
+        tag("AppInfo").d("uploadNewEvents");
+
+        for ( i = 0 ; i < newEvents.size() ; i++ ){
+
+            Map<String, Object> event = new HashMap<>();
+            event.put("patientID", mAuth.getUid());
+            event.put("name", newEvents.get(i).getSummary());
+            event.put("date", newEvents.get(i).getStartTime());
+
+            DocumentReference ref = db.collection("PatientEvents").document(getRandomID());
+
+            ref.set(event)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                            // Success upload event
+
+                            if ( i == newEvents.size() && !done  ) { // last event saved successfully -> then call API here
+                                // TODO : CALL API
+                                callAPI(duration);
+                                done = true;
+                            }
+
+                        }
+
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Failure upload event
+                        }
+                    });
+
         }
-        //if (startDate == null && endDate != null) {return 1;}
-        if ( endDate == null) {
-            return -1;
-        }
-        return 0;
+
     }
+
+    private String getRandomID() {
+        return UUID.randomUUID().toString();
+    }
+
+
 }// class

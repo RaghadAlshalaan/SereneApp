@@ -247,11 +247,11 @@
     <string name="monthly_income">الدخل الشهري</string>
     <string name="kg">كم</string>
     <string name="weight">الوزن</string>
-    <string name="ex_55">ex; 55</string>
+    <string name="ex_55"></string>
     <string name="cm">سم</string>
-    <string name="ex_160">ex; 160</string>
-    <string name="height">Height</string>
-    <string name="ex_21">ex; 21</string>
+    <string name="ex_160"></string>
+    <string name="height">الطول</string>
+    <string name="ex_21"></string>
     <string name="cigarette_smoker">مدخن</string>
     <string name="employment_status">الحالة الوظيفية</string>
     <string name="gad_7_scale">GAD-7 مقياس</string>
@@ -339,6 +339,11 @@
 
     <string name="no_loc_high">لم يتم العثور على مواقع ذات علاقة بإرتفاع في مستوى القلق.</string>
 
+    <!-- Martial Status -->
+    <string name="single">أعزب</string>
+    <string name="married">متزوج</string>
+    <string name="widowed">أرمل</string>
+    <string name="divorced">مطلق</string>
 
 
 </resources>

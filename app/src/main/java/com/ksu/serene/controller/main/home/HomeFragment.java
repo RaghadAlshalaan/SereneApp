@@ -258,7 +258,7 @@ public class HomeFragment extends Fragment {
                             }
 
                             if(!found){
-                                nextAppointment.setText("No Upcoming Appointments");
+                                nextAppointment.setText(R.string.no_appoiintments);
                                 nextAppointment.setTextColor(getResources().getColor(R.color.Grey));
                             }
 

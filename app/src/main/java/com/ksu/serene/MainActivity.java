@@ -278,7 +278,6 @@ public class MainActivity extends AppCompatActivity implements
         profile.setVisibility(View.VISIBLE);
     }
 
-
     // -------------------------------LOCATION----------------------------------
 
     public static Location lastLocation = null;
@@ -295,8 +294,8 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
-    long LOCATION_UPDATE_PERIOD_MINUTES = 30; // SHOULD_BE 30 MIN
-    long DAILY_UPDATE_PERIOD_MINUTES = 720; // SHOULD_BE 24/12 Hours
+    long LOCATION_UPDATE_PERIOD_MINUTES = 30; //  30 MIN
+    long DAILY_UPDATE_PERIOD_MINUTES = 1440; // 1440 min = 24 Hours
 
     private Handler locationUpdateHandler;
 
@@ -429,17 +428,13 @@ public class MainActivity extends AppCompatActivity implements
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-
-                            // YAY
-
+                            // Success
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-
-                            // NAY
-
+                            // Failure
                         }
                     });
         } else {

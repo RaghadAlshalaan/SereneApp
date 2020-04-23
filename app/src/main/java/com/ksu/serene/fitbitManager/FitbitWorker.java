@@ -178,7 +178,7 @@ public class FitbitWorker extends Worker {
                                                 };
                                         String[] uriRequests =
                                                 {
-                                                        "https://api.fitbit.com/1/user/-/activities/heart/date/" + date + "/1d/1min.json",
+                                                        "https://api.fitbit.com/1/user/-/activities/heart/date/" + date + "/1d/15min.json",
                                                         "https://api.fitbit.com/1/user/-/activities/date/" + date + ".json",
                                                         "https://api.fitbit.com/1.2/user/-/sleep/date/" + date + ".json"
                                                 };
