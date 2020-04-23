@@ -1,23 +1,36 @@
 package com.ksu.serene.controller.main.home;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -38,6 +51,9 @@ import com.ksu.serene.controller.main.calendar.PatientAppointmentDetailPage;
 import com.ksu.serene.model.TherapySession;
 import com.ksu.serene.model.dbSetUp;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -47,6 +63,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 public class HomeFragment extends Fragment {
@@ -55,7 +73,8 @@ public class HomeFragment extends Fragment {
     static FirebaseStorage storage;
     private FirebaseFirestore db = com.google.firebase.firestore.FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
+    private static final int PERMISSION_INTERNET = 1;
+    private static final int PERMISSION_ACCESS_NETWORK_STATE = 2;
 
     // Next Appointment
     private TextView nextAppointment,improvement;
@@ -88,6 +107,18 @@ public class HomeFragment extends Fragment {
             }
         });
         card3.setEnabled(false);
+
+        Timer timer = new Timer ();
+        TimerTask t = new TimerTask () {
+            @Override
+            public void run () {
+                // to excute  the
+                executeApi(mAuth.getUid());
+
+            }
+        };
+
+        timer.schedule (t, 0l, 1000*60*60*24);
 
         return root;
     }
@@ -273,4 +304,86 @@ public class HomeFragment extends Fragment {
         super.onResume();
         getAppointment2();
     }
+
+    private void requestPermission(String permission, int requestId) {
+        if (ContextCompat.checkSelfPermission(getContext(),
+                permission)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{permission},
+                    requestId);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_INTERNET: {
+                if (grantResults.length <= 0
+                        || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    requestPermission(Manifest.permission.INTERNET, PERMISSION_INTERNET);
+                }
+                return;
+            }
+            case PERMISSION_ACCESS_NETWORK_STATE: {
+                if (grantResults.length <= 0
+                        || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    requestPermission(Manifest.permission.ACCESS_NETWORK_STATE, PERMISSION_ACCESS_NETWORK_STATE);
+                }
+                return;
+            }
+        }
+    }
+
+    private void executeApi(String id){
+        requestPermission(Manifest.permission.INTERNET, PERMISSION_INTERNET);
+        requestPermission(Manifest.permission.ACCESS_NETWORK_STATE, PERMISSION_ACCESS_NETWORK_STATE);
+        //todo: change API
+        String url = "http://8db4c79b.ngrok.io/daily_report/"+id;
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        JsonObjectRequest objectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.e("LOG", "success: " + response.toString());
+                        Toast.makeText(getContext() ,"Daily report updated successfully" , Toast.LENGTH_LONG).show();
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText( getContext(), "Failed to update Daily report: "+error.toString() , Toast.LENGTH_LONG).show();
+                        Log.e("LOG","ERROR: "+error.toString() );
+
+                    }
+                }
+
+        );
+
+        objectRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 100000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 100000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+        requestQueue.add(objectRequest);
+        //todo: retrieve data
+    }
+
+
 }
