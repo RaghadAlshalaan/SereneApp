@@ -339,7 +339,6 @@ public class HomeFragment extends Fragment {
     private void executeApi(String id){
         requestPermission(Manifest.permission.INTERNET, PERMISSION_INTERNET);
         requestPermission(Manifest.permission.ACCESS_NETWORK_STATE, PERMISSION_ACCESS_NETWORK_STATE);
-        //todo: change API
         String url = "http://8db4c79b.ngrok.io/daily_report/"+id;
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         JsonObjectRequest objectRequest = new JsonObjectRequest(
@@ -350,14 +349,14 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.e("LOG", "success: " + response.toString());
-                        Toast.makeText(getContext() ,"Daily report updated successfully" , Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext() ,getResources().getText(R.string.api_daily_sucess_msg) , Toast.LENGTH_LONG).show();
 
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText( getContext(), "Failed to update Daily report: "+error.toString() , Toast.LENGTH_LONG).show();
+                        Toast.makeText( getContext(), getResources().getText(R.string.api_daily_error_msg) , Toast.LENGTH_LONG).show();
                         Log.e("LOG","ERROR: "+error.toString() );
 
                     }

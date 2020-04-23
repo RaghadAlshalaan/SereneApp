@@ -392,6 +392,8 @@
     <string name="disabled">Disabled</string>
     <string name="print_report">Print Report</string>
     <string name="share_report">Share Report</string>
+    <string name="api_daily_sucess_msg">Daily report updated successfully</string>
+    <string name="api_daily_error_msg">Failed to update Daily report</string>
 
 </resources>
 

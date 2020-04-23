@@ -338,7 +338,8 @@
     <string name="location_analysis">تحليل الموقع</string>
 
     <string name="no_loc_high">لم يتم العثور على مواقع ذات علاقة بإرتفاع في مستوى القلق.</string>
-
+    <string name="api_daily_sucess_msg">تم تحديث التقرير اليومي بنجاح!</string>
+    <string name="api_daily_error_msg">فشل تحديث التقرير اليومي</string>
 
 
 </resources>
