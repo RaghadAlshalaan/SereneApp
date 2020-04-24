@@ -100,6 +100,7 @@ public class ReportFragment extends Fragment {
     private ProgressBar progressBar;
     private String reportStartDate;
     private String reportEndDate;
+    private boolean apiBoolean;
 
 
 
@@ -196,6 +197,7 @@ public class ReportFragment extends Fragment {
         duration = "14";// default value
         progressBar =root.findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.INVISIBLE);
+        apiBoolean = true;
     }
 
     /** Functions to handle start date and end date selection **/
@@ -374,7 +376,7 @@ public class ReportFragment extends Fragment {
                     callAPI(duration);
                 }
                 //TODO: date should be in format (YYYY-MM-DD)
-                api_url = "http://88fe462e.ngrok.io/patient_report_custom_duration/"+mAuth.getUid()+"/"+startDate+"/"+endDate;
+                api_url = "http://e13debb6.ngrok.io/patient_report_custom_duration/"+mAuth.getUid()+"/"+startDate+"/"+endDate+"/"+apiBoolean;
                 executeApi();
             } else {
 
@@ -409,7 +411,7 @@ public class ReportFragment extends Fragment {
             }else{
                 callAPI(duration);
             }
-            api_url = "http://88fe462e.ngrok.io/patient_report/"+mAuth.getUid()+"/"+duration;
+            api_url = "http://e13debb6.ngrok.io/patient_report/"+mAuth.getUid()+"/"+duration+"/"+apiBoolean;
             executeApi();
         }
     }//generateReport

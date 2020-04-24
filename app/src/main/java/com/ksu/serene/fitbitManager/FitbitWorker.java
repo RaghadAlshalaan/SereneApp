@@ -371,7 +371,7 @@ public class FitbitWorker extends Worker {
 
 
     private void executeApi(String id){
-        String url = "http://88fe462e.ngrok.io/daily_report/"+id;
+        String url = "http://e13debb6.ngrok.io/daily_report/"+id;
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
