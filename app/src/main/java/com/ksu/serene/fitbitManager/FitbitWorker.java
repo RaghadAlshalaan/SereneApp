@@ -395,18 +395,17 @@ public class FitbitWorker extends Worker {
 
                     }
                 }
-
         );
 
         objectRequest.setRetryPolicy(new RetryPolicy() {
             @Override
             public int getCurrentTimeout() {
-                return 100000;
+                return 1000000;
             }
 
             @Override
             public int getCurrentRetryCount() {
-                return 100000;
+                return 1000000;
             }
 
             @Override
