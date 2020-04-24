@@ -1,119 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/GoogleCalendarConnection"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_background"
-    tools:context=".controller.signup.GoogleCalendarConnection"
-    android:id="@+id/GoogleCalendarConnection">
+    android:background="#FAFAFA"
+    tools:context=".controller.signup.GoogleCalendarConnection">
 
 
-    <View
-        android:id="@+id/white_bg"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/head"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="180dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
-
-    <ImageView
-        android:id="@+id/backButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignBottom="@+id/white_bg"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="75dp"
-        app:srcCompat="@drawable/ic_left_arrow" />
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/upper_bar_sub"
+        android:elevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="invisible"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_left_arrow" />
 
-    <TextView
-        android:id="@+id/titleofscreen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/montserrat"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:text="@string/google_calendar"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textSize="25sp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/white_bg"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/layout_rounded_bg"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
-
+        <TextView
+            android:id="@+id/titleofscreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
+            android:gravity="center"
+            android:text="@string/google_calendar"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toTopOf="@+id/description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/description"
-            android:layout_width="370dp"
-            android:layout_height="85dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="15dp"
             android:fontFamily="@font/montserrat"
             android:gravity="center"
             android:text="@string/google_calendar_description"
-            android:layout_marginTop="30dp"
-            android:textColor="@color/Grey"
-            android:textSize="15sp" />
+            android:textColor="@color/lightGrey"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleofscreen" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <LinearLayout
-            android:id="@+id/mainLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/layout_rounded_bg"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingEnd="10dp">
+    <ImageView
+        android:id="@+id/fLogo"
+        android:layout_width="300dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/google_calendar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/head" />
 
-            <ImageView
-                android:id="@+id/fitbitLogo"
-                android:layout_width="300dp"
-                android:layout_height="150dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="30dp"
-                android:src="@drawable/google_calendar" />
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/montserrat"
+        android:padding="10dp"
+        android:text="@string/status_not_connected"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/check"
+        app:layout_constraintStart_toStartOf="@+id/fLogo"
+        app:layout_constraintTop_toBottomOf="@+id/fLogo" />
 
-            <TextView
-                android:id="@+id/status"
-                android:layout_width="320dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat"
-                android:padding="10dp"
-                android:text="@string/status_not_connected"
-                android:textAlignment="center"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="18sp" />
+    <ImageView
+        android:id="@+id/check"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_checked"
+        app:layout_constraintBottom_toBottomOf="@+id/status"
+        app:layout_constraintEnd_toEndOf="@+id/fLogo"
+        app:layout_constraintStart_toEndOf="@+id/status"
+        app:layout_constraintTop_toTopOf="@+id/status"
+        android:visibility="gone"
+        app:layout_constraintVertical_bias="0.466" />
 
-            <Button
-                android:id="@+id/connectCalendar"
-                android:layout_width="250dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/main_button"
-                android:fontFamily="@font/montserrat"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/connect_google_calendar"
-                android:textColor="#ffffff" />
+    <ImageView
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_cancel"
+        app:layout_constraintBottom_toBottomOf="@+id/status"
+        app:layout_constraintEnd_toEndOf="@+id/fLogo"
+        app:layout_constraintStart_toEndOf="@+id/status"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@+id/status"
+        app:layout_constraintVertical_bias="0.466" />
 
-        </LinearLayout><!--End main layout-->
+    <Button
+        android:id="@+id/connectCalendar"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/main_button"
+        android:fontFamily="@font/montserrat"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/connect_google_calendar"
+        android:textColor="#ffffff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/status" />
 
-
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
 
         <Button
@@ -122,7 +151,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:text="@string/back" />
+            android:text="@string/back"
+            android:textColor="@color/colorAccent" />
 
 
         <TextView
@@ -138,9 +168,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:text="@string/finish" />
+            android:text="@string/finish"
+            android:textColor="@color/colorAccent" />
 
 
     </LinearLayout>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,136 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:background="@drawable/main_background"
-tools:context=".controller.signup.FitbitConnection"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFAFA"
+    tools:context=".controller.signup.FitbitConnection"
     android:id="@+id/FitbitConnection">
     <!-- added id needed in test -->
 
 
-    <View
-        android:id="@+id/white_bg"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/head"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="180dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/upper_bar_sub"
+        android:elevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <TextView
+            android:id="@+id/titleofscreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
+            android:gravity="center"
+            android:text="@string/connect_to_fitbit"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toTopOf="@+id/description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="15dp"
+            android:fontFamily="@font/montserrat"
+            android:gravity="center"
+            android:text="@string/fitbit_desc"
+            android:textColor="@color/lightGrey"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleofscreen"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <ImageView
+        android:id="@+id/fitbitLogo"
+        android:layout_width="300dp"
+        android:layout_height="150dp"
+        android:src="@drawable/fitbit_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/head" />
 
     <TextView
-        android:id="@+id/titleofscreen"
+        android:id="@+id/status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/montserrat"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:text="@string/connect_to_fitbit"
+        android:padding="10dp"
+        android:text="@string/status_not_connected"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/check"
+        app:layout_constraintStart_toStartOf="@+id/fitbitLogo"
+        app:layout_constraintTop_toBottomOf="@+id/fitbitLogo" />
+
+    <ImageView
+        android:id="@+id/check"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_checked"
+        app:layout_constraintBottom_toBottomOf="@+id/status"
+        app:layout_constraintEnd_toEndOf="@+id/fLogo"
+        app:layout_constraintStart_toEndOf="@+id/status"
+        app:layout_constraintTop_toTopOf="@+id/status"
+        android:visibility="gone"
+        app:layout_constraintVertical_bias="0.466" />
+
+    <ImageView
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_cancel"
+        app:layout_constraintBottom_toBottomOf="@+id/status"
+        app:layout_constraintEnd_toEndOf="@+id/fitbitLogo"
+        app:layout_constraintStart_toEndOf="@+id/status"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@+id/status"
+        app:layout_constraintVertical_bias="0.466" />
+
+    <Button
+        android:id="@+id/connectFitbit"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/main_button"
+        android:fontFamily="@font/montserrat"
         android:gravity="center"
-        android:textColor="@color/white"
-        android:textSize="25sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/white_bg"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/layout_rounded_bg"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+        android:padding="10dp"
+        android:text="@string/connect_to_fitbit"
+        android:textColor="#ffffff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/status" />
 
 
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="370dp"
-                android:layout_height="85dp"
-                android:layout_marginTop="30dp"
-                android:fontFamily="@font/montserrat"
-                android:gravity="center"
-                android:text="@string/fitbit_desc"
-                android:textColor="@color/Grey"
-                android:textSize="15sp" />
+    <LinearLayout
+        android:id="@+id/nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
 
-            <LinearLayout
-                android:id="@+id/mainLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/layout_rounded_bg"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:paddingEnd="10dp">
-
-                <ImageView
-                    android:id="@+id/fitbitLogo"
-                    android:layout_width="300dp"
-                    android:layout_height="150dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginBottom="30dp"
-
-                    android:src="@drawable/fitbit_logo" />
-
-                <TextView
-                    android:id="@+id/status"
-                    android:layout_width="320dp"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:fontFamily="@font/montserrat"
-                    android:text="@string/status_not_connected"
-                    android:textAlignment="center"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="18sp" />
-
-                <Button
-                    android:id="@+id/connectFitbit"
-                    android:layout_width="250dp"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/main_button"
-                    android:fontFamily="@font/montserrat"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="@string/connect_to_fitbit"
-                    android:textColor="#ffffff" />
-
-            </LinearLayout><!--End main layout-->
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/nav"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom">
+            android:layout_weight="1"
+            android:textColor="@color/colorAccent"
+            android:background="@android:color/transparent"
+            android:text="@string/back" />
 
 
-            <Button
-                android:id="@+id/backBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:text="@string/back" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:text="3 / 4" />
+
+        <Button
+            android:id="@+id/nextBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/colorAccent"
+            android:background="@android:color/transparent"
+            android:text="@string/next" />
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:gravity="center"
-                android:text="3 / 4" />
+    </LinearLayout>
 
-            <Button
-                android:id="@+id/nextBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:text="@string/next" />
-
-
-        </LinearLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

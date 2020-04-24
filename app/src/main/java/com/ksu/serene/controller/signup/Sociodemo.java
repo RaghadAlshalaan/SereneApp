@@ -38,12 +38,15 @@ import static android.R.layout.simple_spinner_dropdown_item;
 public class Sociodemo extends Fragment {
 
     private EditText ageET, heightET, weightET, monthlyIncomeET, chronicDiseaseET;
-    private Spinner employmentStatusET, maritalStatusET,cigaretteSmokeET;
-    private String age, height, weight, employmentStatus, maritalStatus, monthlyIncome, cigaretteSmoke, chronicDisease, fullName, email, GAD7Scalescore,password;
+    private Spinner employmentStatusET, maritalStatusET,cigaretteSmokeET, genderET;
+    private String age, height, weight, employmentStatus, maritalStatus, monthlyIncome, cigaretteSmoke, chronicDisease, gender;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private boolean flag = true;
     private Button next;
     private int step = 1;
+
+    public Sociodemo() {
+    }
 
 
     @Nullable
@@ -160,6 +163,7 @@ public class Sociodemo extends Fragment {
         monthlyIncomeET = view.findViewById(R.id.a4);
         cigaretteSmokeET = view.findViewById(R.id.a7);
         chronicDiseaseET = view.findViewById(R.id.a8);
+        genderET = view.findViewById(R.id.a9);
         next = view.findViewById(R.id.nextBtn);
 
         // initiate the spinner 1
@@ -213,6 +217,23 @@ public class Sociodemo extends Fragment {
             }
         });
 
+        // initiate the spinner 4
+        ArrayAdapter<CharSequence> adapterG = ArrayAdapter.createFromResource(getContext(),
+                R.array.gender, android.R.layout.simple_spinner_item);
+
+        adapterG.setDropDownViewResource(simple_spinner_dropdown_item);
+        genderET.setAdapter(adapterS);
+        genderET.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                gender = parentView.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
+
     }// end init
 
 
@@ -252,7 +273,7 @@ public class Sociodemo extends Fragment {
         chronicDisease = chronicDiseaseET.getText().toString();
 
         if (! checkSocioFields (age,height,weight,monthlyIncome,chronicDisease
-                ,employmentStatus,maritalStatus,cigaretteSmoke) ) {
+                ,employmentStatus,maritalStatus, gender,cigaretteSmoke) ) {
             Toast.makeText(getActivity(), R.string.EmptyFields,Toast.LENGTH_LONG).show();
             return false;
         }
@@ -293,11 +314,11 @@ public class Sociodemo extends Fragment {
 
     public boolean checkSocioFields (String age, String height, String weight
             , String monthlyIncome, String chronicDiseases, String employmentStatus
-            ,String maritalStatus,String cigaretteSmoke) {
+            ,String maritalStatus,String gender, String cigaretteSmoke) {
         if( age.matches("") || height.matches("") || weight.matches("")
                 || monthlyIncome.matches("") || chronicDiseases.matches("")
                     || employmentStatus.matches("") || maritalStatus.matches("")
-                 || cigaretteSmoke.matches("")) {
+                 || cigaretteSmoke.matches("") || gender.matches("")) {
             return false;
         }
         return true;
@@ -351,6 +372,7 @@ public class Sociodemo extends Fragment {
         userSocio.put("employmentStatus", employmentStatus);
         userSocio.put("height", height);
         userSocio.put("maritalStatus", maritalStatus);
+        userSocio.put("gender", gender);
         userSocio.put("monthlyIncome", monthlyIncome);
         userSocio.put("smokeCigarettes", cigaretteSmoke);
         userSocio.put("weight", weight);

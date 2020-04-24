@@ -226,6 +226,19 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info" />
+
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="Please Note :\n - To produce more accurate results, please sync your Smart-watch data."
+        app:layout_constraintBottom_toTopOf="@+id/generate_report_btn"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout7"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout7"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout7" />
 
     <ProgressBar

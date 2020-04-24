@@ -684,6 +684,7 @@ public class PatientReport extends AppCompatActivity {
 
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
+                                String id = document.getId();
                                 String name = document.get("name").toString();
                                 String DateTime = document.get("date").toString();
                                 String[] DateTimeL = DateTime.split(" ");
@@ -693,7 +694,8 @@ public class PatientReport extends AppCompatActivity {
 
                                 highEvents.add(new Event(name,date,time));
 
-                            }// for every location belonging to this patient (for loop)
+                                deleteDoc(id);
+                            }// for every event belonging to this patient (for loop)
 
 
 //                            locationRecyclerView.setHasFixedSize(true);
@@ -713,12 +715,34 @@ public class PatientReport extends AppCompatActivity {
 
                         }// end if
 
+
+
                     }// onComplete
 
                 });
 
 
     }//events
+
+    private void deleteDoc(String id){
+
+        firebaseFirestore.collection("PatientEvents")
+                .document(id)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.i("AppInfo", "Event Deleted");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i("AppInfo", "Failed to delete Event");
+                    }
+                });
+
+    }
 
     public void getExtras() {
         Intent intent = getIntent();

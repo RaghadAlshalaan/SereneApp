@@ -28,13 +28,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.ksu.serene.model.MySharedPreference;
 import com.ksu.serene.R;
 
+import static android.R.layout.simple_spinner_dropdown_item;
+
 public class EditSocio extends AppCompatActivity {
 
 
     private Button save;
     private EditText age, height, wieght, monthlyincome, chronicD;
-    private String ageS, heightS, wieghtS, monthlyincomeS, chronicDS, employmentStatus, maritalStatus, cigaretteSmoke;
-    private Spinner employmentStatusET, maritalStatusET,cigaretteSmokeET;
+    private String ageS, heightS, wieghtS, monthlyincomeS, chronicDS, gender,employmentStatus, maritalStatus, cigaretteSmoke;
+    private Spinner employmentStatusET, maritalStatusET,cigaretteSmokeET, genderET;
     private FirebaseFirestore db = com.google.firebase.firestore.FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth;
     private String TAG = EditSocio.class.getSimpleName();
@@ -66,6 +68,7 @@ public class EditSocio extends AppCompatActivity {
         employmentStatusET = findViewById(R.id.employee);
         maritalStatusET = findViewById(R.id.married);
         cigaretteSmokeET = findViewById(R.id.smoke);
+        genderET = findViewById(R.id.gender);
         back = findViewById(R.id.backButton);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +108,9 @@ public class EditSocio extends AppCompatActivity {
         });
 
         // initiate the spinner 3
-        final ArrayAdapter<CharSequence> adapterS = ArrayAdapter.createFromResource(EditSocio.this, R.array.yes_no, android.R.layout.simple_spinner_item);
+        final ArrayAdapter<CharSequence> adapterS = ArrayAdapter.createFromResource(EditSocio.this,
+                R.array.yes_no, android.R.layout.simple_spinner_item);
+
         adapterS.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cigaretteSmokeET.setAdapter(adapterS);
         cigaretteSmokeET.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -119,8 +124,25 @@ public class EditSocio extends AppCompatActivity {
             }
         });
 
+        // initiate the spinner 4
+        ArrayAdapter<CharSequence> adapterG = ArrayAdapter.createFromResource(EditSocio.this,
+                R.array.gender, android.R.layout.simple_spinner_item);
+
+        adapterG.setDropDownViewResource(simple_spinner_dropdown_item);
+        genderET.setAdapter(adapterS);
+        genderET.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                gender = parentView.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
+
         //TODO retrieve all fileds from firebase
-        retrieveData (adapter,adapterM,adapterS);
+        retrieveData (adapter,adapterM,adapterG,adapterS);
         /*db.collection("Patient")
                 .document(mAuth.getUid())
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -153,7 +175,7 @@ public class EditSocio extends AppCompatActivity {
                 if (checkFields()) {
                     updateInfo(age.getText().toString(), height.getText().toString(), wieght.getText().toString(),
                             monthlyincome.getText().toString(), chronicD.getText().toString(),
-                            employmentStatus, maritalStatus, cigaretteSmoke);
+                            employmentStatus, maritalStatus, gender, cigaretteSmoke);
                 }
             }
         });
@@ -230,7 +252,7 @@ public class EditSocio extends AppCompatActivity {
 
     public void updateInfo(final String newAge, final String newHeight, final String newWeight,
                            final String newIncome, final String newChronic, final String newEmployee,
-                           final String newMarried,final String newSmoke ) {
+                           final String newMarried,final String newGender,final String newSmoke ) {
         DocumentReference userName = db.collection("Patient").document(mAuth.getUid());
 
         userName.update("age", newAge);
@@ -239,6 +261,7 @@ public class EditSocio extends AppCompatActivity {
         userName.update("monthlyIncome",newIncome);
         userName.update("chronicDiseases",newChronic);
         userName.update("employmentStatus", newEmployee);
+        userName.update("gender", newGender);
         userName.update("maritalStatus", newMarried);
         userName.update("smokeCigarettes", newSmoke)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -335,7 +358,7 @@ public class EditSocio extends AppCompatActivity {
         return true;
     }
 
-    public void retrieveData (final ArrayAdapter <CharSequence> adapter,final ArrayAdapter <CharSequence> adapterM,final ArrayAdapter <CharSequence> adapterS) {
+    public void retrieveData (final ArrayAdapter <CharSequence> adapter,final ArrayAdapter <CharSequence> adapterM,final ArrayAdapter <CharSequence> adapterG,final ArrayAdapter <CharSequence> adapterS) {
         db.collection("Patient")
                 .document(mAuth.getUid())
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -352,6 +375,9 @@ public class EditSocio extends AppCompatActivity {
                 maritalStatusET.setSelection(posMar);
                 int posSmok = adapterS.getPosition(documentSnapshot.get("smokeCigarettes").toString());
                 cigaretteSmokeET.setSelection(posSmok);
+                int posGender = adapterG.getPosition(documentSnapshot.get("gender").toString());
+                genderET.setSelection(posGender);
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

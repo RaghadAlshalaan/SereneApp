@@ -96,11 +96,10 @@ public class ReportFragment extends Fragment {
     Calendar myCalendarStart = Calendar.getInstance();
     Calendar myCalendarEnd = Calendar.getInstance();
     private SimpleDateFormat DateFormat = new SimpleDateFormat("dd/mm/yyyy", Locale.US);
-    private String api_url;
+    private String api_url, apiStartDate, apiEndDate;
     private ProgressBar progressBar;
     private String reportStartDate;
     private String reportEndDate;
-    private boolean apiBoolean;
 
 
 
@@ -180,7 +179,7 @@ public class ReportFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 generateReport();
-        }// onClick
+            }// onClick
         });
 
 
@@ -197,7 +196,6 @@ public class ReportFragment extends Fragment {
         duration = "14";// default value
         progressBar =root.findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.INVISIBLE);
-        apiBoolean = true;
     }
 
     /** Functions to handle start date and end date selection **/
@@ -207,6 +205,7 @@ public class ReportFragment extends Fragment {
         myCalendarEnd.set(Calendar.MONTH, monthOfYear);
         myCalendarEnd.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         endDate = myCalendarEnd.get(Calendar.DAY_OF_MONTH) + "/" + myCalendarEnd.get(Calendar.MONTH) + "/" + myCalendarEnd.get(Calendar.YEAR);
+        apiEndDate = myCalendarEnd.get(Calendar.YEAR) + "-" + myCalendarEnd.get(Calendar.MONTH)+1 + "-" + myCalendarEnd.get(Calendar.DAY_OF_MONTH);
         end.setText(DateFormat.format(myCalendarEnd.getTime()));
     }
 
@@ -215,6 +214,7 @@ public class ReportFragment extends Fragment {
         myCalendarStart.set(Calendar.MONTH, monthOfYear);
         myCalendarStart.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         startDate = myCalendarStart.get(Calendar.DAY_OF_MONTH) + "/" + myCalendarStart.get(Calendar.MONTH) + "/" + myCalendarStart.get(Calendar.YEAR);
+        apiStartDate = myCalendarStart.get(Calendar.YEAR) + "-" + myCalendarStart.get(Calendar.MONTH)+1 + "-" + myCalendarStart.get(Calendar.DAY_OF_MONTH);
         start.setText(DateFormat.format(myCalendarStart.getTime()));
     }
 
@@ -252,6 +252,7 @@ public class ReportFragment extends Fragment {
                 duration = "custom";
                 datePicker.setVisibility(LinearLayout.VISIBLE);
                 break;
+
         }// switch
     }
 
@@ -366,18 +367,19 @@ public class ReportFragment extends Fragment {
         if (duration.equals("custom")) {
 
             if (isDatesChosen(startDate, endDate) == 0) {
+
                 intent.putExtra(Constants.Keys.START_DATE, startDate);
                 intent.putExtra(Constants.Keys.END_DATE, endDate);
 
-                tag("AppInfo").d("GoogleCalendar: " + GoogleCalendar);
+                progressBar.setVisibility(VISIBLE);
+
+
                 if (GoogleCalendar) {
                     uploadGoogleEvents();
                 }else{
-                    callAPI(duration);
+                    callAPI();
                 }
-                //TODO: date should be in format (YYYY-MM-DD)
-                api_url = "http://e13debb6.ngrok.io/patient_report_custom_duration/"+mAuth.getUid()+"/"+startDate+"/"+endDate+"/"+apiBoolean;
-                executeApi();
+
             } else {
 
                 switch (isDatesChoosen(startDate, endDate)) {
@@ -405,14 +407,15 @@ public class ReportFragment extends Fragment {
 
         }//bigger if
         else {
+            progressBar.setVisibility(VISIBLE);
+
             setDates();
             if (GoogleCalendar) {
                 uploadGoogleEvents();
             }else{
-                callAPI(duration);
+                callAPI();
             }
-            api_url = "http://e13debb6.ngrok.io/patient_report/"+mAuth.getUid()+"/"+duration+"/"+apiBoolean;
-            executeApi();
+
         }
     }//generateReport
 
@@ -420,14 +423,13 @@ public class ReportFragment extends Fragment {
 
         Date startD, endD;
         String start = "", end;
-
         
         Calendar cale = Calendar.getInstance();
         cale.add(Calendar.DATE, -1);
         endD = cale.getTime();
 
-        myCalendarEnd.set(Calendar.YEAR, endD.getYear());
-        myCalendarEnd.set(Calendar.MONTH, endD.getMonth());
+        myCalendarEnd.set(Calendar.YEAR, 2020);
+        myCalendarEnd.set(Calendar.MONTH, endD.getMonth()+1);
         myCalendarEnd.set(Calendar.DAY_OF_MONTH, endD.getDay());
         
         Calendar cal = Calendar.getInstance();
@@ -437,23 +439,22 @@ public class ReportFragment extends Fragment {
 
                 cal.add(Calendar.DATE, -14);
                 startD = cal.getTime();
-
+                myCalendarStart.set(Calendar.YEAR, 2020);
+                myCalendarStart.set(Calendar.MONTH, startD.getMonth());
+                myCalendarStart.set(Calendar.DAY_OF_MONTH, startD.getDay());
                 break;
 
             case "30":
 
                 cal.add(Calendar.MONTH, -1);
                 startD = cal.getTime();
-                
+                myCalendarStart.set(Calendar.YEAR, 2020);
+                myCalendarStart.set(Calendar.MONTH, startD.getMonth()+1);
+                myCalendarStart.set(Calendar.DAY_OF_MONTH, startD.getDay());
                 break;
 
-            default:
-                startD = endD;
         }//end of switch
 
-        myCalendarStart.set(Calendar.YEAR, startD.getYear());
-        myCalendarStart.set(Calendar.MONTH, startD.getMonth());
-        myCalendarStart.set(Calendar.DAY_OF_MONTH, startD.getDay());
         
     }
 
@@ -475,12 +476,90 @@ public class ReportFragment extends Fragment {
             return 0;
     }
 
-    private void callAPI(String custom) {
+    private void callAPI() {
         tag("AppInfo").d("callAPI");
 
-        // TODO : CALL API , WHEN RESPONSE ON COMPLETE , START NEW ACTIVITY
-        //startActivity(intent);
 
+        //TODO: date should be in format (YYYY-MM-DD)
+        if(duration.equals("custom")){
+            api_url = "http://e13debb6.ngrok.io/patient_report_custom_duration/"+mAuth.getUid()+"/"+apiStartDate+"/"+apiEndDate+"/"+GoogleCalendar;;
+        }else{
+            api_url = "http://e13debb6.ngrok.io/patient_report//"+mAuth.getUid()+"/"+duration+"/"+GoogleCalendar;;
+        }
+
+        executeApi();
+
+    }
+
+    private void executeApi(){
+
+        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.INTERNET}, PERMISSION_INTERNET);
+        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_NETWORK_STATE}, PERMISSION_ACCESS_NETWORK_STATE);
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        JsonObjectRequest objectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                api_url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.e("LOG", "success: " + response.toString());
+                        Toast.makeText(getContext(),"patient report success" , Toast.LENGTH_LONG).show();
+                        progressBar.setVisibility(View.INVISIBLE);
+                        startActivity(intent);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getContext(), "failed" , Toast.LENGTH_LONG).show();
+                        Log.e("LOG","ERROR: "+error.toString() );
+
+                    }
+                }
+
+        );
+
+        objectRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 100000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 100000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+        requestQueue.add(objectRequest);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_INTERNET: {
+                if (grantResults.length <= 0
+                        || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.INTERNET}, PERMISSION_INTERNET);
+                }
+                return;
+            }
+            case PERMISSION_ACCESS_NETWORK_STATE: {
+                if (grantResults.length <= 0
+                        || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_NETWORK_STATE}, PERMISSION_ACCESS_NETWORK_STATE);
+                }
+                return;
+            }
+        }
     }
 
 
@@ -514,21 +593,21 @@ public class ReportFragment extends Fragment {
 
         // TODO : THIS ATTRIBUTE IS NOT CREATED B4
 
-        // upload to Firebase storage
-        db.collection("LastGeneratePatientReport")
-                .document(docID)
-                .update("googleCalendar",GoogleCalendar)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Log.e("GoogleCalendar:"," UPDATED!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                    }
-                });
+//        // upload to Firebase
+//        db.collection("LastGeneratePatientReport")
+//                .document(docID)
+//                .update("googleCalendar",GoogleCalendar)
+//                .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        Log.e("GoogleCalendar:"," UPDATED!");
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                    }
+//                });
 
         if (GoogleCalendar){
 
@@ -582,13 +661,6 @@ public class ReportFragment extends Fragment {
                 DateTime startRange = new DateTime(startDate, TimeZone.getTimeZone("UTC"));
                 DateTime endRange = new DateTime(endDate, TimeZone.getTimeZone("UTC"));
 
-//                DateTime startRange = new DateTime(myCalendarStart.getTimeInMillis());
-//                DateTime endRange = new DateTime(myCalendarStart.getTimeInMillis()+(24 * 60 * 60 * 1000));
-
-
-                Log.i("CalInfo", "min: " + startRange.toString());
-                Log.i("CalInfo", "max: " + endRange.toString());
-
                 
                 Events events = client.events().list(feed.getItems().get(0).getId())
                         .setMaxResults(100)
@@ -626,6 +698,21 @@ public class ReportFragment extends Fragment {
                     }
                 }
 
+                if (listOfEvents.size() > 0) {
+                    Log.i("AppInfo", "Uploading new events");
+
+                    uploadNewEvents(listOfEvents);
+
+                }else{
+                    // Delete All old events
+                    //deleteOldEvents();
+
+                    // no new events
+
+                        callAPI();
+
+                }
+
             } catch (UserRecoverableAuthIOException ex) {
                 startActivityForResult(ex.getIntent(), REQUEST_AUTHORIZATION);
 
@@ -646,101 +733,88 @@ public class ReportFragment extends Fragment {
 
 
 
-            if (newEvents.size() > 0) {
-                Log.i("AppInfo", "Uploading new events");
-
-                reUploadEvents(newEvents);
-
-            }else{
-                // Delete All old events
-                deleteOldEvents();
-
-                // no new events
-                callAPI(duration);
-            }
-
         }
 
-        private void reUploadEvents(final List<Event> newEvents) {
-            tag("AppInfo").d("reUploadEvents");
+//        private void reUploadEvents(final List<Event> newEvents) {
+//            tag("AppInfo").d("reUploadEvents");
+//
+//            db.collection("PatientEvents")
+//                    .whereEqualTo("patientID", mAuth.getUid())
+//                    .get()
+//                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                            if (task.isSuccessful()) {
+//                                if (!task.getResult().isEmpty()) {
+//
+//                                    for (QueryDocumentSnapshot document : task.getResult()) {
+//                                        String id = document.getId();
+//                                        deleteDoc(id);
+//                                    }
+//
+//                                }
+//
+//                                uploadNewEvents(newEvents);
+//                            } else {
+//                                Log.i("AppInfo", "Clearing events from DB then uploading new one");
+//                            }
+//                        }
+//                    }).addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception e) {
+//                    //uploadNewEvents(newEvents);
+//                }
+//            });
+//
+//        }
 
-            db.collection("PatientEvents")
-                    .whereEqualTo("patientID", mAuth.getUid())
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                if (!task.getResult().isEmpty()) {
+//        private void deleteOldEvents() {
+//            tag("AppInfo").d("deleteOldEvents");
+//
+//            db.collection("PatientEvents")
+//                    .whereEqualTo("patientID", mAuth.getUid())
+//                    .get()
+//                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                            if (task.isSuccessful()) {
+//                                if (!task.getResult().isEmpty()) {
+//
+//                                    for (QueryDocumentSnapshot document : task.getResult()) {
+//                                        String id = document.getId();
+//                                        deleteDoc(id);
+//                                    }
+//
+//                                }
+//                            } else {
+//                                Log.i("AppInfo", "Clearing events from DB then uploading new one");
+//                            }
+//                        }
+//                    });
+//
+//        }
 
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        String id = document.getId();
-                                        deleteDoc(id);
-                                    }
-
-                                }
-
-                                uploadNewEvents(newEvents);
-                            } else {
-                                Log.i("AppInfo", "Clearing events from DB then uploading new one");
-                            }
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    //uploadNewEvents(newEvents);
-                }
-            });
-
-        }
-
-        private void deleteOldEvents() {
-            tag("AppInfo").d("deleteOldEvents");
-
-            db.collection("PatientEvents")
-                    .whereEqualTo("patientID", mAuth.getUid())
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                if (!task.getResult().isEmpty()) {
-
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        String id = document.getId();
-                                        deleteDoc(id);
-                                    }
-
-                                }
-                            } else {
-                                Log.i("AppInfo", "Clearing events from DB then uploading new one");
-                            }
-                        }
-                    });
-
-        }
-
-        private void deleteDoc(String id){
-
-            db.collection("PatientEvents")
-                    .document(id)
-                    .delete()
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.i("AppInfo", "Event Deleted");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.i("AppInfo", "Failed to delete Event");
-                        }
-                    });
-
-        }
-
-    }
+//        private void deleteDoc(String id){
+//
+//            db.collection("PatientEvents")
+//                    .document(id)
+//                    .delete()
+//                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                        @Override
+//                        public void onSuccess(Void aVoid) {
+//                            Log.i("AppInfo", "Event Deleted");
+//                        }
+//                    })
+//                    .addOnFailureListener(new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception e) {
+//                            Log.i("AppInfo", "Failed to delete Event");
+//                        }
+//                    });
+//
+//        }
+//
+   }
 
     int i;
     boolean done = false;
@@ -766,7 +840,9 @@ public class ReportFragment extends Fragment {
 
                             if ( i == newEvents.size() && !done  ) { // last event saved successfully -> then call API here
                                 // TODO : CALL API
-                                callAPI(duration);
+
+                                callAPI();
+
                                 done = true;
                             }
 
@@ -776,7 +852,17 @@ public class ReportFragment extends Fragment {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            // Failure upload event
+                            Resources res = getResources();
+                            String text = String.format(res.getString(R.string.TDSavedSuccess));
+
+                            MotionToast.Companion.darkToast(
+                                    getActivity(),
+                                    "Error loading",
+                                    MotionToast.Companion.getTOAST_ERROR(),
+                                    MotionToast.Companion.getGRAVITY_BOTTOM(),
+                                    MotionToast.Companion.getLONG_DURATION(),
+                                    ResourcesCompat.getFont( getContext(), R.font.montserrat));
+
                         }
                     });
 
@@ -786,77 +872,6 @@ public class ReportFragment extends Fragment {
 
     private String getRandomID() {
         return UUID.randomUUID().toString();
-    }
-
-    private void executeApi(){
-        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.INTERNET}, PERMISSION_INTERNET);
-        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_NETWORK_STATE}, PERMISSION_ACCESS_NETWORK_STATE);
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-        JsonObjectRequest objectRequest = new JsonObjectRequest(
-                Request.Method.GET,
-                api_url,
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.e("LOG", "success: " + response.toString());
-                        Toast.makeText(getContext(),"patient report success" , Toast.LENGTH_LONG).show();
-                        progressBar.setVisibility(View.INVISIBLE);
-                        startActivity(intent);
-
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getContext(), "failed" , Toast.LENGTH_LONG).show();
-                        Log.e("LOG","ERROR: "+error.toString() );
-
-                    }
-                }
-
-        );
-
-        objectRequest.setRetryPolicy(new RetryPolicy() {
-            @Override
-            public int getCurrentTimeout() {
-                return 100000;
-            }
-
-            @Override
-            public int getCurrentRetryCount() {
-                return 100000;
-            }
-
-            @Override
-            public void retry(VolleyError error) throws VolleyError {
-
-            }
-        });
-        requestQueue.add(objectRequest);
-
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_INTERNET: {
-                if (grantResults.length <= 0
-                        || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.INTERNET}, PERMISSION_INTERNET);
-                }
-                return;
-            }
-            case PERMISSION_ACCESS_NETWORK_STATE: {
-                if (grantResults.length <= 0
-                        || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_NETWORK_STATE}, PERMISSION_ACCESS_NETWORK_STATE);
-                }
-                return;
-            }
-        }
     }
 
 

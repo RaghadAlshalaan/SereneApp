@@ -96,13 +96,19 @@ public class FitbitWorker extends Worker {
 
 
     /**
-     * This will be called whenever work manager run the work.
+     * This will be called whenever work manager run the work (24-hour).
      */
     @NonNull
     @Override
     public Result doWork() {
+
+        /**------------------DAILY REPORT------------------**/
+
         //to do execute
         executeApi(user.getUid());
+
+
+        /**--------------------QUOTE--------------------**/
 
         // STEP 0 : UPDATE QUOTE OF THE DAY
 
@@ -165,7 +171,7 @@ public class FitbitWorker extends Worker {
         });
 
 
-        /**------------------------------------**/
+        /**-------------------FITBIT-------------------**/
 
 
         // Step 1 : GET USER ACCESS TOKEN FROM DB
@@ -258,7 +264,6 @@ public class FitbitWorker extends Worker {
                         }
                     }
                 });
-
 
         return null;
     }
@@ -365,9 +370,6 @@ public class FitbitWorker extends Worker {
 
         }
     }
-
-
-
 
 
     private void executeApi(String id){

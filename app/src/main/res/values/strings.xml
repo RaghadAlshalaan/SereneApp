@@ -154,6 +154,12 @@
 
     </string-array>
 
+    <string-array name="gender">
+        <item>@string/male</item>
+        <item>@string/female</item>
+
+    </string-array>
+
     <string-array name="martial_status">
         <item>@string/single</item>
         <item>@string/married</item>
@@ -412,6 +418,9 @@
     <string name="no_events_associated_with_high_anxiety">No Events Associated With High Anxiety.</string>
     <string name="api_daily_sucess_msg">Daily report updated successfully</string>
     <string name="api_daily_error_msg">Failed to update Daily report</string>
+    <string name="gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
 
 </resources>
 
