@@ -19,6 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -56,10 +57,14 @@ public class Add_Appointment_PageTest {
     public ActivityTestRule<Add_Appointment_Page> activityTestRule = new ActivityTestRule<Add_Appointment_Page>(Add_Appointment_Page.class);
     private Add_Appointment_Page addAppointmentPage = null;
     private Calendar current = Calendar.getInstance();
+    private Date AT = current.getTime();
+    private SimpleDateFormat TimeFormat = new SimpleDateFormat ("HH : mm",Locale.UK);
+    private String time = TimeFormat.format(AT);
     private int tomorrow = current.get(Calendar.DAY_OF_MONTH)+1;
     private int currentMonth = current.get(Calendar.MONTH);
-    private int minutes = current.get(Calendar.MINUTE)+20;
+    //private int minutes = current.get(Calendar.MINUTE)+20;
     private int hours = current.get(Calendar.HOUR)-1;
+    private int currentHour = current.get(Calendar.HOUR);
 
     @Before
     public void setUp() throws Exception {
@@ -257,7 +262,7 @@ public class Add_Appointment_PageTest {
         //time button clicked
         onView(withId(R.id.MTime)).perform(click());
         //choose time
-        onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(PickerActions.setTime(03 , 00));
+        onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(PickerActions.setTime(13 , 00));
         //click ok button
         onView(withText("OK")).perform(click());
             //click confirm button
@@ -270,6 +275,11 @@ public class Add_Appointment_PageTest {
 
     @Test
     public void addAppSuccessToday () {
+        try {
+            AT = TimeFormat.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.nameET)).perform(typeText("Test Add App"));
         //close keyboard
         closeSoftKeyboard();
@@ -278,13 +288,17 @@ public class Add_Appointment_PageTest {
         //choose date after current date
         onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(current.get(Calendar.YEAR), (currentMonth+1), current.get(Calendar.DAY_OF_MONTH) ));
         onView(withText("OK")).perform(click());
+        //chech the date text
+        //onView(withId(R.id.MTillDays)).check(matches(withText("23/04/2020")));
         //time button clicked
         onView(withId(R.id.MTime)).perform(click());
         //choose time
-        onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(PickerActions.setTime((current.get(Calendar.HOUR)) , minutes ));
+        onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(PickerActions.setTime((AT.getHours()+1) , AT.getMinutes() ));
         //click ok button
         onView(withText("OK")).perform(click());
-            //click confirm button
+        //check the time text
+       // onView(withId(R.id.MTime)).check(matches(withText((currentHour+1)+" : "+current.get(Calendar.MINUTE))));
+        //click confirm button
             onView(withId(R.id.button)).perform(click());
             // check toast visibility
             onView(withText(R.string.AppSavedSuccess))
@@ -304,7 +318,7 @@ public class Add_Appointment_PageTest {
           //time button clicked
           onView(withId(R.id.MTime)).perform(click());
           //choose time
-          onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(PickerActions.setTime((current.get(Calendar.HOUR)) , minutes ));
+          onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(PickerActions.setTime((current.get(Calendar.HOUR)) , current.get(Calendar.MINUTE) ));
           //click ok button
           onView(withText("OK")).perform(click());
           //add timer to disconnet simulater from internet connection

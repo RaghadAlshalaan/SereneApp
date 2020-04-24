@@ -41,7 +41,7 @@ public class PatientMedicineDetailPageTest {
         protected Intent getActivityIntent() {
             Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
             Intent intent = new Intent(context, PatientMedicineDetailPage.class);
-            intent.putExtra("MedicineID", "93073a13-f737-4289-8493-1bdc29f73c83");
+            intent.putExtra("MedicineID", "683a28ad-add7-4b9b-b910-ebbcd65045a5");
             return intent;
         }
     };

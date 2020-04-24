@@ -1,17 +1,14 @@
-package com.ksu.serene.ProfileF;
-
-import android.content.Intent;
+package com.ksu.serene.WSignUp;
 
 import com.ksu.serene.ElapsedTimeIdlingResource;
 import com.ksu.serene.R;
 import com.ksu.serene.controller.main.profile.Editprofile;
-import com.ksu.serene.ToastMatcher;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
-import org.junit.runner.RunWith;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,18 +19,17 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static androidx.test.espresso.action.ViewActions.replaceText;
-import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.Espresso.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.click;
 import static org.junit.Assert.*;
+
 @RunWith(AndroidJUnit4.class)
-public class EditprofileTestUpdatePassName {
+public class HEditprofileTest {
 
     @Rule
     public ActivityTestRule<Editprofile> activityTestRule = new ActivityTestRule<Editprofile>(Editprofile.class);
@@ -60,25 +56,22 @@ public class EditprofileTestUpdatePassName {
     }
 
     @Test
-    public void BupdateProfileSuccess () {
-        //check the display name as expected
+    public void JpassUpdateSuccess () {
         onView(withId(R.id.username)).check(matches(isDisplayed()));
-        //change name to new valid name
-        onView(withId(R.id.username)).perform(replaceText("lama"));
         //enter correct past password
         onView(withId(R.id.oldPassword)).perform(typeText("sereneuser"));
         //close keyboard
         closeSoftKeyboard();
         //enter new pass
-        onView(withId(R.id.newPassword)).perform(typeText("passw99"));
+        onView(withId(R.id.newPassword)).perform(typeText("serene00"));
         //close keyboard
         closeSoftKeyboard();
         //renter new pass
-        onView(withId(R.id.reNewPassword)).perform(typeText("passw99"));
+        onView(withId(R.id.reNewPassword)).perform(typeText("serene00"));
         //close keyboard
         closeSoftKeyboard();
-            //click the button
-            onView(withId(R.id.save)).perform(click());
+        //click the button
+        onView(withId(R.id.save)).perform(click());
         // check the profile showen
         onView(withId(R.id.PatientProfile)).check(matches(isDisplayed()));
     }

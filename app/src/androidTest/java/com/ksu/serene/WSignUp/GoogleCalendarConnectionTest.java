@@ -1,6 +1,7 @@
 package com.ksu.serene.WSignUp;
 
 import android.Manifest;
+import android.widget.EditText;
 
 import com.ksu.serene.PermissionGranter;
 import com.ksu.serene.R;
@@ -49,7 +50,7 @@ public class GoogleCalendarConnectionTest {
         onView(withId(R.id.connectCalendar)).check(matches(isDisplayed()));
     }
 
-    @Test
+    //@Test
     public void A_AnotherAccount () throws UiObjectNotFoundException {
         onView(withId(R.id.status)).check(matches(withText(R.string.status_not_connected)));
         //check the connect button visible
@@ -83,25 +84,29 @@ public class GoogleCalendarConnectionTest {
     public void B_AnotherAccount () throws UiObjectNotFoundException {
         onView(withId(R.id.status)).check(matches(withText(R.string.status_not_connected)));
         //check the connect button visible
-        onView(withId(R.id.connectCalendar)).perform(click());
+        onView(withId(R.id.connectCalendar)).check(matches(isDisplayed()));
         //perform click
         onView(withId(R.id.connectCalendar)).perform(click());
-        UiObject mAcc = uiDevice.findObject(new UiSelector().index(0));
+        UiObject mAcc = uiDevice.findObject(new UiSelector().textContains("@gmail.com"));
+        mAcc.click();
+        /*UiObject mAcc = uiDevice.findObject(new UiSelector().textContains("Add"));
         mAcc.click();
         //click cancle button
         UiObject mOk = uiDevice.findObject(new UiSelector().text("OK"));
         mOk.click();
         //enter email
-        UiObject mEmail = uiDevice.findObject(new UiSelector().textContains("Email"));
+        UiObject mEmail = uiDevice.findObject(new UiSelector().className(EditText.class));
         mEmail.setText("sereneapp0@gmail.com");
         //click next
         UiObject mNext = uiDevice.findObject(new UiSelector().text("Next"));
         mNext.click();
         //enter pass
-        UiObject mPass = uiDevice.findObject(new UiSelector().textContains("password"));
+        UiObject mPass = uiDevice.findObject(new UiSelector().className(EditText.class));
         mPass.setText("sereneApp00-");
-        //click next
-        mNext.click();
+        //click next*/
+
+        UiObject mNextPass = uiDevice.findObject(new UiSelector().text("Next"));
+        mNextPass.click();
         //connect
         UiObject mAllow = uiDevice.findObject(new UiSelector().text("Allow"));
         mAllow.click();

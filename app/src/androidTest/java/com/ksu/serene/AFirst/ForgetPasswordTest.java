@@ -39,7 +39,8 @@ public class ForgetPasswordTest {
     public void setUp() throws Exception {
         logInPage = activityTestRule.getActivity();
         //Mack sure Espresso does not time out
-        IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);        IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
+        IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
+        IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
         //Now we waite
         IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
         try {

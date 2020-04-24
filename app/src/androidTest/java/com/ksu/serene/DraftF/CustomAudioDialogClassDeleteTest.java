@@ -54,10 +54,10 @@ public class CustomAudioDialogClassDeleteTest {
         });
         //add tiemr
         //Mack sure Espresso does not time out
-        IdlingPolicies.setMasterPolicyTimeout(10000 * 2, TimeUnit.MILLISECONDS);
-        IdlingPolicies.setIdlingResourceTimeout(10000 * 2, TimeUnit.MILLISECONDS);
+        IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
+        IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
         //Now we waite
-        IdlingResource idlingResource = new ElapsedTimeIdlingResource(10000);
+        IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
         try {
             IdlingRegistry.getInstance().register(idlingResource);
             //check the activity is visible

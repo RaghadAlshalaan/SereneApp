@@ -90,7 +90,7 @@ public class ForgetPassprofileTest {
         //close keyboard
         closeSoftKeyboard();
         //enter correct password
-        onView(withId(R.id.Password)).perform(typeText("sereneuser"));
+        onView(withId(R.id.Password)).perform(typeText("passw99"));
         //close keyboard
         closeSoftKeyboard();
         onView(withId(R.id.loginBtn)).perform(click());

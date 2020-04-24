@@ -28,11 +28,15 @@ public class textDraftAdapter extends RecyclerView.Adapter<textDraftAdapter.MyVi
 
         TextView Title;
         TextView Subj;
+        TextView date;
+        TextView time;
 
         public MyViewHolder (View v) {
             super(v);
             Title = itemView.findViewById(R.id.text_title_name);
             Subj = itemView.findViewById(R.id.text_draft_sub);
+            date = itemView.findViewById(R.id.date);
+            time = itemView.findViewById(R.id.time);
         }
 
         public void bind (final TextDraft textDraft , final textDraftAdapter.OnItemClickListener listener){
@@ -58,7 +62,12 @@ public class textDraftAdapter extends RecyclerView.Adapter<textDraftAdapter.MyVi
         holder.bind(mAdapter.get(position) , listener);
         TextDraft textDraft = mAdapter.get(position);
         holder.Title.setText(textDraft.getTitle());
-        holder.Subj.setText(textDraft.getMessage());
+        if(textDraft.getMessage().length() > 20)
+            holder.Subj.setText(textDraft.getMessage().subSequence(0,20)+"...");
+        else
+            holder.Subj.setText(textDraft.getMessage());
+        holder.date.setText(textDraft.getDate());
+        holder.time.setText(textDraft.getTimestap());
     }
 
     @Override

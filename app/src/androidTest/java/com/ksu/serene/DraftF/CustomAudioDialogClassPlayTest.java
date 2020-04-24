@@ -49,10 +49,10 @@ public class CustomAudioDialogClassPlayTest {
         });
         //add tiemr
         //Mack sure Espresso does not time out
-        IdlingPolicies.setMasterPolicyTimeout(10000 * 2, TimeUnit.MILLISECONDS);
-        IdlingPolicies.setIdlingResourceTimeout(10000 * 2, TimeUnit.MILLISECONDS);
+        IdlingPolicies.setMasterPolicyTimeout(6000 * 2, TimeUnit.MILLISECONDS);
+        IdlingPolicies.setIdlingResourceTimeout(6000 * 2, TimeUnit.MILLISECONDS);
         //Now we waite
-        IdlingResource idlingResource = new ElapsedTimeIdlingResource(10000);
+        IdlingResource idlingResource = new ElapsedTimeIdlingResource(6000);
         try {
             IdlingRegistry.getInstance().register(idlingResource);
             //check the activity is visible
@@ -102,6 +102,8 @@ public class CustomAudioDialogClassPlayTest {
     public void PlayAudio () {
         //click on the play button
         onView(withId(R.id.pause)).perform(click());
+        //click stop
+        onView(withId(R.id.pause)).perform(click());
         //TODO check the text time changed
     }
 
@@ -130,7 +132,9 @@ public class CustomAudioDialogClassPlayTest {
         //click on the play button
         onView(withId(R.id.pause)).perform(click());
         //TODO check the text time changed
-        //click the speed button
+        //click the speed button X2
+        onView(withId(R.id.speed)).perform(click());
+        //X1
         onView(withId(R.id.speed)).perform(click());
         //TODO check the text time changed
     }

@@ -45,7 +45,7 @@ public class FitbitConnection extends AppCompatActivity implements View.OnClickL
     private Button next, back;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String access_token;
-    private String main;
+    private String main = "";
     private LinearLayout linearLayout;
 
 
@@ -69,7 +69,7 @@ public class FitbitConnection extends AppCompatActivity implements View.OnClickL
 
         linearLayout = findViewById(R.id.nav);
         main =  getIntent().getStringExtra("Not Connected");
-        if (main.equals("MainActivity")) {
+        if (main!=null && main.equals("MainActivity")) {
             linearLayout.setVisibility(View.INVISIBLE);
 
         }
@@ -178,10 +178,12 @@ public class FitbitConnection extends AppCompatActivity implements View.OnClickL
                     .Builder(FitbitWorker.class, 20, TimeUnit.MINUTES).setConstraints(constraints).build();
             fitbitWorkManager.enqueue(fitbitUpload);
 
-            if (main.equals("MainActivity")) {
+            if (main!= null && main.equals("MainActivity")) {
                 Intent intentMain = new Intent(FitbitConnection.this, MainActivity.class);
                 startActivity(intentMain);
             }
+            Intent i = new Intent(FitbitConnection.this, GoogleCalendarConnection.class);
+            startActivity(i);
 
         } else { // IF DENIED
             statusTV.setText("Status : Not Connected, Please try again");

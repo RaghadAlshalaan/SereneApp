@@ -62,14 +62,12 @@ public class CalendarFragmentTest {
         IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
         //Now we waite
         IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
-        try {
-            IdlingRegistry.getInstance().register(idlingResource);
+        try { IdlingRegistry.getInstance().register(idlingResource);
             //check the activity is visible
             onView(withId(R.id.CalendarFragment)).check(matches(isDisplayed()));
             //check the button visible
             onView(allOf(withId(R.id.button_expandable_110_250))).check(matches(isDisplayed()));
-        }
-        //clean upp
+        }//clean upp
         finally {
             IdlingRegistry.getInstance().unregister(idlingResource);
         }

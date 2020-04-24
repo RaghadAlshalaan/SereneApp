@@ -1,5 +1,7 @@
 package com.ksu.serene.controller.main.profile;
 import static com.ksu.serene.model.MySharedPreference.getInstance;
+import static com.ksu.serene.model.MySharedPreference.getInt;
+
 import java.util.Locale;
 
 import android.os.Bundle;
@@ -72,6 +74,7 @@ public class PatientProfile extends AppCompatActivity {
     private String mToken;
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private String googleCalendar;
+    private String editImg;
 
     public void setmAuth(FirebaseAuth mockMAuth) {
         this.mAuth = mockMAuth;
@@ -191,6 +194,12 @@ public class PatientProfile extends AppCompatActivity {
             findViewById(R.id.googleCalender).setVisibility(View.GONE);
         }
 
+        TextView edit =  findViewById(R.id.EditImg);
+        //for check if image updated
+        editImg = getIntent().getStringExtra("editImage");
+        if (editImg != null){
+            edit.setText("Congrats Your Image Updated");
+        }
         alert = findViewById(R.id.alert);
         resendL = findViewById(R.id.resendL);
         alert.setOnClickListener(new View.OnClickListener() {

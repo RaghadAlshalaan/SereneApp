@@ -78,9 +78,22 @@ public class EditprofileTestChangeImage {
         //check the patient profile showen
         onView(withId(R.id.PatientProfile)).check(matches(isDisplayed()));
         //check the toast message display
-        onView(withText("DocumentSnapshot successfully updated!"))
-                .inRoot(new ToastMatcher())
-                .check(matches(withText("DocumentSnapshot successfully updated!")));
+        //onView(withText("DocumentSnapshot successfully updated!")).inRoot(new ToastMatcher()).check(matches(withText("DocumentSnapshot successfully updated!")));
+        //add timer
+        //Mack sure Espresso does not time out
+        IdlingPolicies.setMasterPolicyTimeout(30000 * 2, TimeUnit.MILLISECONDS);
+        IdlingPolicies.setIdlingResourceTimeout(30000 * 2, TimeUnit.MILLISECONDS);
+        //Now we waite
+        IdlingResource idlingResourceImage = new ElapsedTimeIdlingResource(30000);
+        try {
+            IdlingRegistry.getInstance().register(idlingResourceImage);
+            //check the image has drawable
+            onView(withId(R.id.EditImg)).check(matches(withText("Congrats Your Image Updated")));
+        }
+        //clean upp
+        finally {
+            IdlingRegistry.getInstance().unregister(idlingResourceImage);
+        }
 
     }
 }

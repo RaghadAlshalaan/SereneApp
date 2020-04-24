@@ -55,7 +55,7 @@ public class FitbitConnectionTest {
         //onView(withId(R.id.fragmentGad)).check(matches(isDisplayed()));
     }
 
-    @Test
+    //@Test
     public void NextButtonStAsDef () {
         //check the status as default
         onView(withId(R.id.status)).check(matches(withText(R.string.status_not_connected)));
@@ -67,7 +67,7 @@ public class FitbitConnectionTest {
         onView(withId(R.id.FitbitConnection)).check(matches(isDisplayed()));
     }
 
-    @Test
+    //@Test
     public void NextButtonStNotConnect () {
         //first connect to fit bit
         onView(withId(R.id.connectFitbit)).perform(click());

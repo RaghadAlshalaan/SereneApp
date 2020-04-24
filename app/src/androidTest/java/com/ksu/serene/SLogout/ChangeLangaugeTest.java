@@ -82,6 +82,24 @@ public class ChangeLangaugeTest {
         onView(withId(R.id.MainActivity)).check(matches(isDisplayed()));
     }
 
+
+    @Test
+    public void DeleteAccountCancel () {
+        //check the display name as expected
+        onView(withId(R.id.username)).check(matches(isDisplayed()));
+        //click the delete button
+        onView(withId(R.id.delete)).perform(click());
+        //this line is to check when button clicked this dialog will apear
+        onView(withText(R.string.DeleteMessageAcc))
+                .inRoot(isDialog()) // <---
+                .check(matches(isDisplayed()));
+        //click cancel button
+        onView(withText(R.string.DeleteCancleAcc)).perform(click());
+        //nothing will be happen
+        //check the activity still showen
+        onView(withId(R.id.Editprofile)).check(matches(isDisplayed()));
+    }
+
     @After
     public void tearDown() throws Exception {
         editprofile = null;

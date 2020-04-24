@@ -62,11 +62,10 @@ public class EditprofileTest {
             IdlingRegistry.getInstance().unregister(idlingResource);
         }
     }
-    //TODO make test for forget password
 
     //back button pressed
     @Test
-    public void backButton () {
+    public void BackButton () {
         onView(withId(R.id.backButton)).check(matches(isDisplayed()));
         onView(withId(R.id.backButton)).check(matches(isClickable()));
         //perform click on back button
@@ -75,7 +74,7 @@ public class EditprofileTest {
     }
 
     @Test
-    public void shortPass () {
+    public void AshortPass () {
         //check the display name as expected
         onView(withId(R.id.username)).check(matches(isDisplayed()));
         //enter correct past password
@@ -100,7 +99,7 @@ public class EditprofileTest {
     }
 
     @Test
-    public void notMatchPass () {
+    public void BnotMatchPass () {
         //check the display name as expected
         onView(withId(R.id.username)).check(matches(isDisplayed()));
         //enter correct past password
@@ -126,7 +125,7 @@ public class EditprofileTest {
     }
 
     @Test
-    public void samePass () {
+    public void CsamePass () {
         //check the display name as expected
         onView(withId(R.id.username)).check(matches(isDisplayed()));
         //enter correct past password
@@ -153,7 +152,7 @@ public class EditprofileTest {
 
     //old pass is wrong pass
     @Test
-    public void passUpdateWrong () {
+    public void EpassUpdateWrong () {
         //check the display name as expected
         onView(withId(R.id.username)).check(matches(isDisplayed()));
         //enter wrong past password
@@ -181,7 +180,7 @@ public class EditprofileTest {
 
 
     @Test
-    public void NameEmpty () {
+    public void FNameEmpty () {
         //check the display name as expected
         onView(withId(R.id.username)).check(matches(isDisplayed()));
         //change name to empty
@@ -197,7 +196,7 @@ public class EditprofileTest {
     }
 
     @Test
-    public void IncorrectNameFormat () {
+    public void GIncorrectNameFormat () {
         //check the display name as expected
         //onView(withId(R.id.username)).check(matches(withText("user")));
         onView(withId(R.id.username)).check(matches(isDisplayed()));
@@ -214,7 +213,7 @@ public class EditprofileTest {
     }
 
     @Test
-    public void updateNameSuccess () {
+    public void HupdateNameSuccess () {
         //check the display name as expected
         onView(withId(R.id.username)).check(matches(isDisplayed()));
         //check the old pass empty

@@ -178,7 +178,7 @@ public class AddDoctorTest {
     @Test
     public void UserEmail () {
         //enter valid email that same as patient email
-        onView(withId(R.id.emailET)).perform(typeText("user@hotmail.com"));
+        onView(withId(R.id.emailET)).perform(typeText("lama-almarshad@hotmail.com"));
         //close Keyboard
         closeSoftKeyboard();
         //enter valid name

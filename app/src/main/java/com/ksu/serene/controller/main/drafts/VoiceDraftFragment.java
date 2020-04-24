@@ -45,6 +45,7 @@ public class VoiceDraftFragment extends Fragment {
     private String VoiceTitle;
     private String VoiceDate;
     private String VoiceAudio;
+    private String VoiceTime;
     private Timestamp Voicetimestap;
     private View root;
 
@@ -80,9 +81,9 @@ public class VoiceDraftFragment extends Fragment {
                         VoiceTitle = document.get("title").toString();
                         VoiceAudio = document.get("audio").toString();
                         Voicetimestap = (Timestamp) document.get("timestamp");
-
+                        VoiceTime = getTimeFormat(Voicetimestap);
                         VoiceDate = getDateFormat(Voicetimestap);
-                        listVoiceDrafts.add(new VoiceDraft(VoiceID, VoiceTitle, VoiceDate, VoiceAudio));
+                        listVoiceDrafts.add(new VoiceDraft(VoiceID, VoiceTitle, VoiceDate, VoiceAudio,VoiceTime));
                         adapterVoiceDraft.notifyDataSetChanged();
 
                     }// for
@@ -101,6 +102,15 @@ public class VoiceDraftFragment extends Fragment {
 
         return mDay+"/"+mMonth+"/"+mYear;
     }// getDateFormat
+
+    private String getTimeFormat(Timestamp timeStamp){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timeStamp.getSeconds()*1000);
+        int mHour = calendar.get(Calendar.HOUR);
+        int mMinute = calendar.get(Calendar.MINUTE);
+
+        return mHour+":"+mMinute;
+    }
 
     @Override
     public void onResume() {

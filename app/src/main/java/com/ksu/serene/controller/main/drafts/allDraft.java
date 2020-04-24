@@ -42,11 +42,13 @@ public class allDraft extends Fragment {
     private String TextDate;
     private String TextMessage;
     private Timestamp Texttimestap;
+    private String TextTime;
 
     private String VoiceID;
     private String VoiceTitle;
     private String VoiceDate;
     private String VoiceAudio;
+    private String VoiceTime;
 
     public FirebaseAuth mAuth;
     private Timestamp Voicetimestap;
@@ -111,9 +113,9 @@ public class allDraft extends Fragment {
                         VoiceTitle = document.get("title").toString();
                         VoiceAudio = document.get("audio").toString();
                         Voicetimestap = (Timestamp) document.get("timestamp");
-
+                        VoiceTime = getTimeFormat(Voicetimestap);
                         VoiceDate = getDateFormat(Voicetimestap);
-                        listVoiceDrafts.add(new VoiceDraft(VoiceID, VoiceTitle, VoiceDate, VoiceAudio));
+                        listVoiceDrafts.add(new VoiceDraft(VoiceID, VoiceTitle, VoiceDate, VoiceAudio,VoiceTime));
                         adapterVoiceDraft.notifyDataSetChanged();
 
                     }// for
@@ -134,9 +136,13 @@ public class allDraft extends Fragment {
                         TextID = document.getId();
                         TextTitle = document.get("title").toString();
                         TextMessage = document.get("text").toString();
-                        Texttimestap = (Timestamp) document.get("timestamp");
+                        if (document.get("LastUpdated") != null)
+                            Texttimestap = (Timestamp) document.get("LastUpdated");
+                        else
+                            Texttimestap = (Timestamp) document.get("timestamp");
                         TextDate = getDateFormat(Texttimestap);
-                        listTextDrafts.add(new TextDraft(TextID, TextTitle, TextDate, TextMessage));
+                        TextTime = getTimeFormat(Texttimestap);
+                        listTextDrafts.add(new TextDraft(TextID, TextTitle, TextDate, TextMessage,TextTime));
                         adapterTextDraft.notifyDataSetChanged();
 
                     }// for
@@ -153,8 +159,17 @@ public class allDraft extends Fragment {
         int mMonth = calendar.get(Calendar.MONTH);
         int mDay = calendar.get(Calendar.DAY_OF_MONTH);
 
-        return mDay+"/"+mMonth+"/"+mYear;
+        return mDay+"/"+(mMonth+1)+"/"+mYear;
     }// getDateFormat
+
+    private String getTimeFormat(Timestamp timeStamp){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timeStamp.getSeconds()*1000);
+        int mHour = calendar.get(Calendar.HOUR);
+        int mMinute = calendar.get(Calendar.MINUTE);
+
+        return mHour+":"+mMinute;
+    }
 
     @Override
     public void onResume() {

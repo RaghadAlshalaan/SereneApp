@@ -49,7 +49,8 @@ public class VoiceDraftAdapter extends RecyclerView.Adapter<VoiceDraftAdapter.My
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         VoiceDraft voiceDraft = voiceDrafts.get(position);
         holder.title.setText(voiceDrafts.get(position).getTitle());
-        //holder.date.setText(voiceDrafts.get(position).getDate());
+        holder.date.setText(voiceDrafts.get(position).getDate());
+        holder.time.setText(voiceDrafts.get(position).getTimestamp());
 
         // here to set the item view
     }
@@ -65,6 +66,7 @@ public class VoiceDraftAdapter extends RecyclerView.Adapter<VoiceDraftAdapter.My
         String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         private TextView title;
         private TextView date;
+        private TextView time;
 
 
         public MyViewHolder(View itemView) {
@@ -72,7 +74,8 @@ public class VoiceDraftAdapter extends RecyclerView.Adapter<VoiceDraftAdapter.My
 
             // define variables, put extras,
             title = itemView.findViewById(R.id.title_audio);
-            //date = itemView.findViewById(R.id.text_draft_sub);
+            date = itemView.findViewById(R.id.date);
+            time = itemView.findViewById(R.id.time);
             relativeLayout = itemView.findViewById(R.id.draft_item);
             relativeLayout.setOnClickListener(new View.OnClickListener() {
                 @Override

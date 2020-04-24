@@ -48,6 +48,7 @@ public class TextDraftFragment extends Fragment {
     private String TextDate;
     private String TextMessage;
     private Timestamp Texttimestap;
+    private String TextTime;
 
     View root;
 
@@ -94,9 +95,13 @@ public class TextDraftFragment extends Fragment {
                         TextID = document.getId();
                         TextTitle = document.get("title").toString();
                         TextMessage = document.get("text").toString();
-                        Texttimestap = (Timestamp) document.get("timestamp");
+                        if (document.get("LastUpdated") != null)
+                            Texttimestap = (Timestamp) document.get("LastUpdated");
+                        else
+                            Texttimestap = (Timestamp) document.get("timestamp");
                         TextDate = getDateFormat(Texttimestap);
-                        listTextDrafts.add(new TextDraft(TextID, TextTitle, TextDate, TextMessage));
+                        TextTime = getTimeFormat(Texttimestap);
+                        listTextDrafts.add(new TextDraft(TextID, TextTitle, TextDate, TextMessage,TextTime));
                         adapterTextDraft.notifyDataSetChanged();
 
                     }// for
@@ -113,8 +118,16 @@ public class TextDraftFragment extends Fragment {
         int mMonth = calendar.get(Calendar.MONTH);
         int mDay = calendar.get(Calendar.DAY_OF_MONTH);
 
-        return mDay+"/"+mMonth+"/"+mYear;
+        return mDay+"/"+(mMonth+1)+"/"+mYear;
     }// getDateFormat
 
+    private String getTimeFormat(Timestamp timeStamp){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timeStamp.getSeconds()*1000);
+        int mHour = calendar.get(Calendar.HOUR);
+        int mMinute = calendar.get(Calendar.MINUTE);
+
+        return mHour+":"+mMinute;
+    }
 
 }

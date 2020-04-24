@@ -48,14 +48,6 @@ public class ReportFragmentTest {
     @Before
     public void setUp() throws Exception {
         onView(withId(R.id.navigation_report)).perform(click());
-        //add tiemr
-        //Mack sure Espresso does not time out
-        IdlingPolicies.setMasterPolicyTimeout(10000 * 2, TimeUnit.MILLISECONDS);
-        IdlingPolicies.setIdlingResourceTimeout(10000 * 2, TimeUnit.MILLISECONDS);
-        //Now we waite
-        IdlingResource idlingResource = new ElapsedTimeIdlingResource(10000);
-        try {
-            IdlingRegistry.getInstance().register(idlingResource);
             //check the activity is visible
             onView(withId(R.id.ReportF)).check(matches(isDisplayed()));
             //check for buttons visible
@@ -65,11 +57,6 @@ public class ReportFragmentTest {
             onView(withId(R.id.radioButton3)).check(matches(isDisplayed()));
             //generate button
             onView(withId(R.id.generate_report_btn)).check(matches(isDisplayed()));
-        }
-        //clean upp
-        finally {
-            IdlingRegistry.getInstance().unregister(idlingResource);
-        }
     }
 
     @Test

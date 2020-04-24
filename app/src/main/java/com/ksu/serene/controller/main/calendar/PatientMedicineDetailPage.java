@@ -17,8 +17,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.ksu.serene.controller.Reminder.AlarmManagerProvider;
 import com.ksu.serene.controller.Reminder.ReminderAlarmService;
 import com.ksu.serene.model.Medicine;
@@ -98,6 +102,8 @@ public class PatientMedicineDetailPage extends AppCompatActivity {
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
+                                                //delete notification
+                                                deleteNotification (MedID);
                                                 Uri tempURI = Uri.parse(URI_path);//get path
 
                                                 //check if URI path actually contains a reminder
@@ -142,6 +148,22 @@ public class PatientMedicineDetailPage extends AppCompatActivity {
                         })
                         .setNegativeButton(R.string.DeleteCancleMed, null)
                         .show();
+            }
+        });
+    }
+
+    public void deleteNotification (String medID) {
+        final CollectionReference referenceMedicine = FirebaseFirestore.getInstance().collection("Notifications");
+        final Query queryPatientMedicine = referenceMedicine.whereEqualTo("documentID",medID);
+        queryPatientMedicine.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        //Delete all the document
+                        referenceMedicine.document(document.getId()).delete();
+                    }
+                }
             }
         });
     }

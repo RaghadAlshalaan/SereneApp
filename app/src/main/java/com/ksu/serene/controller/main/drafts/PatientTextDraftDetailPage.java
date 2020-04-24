@@ -9,10 +9,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.text.TextUtils;
 
@@ -20,10 +22,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ksu.serene.MainActivity;
 import com.ksu.serene.R;
+
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import www.sanju.motiontoast.MotionToast;
 
@@ -36,6 +44,8 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String TDID;
     ImageView back;
+    private String oldTitle, oldSubj;
+    private TextView lastUpdated, DateCreated;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +60,8 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
         delete = findViewById(R.id.delete);
         edit = findViewById(R.id.SaveChanges);
         back = findViewById(R.id.backButton);
+        lastUpdated = findViewById(R.id.LastUpdated);
+        DateCreated = findViewById(R.id.DateCreated);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,7 +179,14 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 title.setText(documentSnapshot.get("title").toString());
+                oldTitle = documentSnapshot.get("title").toString();
                 subj.setText(documentSnapshot.get("text").toString());
+                oldSubj = documentSnapshot.get("text").toString();
+                DateCreated.setText(DateCreated.getText()+" "+getDateFormat((Timestamp) documentSnapshot.get("timestamp"))+" "+getTimeFormat((Timestamp) documentSnapshot.get("timestamp")));
+                if (documentSnapshot.get("LastUpdated") != null)
+                    lastUpdated.setText(lastUpdated.getText()+" "+getDateFormat((Timestamp) documentSnapshot.get("LastUpdated"))+" "+getTimeFormat((Timestamp) documentSnapshot.get("LastUpdated")));
+                else
+                    lastUpdated.setText(lastUpdated.getText()+" "+getDateFormat((Timestamp) documentSnapshot.get("timestamp"))+" "+getTimeFormat((Timestamp) documentSnapshot.get("timestamp")));
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -227,5 +246,35 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
                         Toast.makeText(PatientTextDraftDetailPage.this, R.string.TDUpdatedFialed, Toast.LENGTH_LONG).show();
                     }
                 });
+        final Map<String, Object> newDate = new HashMap<>();
+        newDate.put("LastUpdated", FieldValue.serverTimestamp());
+        if (!oldSubj.equals(subj) || !oldTitle.equals(title)){
+            db.collection("TextDraft")
+                    .document(TDID).update(newDate).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    Log.d("Date Updated","");
+                }
+            });
+        }
+    }
+
+    private String getDateFormat(Timestamp timeStamp){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timeStamp.getSeconds()*1000);
+        int mYear = calendar.get(Calendar.YEAR);
+        int mMonth = calendar.get(Calendar.MONTH);
+        int mDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+        return mDay+"/"+(mMonth+1)+"/"+mYear;
+    }// getDateFormat
+
+    private String getTimeFormat(Timestamp timeStamp){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timeStamp.getSeconds()*1000);
+        int mHour = calendar.get(Calendar.HOUR);
+        int mMinute = calendar.get(Calendar.MINUTE);
+
+        return mHour+":"+mMinute;
     }
 }

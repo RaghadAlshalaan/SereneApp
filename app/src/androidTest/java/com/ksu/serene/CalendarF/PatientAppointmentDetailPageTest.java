@@ -37,7 +37,7 @@ public class PatientAppointmentDetailPageTest {
         protected Intent getActivityIntent() {
             Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
             Intent intent = new Intent(context, PatientAppointmentDetailPage.class);
-            intent.putExtra("AppointmentID", "839c1cf2-3bbe-4f14-bd69-a830a2338e0d");
+            intent.putExtra("AppointmentID", "b2a1a268-6e64-41c5-8b36-983c78a6da72");
             return intent;
         }
     };

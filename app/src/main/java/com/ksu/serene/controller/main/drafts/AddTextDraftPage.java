@@ -119,7 +119,7 @@ public class AddTextDraftPage extends AppCompatActivity {
 
 
                         finish();
-                        textDraft = new TextDraft(draftId,TitleDraft,FieldValue.serverTimestamp()+"",Message);
+                        textDraft = new TextDraft(draftId,TitleDraft,FieldValue.serverTimestamp()+"",Message, FieldValue.serverTimestamp()+"");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

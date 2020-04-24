@@ -45,26 +45,14 @@ public class TextDraftFragmentTest {
 
     @Before
     public void setUp() throws Exception {
-        //Mack sure Espresso does not time out
-        IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
-        IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
-        //Now we waite
-        IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
-        try {
-            IdlingRegistry.getInstance().register(idlingResource);
             onView(withId(R.id.navigation_drafts)).perform(click());
             onView(withText(R.string.TEXT)).perform(click());
-            //set fragment
-        /*FragmentTransaction fragmentTransaction = activityTestRule.getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.allDraft, new allDraft());
-        fragmentTransaction.commit();
-        getInstrumentation().waitForIdleSync();*/
             //add tiemr
             //Mack sure Espresso does not time out
-            IdlingPolicies.setMasterPolicyTimeout(10000 * 2, TimeUnit.MILLISECONDS);
-            IdlingPolicies.setIdlingResourceTimeout(10000 * 2, TimeUnit.MILLISECONDS);
+            IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
+            IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
             //Now we waite
-            IdlingResource idlingResource1 = new ElapsedTimeIdlingResource(10000);
+            IdlingResource idlingResource1 = new ElapsedTimeIdlingResource(5000);
             try {
                 IdlingRegistry.getInstance().register(idlingResource1);
                 //check the activity is visible
@@ -78,11 +66,6 @@ public class TextDraftFragmentTest {
             finally {
                 IdlingRegistry.getInstance().unregister(idlingResource1);
             }
-        }
-        //clean upp
-        finally {
-            IdlingRegistry.getInstance().unregister(idlingResource);
-        }
     }
 
     @Test

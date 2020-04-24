@@ -75,6 +75,7 @@ public class Editprofile extends AppCompatActivity {
     private TextView ForgetPassword;
     private String pastName;
     private boolean ChangePass = false;
+    private String editImage;
 
     public void setmAuth(FirebaseAuth mockMAuth) {
         this.mAuth = mockMAuth;
@@ -423,6 +424,10 @@ public class Editprofile extends AppCompatActivity {
                                         Log.d(TAG, "DocumentSnapshot successfully updated!");
                                         //i need this toast please don't removed to ensure when test pass the image is downloaded in storage
                                         Toast.makeText(Editprofile.this, "DocumentSnapshot successfully updated!", Toast.LENGTH_LONG).show();
+                                        editImage = "Congrats Your Image Updated";
+                                        Intent intent = new Intent(Editprofile.this, PatientProfile.class);
+                                        intent.putExtra("editImage",editImage);
+                                        startActivity(intent);
                                    }
 
                 }

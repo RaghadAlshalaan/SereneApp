@@ -56,15 +56,28 @@ public class HomeFragmentTestNAppPM {
     @Test
     public void TestNexAppPM () {
         //check the appointment in time AM
-        onView(withId(R.id.noUpcoming)).check(matches(withText(containsString("PM"))));
+        onView(withId(R.id.noUpcoming)).check(matches(withText(containsString("PM"))));//TODO change it to PM
         //click the card
         onView(withId(R.id.card3)).perform(click());
-        //check the app details activity showen
-        onView(withId(R.id.PatientAppointmentDetailPage)).check(matches(isDisplayed()));
-        //delete this appointment
-        onView(withId(R.id.DeleteApp)).perform(click());
-        //click the delete button
-        onView(withText(R.string.DeleteOKApp)).perform(click());
+        //add timer
+        //Mack sure Espresso does not time out
+        IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
+        IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
+        //Now we waite
+        IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
+        try {
+            IdlingRegistry.getInstance().register(idlingResource);
+            //check the app details activity showen
+            onView(withId(R.id.PatientAppointmentDetailPage)).check(matches(isDisplayed()));
+            //delete this appointment
+            onView(withId(R.id.DeleteApp)).perform(click());
+            //click the delete button
+            onView(withText(R.string.DeleteOKApp)).perform(click());
+        }
+        //clean upp
+        finally {
+            IdlingRegistry.getInstance().unregister(idlingResource);
+        }
     }
 
     @Test

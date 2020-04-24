@@ -18,8 +18,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import androidx.test.espresso.IdlingPolicies;
@@ -49,6 +51,9 @@ public class Add_Medicine_PageTest {
     public ActivityTestRule<Add_Medicine_Page> activityTestRule = new ActivityTestRule<Add_Medicine_Page>(Add_Medicine_Page.class);
     private Add_Medicine_Page addMedicinePage = null;
     Calendar current = Calendar.getInstance();
+    private Date AT = current.getTime();
+    private SimpleDateFormat TimeFormat = new SimpleDateFormat ("HH : mm",Locale.UK);
+    private String time = TimeFormat.format(AT);
     int tomorrow = current.get(Calendar.DAY_OF_MONTH)+1;
     int currentMonth = current.get(Calendar.MONTH);
     int minutes = current.get(Calendar.MINUTE)+5;
@@ -92,7 +97,7 @@ public class Add_Medicine_PageTest {
         }
     }
 
-    @Test
+    //@Test
     public void backButton () {
         onView(withId(R.id.backButton)).check(matches(isDisplayed()));
         onView(withId(R.id.backButton)).check(matches(isClickable()));
@@ -103,7 +108,7 @@ public class Add_Medicine_PageTest {
     }
 
     //check when first date is the current date and time before or same as current time
-    @Test
+    //@Test
     public void CurrentDateTime () {
         //enter name of med
         onView(withId(R.id.nameET)).perform(typeText("First Med"));
@@ -153,7 +158,7 @@ public class Add_Medicine_PageTest {
         assertNotNull(addMedicinePage);
     }
 
-    @Test
+    //@Test
     public void EmptyFields () {
         //leave all fields empty and Date and time and type buttons not clicked
         onView(withId(R.id.nameET)).perform(typeText(""));
@@ -177,7 +182,7 @@ public class Add_Medicine_PageTest {
     }
 
     //check when the field filled and first date button pressed not set date
-    @Test
+    //@Test
     public void FirstDateClickedCancle () {
         //med name
         onView(withId(R.id.nameET)).perform(typeText("First Med"));
@@ -230,7 +235,7 @@ public class Add_Medicine_PageTest {
     }
 
     //check when the field filled and date button pressed with set date
-    @Test
+    //@Test
     public void FirstDateClickedOK () {
         //med name
         onView(withId(R.id.nameET)).perform(typeText("First Med"));
@@ -277,7 +282,7 @@ public class Add_Medicine_PageTest {
     }
 
     //check when the field filled and time button pressed not set time
-    @Test
+    //@Test
     public void TimeClickedCancle () {
         //med name
         onView(withId(R.id.nameET)).perform(typeText("First Med"));
@@ -330,7 +335,7 @@ public class Add_Medicine_PageTest {
     }
 
     //check when the field filled and date button pressed with set date
-    @Test
+    //@Test
     public void TimeClickedOK () {
         //med name
         onView(withId(R.id.nameET)).perform(typeText("First Med"));
@@ -376,7 +381,7 @@ public class Add_Medicine_PageTest {
         assertNotNull(addMedicinePage);
     }
 
-    @Test
+    //@Test
     public void ReminderInfoEmpty () {
         //med name
         onView(withId(R.id.nameET)).perform(typeText("First Med"));
@@ -424,6 +429,11 @@ public class Add_Medicine_PageTest {
 
     @Test
     public void addMedSuccessToday () {
+        try {
+            AT = TimeFormat.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         //enter med name
         onView(withId(R.id.nameET)).perform(typeText("Test Med Reminder"));
         //close keyboard
@@ -437,7 +447,7 @@ public class Add_Medicine_PageTest {
         //time button clicked
         onView(withId(R.id.MTime)).perform(click());
         //choose tiem
-        onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(PickerActions.setTime(current.get(Calendar.HOUR) , minutes ));
+        onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(PickerActions.setTime((AT.getHours()+2) , (AT.getMinutes()+2) ));
         //click ok button
         onView(withText("OK")).perform(click());
         //dose
@@ -446,17 +456,17 @@ public class Add_Medicine_PageTest {
         closeSoftKeyboard();
         //notivecation info
         //type the interval
-        onView(withId(R.id.repeatInterval)).perform(typeText("2"));
+        onView(withId(R.id.repeatInterval)).perform(typeText("1"));
         //close keyboard
         closeSoftKeyboard();
         //first click the spinner
         onView(withId(R.id.repeatType)).perform(click());
         //click the position wanted
-        onData(anything()).atPosition(1).perform(click());
+        onData(anything()).atPosition(0).perform(click());
         //check the selected option like what is expected
-        onView(withId(R.id.repeatType)).check(matches(withSpinnerText(containsString("hour(s)"))));
+        onView(withId(R.id.repeatType)).check(matches(withSpinnerText(containsString("minute(s)"))));
         //then type the times
-        onView(withId(R.id.repeatNO)).perform(typeText("2"));
+        onView(withId(R.id.repeatNO)).perform(typeText("1"));
         //close keyboard
         closeSoftKeyboard();
             //click confirm button
@@ -469,7 +479,7 @@ public class Add_Medicine_PageTest {
         assertTrue(activityTestRule.getActivity().isFinishing());
     }
 
-    @Test
+    //@Test
     public void addMedSuccessFuture () {
         //enter med name
         onView(withId(R.id.nameET)).perform(typeText("Test Med Reminder"));

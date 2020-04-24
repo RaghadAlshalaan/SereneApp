@@ -40,6 +40,33 @@
                 android:text="The Title of audio" />
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/montserrat"
+                android:text="dd/MM/yyyy"
+                android:textAlignment="textEnd"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:text="HH : mm"
+                android:textAlignment="textEnd"
+                android:textSize="15sp" />
+        </LinearLayout>
+
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

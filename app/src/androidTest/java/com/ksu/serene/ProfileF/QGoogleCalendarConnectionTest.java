@@ -118,7 +118,7 @@ public class QGoogleCalendarConnectionTest {
         onView(withId(R.id.status)).check(matches(withText(R.string.status_not_connected)));
     }
 
-    @Test
+   // @Test
     public void D_clickConnectCancleChooseAccount () throws UiObjectNotFoundException {
         //check the status from default not connected
         onView(withId(R.id.status)).check(matches(withText(R.string.status_not_connected)));
