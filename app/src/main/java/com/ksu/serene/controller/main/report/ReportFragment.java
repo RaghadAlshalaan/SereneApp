@@ -204,18 +204,20 @@ public class ReportFragment extends Fragment {
         myCalendarEnd.set(Calendar.YEAR, year);
         myCalendarEnd.set(Calendar.MONTH, monthOfYear);
         myCalendarEnd.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        endDate = myCalendarEnd.get(Calendar.DAY_OF_MONTH) + "/" + myCalendarEnd.get(Calendar.MONTH) + "/" + myCalendarEnd.get(Calendar.YEAR);
-        apiEndDate = myCalendarEnd.get(Calendar.YEAR) + "-" + myCalendarEnd.get(Calendar.MONTH)+1 + "-" + myCalendarEnd.get(Calendar.DAY_OF_MONTH);
-        end.setText(DateFormat.format(myCalendarEnd.getTime()));
+        int month = Integer.parseInt(String.valueOf(myCalendarEnd.get(Calendar.MONTH)))+1;
+        endDate = myCalendarEnd.get(Calendar.DAY_OF_MONTH) + "/" + month + "/" + myCalendarEnd.get(Calendar.YEAR);
+        apiEndDate = myCalendarEnd.get(Calendar.YEAR) + "-" + month + "-" + myCalendarEnd.get(Calendar.DAY_OF_MONTH);
+        end.setText(endDate);
     }
 
     private void onSetStart(int year, int monthOfYear, int dayOfMonth) {
         myCalendarStart.set(Calendar.YEAR, year);
         myCalendarStart.set(Calendar.MONTH, monthOfYear);
         myCalendarStart.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        startDate = myCalendarStart.get(Calendar.DAY_OF_MONTH) + "/" + myCalendarStart.get(Calendar.MONTH) + "/" + myCalendarStart.get(Calendar.YEAR);
-        apiStartDate = myCalendarStart.get(Calendar.YEAR) + "-" + myCalendarStart.get(Calendar.MONTH)+1 + "-" + myCalendarStart.get(Calendar.DAY_OF_MONTH);
-        start.setText(DateFormat.format(myCalendarStart.getTime()));
+        int month = Integer.parseInt(String.valueOf(myCalendarEnd.get(Calendar.MONTH)))+1;
+        startDate = myCalendarStart.get(Calendar.DAY_OF_MONTH) + "/" + month + "/" + myCalendarStart.get(Calendar.YEAR);
+        apiStartDate = myCalendarStart.get(Calendar.YEAR) + "-" +month + "-" + myCalendarStart.get(Calendar.DAY_OF_MONTH);
+        start.setText(startDate);
     }
 
     private void setRadioButton(int checkedId) {
