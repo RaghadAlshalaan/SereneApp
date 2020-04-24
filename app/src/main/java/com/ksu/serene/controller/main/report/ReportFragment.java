@@ -1,7 +1,9 @@
 package com.ksu.serene.controller.main.report;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,12 +14,23 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -43,6 +56,8 @@ import com.ksu.serene.R;
 import com.ksu.serene.controller.main.calendar.CalendarFragment;
 import com.ksu.serene.model.Event;
 import com.pixplicity.easyprefs.library.Prefs;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -80,7 +95,12 @@ public class ReportFragment extends Fragment {
     private Resources res;
     Calendar myCalendarStart = Calendar.getInstance();
     Calendar myCalendarEnd = Calendar.getInstance();
-    private SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+    private SimpleDateFormat DateFormat = new SimpleDateFormat("dd/mm/yyyy", Locale.US);
+    private String api_url;
+    private ProgressBar progressBar;
+    private String reportStartDate;
+    private String reportEndDate;
+
 
 
     // Google Calendar Events
@@ -94,6 +114,9 @@ public class ReportFragment extends Fragment {
 
     static final String FIELDS = "id,summary";
     static final String FEED_FIELDS = "items(" + FIELDS + ")";
+
+    private static final int PERMISSION_INTERNET = 1;
+    private static final int PERMISSION_ACCESS_NETWORK_STATE = 2;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -170,7 +193,9 @@ public class ReportFragment extends Fragment {
         end = root.findViewById(R.id.end);
         start = root.findViewById(R.id.start);
         datePicker = root.findViewById(R.id.data_picker);
-        duration = "2week";// default value
+        duration = "14";// default value
+        progressBar =root.findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     /** Functions to handle start date and end date selection **/
@@ -193,12 +218,12 @@ public class ReportFragment extends Fragment {
 
     private void setRadioButton(int checkedId) {
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
 
         switch (checkedId) {
             case R.id.radioButton1:
                 datePicker.setVisibility(LinearLayout.GONE);
-                duration = "2week";
+                duration = "14";
                 Calendar calw = Calendar.getInstance();
                 calw.add(Calendar.DATE, -1);
                 endDate = dateFormat.format(calw.getTime());
@@ -211,7 +236,7 @@ public class ReportFragment extends Fragment {
 
             case R.id.radioButton2:
                 datePicker.setVisibility(LinearLayout.GONE);
-                duration = "month";
+                duration = "30";
                 Calendar calm = Calendar.getInstance();
                 calm.add(Calendar.DATE, -1);
                 endDate = dateFormat.format(calm.getTime());
@@ -329,6 +354,8 @@ public class ReportFragment extends Fragment {
     /** Functions to handle calling API and generating the report **/
     Intent intent;
     private void generateReport() {
+        progressBar.setVisibility(VISIBLE);
+
         // error dialog if no selection is made
         // intent to next activity
         intent = new Intent(getContext(), PatientReport.class);
@@ -346,7 +373,9 @@ public class ReportFragment extends Fragment {
                 }else{
                     callAPI(duration);
                 }
-
+                //TODO: date should be in format (YYYY-MM-DD)
+                api_url = "http://88fe462e.ngrok.io/patient_report_custom_duration/"+mAuth.getUid()+"/"+startDate+"/"+endDate;
+                executeApi();
             } else {
 
                 switch (isDatesChoosen(startDate, endDate)) {
@@ -371,6 +400,7 @@ public class ReportFragment extends Fragment {
                 }
 
             }//if
+
         }//bigger if
         else {
             setDates();
@@ -379,8 +409,10 @@ public class ReportFragment extends Fragment {
             }else{
                 callAPI(duration);
             }
+            api_url = "http://88fe462e.ngrok.io/patient_report/"+mAuth.getUid()+"/"+duration;
+            executeApi();
         }
-    }
+    }//generateReport
 
     private void setDates() {
 
@@ -399,14 +431,14 @@ public class ReportFragment extends Fragment {
         Calendar cal = Calendar.getInstance();
 
         switch (duration) {
-            case "2week":
+            case "14":
 
                 cal.add(Calendar.DATE, -14);
                 startD = cal.getTime();
 
                 break;
 
-            case "month":
+            case "30":
 
                 cal.add(Calendar.MONTH, -1);
                 startD = cal.getTime();
@@ -445,7 +477,7 @@ public class ReportFragment extends Fragment {
         tag("AppInfo").d("callAPI");
 
         // TODO : CALL API , WHEN RESPONSE ON COMPLETE , START NEW ACTIVITY
-        startActivity(intent);
+        //startActivity(intent);
 
     }
 
@@ -752,6 +784,77 @@ public class ReportFragment extends Fragment {
 
     private String getRandomID() {
         return UUID.randomUUID().toString();
+    }
+
+    private void executeApi(){
+        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.INTERNET}, PERMISSION_INTERNET);
+        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_NETWORK_STATE}, PERMISSION_ACCESS_NETWORK_STATE);
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        JsonObjectRequest objectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                api_url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.e("LOG", "success: " + response.toString());
+                        Toast.makeText(getContext(),"patient report success" , Toast.LENGTH_LONG).show();
+                        progressBar.setVisibility(View.INVISIBLE);
+                        startActivity(intent);
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getContext(), "failed" , Toast.LENGTH_LONG).show();
+                        Log.e("LOG","ERROR: "+error.toString() );
+
+                    }
+                }
+
+        );
+
+        objectRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 100000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 100000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+        requestQueue.add(objectRequest);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_INTERNET: {
+                if (grantResults.length <= 0
+                        || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.INTERNET}, PERMISSION_INTERNET);
+                }
+                return;
+            }
+            case PERMISSION_ACCESS_NETWORK_STATE: {
+                if (grantResults.length <= 0
+                        || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_NETWORK_STATE}, PERMISSION_ACCESS_NETWORK_STATE);
+                }
+                return;
+            }
+        }
     }
 
 

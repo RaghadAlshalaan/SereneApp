@@ -73,8 +73,7 @@ public class HomeFragment extends Fragment {
     static FirebaseStorage storage;
     private FirebaseFirestore db = com.google.firebase.firestore.FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private static final int PERMISSION_INTERNET = 1;
-    private static final int PERMISSION_ACCESS_NETWORK_STATE = 2;
+
 
     // Next Appointment
     private TextView nextAppointment,improvement;
@@ -108,17 +107,8 @@ public class HomeFragment extends Fragment {
         });
         card3.setEnabled(false);
 
-        Timer timer = new Timer ();
-        TimerTask t = new TimerTask () {
-            @Override
-            public void run () {
-                // to excute  the
-                executeApi(mAuth.getUid());
 
-            }
-        };
 
-        timer.schedule (t, 0l, 1000*60*60*24);
 
         return root;
     }
@@ -305,84 +295,9 @@ public class HomeFragment extends Fragment {
         getAppointment2();
     }
 
-    private void requestPermission(String permission, int requestId) {
-        if (ContextCompat.checkSelfPermission(getContext(),
-                permission)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{permission},
-                    requestId);
-        }
-    }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_INTERNET: {
-                if (grantResults.length <= 0
-                        || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    requestPermission(Manifest.permission.INTERNET, PERMISSION_INTERNET);
-                }
-                return;
-            }
-            case PERMISSION_ACCESS_NETWORK_STATE: {
-                if (grantResults.length <= 0
-                        || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    requestPermission(Manifest.permission.ACCESS_NETWORK_STATE, PERMISSION_ACCESS_NETWORK_STATE);
-                }
-                return;
-            }
-        }
-    }
 
-    private void executeApi(String id){
-        requestPermission(Manifest.permission.INTERNET, PERMISSION_INTERNET);
-        requestPermission(Manifest.permission.ACCESS_NETWORK_STATE, PERMISSION_ACCESS_NETWORK_STATE);
-        String url = "http://8db4c79b.ngrok.io/daily_report/"+id;
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-        JsonObjectRequest objectRequest = new JsonObjectRequest(
-                Request.Method.GET,
-                url,
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.e("LOG", "success: " + response.toString());
-                        Toast.makeText(getContext() ,getResources().getText(R.string.api_daily_sucess_msg) , Toast.LENGTH_LONG).show();
 
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText( getContext(), getResources().getText(R.string.api_daily_error_msg) , Toast.LENGTH_LONG).show();
-                        Log.e("LOG","ERROR: "+error.toString() );
-
-                    }
-                }
-
-        );
-
-        objectRequest.setRetryPolicy(new RetryPolicy() {
-            @Override
-            public int getCurrentTimeout() {
-                return 100000;
-            }
-
-            @Override
-            public int getCurrentRetryCount() {
-                return 100000;
-            }
-
-            @Override
-            public void retry(VolleyError error) throws VolleyError {
-
-            }
-        });
-        requestQueue.add(objectRequest);
-        //todo: retrieve data
-    }
 
 
 }

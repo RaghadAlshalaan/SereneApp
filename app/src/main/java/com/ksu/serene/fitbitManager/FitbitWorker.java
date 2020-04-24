@@ -1,16 +1,29 @@
 package com.ksu.serene.fitbitManager;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -24,6 +37,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.ksu.serene.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,11 +73,14 @@ public class FitbitWorker extends Worker {
     private static Boolean isRevoke = false; // boolean to check if action is revoking access token
     private static String clientId;
     private static String clientSecret;
+    private static final int PERMISSION_INTERNET = 1;
+    private static final int PERMISSION_ACCESS_NETWORK_STATE = 2;
 
     StorageReference storageRef = storage.getReference();
     StorageReference spaceRef;
     private String image_id="";
     private int img_id;
+    Context context;
 
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -74,6 +91,7 @@ public class FitbitWorker extends Worker {
 
     public FitbitWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
+        this.context = context;
     }
 
 
@@ -83,6 +101,8 @@ public class FitbitWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
+        //to do execute
+        executeApi(user.getUid());
 
         // STEP 0 : UPDATE QUOTE OF THE DAY
 
@@ -345,5 +365,56 @@ public class FitbitWorker extends Worker {
 
         }
     }
+
+
+
+
+
+    private void executeApi(String id){
+        String url = "http://88fe462e.ngrok.io/daily_report/"+id;
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        JsonObjectRequest objectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.e("LOG", "success: " + response.toString());
+                        Toast.makeText(getApplicationContext() ,context.getResources().getText(R.string.api_daily_sucess_msg) , Toast.LENGTH_LONG).show();
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText( getApplicationContext(), context.getResources().getText(R.string.api_daily_error_msg) , Toast.LENGTH_LONG).show();
+                        Log.e("LOG","ERROR: "+error.toString() );
+
+                    }
+                }
+
+        );
+
+        objectRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 100000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 100000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+        requestQueue.add(objectRequest);
+        //todo: retrieve data
+    }
+
 
 }

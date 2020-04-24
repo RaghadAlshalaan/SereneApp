@@ -8,9 +8,11 @@ import java.util.*;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,13 +31,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -64,6 +75,8 @@ import com.ksu.serene.controller.main.report.print.PrintJobMonitorService;
 import com.ksu.serene.model.Event;
 import com.ksu.serene.model.Location;
 import com.ksu.serene.R;
+
+import org.json.JSONObject;
 
 import static timber.log.Timber.tag;
 
@@ -113,6 +126,7 @@ public class PatientReport extends AppCompatActivity {
     private String[] options = {"Print", "Share"};
 
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,13 +139,14 @@ public class PatientReport extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.setStatusBarColor(this.getResources().getColor(R.color.darkAccent));
+        mAuth = FirebaseAuth.getInstance();
+        userId = mAuth.getCurrentUser().getUid();
 
 
         // get Duration
         getExtras();
 
         init();
-        userId = mAuth.getCurrentUser().getUid();
         tag("AppInfo").d("userId: %s", userId);
 
 
@@ -146,6 +161,7 @@ public class PatientReport extends AppCompatActivity {
         events();
 
     }//onCreate
+
 
     private void init() {
         mAuth = FirebaseAuth.getInstance();
@@ -271,7 +287,7 @@ public class PatientReport extends AppCompatActivity {
         Calendar cal = Calendar.getInstance();
 
         switch (duration) {
-            case "2week":
+            case "14":
 
                 cal.add(Calendar.DATE, -14);
                 startD = cal.getTime();
@@ -279,7 +295,7 @@ public class PatientReport extends AppCompatActivity {
 
                 break;
 
-            case "month":
+            case "30":
 
                 cal.add(Calendar.MONTH, -1);
                 startD = cal.getTime();
@@ -391,7 +407,7 @@ public class PatientReport extends AppCompatActivity {
                                 long calcDuration = daysBetween(loc_date, today);
 
                                 switch (duration) {
-                                    case "2week":
+                                    case "14":
                                         if (0 < calcDuration && calcDuration < 15) {
                                             locationFound = true;
                                             break; //get out of switch and proceed to save other attributes
@@ -400,7 +416,7 @@ public class PatientReport extends AppCompatActivity {
                                             break;
                                         }
 
-                                    case "month":
+                                    case "30":
                                         if (0 < calcDuration && calcDuration < 31) {
                                             locationFound = true;
                                             break;
@@ -712,7 +728,8 @@ public class PatientReport extends AppCompatActivity {
             startDate = intent.getExtras().getString(Constants.Keys.START_DATE);
             endDate = intent.getExtras().getString(Constants.Keys.END_DATE);
         }
-    }
+
+    }//getExtras
 
     private void share() {
 
@@ -836,5 +853,9 @@ public class PatientReport extends AppCompatActivity {
         return (mgr.print(name, adapter, attrs));
 
     }
+
+
+
+
 
 }//end of class
