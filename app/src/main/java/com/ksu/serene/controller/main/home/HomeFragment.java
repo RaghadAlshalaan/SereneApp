@@ -118,7 +118,7 @@ public class HomeFragment extends Fragment {
 
         nextAppointment = root.findViewById(R.id.noUpcoming);
         card3 = root.findViewById(R.id.card3);
-        //AL_graph = root.findViewById(R.id.AL_graph);
+        AL_graph = root.findViewById(R.id.AL_graph);
         improvement = root.findViewById(R.id.improvement_num);
         quote = root.findViewById(R.id.picQ);
         setQuoteImage();
@@ -126,10 +126,10 @@ public class HomeFragment extends Fragment {
         // parse Preference file
         SharedPreferences sp = getActivity().getSharedPreferences("user_details", Context.MODE_PRIVATE);
 
-        // Live Chart
-        ChartView chartView = root.findViewById(R.id.charView);
-        List<InputData> dataList = createChartData();
-        chartView.setData(dataList);
+//        // Live Chart
+//        ChartView chartView = root.findViewById(R.id.charView);
+//        List<InputData> dataList = createChartData();
+//        chartView.setData(dataList);
 
     }
 
@@ -178,7 +178,7 @@ public class HomeFragment extends Fragment {
 
                             String quote_image_url = document.get("AL_graph").toString();
 
-                            //Glide.with(getContext()).load(quote_image_url).into(AL_graph);
+                            Glide.with(getContext()).load(quote_image_url).into(AL_graph);
 
                             String improvementPercentage = document.get("improvement").toString();
                             improvement.setText(improvementPercentage);

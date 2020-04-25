@@ -129,7 +129,7 @@ public class EditSocio extends AppCompatActivity {
                 R.array.gender, android.R.layout.simple_spinner_item);
 
         adapterG.setDropDownViewResource(simple_spinner_dropdown_item);
-        genderET.setAdapter(adapterS);
+        genderET.setAdapter(adapterG);
         genderET.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {

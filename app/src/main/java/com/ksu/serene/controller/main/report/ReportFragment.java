@@ -484,13 +484,12 @@ public class ReportFragment extends Fragment {
 
         //TODO: date should be in format (YYYY-MM-DD)
         if(duration.equals("custom")){
-            api_url = "http://e13debb6.ngrok.io/patient_report_custom_duration/"+mAuth.getUid()+"/"+apiStartDate+"/"+apiEndDate+"/"+GoogleCalendar;
+            api_url = "https://e13debb6.ngrok.io/patient_report_custom_duration/"+mAuth.getUid()+"/"+apiStartDate+"/"+apiEndDate+"/"+GoogleCalendar;
         }else{
-            api_url = "http://e13debb6.ngrok.io/patient_report/"+mAuth.getUid()+"/"+duration+"/"+GoogleCalendar;
+            api_url = "https://e13debb6.ngrok.io/patient_report/"+mAuth.getUid()+"/"+duration+"/"+GoogleCalendar;
         }
 
         executeApi();
-        // http://e13debb6.ngrok.io/patient_report/UqTdL3T7MteuQHBe1aNfSE9u0Na2/14/true
 
     }
 

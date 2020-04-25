@@ -373,7 +373,8 @@ public class FitbitWorker extends Worker {
 
 
     private void executeApi(String id){
-        String url = "http://e13debb6.ngrok.io/daily_report/"+id;
+
+        String url = "https://e13debb6.ngrok.io/daily_report/"+id;
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -382,7 +383,9 @@ public class FitbitWorker extends Worker {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.e("LOG", "success: " + response.toString());
+
+                        Log.e("APII", "Success: " + response.toString());
+
                         Toast.makeText(getApplicationContext() ,context.getResources().getText(R.string.api_daily_sucess_msg) , Toast.LENGTH_LONG).show();
 
                     }
@@ -391,7 +394,7 @@ public class FitbitWorker extends Worker {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText( getApplicationContext(), context.getResources().getText(R.string.api_daily_error_msg) , Toast.LENGTH_LONG).show();
-                        Log.e("LOG","ERROR: "+error.toString() );
+                        Log.e("APII","ERROR: " + error.toString());
 
                     }
                 }
@@ -400,12 +403,12 @@ public class FitbitWorker extends Worker {
         objectRequest.setRetryPolicy(new RetryPolicy() {
             @Override
             public int getCurrentTimeout() {
-                return 1000000;
+                return 100000;
             }
 
             @Override
             public int getCurrentRetryCount() {
-                return 1000000;
+                return 100000;
             }
 
             @Override
@@ -413,6 +416,7 @@ public class FitbitWorker extends Worker {
 
             }
         });
+
         requestQueue.add(objectRequest);
         //todo: retrieve data
     }

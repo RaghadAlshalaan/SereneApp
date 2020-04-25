@@ -310,6 +310,7 @@ public class Sociodemo extends Fragment {
         }
 
         return true;
+
     }
 
     public boolean checkSocioFields (String age, String height, String weight
@@ -363,8 +364,8 @@ public class Sociodemo extends Fragment {
     public void saveSocioDB (String age, String chronicDisease
             , String employmentStatus, String  height, String maritalStatus
             , String monthlyIncome, String cigaretteSmoke, String weight, String userEmail) {
-        // Upload socio data to user document in DB
 
+        // Upload socio data to user document in DB
 
         final Map<String, Object> userSocio = new HashMap<>();
         userSocio.put("age", age);

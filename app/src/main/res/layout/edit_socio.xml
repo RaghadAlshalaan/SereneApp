@@ -81,7 +81,7 @@
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/a1"
+                    android:id="@+id/age"
                     android:layout_width="120dp"
                     android:layout_height="35dp"
                     android:padding="5dp"
@@ -108,11 +108,12 @@
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/a2"
+                    android:id="@+id/height"
                     android:layout_width="120dp"
                     android:layout_height="35dp"
                     android:padding="5dp"
-                    android:background="@drawable/custom_edit_text"                    android:ems="10"
+                    android:background="@drawable/custom_edit_text"
+                    android:ems="10"
                     android:inputType="number" />
 
                 <TextView
@@ -144,7 +145,7 @@
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/a3"
+                    android:id="@+id/weight"
                     android:layout_width="120dp"
                     android:layout_height="35dp"
                     android:padding="5dp"
@@ -181,7 +182,7 @@
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/a4"
+                    android:id="@+id/income"
                     android:layout_width="120dp"
                     android:layout_height="35dp"
                     android:padding="5dp"
@@ -220,7 +221,7 @@
 
 
                 <EditText
-                    android:id="@+id/a8"
+                    android:id="@+id/chronic"
                     android:layout_width="120dp"
                     android:padding="5dp"
                     android:layout_height="35dp"
@@ -249,7 +250,7 @@
 
 
                 <Spinner
-                    android:id="@+id/a9"
+                    android:id="@+id/gender"
                     android:layout_width="120dp"
                     android:layout_height="match_parent"
                     android:ems="10" />
@@ -275,7 +276,7 @@
 
 
                 <Spinner
-                    android:id="@+id/a5"
+                    android:id="@+id/married"
                     android:layout_width="120dp"
                     android:layout_height="match_parent"
                     android:ems="10" />
@@ -300,7 +301,7 @@
 
 
                 <Spinner
-                    android:id="@+id/a6"
+                    android:id="@+id/employee"
                     android:layout_width="120dp"
                     android:layout_height="match_parent"
                     android:ems="10" />
@@ -325,7 +326,7 @@
 
 
                 <Spinner
-                    android:id="@+id/a7"
+                    android:id="@+id/smoke"
                     android:layout_width="120dp"
                     android:layout_height="match_parent"
                     android:ems="10" />

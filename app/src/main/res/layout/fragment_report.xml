@@ -196,7 +196,6 @@
                         android:text="@string/end_date"
                         android:textColor="#515C6F" />
 
-
                     <Button
                         android:id="@+id/end"
                         android:layout_width="wrap_content"
