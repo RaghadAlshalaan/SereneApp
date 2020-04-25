@@ -36,10 +36,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -49,6 +51,7 @@ import com.ksu.serene.controller.Constants;
 import com.ksu.serene.controller.signup.GoogleCalendarConnection;
 import com.ksu.serene.model.Token;
 import com.ksu.serene.WelcomePage;
+import com.ksu.serene.model.VoiceDraft;
 import com.squareup.picasso.Picasso;
 
 
@@ -228,67 +231,80 @@ public class PatientProfile extends AppCompatActivity {
     private void checkDoctorAvailability() {
 
         db.collection("Doctor")
-                .whereEqualTo("patientID", mAuth.getUid())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            if (!task.getResult().isEmpty()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    if (document.exists()) {
-                                        Intent intent = new Intent(PatientProfile.this, MyDoctor.class);
-                                        startActivity(intent);
-                                    }
-                                }
-                            } else {
+                .whereEqualTo("patientID", mAuth.getUid()).
+                addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
 
-                                Intent intent = new Intent(PatientProfile.this, AddDoctor.class);
-                                startActivity(intent);
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                        if (doc.exists()) {
+                            Intent intent = new Intent(PatientProfile.this, MyDoctor.class);
+                            startActivity(intent);
                         }
+
                     }
-                });
+                } else {
+                    Intent intent = new Intent(PatientProfile.this, AddDoctor.class);
+                    startActivity(intent);
+                }
+            }
+        });
+
+
     }
 
 
     public void displayName() {
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
 
-            nameDb = user.getDisplayName();
-            emailDb = user.getEmail();
+        db.collection ("Patient").document(mAuth.getUid()).
+                addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                        if (documentSnapshot != null && documentSnapshot.exists()) {
+
+                            name.setText(documentSnapshot.getString("name"));
+                            email.setText(documentSnapshot.getString("email"));
+                        }
+                    }
+                });
+
+       // FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+       // if (user != null) {
+
+        //    nameDb = user.getDisplayName();
+        //    emailDb = user.getEmail();
 
             // imageDb = user.getPhotoUrl().toString();
             // If the above were null, iterate the provider data
             // and set with the first non null data
 
-            for (UserInfo userInfo : user.getProviderData()) {
-                if (nameDb == null && userInfo.getDisplayName() != null && emailDb == null && userInfo.getEmail() != null
-                ) {
-                    nameDb = userInfo.getDisplayName();
-                    emailDb = userInfo.getEmail();
+         //   for (UserInfo userInfo : user.getProviderData()) {
+         //       if (nameDb == null && userInfo.getDisplayName() != null && emailDb == null && userInfo.getEmail() != null
+           //     ) {
+           //         nameDb = userInfo.getDisplayName();
+            //        emailDb = userInfo.getEmail();
                     // imageDb = userInfo.getPhotoUrl().toString();
-                    MySharedPreference.putString(PatientProfile.this, "name", nameDb);
-                    MySharedPreference.putString(PatientProfile.this, "email", emailDb);
+            //        MySharedPreference.putString(PatientProfile.this, "name", nameDb);
+            //        MySharedPreference.putString(PatientProfile.this, "email", emailDb);
                     // MySharedPreference.putString(getContext(), "Image", imageDb);
 
-                }
-            }
-            if (nameDb != null)
-                name.setText(nameDb);
+            //    }
+          //  }
+          //  if (nameDb != null)
+           //     name.setText(nameDb);
 
-            if (emailDb != null)
-                email.setText(emailDb);
+          //  if (emailDb != null)
+          //      email.setText(emailDb);
 
             // if(imageDb !=null)
             // Picasso.get().load(imageDb).into(image);
 
 
-        }//end if
+      //  }//end if
     }
 
     @Override
@@ -296,27 +312,30 @@ public class PatientProfile extends AppCompatActivity {
         super.onResume();
 
         db.collection("Doctor")
-                .whereEqualTo("patientID", mAuth.getUid())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            if (!task.getResult().isEmpty()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    if (document.exists()) {
-                                        doctor.setText(document.getString("name"));
-                                    }
-                                }
-                            } else {
-                                doctor.setText(R.string.NoDoc);
-                            }
-                        } else {
+                .whereEqualTo("patientID", mAuth.getUid()).
+                addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
 
-                            Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+                if(!queryDocumentSnapshots.isEmpty() && queryDocumentSnapshots  != null ) {
+                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+
+                        if (doc.exists()) {
+                            doctor.setText(doc.getString("name"));
                         }
                     }
-                });
+                }
+                else {
+                    doctor.setText(R.string.NoDoc);
+                }
+
+
+            }
+        });
+
+
 
 
         if (!MySharedPreference.getString(PatientProfile.this, "name", "").equals("")) {
