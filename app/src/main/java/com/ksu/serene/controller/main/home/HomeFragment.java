@@ -1,39 +1,20 @@
 package com.ksu.serene.controller.main.home;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.RetryPolicy;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
@@ -45,26 +26,15 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.ksu.serene.R;
-import com.ksu.serene.controller.liveChart.ChartView;
 import com.ksu.serene.controller.liveChart.draw.data.InputData;
 import com.ksu.serene.controller.main.calendar.PatientAppointmentDetailPage;
-import com.ksu.serene.model.TherapySession;
-import com.ksu.serene.model.dbSetUp;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 public class HomeFragment extends Fragment {
@@ -76,7 +46,7 @@ public class HomeFragment extends Fragment {
 
 
     // Next Appointment
-    private TextView nextAppointment,improvement;
+    private TextView nextAppointment,improvement, percent;
     private String Name="", DTime="", id="";
     private Date DDate;
     private View card3;
@@ -95,7 +65,7 @@ public class HomeFragment extends Fragment {
 
         getDailyReport();
 
-        getAppointment2();
+        getAppointment();
 
         card3.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,11 +86,13 @@ public class HomeFragment extends Fragment {
 
     private void init(View root) {
 
+
         nextAppointment = root.findViewById(R.id.noUpcoming);
         card3 = root.findViewById(R.id.card3);
         AL_graph = root.findViewById(R.id.AL_graph);
         improvement = root.findViewById(R.id.improvement_num);
         quote = root.findViewById(R.id.picQ);
+        percent = root.findViewById(R.id.improvement_per);
         setQuoteImage();
 
         // parse Preference file
@@ -182,6 +154,14 @@ public class HomeFragment extends Fragment {
 
                             String improvementPercentage = document.get("improvement").toString();
                             improvement.setText(improvementPercentage);
+
+                            if(Double.parseDouble(improvementPercentage) >= 0){
+                                improvement.setTextColor(getActivity().getResources().getColor(R.color.green));
+                                percent.setTextColor(getActivity().getResources().getColor(R.color.green));
+                            }else{
+                                improvement.setTextColor(getActivity().getResources().getColor(R.color.Error));
+                                percent.setTextColor(getActivity().getResources().getColor(R.color.Error));
+                            }
                         }
                     }
                 });
@@ -209,7 +189,7 @@ public class HomeFragment extends Fragment {
 
     }
 
-    public void getAppointment2() {
+    public void getAppointment() {
 
         Query nextApp = db.collection("PatientSessions")
                 .orderBy("dateTimestamp", Query.Direction.ASCENDING);
@@ -271,7 +251,7 @@ public class HomeFragment extends Fragment {
                                         String appointment;
                                         appointment = Name + " | " + D + " | " + DTime;
                                         nextAppointment.setText(appointment);
-                                        nextAppointment.setTextColor(getResources().getColor(R.color.black));
+                                        nextAppointment.setTextColor(getResources().getColor(R.color.darkAccent));
 
                                         break;
 
@@ -280,7 +260,7 @@ public class HomeFragment extends Fragment {
 
                             if(!found){
                                 nextAppointment.setText(R.string.no_appoiintments);
-                                nextAppointment.setTextColor(getResources().getColor(R.color.Grey));
+                                nextAppointment.setTextColor(getResources().getColor(R.color.grey));
                             }
 
                         }
@@ -292,7 +272,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getAppointment2();
+        getAppointment();
     }
 
 

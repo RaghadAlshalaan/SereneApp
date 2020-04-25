@@ -18,7 +18,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class VoiceDraftAdapter extends RecyclerView.Adapter<VoiceDraftAdapter.MyViewHolder> {
+public class VoiceDraftAdapter
+        extends RecyclerView.Adapter<VoiceDraftAdapter.MyViewHolder> {
 
     private LayoutInflater inflater;
     private Context context;

@@ -421,6 +421,7 @@
     <string name="gender">Gender</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
+    <string name="note_ndeleting_your_doctor_cause_stop_sending_bi_weekly_reports_to_the_doctor_s_email">Note:\nDeleting your doctor cause stop sending bi-weekly reports to the doctor\'s email.</string>
 
 </resources>
 

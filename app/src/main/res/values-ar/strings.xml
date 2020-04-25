@@ -103,9 +103,9 @@
     <string name="MyDoc">طبيبي</string>
     <string name="DeleteDoc">حذف الطبيب</string>
     <string name="DeleteMessageDoc">
-        After deleting this doctor s/he will no longer be linked with your account
-        and the automatic periodic reports will be disabled.
+            بعد حذف الطبيب، لن يتم إرسال أية تقارير إلى بريده الإلكتروني وسيتم تعطيل التقارير المجدول إرسالها.
     </string>
+
     <string name="DeleteOKDoc">حذف</string>
     <string name="DeleteCancleDoc">الغاء</string>
     <string name="DocDeletedSuccess">تم حذف الطبيب بنجاح</string>
@@ -135,13 +135,13 @@
 
     <!-- Edit Socio Page -->
     <string name="Socio">تعديل معلوماتي</string>
-    <string name="NotCorrectAge">Please Enter Valid Age Value Between 5 to 110 Years Old</string>
-    <string name="NotCorrectHeight">Please Enter Valid Height Value Between 50 to 300 CM</string>
-    <string name="NotCorrectWeight">Please Enter Valid Weight Value Between 20 to 300 KG</string>
-    <string name="NotCorrectMI">Please Enter Valid Monthly Income Value should be no more than 5000000</string>
-    <string name="NotCorrectCD">Only Letters Accepted in Chronic Disease</string>
-    <string name="SocioInfoUpdateSuccess">Your Socio Information Updated Successfully</string>
-    <string name="SocioInfoUpdateFialed">Your Socio Information did not Updated, Try Again</string>
+    <string name="NotCorrectAge">الرجاء إدخال قيمة صالحة للعمر</string>
+    <string name="NotCorrectHeight">الرجاء إدخال قيمة صالحة للوزن</string>
+    <string name="NotCorrectWeight">الرجاء إدخال قيمة صالحة للوزن</string>
+    <string name="NotCorrectMI">الرجاء إدخال قيمة صالحة للدخل الشهري</string>
+    <string name="NotCorrectCD">فقط تقبل الحروف في خانة الأمراض المزمنة</string>
+    <string name="SocioInfoUpdateSuccess">تم تحديث معلوماتك بنجاح</string>
+    <string name="SocioInfoUpdateFialed">لم يتم تحديث المعلومات، الرجاء المحاولة مرة أخرى</string>
     <string name="SaveSocioUpdate">حفظ</string>
 
     <!-- Patient Profile Page -->
@@ -236,14 +236,14 @@
     <string name="join_us">انضم لنا</string>
     <string name="back">للخلف</string>
     <string name="next">التالي</string>
-    <string name="gad7_description">This is a short 7 questions that measures severity of anxiety. Please read each statement and select the choice which indicates how much the statement applied to you over the past 2 weeks.</string>
-    <string name="socio_description">Please fill in the form with your socio-demographic information so we can provide you more accurate results.</string>
+    <string name="gad7_description">هذة ٧ أسئلة قصيرة لقياس شدة القلق. الرجاء يرجى قراءة كل عبارة وتحديد خيار الذي يشير إلى مدى انطباق العبارة عليك خلال الأسبوعين الماضية.</string>
+    <string name="socio_description">يرجى تعبأة النموذج بمعلوماتك لنتمكن من تقديم نتائج أدق.</string>
     <string name="age">العمر</string>
     <string name="martial_status">الحالة الاجتماعية</string>
-    <string name="ex_diabetes">ex; Diabetes</string>
+    <string name="ex_diabetes">مثل: السكر</string>
     <string name="chronic_diseases">أمراض مزمنة</string>
     <string name="sr">ريال</string>
-    <string name="ex_2000">ex; 2000</string>
+    <string name="ex_2000"></string>
     <string name="monthly_income">الدخل الشهري</string>
     <string name="kg">كم</string>
     <string name="weight">الوزن</string>
@@ -255,28 +255,28 @@
     <string name="cigarette_smoker">مدخن</string>
     <string name="employment_status">الحالة الوظيفية</string>
     <string name="gad_7_scale">GAD-7 مقياس</string>
-    <string name="feeling_nervous_anxious_or_on_edge">Feeling nervous, anxious, or on edge</string>
-    <string name="not_being_able_to_stop_or_control_worrying">Not being able to stop or control worrying</string>
-    <string name="nearly_every_day">Nearly every day</string>
-    <string name="several_days">Several days</string>
-    <string name="being_so_restless_that_it_s_hard_to_sit_still">Being so restless that it’s hard to sit still</string>
-    <string name="becoming_easily_annoyed_or_irritable">Becoming easily annoyed or irritable</string>
-    <string name="feeling_afraid_as_if_something_awful_might_happen">Feeling afraid as if something awful might happen</string>
-    <string name="trouble_relaxing">Trouble relaxing</string>
-    <string name="worrying_too_much_about_different_things">Worrying too much about different things</string>
-    <string name="not_at_nall_sure">Not at all sure</string>
-    <string name="over_half_nthe_days">Over half the days</string>
+    <string name="feeling_nervous_anxious_or_on_edge">الشعور بالتوتر أو القلق أو الانفعال</string>
+    <string name="not_being_able_to_stop_or_control_worrying">عدم القدرة على التوقف عن القلق أو السيطرة عليه</string>
+    <string name="nearly_every_day">كل يوم تقريباً</string>
+    <string name="several_days">أيام متعددة</string>
+    <string name="being_so_restless_that_it_s_hard_to_sit_still">الاضطراب لدرجة تجعلك غير قادر على الجلوس بهدوء</string>
+    <string name="becoming_easily_annoyed_or_irritable">الإنزعاج والإنفعال بسرعة</string>
+    <string name="feeling_afraid_as_if_something_awful_might_happen">الشعور بالخوف من حصول أمر مريع</string>
+    <string name="trouble_relaxing">مشاكل في الإسترخاء</string>
+    <string name="worrying_too_much_about_different_things">القلق الشديد بشأن أمور عدة</string>
+    <string name="not_at_nall_sure">ولا يوم على الإطلاق</string>
+    <string name="over_half_nthe_days">أكثر من نصف الأيام</string>
     <string name="don_t_have_an_account">لا يوجد لديك حساب؟</string>
     <string name="next_appointment">الموعد المقبل</string>
     <string name="improvement">مستوى التحسن</string>
     <string name="throughout_the_week">(على مدار الاسبوع)</string>
     <string name="anxiety_level">مستوى القلق</string>
-    <string name="connect_to_fitbit">الاتصال ب Fitbit</string>
-    <string name="fitbit_desc">Serene wants to connect with your Fitbit account in order to acccess your data and behave correctly.</string>
+    <string name="connect_to_fitbit">الوصول بحساب Fitbit</string>
+    <string name="fitbit_desc">يريد سيرين الوصول لحسابك Fitbit لمتابعة مستجدات حالتك الحيوية واستخدامها في إنشاء التقارير.</string>
     <string name="finish">إنهاء</string>
     <string name="demographic_information">أخبرنا عنك</string>
-    <string name="google_calendar">Google Calendar</string>
-    <string name="connect_google_calendar">Connect Google Calendar</string>
+    <string name="google_calendar">تقويم قوقل</string>
+    <string name="connect_google_calendar">الوصول لتقويم قوقل</string>
     <string name="status_not_connected">الحالة : غير متصل</string>
     <string name="success">نجاح</string>
     <string name="generate_report">إنشاء التقرير</string>
@@ -286,12 +286,12 @@
     <string name="specific_period">مدة محددة</string>
     <string name="start">البداية</string>
     <string name="end">النهاية</string>
-    <string name="not_at_all">Not at all</string>
-    <string name="google_calendar_description">Serene wants to connect with your google calendar to get your events in order to perform correctly.</string>
+    <string name="not_at_all">ولا يوم على الإطلاق</string>
+    <string name="google_calendar_description">يريد سيرين الوصول لتقويم قوقل لاستعادة الأحداث الخاصة بك واستعمالها في إنشاء التقارير.</string>
     <string name="medicine_name">اسم الدواء</string>
     <string name="alert">لم يتم التحقق من بريدك الإلكتروني</string>
     <string name="empty">لا يوجد أي مواعيد مجدولة</string>
-    <string name="tips">Quote of the day</string>
+    <string name="tips">اقتباس اليوم</string>
     <string name="minute">دقيقة(دقائق)</string>
     <string name="hour">ساعة(ـات)</string>
     <string name="day">يوم(أيام)</string>
@@ -306,10 +306,10 @@
     <string name="g_steps"><b>عمل رائع!</b> \n بناءاً على معدل خطواتك في اليوم الواحد، أنت تعتبر من الأشخاص النشطين.
 تذكر أن الأشخاص الأكثر نشاطاً لديهم معدلات قلق أقل من أولئك الغير نشطين.</string>
 
-    <string name="date_picker">The start date must be chosen before the end.</string>
-    <string name="date_pickerr">The start and end date must be chosen to generate the report.</string>
-    <string name="date_pickerrr">The start date must be chosen to generate the report.</string>
-    <string name="date_pickerrrr">The end date must be chosen to generate the report.</string>
+    <string name="date_picker">يجب أن يكون تاريخ بداية التقرير قبل يوم نهايته</string>
+    <string name="date_pickerr">يجب عليك اختيار تاريخ بداية ونهاية التقرير </string>
+    <string name="date_pickerrr">يجب أن يتم اختيار تاريخ البدء</string>
+    <string name="date_pickerrrr">يجب أن يتم اختيار تاريخ النهاية</string>
 
     <string name="anxiety_analysis">تحليل القلق</string>
     <string name="anxiety_analysis_description">أنشئ تقارير وتعلم أكثر عن قلقك و صحتك</string>
@@ -337,8 +337,6 @@
     <string name="show_map">اعرض الخريطة</string>
     <string name="location_analysis">تحليل الموقع</string>
 
-    <string name="no_loc_high">لم يتم العثور على مواقع ذات علاقة بإرتفاع في مستوى القلق.</string>
-
     <!-- Martial Status -->
     <string name="single">أعزب</string>
     <string name="married">متزوج</string>
@@ -346,6 +344,36 @@
     <string name="divorced">مطلق</string>
     <string name="api_daily_sucess_msg">تم تحديث التقرير اليومي بنجاح!</string>
     <string name="api_daily_error_msg">فشل تحديث التقرير اليومي</string>
+
+
+    <string name="no_loc_high"> لم يتم إيجاد مواقع مرتبطة بمستوى قلق مرتفع.</string>
+    <string name="record_audio">تسجيل المقطع</string>
+    <string name="take_a_deep_breath_then_talk">خذ نفساً عميقاً، ثم تحدث</string>
+    <string name="select">إختيار</string>
+    <string name="edit_profile_small">تعديل الملف الشخصي</string>
+    <string name="about_you">عني</string>
+    <string name="my_profile">الملف الشخصي</string>
+    <string name="edit_my_information">تعديل بياناتي</string>
+    <string name="possible_places">الأماكن المحتملة:</string>
+    <string name="frequency">التكرار:</string>
+    <string name="accuracy">الدقة</string>
+    <string name="for_more_accurate_results_we_nrecommend_wearing_your_smartwatch_nfor_at_least_12_hours_a_day">    للمزيد من دقة في النتائج، نوصي بلبس الساعة الذكية لما لا يقل عن ١٢ ساعة في اليوم.</string>
+    <string name="account_created_a_link_has_been_nsent_to_confirm_your_email"> تم إنشاء الحساب، تم إرسال رابط لإثبات الإيميل !</string>
+    <string name="reset">إعادة ضبط</string>
+    <string name="google_events">أحداث قوقل</string>
+    <string name="no_scheduled_google_events">لا يوجد أحداث مجدولة.</string>
+    <string name="status_connected">الحالة : غير متصل</string>
+    <string name="status_connect">الحالة : متصل!</string>
+    <string name="disabled">معطل</string>
+    <string name="print_report">طباعة التقرير</string>
+    <string name="share_report">نشر التقرير</string>
+    <string name="no_appoiintments">لا يوجد مواعيد قادمة</string>
+    <string name="events_with_highest_anxiety">الأحداث بمستوى قلق مرتفع</string>
+    <string name="no_events_associated_with_high_anxiety">لا يوجد أحداث مرتبطة بمستوى قلق مرتفع.</string>
+    <string name="gender">الجنس</string>
+    <string name="male">ذكر</string>
+    <string name="female">أنثى</string>
+    <string name="event">موعد</string>
 
 
 </resources>

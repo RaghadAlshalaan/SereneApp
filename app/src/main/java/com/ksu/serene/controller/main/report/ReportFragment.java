@@ -48,6 +48,7 @@ import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Events;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -100,7 +101,6 @@ public class ReportFragment extends Fragment {
     private ProgressBar progressBar;
     private String reportStartDate;
     private String reportEndDate;
-
 
 
     // Google Calendar Events
@@ -178,7 +178,7 @@ public class ReportFragment extends Fragment {
         generate_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                generateReport();
+               checkFitbitAvailability();
             }// onClick
         });
 
@@ -186,6 +186,59 @@ public class ReportFragment extends Fragment {
         return root;
 
     }// onCreate
+
+
+    private void checkFitbitAvailability() {
+
+        DocumentReference patientDoc = db.collection("Patient").document(mAuth.getUid());
+
+        patientDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+
+                    String first_fitbit = document.get("first_fitbit").toString();
+                    String last_fitbit = document.get("last_fitbit").toString();
+
+                    Date FF = new Date();
+                    Date LF;
+
+                    Date startDate = myCalendarStart.getTime();
+                    Date endDate = myCalendarEnd.getTime();
+
+                    try {
+                         FF = new SimpleDateFormat("dd/mm/yyyy").parse(first_fitbit);
+                         LF = new SimpleDateFormat("dd/mm/yyyy").parse(last_fitbit);
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    if ((FF.before(startDate))) {
+                        generateReport();
+                    }else{
+                        String text = String.format(res.getString(R.string.date_picker));
+                        text = "You don't have enough data to analyze, please choose another duration";
+
+                        MotionToast.Companion.darkToast(
+                                getActivity(),
+                                text,
+                                MotionToast.Companion.getTOAST_WARNING(),
+                                MotionToast.Companion.getGRAVITY_BOTTOM(),
+                                MotionToast.Companion.getSHORT_DURATION(),
+                                ResourcesCompat.getFont(getActivity().getApplicationContext(), R.font.montserrat));
+
+                    }
+
+
+                }
+
+            }
+        });
+
+
+    }
 
     private void init() {
         generate_report = root.findViewById(R.id.generate_report_btn);
@@ -306,7 +359,7 @@ public class ReportFragment extends Fragment {
         myCalendarStart.set(Calendar.DAY_OF_MONTH, (Calendar.getInstance().get(Calendar.DAY_OF_MONTH)));
 
         Calendar cal2 = Calendar.getInstance();
-        cal2.add(Calendar.MONTH, -4);
+        cal2.add(Calendar.MONTH, -3);
         datePickerDialog.getDatePicker().setMinDate(cal2.getTimeInMillis());
 
         Calendar cal = Calendar.getInstance();
@@ -375,7 +428,6 @@ public class ReportFragment extends Fragment {
 
                 progressBar.setVisibility(VISIBLE);
 
-
                 if (GoogleCalendar) {
                     uploadGoogleEvents();
                 }else{
@@ -385,12 +437,7 @@ public class ReportFragment extends Fragment {
             } else {
 
                 switch (isDatesChoosen(startDate, endDate)) {
-                    //here the only missing is the start StartDate
-                    /*case 1: {
-                        String text = String.format(res.getString(R.string.date_pickerrr));
-                        dialog(text);
-                        break;
-                    }*/
+
                     //here the only missing is the end StartDate
                     case -1: {
                         String text = String.format(res.getString(R.string.date_pickerrrr));
@@ -412,6 +459,7 @@ public class ReportFragment extends Fragment {
             progressBar.setVisibility(VISIBLE);
 
             setDates();
+
             if (GoogleCalendar) {
                 uploadGoogleEvents();
             }else{
@@ -481,12 +529,10 @@ public class ReportFragment extends Fragment {
     private void callAPI() {
         tag("AppInfo").d("callAPI");
 
-
-        //TODO: date should be in format (YYYY-MM-DD)
         if(duration.equals("custom")){
-            api_url = "https://e13debb6.ngrok.io/patient_report_custom_duration/"+mAuth.getUid()+"/"+apiStartDate+"/"+apiEndDate+"/"+GoogleCalendar;
+            api_url = "https://9722e76b.ngrok.io/patient_report_custom_duration/"+mAuth.getUid()+"/"+apiStartDate+"/"+apiEndDate+"/"+GoogleCalendar;
         }else{
-            api_url = "https://e13debb6.ngrok.io/patient_report/"+mAuth.getUid()+"/"+duration+"/"+GoogleCalendar;
+            api_url = "https://9722e76b.ngrok.io/patient_report/"+mAuth.getUid()+"/"+duration+"/"+GoogleCalendar;
         }
 
         executeApi();
@@ -507,7 +553,7 @@ public class ReportFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.e("LOG", "success: " + response.toString());
-                        Toast.makeText(getContext(),"patient report success" , Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(),"Process Success" , Toast.LENGTH_LONG).show();
                         progressBar.setVisibility(View.INVISIBLE);
                         startActivity(intent);
                     }
@@ -515,8 +561,9 @@ public class ReportFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getContext(), "failed" , Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Processing Failed" , Toast.LENGTH_LONG).show();
                         Log.e("LOG","ERROR: "+error.toString() );
+                        progressBar.setVisibility(View.INVISIBLE);
 
                     }
                 }
@@ -591,25 +638,6 @@ public class ReportFragment extends Fragment {
     private void uploadGoogleEvents() {
         tag("AppInfo").d("uploadGoogleEvents");
 
-        String docID = "report" + mAuth.getUid();
-
-        // TODO : THIS ATTRIBUTE IS NOT CREATED B4
-
-//        // upload to Firebase
-//        db.collection("LastGeneratePatientReport")
-//                .document(docID)
-//                .update("googleCalendar",GoogleCalendar)
-//                .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        Log.e("GoogleCalendar:"," UPDATED!");
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                    }
-//                });
 
         if (GoogleCalendar){
 
@@ -706,11 +734,8 @@ public class ReportFragment extends Fragment {
                     uploadNewEvents(listOfEvents);
 
                 }else{
-                    // Delete All old events
-                    //deleteOldEvents();
 
                     // no new events
-
                         callAPI();
 
                 }
@@ -733,89 +758,8 @@ public class ReportFragment extends Fragment {
 
             Log.i("AppInfo", "Number of Events: " + newEvents.size());
 
-
-
         }
 
-//        private void reUploadEvents(final List<Event> newEvents) {
-//            tag("AppInfo").d("reUploadEvents");
-//
-//            db.collection("PatientEvents")
-//                    .whereEqualTo("patientID", mAuth.getUid())
-//                    .get()
-//                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                            if (task.isSuccessful()) {
-//                                if (!task.getResult().isEmpty()) {
-//
-//                                    for (QueryDocumentSnapshot document : task.getResult()) {
-//                                        String id = document.getId();
-//                                        deleteDoc(id);
-//                                    }
-//
-//                                }
-//
-//                                uploadNewEvents(newEvents);
-//                            } else {
-//                                Log.i("AppInfo", "Clearing events from DB then uploading new one");
-//                            }
-//                        }
-//                    }).addOnFailureListener(new OnFailureListener() {
-//                @Override
-//                public void onFailure(@NonNull Exception e) {
-//                    //uploadNewEvents(newEvents);
-//                }
-//            });
-//
-//        }
-
-//        private void deleteOldEvents() {
-//            tag("AppInfo").d("deleteOldEvents");
-//
-//            db.collection("PatientEvents")
-//                    .whereEqualTo("patientID", mAuth.getUid())
-//                    .get()
-//                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                            if (task.isSuccessful()) {
-//                                if (!task.getResult().isEmpty()) {
-//
-//                                    for (QueryDocumentSnapshot document : task.getResult()) {
-//                                        String id = document.getId();
-//                                        deleteDoc(id);
-//                                    }
-//
-//                                }
-//                            } else {
-//                                Log.i("AppInfo", "Clearing events from DB then uploading new one");
-//                            }
-//                        }
-//                    });
-//
-//        }
-
-//        private void deleteDoc(String id){
-//
-//            db.collection("PatientEvents")
-//                    .document(id)
-//                    .delete()
-//                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                        @Override
-//                        public void onSuccess(Void aVoid) {
-//                            Log.i("AppInfo", "Event Deleted");
-//                        }
-//                    })
-//                    .addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception e) {
-//                            Log.i("AppInfo", "Failed to delete Event");
-//                        }
-//                    });
-//
-//        }
-//
    }
 
     int i;
@@ -841,10 +785,8 @@ public class ReportFragment extends Fragment {
                             // Success upload event
 
                             if ( i == newEvents.size() && !done  ) { // last event saved successfully -> then call API here
-                                // TODO : CALL API
 
                                 callAPI();
-
                                 done = true;
                             }
 

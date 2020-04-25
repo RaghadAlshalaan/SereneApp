@@ -199,6 +199,8 @@ public class FitbitConnection extends AppCompatActivity implements View.OnClickL
 
         final Map<String, Object> userInfo = new HashMap<>();
         userInfo.put("fitbit_access_token", access_token);
+        userInfo.put("first_fitbit", "");
+        userInfo.put("last_fitbit", "");
 
 
         db.collection("Patient")

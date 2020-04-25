@@ -35,18 +35,6 @@
             app:srcCompat="@drawable/ic_left_arrow" />
 
 
-        <TextView
-            android:id="@+id/my_Doctor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:fontFamily="@font/montserrat"
-            android:text="@string/my_profile"
-            android:textColor="@color/white"
-            android:textSize="25sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
 
         <ImageView
@@ -63,35 +51,36 @@
             android:id="@+id/EditImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@id/my_Doctor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/imageView" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_marginBottom="10dp"
             android:elevation="10dp"
             android:src="@drawable/defaultpic"
             app:civ_border_color="@color/white"
             app:civ_border_width="2dp"
+            android:layout_marginTop="60dp"
             app:layout_constraintBottom_toTopOf="@+id/full_name"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/full_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
             android:fontFamily="@font/montserrat"
-            android:text=""
+            android:text="Name"
+            android:layout_marginTop="20dp"
             android:textColor="@color/white"
-            android:textSize="25sp"
+            android:textSize="27sp"
             android:textStyle="normal"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 

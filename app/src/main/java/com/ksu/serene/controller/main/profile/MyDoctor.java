@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -43,8 +45,16 @@ public class MyDoctor extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_doctor);
 
+
         // Inflate the layout for this fragment
         getSupportActionBar().hide();
+
+        // Change status bar color
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(this.getResources().getColor(R.color.darkAccent));
+
 
         mAuth = FirebaseAuth.getInstance();
         delete = findViewById(R.id.delete);

@@ -19,6 +19,8 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -87,25 +89,14 @@ public class Editprofile extends AppCompatActivity {
         setContentView(R.layout.edit_profile);
         // Inflate the layout for this fragment
         getSupportActionBar().hide();
-        mAuth = FirebaseAuth.getInstance();
-        name = findViewById(R.id.username);
-        image = findViewById(R.id.imageView);
-        chooseImg = findViewById(R.id.buttonImage);
-        save = findViewById(R.id.save);
-        oldPass = findViewById(R.id.oldPassword);
-        newPass = findViewById(R.id.newPassword);
-        confirmPass = findViewById(R.id.reNewPassword);
-        delete = findViewById(R.id.delete);
-        ForgetPassword = findViewById(R.id.forgetPassword);
-        back = findViewById(R.id.backButton);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        Eng = findViewById(R.id.English);
-        Ar = findViewById(R.id.Arabic);
+
+        // Change status bar color
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(this.getResources().getColor(R.color.darkAccent));
+
+        init();
 
         //retrieve past name
         PastName ();
@@ -318,6 +309,30 @@ public class Editprofile extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    private void init() {
+
+        mAuth = FirebaseAuth.getInstance();
+        name = findViewById(R.id.username);
+        image = findViewById(R.id.imageView);
+        chooseImg = findViewById(R.id.buttonImage);
+        save = findViewById(R.id.save);
+        oldPass = findViewById(R.id.oldPassword);
+        newPass = findViewById(R.id.newPassword);
+        confirmPass = findViewById(R.id.reNewPassword);
+        delete = findViewById(R.id.delete);
+        ForgetPassword = findViewById(R.id.forgetPassword);
+        back = findViewById(R.id.backButton);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        Eng = findViewById(R.id.English);
+        Ar = findViewById(R.id.Arabic);
 
     }
 

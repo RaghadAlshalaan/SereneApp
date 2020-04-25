@@ -1,19 +1,12 @@
 package com.ksu.serene.fitbitManager;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
@@ -30,6 +23,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -37,7 +31,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.ksu.serene.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,8 +47,6 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import static com.firebase.ui.auth.ui.phone.VerifyPhoneNumberFragment.TAG;
@@ -78,10 +69,11 @@ public class FitbitWorker extends Worker {
 
     StorageReference storageRef = storage.getReference();
     StorageReference spaceRef;
-    private String image_id="";
+    private String image_id = "";
     private int img_id;
     Context context;
-
+    DocumentReference patientDoc;
+    String newDate;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -123,14 +115,14 @@ public class FitbitWorker extends Worker {
 
                         image_id = document.get("id").toString();
 
-                        if(image_id.equals("6"))
+                        if (image_id.equals("6"))
                             img_id = 1;
                         else
                             img_id = Integer.parseInt(image_id) + 1;
 
 
-                        image_id = "q"+img_id;
-                        spaceRef = storageRef.child("quotes_images/"+image_id+".png");
+                        image_id = "q" + img_id;
+                        spaceRef = storageRef.child("quotes_images/" + image_id + ".png");
                         spaceRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(final Uri uri) {
@@ -138,12 +130,12 @@ public class FitbitWorker extends Worker {
                                 // upload to Firebase storage
                                 db.collection("Quotes")
                                         .document("quote")
-                                        .update("id",img_id,
-                                                "image_url",uri.toString())
+                                        .update("id", img_id,
+                                                "image_url", uri.toString())
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
-                                                Log.e("Quote:"," IMAGE UPLOADED SUCCESSFULLY");
+                                                Log.e("Quote:", " IMAGE UPLOADED SUCCESSFULLY");
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
@@ -185,7 +177,7 @@ public class FitbitWorker extends Worker {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             if (!task.getResult().isEmpty()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                for (final QueryDocumentSnapshot document : task.getResult()) {
                                     if (document.exists()) {
 
                                         accessToken = document.getString("fitbit_access_token");
@@ -193,8 +185,33 @@ public class FitbitWorker extends Worker {
                                         // Step 2 : GET DATE OF YESTERDAY in format ( YYYY-MM-DD )
                                         Calendar cal = Calendar.getInstance();
                                         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+                                        DateFormat fitbitDate = new SimpleDateFormat("dd/mm/yyyy");
+
                                         cal.add(Calendar.DATE, -1);
                                         String date = dateFormat.format(cal.getTime());
+                                        newDate = fitbitDate.format(cal.getTime());
+
+                                        Log.e("DONE: ", newDate + " FILE aaaa CESSFULLY");
+
+                                        // upload first and last day of fitbit
+                                        patientDoc = db.collection("Patient").document(user.getUid());
+
+                                        patientDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    DocumentSnapshot document = task.getResult();
+
+                                                    if(document.get("first_fitbit").toString().equals("")){
+                                                        update(2);
+                                                    }else{
+                                                        update(1);
+                                                    }
+                                                }
+
+                                            }
+                                        });
 
                                         final String[] category =
                                                 {
@@ -266,6 +283,15 @@ public class FitbitWorker extends Worker {
                 });
 
         return null;
+    }
+
+    private void update(int i) {
+        if(i == 2){
+            patientDoc.update("first_fitbit", newDate);
+            patientDoc.update("last_fitbit", newDate);
+        }else{
+            patientDoc.update("last_fitbit", newDate);
+        }
     }
 
 
@@ -372,9 +398,9 @@ public class FitbitWorker extends Worker {
     }
 
 
-    private void executeApi(String id){
+    private void executeApi(String id) {
 
-        String url = "https://e13debb6.ngrok.io/daily_report/"+id;
+        String url = "https://9722e76b.ngrok.io/daily_report/" + id;
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -386,15 +412,15 @@ public class FitbitWorker extends Worker {
 
                         Log.e("APII", "Success: " + response.toString());
 
-                        Toast.makeText(getApplicationContext() ,context.getResources().getText(R.string.api_daily_sucess_msg) , Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext() ,context.getResources().getText(R.string.api_daily_sucess_msg) , Toast.LENGTH_LONG).show();
 
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText( getApplicationContext(), context.getResources().getText(R.string.api_daily_error_msg) , Toast.LENGTH_LONG).show();
-                        Log.e("APII","ERROR: " + error.toString());
+                        //Toast.makeText( getApplicationContext(), context.getResources().getText(R.string.api_daily_error_msg) , Toast.LENGTH_LONG).show();
+                        Log.e("APII", "ERROR: " + error.toString());
 
                     }
                 }
