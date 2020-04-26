@@ -335,7 +335,7 @@
     <string name="sleep_analysis">تحليل النوم</string>
     <string name="no_results_available_to_analyze">لا يوجد بيانات متاحة للعرض</string>
     <string name="show_map">اعرض الخريطة</string>
-    <string name="location_analysis">تحليل الموقع</string>
+    <string name="location_analysis">المواقع المرتبطة بقلق عالي</string>
 
     <!-- Martial Status -->
     <string name="single">أعزب</string>

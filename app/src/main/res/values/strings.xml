@@ -386,7 +386,7 @@
     <string name="sleep_analysis">Sleep Analysis</string>
     <string name="no_results_available_to_analyze">No Results Available To Analyze.</string>
     <string name="show_map">Show Map</string>
-    <string name="location_analysis">Location Analysis</string>
+    <string name="location_analysis">Locations With High Anxiety</string>
 
     <string name="no_loc_high">No locations were found associated with a high anxiety level.</string>
     <string name="record_audio">Record Audio</string>
@@ -422,6 +422,12 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="note_ndeleting_your_doctor_cause_stop_sending_bi_weekly_reports_to_the_doctor_s_email">Note:\nDeleting your doctor cause stop sending bi-weekly reports to the doctor\'s email.</string>
+    <string name="name">Name</string>
+    <string name="course_duration">Course Duration</string>
+    <string name="time_from_first_reminder">Time (from first reminder)</string>
+    <string name="dose">Dose</string>
+    <string name="delete_medicine">Delete Medicine</string>
+    <string name="dose_card">Dose :</string>
 
 </resources>
 

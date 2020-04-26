@@ -530,9 +530,9 @@ public class ReportFragment extends Fragment {
         tag("AppInfo").d("callAPI");
 
         if(duration.equals("custom")){
-            api_url = "https://9722e76b.ngrok.io/patient_report_custom_duration/"+mAuth.getUid()+"/"+apiStartDate+"/"+apiEndDate+"/"+GoogleCalendar;
+            api_url = "https://ab1eef4f.ngrok.io/patient_report_custom_duration/"+mAuth.getUid()+"/"+apiStartDate+"/"+apiEndDate+"/"+GoogleCalendar;
         }else{
-            api_url = "https://9722e76b.ngrok.io/patient_report/"+mAuth.getUid()+"/"+duration+"/"+GoogleCalendar;
+            api_url = "https://ab1eef4f.ngrok.io/patient_report/"+mAuth.getUid()+"/"+duration+"/"+GoogleCalendar;
         }
 
         executeApi();
