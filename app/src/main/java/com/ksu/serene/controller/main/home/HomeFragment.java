@@ -26,16 +26,13 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.ksu.serene.R;
-import com.ksu.serene.controller.liveChart.draw.data.InputData;
 import com.ksu.serene.controller.main.calendar.PatientAppointmentDetailPage;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+
 
 public class HomeFragment extends Fragment {
 
@@ -44,13 +41,11 @@ public class HomeFragment extends Fragment {
     private FirebaseFirestore db = com.google.firebase.firestore.FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-
     // Next Appointment
     private TextView nextAppointment,improvement, percent;
     private String Name="", DTime="", id="";
     private Date DDate;
     private View card3;
-
 
     // Quote
     private ImageView AL_graph, quote;
@@ -61,7 +56,7 @@ public class HomeFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-        init (root);
+        init(root);
 
         getDailyReport();
 
@@ -79,13 +74,11 @@ public class HomeFragment extends Fragment {
 
 
 
-
         return root;
     }
 
 
     private void init(View root) {
-
 
         nextAppointment = root.findViewById(R.id.noUpcoming);
         card3 = root.findViewById(R.id.card3);
@@ -98,42 +91,11 @@ public class HomeFragment extends Fragment {
         // parse Preference file
         SharedPreferences sp = getActivity().getSharedPreferences("user_details", Context.MODE_PRIVATE);
 
-//        // Live Chart
-//        ChartView chartView = root.findViewById(R.id.charView);
-//        List<InputData> dataList = createChartData();
-//        chartView.setData(dataList);
-
     }
 
-    // Live chart
-    @NonNull
-    private List<InputData> createChartData() {
+    // TODO: Live chart
 
-        // TODO : GET CHART DATA FROM FLAST
-        List<InputData> dataList = new ArrayList<>();
-        dataList.add(new InputData(2.5));
-        dataList.add(new InputData(2));
-        dataList.add(new InputData(1.4));
-        dataList.add(new InputData(2));
-        dataList.add(new InputData(1));
-        dataList.add(new InputData(0.4));
-        dataList.add(new InputData(1.3));
-        dataList.add(new InputData(2.8));
-        dataList.add(new InputData(2.1));
 
-        long currMillis = System.currentTimeMillis();
-        currMillis -= currMillis % TimeUnit.DAYS.toMillis(1);
-
-        for (int i = 0; i < dataList.size(); i++) {
-            long position = dataList.size() - 1 - i;
-            long offsetMillis = TimeUnit.DAYS.toMillis(position);
-
-            long millis = currMillis - offsetMillis;
-            dataList.get(i).setMillis(millis);
-        }
-
-        return dataList;
-    }
 
     private void getDailyReport() {
 
@@ -274,10 +236,6 @@ public class HomeFragment extends Fragment {
         super.onResume();
         getAppointment();
     }
-
-
-
-
 
 
 }
