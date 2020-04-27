@@ -1,12 +1,17 @@
 package com.ksu.serene.fitbitManager;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
@@ -21,11 +26,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -48,8 +55,12 @@ import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import static com.firebase.ui.auth.ui.phone.VerifyPhoneNumberFragment.TAG;
@@ -69,6 +80,8 @@ public class FitbitWorker extends Worker {
     private static String clientSecret;
     private static final int PERMISSION_INTERNET = 1;
     private static final int PERMISSION_ACCESS_NETWORK_STATE = 2;
+    private String day14;
+    private String doctorID;
 
     StorageReference storageRef = storage.getReference();
     StorageReference spaceRef;
@@ -77,6 +90,10 @@ public class FitbitWorker extends Worker {
     Context context;
     DocumentReference patientDoc;
     String newDate;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+
+
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -155,7 +172,10 @@ public class FitbitWorker extends Worker {
         /**------------------DAILY REPORT------------------**/
 
         //to do execute
-        executeApi(user.getUid());
+        executeDailyReportApi(user.getUid());
+        /**------------------DOCTOR REPORT------------------**/
+       // isTwoWeeksPassed();
+
 
 
         /**--------------------QUOTE--------------------**/
@@ -452,6 +472,213 @@ public class FitbitWorker extends Worker {
             }
 
         }
+    }
+
+
+    private void executeDailyReportApi(String id){
+
+        String url = "https://ab1eef4f.ngrok.io/daily_report/" + id;
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        JsonObjectRequest objectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        Log.e("APII", "Success: " + response.toString());
+
+                        Toast.makeText(getApplicationContext() ,context.getResources().getText(R.string.api_daily_sucess_msg) , Toast.LENGTH_SHORT).show();
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText( getApplicationContext(), context.getResources().getText(R.string.api_daily_error_msg) , Toast.LENGTH_SHORT).show();
+                        Log.e("APII","ERROR: " + error.toString());
+
+                    }
+                }
+        );
+
+        objectRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 100000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 100000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+        requestQueue.add(objectRequest);
+    }
+//1. is 2w has passed?
+public String isTwoWeeksPassed(){
+    //1. get last generated doctor report date
+    final DocumentReference userRev = FirebaseFirestore.getInstance().collection("DoctorReports").document("Doctor"+mAuth.getUid());
+    userRev.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        @Override
+        public void onSuccess(DocumentSnapshot documentSnapshot) {
+            Timestamp lastReportTimestamp = (Timestamp) documentSnapshot.get("reportTime");
+            String lastReportDate = getDateFormat(lastReportTimestamp, false);
+
+            //2. get day 14
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            Calendar c = Calendar.getInstance();
+            try {
+                c.setTime(formatter.parse(lastReportDate));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            c.add(Calendar.DATE, 15);  // number of days to add
+            day14 = formatter.format(c.getTime());
+
+            //3. get today date
+            Timestamp todayTimestamp = Timestamp.now();
+            String todayDate = getDateFormat(todayTimestamp , false);
+
+            //4. compare the two dates
+            if(todayDate.equals(day14))
+                // Check if doctor is validated
+                isDoctorValidated();
+
+        }
+    }).addOnFailureListener(new OnFailureListener() {
+        @Override
+        public void onFailure(@NonNull Exception e) {
+
+        }
+    });
+
+return "";
+}//isTwoWeeksPassed
+
+
+//2. is doctor validated
+    public void isDoctorValidated(){
+        final Query userRev = FirebaseFirestore.getInstance().collection("Doctor").whereEqualTo("patientID", mAuth.getUid());
+        userRev.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                boolean isVerified =(boolean) queryDocumentSnapshots.getDocuments().get(0).get("isVerified");
+                doctorID = queryDocumentSnapshots.getDocuments().get(0).get("id").toString();
+                if (isVerified)
+                    isThereEnoughDate();
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+    }//isDoctorValidated
+
+//3. is there enough data in storage
+    public void isThereEnoughDate(){
+        //1. get when was fit bit data fetch for the first time
+        final DocumentReference userRev = FirebaseFirestore.getInstance().collection("Patient").document(mAuth.getUid());
+        userRev.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String firstFit_bit = documentSnapshot.get("first_fitbit").toString();
+                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                Date date = null;
+                try {
+                    date = dateFormat.parse(firstFit_bit);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+              Timestamp firstFit_bitTimestamp =  new Timestamp(date);
+
+               //Finally!, send Doctor report
+                executeDoctorReportApi(user.getUid() ,doctorID);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+        //2. get last generated report date
+
+
+
+    }//isThereEnoughDate
+
+    private String getDateFormat(Timestamp timeStamp , boolean isReverse){
+
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timeStamp.getSeconds()*1000);
+        int mYear = calendar.get(Calendar.YEAR);
+        int mMonth = calendar.get(Calendar.MONTH);
+        int mDay = calendar.get(Calendar.DAY_OF_MONTH);
+        if(isReverse)
+            return mYear+"/"+mMonth+"/"+mDay;
+        else
+            return mDay+"/"+mMonth+"/"+mYear;
+    }// getDateFormat
+
+
+    private void executeDoctorReportApi(String id ,String doc){
+
+        String url = "https://ab1eef4f.ngrok.io/daily_report/"+id+"/"+doc;
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        JsonObjectRequest objectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        Log.e("APII", "Success: " + response.toString());
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("APII","ERROR: " + error.toString());
+                        //Toast.makeText( getApplicationContext(), context.getResources().getText(R.string.api_daily_error_msg) , Toast.LENGTH_LONG).show();
+                        Log.e("APII", "ERROR: " + error.toString());
+
+                    }
+                }
+        );
+
+        objectRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 100000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 100000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+        requestQueue.add(objectRequest);
+        //todo: retrieve data
     }
 
 

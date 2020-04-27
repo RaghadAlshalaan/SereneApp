@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -49,6 +50,8 @@ public class AddDoctor extends AppCompatActivity {
     private String TAG = AddDoctor.class.getSimpleName();
     private Random r = new Random();
     private ImageView back;
+    private String ID = String.valueOf(r.nextInt(999999 - 111 + 1) + 111);
+
 
 
     @Override
@@ -122,7 +125,6 @@ public class AddDoctor extends AppCompatActivity {
                     Toast.makeText(AddDoctor.this, R.string.PatientEmail, Toast.LENGTH_LONG).show();
                 } else {
 
-                    String ID = String.valueOf(r.nextInt(999999 - 111 + 1) + 111);
                     final Map<String, Object> user = new HashMap<>();
                     user.put("name", name);
                     user.put("email", email);
@@ -138,6 +140,7 @@ public class AddDoctor extends AppCompatActivity {
                                     Log.d(TAG, "DocumentSnapshot added successfully");
                                     Toast.makeText(AddDoctor.this, R.string.AddDocSuccess,
                                             Toast.LENGTH_LONG).show();
+                                    storeDoctorReport();
                                     Intent intent = new Intent(AddDoctor.this, PatientProfile.class);
                                     startActivity(intent);
                                 }
@@ -177,6 +180,43 @@ public class AddDoctor extends AppCompatActivity {
         }
         return true;
     }
+
+    // store an empty DoctorReport in the database
+
+    public void storeDoctorReport(){
+               final Map<String, Object> user = new HashMap<>();
+                    user.put("anxiety_level", -1);
+                    user.put("doctorId", ID);
+                    user.put("emailsent",Boolean.TRUE );
+                    user.put("improvement", -1);
+                    user.put("patientId", mAuth.getUid());
+                    user.put("reportTime", FieldValue.serverTimestamp());
+                    user.put("reportUrl", "-1");
+
+
+                db.collection("DoctorReports")
+                            .document("Doctor"+mAuth.getUid())
+                            .set(user)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "init doctor report added successfully");
+
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+
+                                }
+                            });
+
+
+                }//storeDoctorReport
+
+
+
+
 
 
 }
