@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LogIn"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/main_background"
-    tools:context=".LogInPage"
-    android:id="@+id/LogIn">
+    tools:context=".LogInPage">
 
     <View
         android:id="@+id/white_frame"
@@ -14,20 +14,24 @@
         android:layout_height="545dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="147dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/white_frame" />
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/white_frame"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <View
         android:id="@+id/serene_logo"
         android:layout_width="411dp"
         android:layout_height="180dp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="false"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="140dp"
-        android:background="@drawable/serene_logo" />
+        android:layout_centerInParent="true"
+        android:background="@drawable/serene_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/white_frame" />
 
     <TextView
         android:id="@+id/textView"
@@ -35,11 +39,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="380dp"
         android:fontFamily="@font/montserrat"
         android:text="@string/welcome_back"
         android:textAlignment="center"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/white_frame"
+        app:layout_constraintStart_toStartOf="@+id/white_frame"
+        app:layout_constraintTop_toBottomOf="@+id/serene_logo" />
+
 
     <EditText
         android:id="@+id/Email"
@@ -47,12 +54,16 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/Password"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="@string/email"
-        android:textAlignment="viewStart"
         android:inputType="textEmailAddress"
-        android:textColor="#B1B0B0" />
+        android:textAlignment="viewStart"
+        android:textColor="#B1B0B0"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
 
     <EditText
         android:id="@+id/Password"
@@ -60,13 +71,15 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/forgetPassword"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="3dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="@string/password"
-        android:textAlignment="viewStart"
         android:inputType="textPassword"
-        android:textColor="#B1B0B0" />
-
+        android:textAlignment="viewStart"
+        android:textColor="#B1B0B0"
+        app:layout_constraintEnd_toEndOf="@+id/Email"
+        app:layout_constraintStart_toStartOf="@+id/Email"
+        app:layout_constraintTop_toBottomOf="@+id/Email" />
 
     <TextView
         android:id="@+id/forgetPassword"
@@ -74,16 +87,17 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="230dp"
-        android:paddingEnd="5dp"
         android:clickable="true"
         android:focusable="true"
         android:fontFamily="@font/montserrat"
+        android:paddingEnd="5dp"
         android:text="@string/forgot_password"
         android:textAlignment="textEnd"
         android:textColor="@color/colorAccent"
-        android:textSize="16sp" />
-
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/Password"
+        app:layout_constraintStart_toStartOf="@+id/Password"
+        app:layout_constraintTop_toBottomOf="@+id/Password" />
 
     <TextView
         android:id="@+id/Error"
@@ -91,10 +105,13 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/forgetPassword"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:padding="5dp"
         android:text="@string/error"
-        android:textColor="@color/Error" />
+        android:textColor="@color/Error"
+        app:layout_constraintEnd_toEndOf="@+id/white_frame"
+        app:layout_constraintStart_toStartOf="@+id/white_frame"
+        app:layout_constraintTop_toBottomOf="@+id/loginBtn" />
 
     <Button
         android:id="@+id/loginBtn"
@@ -102,7 +119,7 @@
         android:layout_height="35dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="100dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/off_button"
         android:enabled="false"
         android:fontFamily="@font/montserrat"
@@ -113,39 +130,38 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/white"
         android:textSize="18sp"
-        />
+        app:layout_constraintEnd_toEndOf="@+id/white_frame"
+        app:layout_constraintStart_toStartOf="@+id/white_frame"
+        app:layout_constraintTop_toBottomOf="@+id/forgetPassword" />
 
-    <LinearLayout
+
+    <TextView
+        android:id="@+id/description2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/loginBtn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
-        android:orientation="horizontal">
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/montserrat"
+        android:text="@string/don_t_have_an_account"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toStartOf="@id/registerTV"
+        app:layout_constraintStart_toStartOf="@+id/white_frame"
+        app:layout_constraintTop_toBottomOf="@+id/Error" />
 
-        <TextView
-            android:id="@+id/description2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat"
-            android:text="@string/don_t_have_an_account"
-            android:textAlignment="center"
-            android:textSize="18sp"
-            android:textStyle="normal" />
+    <TextView
+        android:id="@+id/registerTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/montserrat"
+        android:text="@string/register_caps"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/white_frame"
+        app:layout_constraintStart_toEndOf="@+id/description2"
+        app:layout_constraintTop_toTopOf="@+id/description2" />
 
-        <TextView
-            android:id="@+id/registerTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:fontFamily="@font/montserrat"
-            android:text="@string/register_caps"
-            android:textAlignment="center"
-            android:textColor="@color/colorAccent"
-            android:textSize="18sp" />
-
-    </LinearLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
