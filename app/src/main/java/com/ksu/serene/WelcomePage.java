@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -13,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.content.Intent;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -40,17 +44,21 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.ksu.serene.controller.Constants;
 import com.ksu.serene.controller.liveChart.utils.Utils;
+import com.ksu.serene.controller.main.profile.Editprofile;
 import com.ksu.serene.controller.signup.Questionnairs;
 import com.ksu.serene.controller.signup.Signup;
 import com.ksu.serene.model.Token;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class WelcomePage extends AppCompatActivity {
 
     private Button logIn;
     private Button register;
+    private TextView Eng, Ar;
+
 
     private String TAG = WelcomePage.class.getSimpleName();
 
@@ -70,6 +78,7 @@ public class WelcomePage extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
+
         // Change status bar color
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -79,7 +88,8 @@ public class WelcomePage extends AppCompatActivity {
 
         logIn = findViewById(R.id.login);
         register = findViewById(R.id.register);
-
+        Eng = findViewById(R.id.English);
+        Ar = findViewById(R.id.Arabic);
 
         logIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +115,25 @@ public class WelcomePage extends AppCompatActivity {
 
         }
 
+        Eng.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Eng.setVisibility(View.INVISIBLE);
+                Ar.setVisibility(View.VISIBLE);
+                setLocale("en");
+            }
+        });
+
+
+        Ar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Ar.setVisibility(View.INVISIBLE);
+                Eng.setVisibility(View.VISIBLE);
+                setLocale("ar");
+            }
+        });
+
     }
 
     private boolean checkUserLogin(){
@@ -115,6 +144,28 @@ public class WelcomePage extends AppCompatActivity {
         } else
             return false;
 
+    }
+
+    public void setLocale(String lang) {
+        Locale myLocale = new Locale(lang);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+
+        SharedPreferences sp = WelcomePage.this.getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("PREFERRED_LANGUAGE", lang );
+        editor.apply();
+
+        finish();
+
+        Intent refresh = new Intent(this, WelcomePage.class);
+        refresh.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|
+                Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(refresh);
     }
 
 }

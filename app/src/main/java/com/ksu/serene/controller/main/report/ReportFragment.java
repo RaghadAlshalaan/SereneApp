@@ -423,6 +423,7 @@ public class ReportFragment extends Fragment {
         intent = new Intent(getContext(), PatientReport.class);
         intent.putExtra(Constants.Keys.DURATION, duration);
 
+        startActivity(intent);
         if (duration.equals("custom")) {
 
             if (isDatesChosen(startDate, endDate) == 0) {
