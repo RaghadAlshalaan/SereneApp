@@ -96,7 +96,6 @@ public class HomeFragment extends Fragment {
     // TODO: Live chart
 
 
-
     private void getDailyReport() {
 
         String docID = "daily" + mAuth.getUid();
@@ -222,7 +221,7 @@ public class HomeFragment extends Fragment {
 
                             if(!found){
                                 nextAppointment.setText(R.string.no_appoiintments);
-                                nextAppointment.setTextColor(getResources().getColor(R.color.grey));
+                                nextAppointment.setTextColor(getActivity().getResources().getColor(R.color.grey));
                             }
 
                         }

@@ -59,6 +59,8 @@ import com.ksu.serene.controller.main.calendar.CalendarFragment;
 import com.ksu.serene.model.Event;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -201,17 +203,13 @@ public class ReportFragment extends Fragment {
                     DocumentSnapshot document = task.getResult();
 
                     String first_fitbit = document.get("first_fitbit").toString();
-                    String last_fitbit = document.get("last_fitbit").toString();
 
                     Date FF = new Date();
-                    Date LF;
 
                     Date startDate = myCalendarStart.getTime();
-                    Date endDate = myCalendarEnd.getTime();
 
                     try {
-                         FF = new SimpleDateFormat("dd/mm/yyyy").parse(first_fitbit);
-                         LF = new SimpleDateFormat("dd/mm/yyyy").parse(last_fitbit);
+                         FF = new SimpleDateFormat("dd/MM/yyyy").parse(first_fitbit);
 
                     } catch (ParseException e) {
                         e.printStackTrace();
@@ -271,7 +269,7 @@ public class ReportFragment extends Fragment {
         myCalendarStart.set(Calendar.YEAR, year);
         myCalendarStart.set(Calendar.MONTH, monthOfYear);
         myCalendarStart.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        int month = Integer.parseInt(String.valueOf(myCalendarEnd.get(Calendar.MONTH)))+1;
+        int month = Integer.parseInt(String.valueOf(myCalendarStart.get(Calendar.MONTH)))+1;
         startDate = myCalendarStart.get(Calendar.DAY_OF_MONTH) + "/" + month + "/" + myCalendarStart.get(Calendar.YEAR);
         apiStartDate = myCalendarStart.get(Calendar.YEAR) + "-" +month + "-" + myCalendarStart.get(Calendar.DAY_OF_MONTH);
         start.setText(startDate);
@@ -364,6 +362,7 @@ public class ReportFragment extends Fragment {
 
         Calendar cal2 = Calendar.getInstance();
         cal2.add(Calendar.MONTH, -3);
+        // TODO : or first fitbit
         datePickerDialog.getDatePicker().setMinDate(cal2.getTimeInMillis());
 
         Calendar cal = Calendar.getInstance();
@@ -561,7 +560,17 @@ public class ReportFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.e("LOG", "success: " + response.toString());
-                        Toast.makeText(getContext(),"Process Success" , Toast.LENGTH_LONG).show();
+
+                        try {
+                            // Info to visualize the graph in the PatientReport Page
+                            JSONArray Dates = response.getJSONArray("date");
+                            JSONArray AnxietyLevel = response.getJSONArray("Anxiety");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        // Start new Activity which present the graph
                         progressBar.setVisibility(View.INVISIBLE);
                         startActivity(intent);
                     }

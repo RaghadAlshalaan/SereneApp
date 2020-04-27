@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -32,8 +31,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.gson.JsonArray;
 import com.ksu.serene.R;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -88,6 +89,61 @@ public class FitbitWorker extends Worker {
         this.context = context;
     }
 
+    private void executeApi(String id) {
+
+        String url = "https://73f846d2.ngrok.io/daily_report/" + id;
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        JsonObjectRequest objectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.e("API", "Success: " + response.toString());
+
+//                        try {
+//                            // Info to visualize the graph in the Home Fragment
+//
+//                            JSONArray Dates = response.getJSONArray("date");
+//                            JSONArray AnxietyLevel = response.getJSONArray("Anxiety");
+//
+//
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("API", "ERROR: " + error.toString());
+
+                    }
+                }
+        );
+
+        objectRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 100000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 100000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+        requestQueue.add(objectRequest);
+        // TODO: Retrieve JSON data ( Date , value )
+    }
 
     /**
      * This will be called whenever work manager run the work (24-hour).
@@ -188,13 +244,12 @@ public class FitbitWorker extends Worker {
                                         Calendar cal = Calendar.getInstance();
                                         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-                                        DateFormat fitbitDate = new SimpleDateFormat("dd/mm/yyyy");
+                                        DateFormat fitbitDate = new SimpleDateFormat("dd/MM/yyyy");
 
                                         cal.add(Calendar.DATE, -1);
                                         String date = dateFormat.format(cal.getTime());
                                         newDate = fitbitDate.format(cal.getTime());
 
-                                        Log.e("DONE: ", newDate + " FILE aaaa CESSFULLY");
 
                                         // upload first and last day of fitbit
                                         patientDoc = db.collection("Patient").document(user.getUid());
@@ -397,62 +452,6 @@ public class FitbitWorker extends Worker {
             }
 
         }
-    }
-
-
-    private void executeApi(String id) {
-
-        String url = "https://73f846d2.ngrok.io/daily_report/" + id;
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-        JsonObjectRequest objectRequest = new JsonObjectRequest(
-                Request.Method.GET,
-                url,
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        Log.e("APII", "Success: " + response.toString());
-                        try{
-                            String n = response.get("Hello World!").toString();
-                            Toast.makeText(getApplicationContext() ,n , Toast.LENGTH_LONG).show();
-
-                        }
-                        catch(JSONException e){
-                            Toast.makeText(getApplicationContext() ,"didn't work" , Toast.LENGTH_LONG).show();
-                        }
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        //Toast.makeText( getApplicationContext(), context.getResources().getText(R.string.api_daily_error_msg) , Toast.LENGTH_LONG).show();
-                        Log.e("APII", "ERROR: " + error.toString());
-
-                    }
-                }
-        );
-
-        objectRequest.setRetryPolicy(new RetryPolicy() {
-            @Override
-            public int getCurrentTimeout() {
-                return 100000;
-            }
-
-            @Override
-            public int getCurrentRetryCount() {
-                return 100000;
-            }
-
-            @Override
-            public void retry(VolleyError error) throws VolleyError {
-
-            }
-        });
-
-        requestQueue.add(objectRequest);
-        //todo: retrieve data
     }
 
 

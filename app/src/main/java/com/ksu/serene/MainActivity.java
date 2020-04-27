@@ -476,9 +476,6 @@ public class MainActivity extends AppCompatActivity implements
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        long totalRequestTime = System.currentTimeMillis() - mRequestStartTime;
-
-                        Log.i("AppInfo", "Response: " + response.toString());
 
                         try {
                             JSONArray resultsArray = response.getJSONArray("results");
