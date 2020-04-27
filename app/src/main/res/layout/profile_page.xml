@@ -32,7 +32,8 @@
             android:layout_marginTop="25dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_left_arrow" />
+            app:srcCompat="@drawable/ic_left_arrow"
+            android:rotationY="@integer/angle_rtl_180"/>
 
 
 
@@ -205,7 +206,8 @@
                 android:layout_width="30dp"
                 android:layout_height="33dp"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/ic_go_to" />
+                app:srcCompat="@drawable/ic_go_to"
+                android:rotationY="@integer/angle_rtl_180"/>
 
         </LinearLayout>
 
@@ -258,7 +260,8 @@
                 android:layout_width="30dp"
                 android:layout_height="33dp"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/ic_go_to" />
+                app:srcCompat="@drawable/ic_go_to"
+                android:rotationY="@integer/angle_rtl_180"/>
 
         </LinearLayout>
 
@@ -312,7 +315,8 @@
                 android:layout_width="30dp"
                 android:layout_height="33dp"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/ic_go_to" />
+                app:srcCompat="@drawable/ic_go_to"
+                android:rotationY="@integer/angle_rtl_180"/>
 
         </LinearLayout>
 

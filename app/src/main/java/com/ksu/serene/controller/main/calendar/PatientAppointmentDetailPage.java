@@ -2,8 +2,10 @@ package com.ksu.serene.controller.main.calendar;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,8 +25,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.ksu.serene.controller.Constants;
 import com.ksu.serene.controller.Reminder.AlarmManagerProvider;
 import com.ksu.serene.controller.Reminder.ReminderAlarmService;
+import com.ksu.serene.controller.liveChart.utils.Utils;
 import com.ksu.serene.model.TherapySession;
 import com.ksu.serene.R;
 
@@ -48,6 +52,10 @@ public class PatientAppointmentDetailPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_appointment_detail_page);
+        SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+        String preferred_lng = sp.getString("PREFERRED_LANGUAGE", "en");
+        Utils.setLocale(preferred_lng, this);
+
         getSupportActionBar().hide();
 
 

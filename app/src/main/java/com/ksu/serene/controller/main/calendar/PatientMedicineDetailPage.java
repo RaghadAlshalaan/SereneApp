@@ -2,8 +2,10 @@ package com.ksu.serene.controller.main.calendar;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,8 +25,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.ksu.serene.controller.Constants;
 import com.ksu.serene.controller.Reminder.AlarmManagerProvider;
 import com.ksu.serene.controller.Reminder.ReminderAlarmService;
+import com.ksu.serene.controller.liveChart.utils.Utils;
 import com.ksu.serene.model.Medicine;
 import com.ksu.serene.R;
 
@@ -50,6 +54,10 @@ public class PatientMedicineDetailPage extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
+
+        SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+        String preferred_lng = sp.getString("PREFERRED_LANGUAGE", "en");
+        Utils.setLocale(preferred_lng, this);
 
         setContentView(R.layout.activity_patient_medicine_detail_page);
         MedID = getIntent().getStringExtra("MedicineID");
@@ -82,7 +90,7 @@ public class PatientMedicineDetailPage extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(PatientMedicineDetailPage.this, "Fails to get data", Toast.LENGTH_LONG).show();
+                Toast.makeText(PatientMedicineDetailPage.this, R.string.dataFailed, Toast.LENGTH_LONG).show();
             }
         });
 

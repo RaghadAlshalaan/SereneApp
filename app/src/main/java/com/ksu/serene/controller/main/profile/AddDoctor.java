@@ -1,6 +1,8 @@
 package com.ksu.serene.controller.main.profile;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -30,6 +32,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.ksu.serene.MainActivity;
 import com.ksu.serene.R;
 import com.ksu.serene.WelcomePage;
+import com.ksu.serene.controller.Constants;
+import com.ksu.serene.controller.liveChart.utils.Utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,6 +55,10 @@ public class AddDoctor extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_doctor);
+
+        SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+        String preferred_lng = sp.getString("PREFERRED_LANGUAGE", "en");
+        Utils.setLocale(preferred_lng, this);
 
         getSupportActionBar().hide();
 

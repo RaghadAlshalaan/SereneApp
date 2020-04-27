@@ -1,8 +1,10 @@
 package com.ksu.serene.controller.main.profile;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -29,6 +31,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ksu.serene.MainActivity;
 import com.ksu.serene.R;
+import com.ksu.serene.controller.Constants;
+import com.ksu.serene.controller.liveChart.utils.Utils;
 
 
 public class MyDoctor extends AppCompatActivity {
@@ -44,6 +48,10 @@ public class MyDoctor extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_doctor);
+
+        SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+        String preferred_lng = sp.getString("PREFERRED_LANGUAGE", "en");
+        Utils.setLocale(preferred_lng, this);
 
 
         // Inflate the layout for this fragment

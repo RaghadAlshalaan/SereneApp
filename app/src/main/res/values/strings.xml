@@ -67,15 +67,15 @@
     <string name="ex_diabetes">ex; Diabetes</string>
     <string name="chronic_diseases">Chronic Diseases</string>
     <string name="sr">SR</string>
-    <string name="ex_2000">ex; 2000</string>
+    <string name="ex_2000" translatable="false">ex; 2000</string>
     <string name="monthly_income">Monthly Income</string>
     <string name="kg">kg</string>
     <string name="weight">Weight</string>
-    <string name="ex_55">ex; 55</string>
+    <string name="ex_55" translatable="false">ex; 55</string>
     <string name="cm">cm</string>
-    <string name="ex_160">ex; 160</string>
+    <string name="ex_160" translatable="false">ex; 160</string>
     <string name="height">Height</string>
-    <string name="ex_21">ex; 21</string>
+    <string name="ex_21" translatable="false">ex; 21</string>
     <string name="cigarette_smoker">Cigarette Smoker</string>
     <string name="employment_status">Employment Status</string>
     <string name="gad_7_scale">GAD-7 Scale</string>
@@ -421,14 +421,16 @@
     <string name="gender">Gender</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
-    <string name="note_ndeleting_your_doctor_cause_stop_sending_bi_weekly_reports_to_the_doctor_s_email">Note:\nDeleting your doctor cause stop sending bi-weekly reports to the doctor\'s email.</string>
+    <string name="note_delete_doctor">Note:\n Deleting your doctor cause stop sending bi-weekly reports to the doctor\'s email</string>
     <string name="name">Name</string>
     <string name="course_duration">Course Duration</string>
     <string name="time_from_first_reminder">Time (from first reminder)</string>
     <string name="dose">Dose</string>
     <string name="delete_medicine">Delete Medicine</string>
-    <string name="dose_card">Dose :</string>
-
+    <string name="dose_card" translatable="false">Dose :</string>
+    <string name="add_doctor_msg">Allow a bi-weekly report to be sent to your doctor email by filling the required information below.</string>
+    <string name="dataFailed">Fails to get data</string>
+    <string name="please_note">Please Note :\n - To produce more accurate results, please sync your Smart-watch data.</string>
 </resources>
 
 

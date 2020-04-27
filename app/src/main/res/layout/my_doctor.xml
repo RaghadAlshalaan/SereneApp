@@ -30,7 +30,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_left_arrow" />
+            app:srcCompat="@drawable/ic_left_arrow"
+            android:rotationY="@integer/angle_rtl_180"/>
 
 
         <TextView
@@ -151,7 +152,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:fontFamily="@font/montserrat"
-        android:text="@string/note_ndeleting_your_doctor_cause_stop_sending_bi_weekly_reports_to_the_doctor_s_email"
+        android:text="@string/note_delete_doctor"
         android:textColor="@color/gray_500"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"

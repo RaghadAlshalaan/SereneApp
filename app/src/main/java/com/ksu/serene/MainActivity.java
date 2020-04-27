@@ -53,6 +53,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.ksu.serene.controller.Constants;
 import com.ksu.serene.controller.Reminder.Notification;
+import com.ksu.serene.controller.liveChart.utils.Utils;
 import com.ksu.serene.controller.main.home.NotificationAdapter;
 import com.ksu.serene.locationManager.MyLocationManager;
 import com.ksu.serene.locationManager.MyLocationManagerListener;
@@ -134,9 +135,10 @@ public class MainActivity extends AppCompatActivity implements
         getSupportActionBar().hide();
 
         // CHECK & SET APPLICATION LANGUAGE
-        SharedPreferences sp = MainActivity.this.getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
-        preferred_lng = sp.getString("PREFERRED_LANGUAGE", "values");
-        setLocale(preferred_lng);
+        SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+        preferred_lng = sp.getString("PREFERRED_LANGUAGE", "en");
+
+        Utils.setLocale(preferred_lng, this);
 
         //create notification channel upon opening app for the first time
         createNotificationChannel();
@@ -194,6 +196,7 @@ public class MainActivity extends AppCompatActivity implements
         notificationList.setLayoutManager(new LinearLayoutManager(this));
         notificationAdapter = new NotificationAdapter(this);//initiate arraylist of notifications = empty
         notificationList.setAdapter(notificationAdapter);
+
         todayNotifications();
         //NotificationAdapter.addNotification(new Notification("Sample appointment", "app", Calendar.getInstance().getTime(), "782ccad5-a267-4773-939b-100b376bbbd6"));
 
@@ -386,6 +389,7 @@ public class MainActivity extends AppCompatActivity implements
         Log.e("AppInfo", "[" + Util.getCurrentDateTime() + "] >>>> Saving Location: " + lastLocation.getLatitude() + "   " + lastLocation.getLongitude());
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
         final String userID = user.getUid();
 
         draftId = getRandomID();
@@ -643,6 +647,7 @@ public class MainActivity extends AppCompatActivity implements
         //get today in timestamp
         String today = new java.text.SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
         final String userID = user.getUid();
 
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
@@ -695,11 +700,12 @@ public class MainActivity extends AppCompatActivity implements
                     }
                 });//addOnCompleteListener
 
-    }//end of method
+    } //end of method
 
     //check sign up setting
     private void checkSingupSetting () {
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
         Log.d("user ID", user.getUid()+"");
         //seach in firebase of that id
         final DocumentReference userRev = FirebaseFirestore.getInstance().collection("Patient").document(user.getUid());
@@ -748,5 +754,6 @@ public class MainActivity extends AppCompatActivity implements
             }
         });
     }
-
 }
+
+

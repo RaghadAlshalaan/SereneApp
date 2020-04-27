@@ -5,8 +5,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +30,8 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ksu.serene.MainActivity;
 import com.ksu.serene.R;
+import com.ksu.serene.controller.Constants;
+import com.ksu.serene.controller.liveChart.utils.Utils;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -51,6 +55,10 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_text_draft_detail_page);
+
+        SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+        String preferred_lng = sp.getString("PREFERRED_LANGUAGE", "en");
+        Utils.setLocale(preferred_lng, this);
 
         getSupportActionBar().hide();
 

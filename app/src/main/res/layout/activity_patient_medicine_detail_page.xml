@@ -31,7 +31,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_left_arrow" />
+            app:srcCompat="@drawable/ic_left_arrow"
+            android:rotationY="@integer/angle_rtl_180"/>
 
 
         <TextView

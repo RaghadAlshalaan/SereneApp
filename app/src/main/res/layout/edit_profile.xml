@@ -33,7 +33,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_left_arrow" />
+            app:srcCompat="@drawable/ic_left_arrow"
+            android:rotationY="@integer/angle_rtl_180"/>
 
 
         <TextView
@@ -286,7 +287,8 @@
                 android:layout_height="33dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/ic_go_to" />
+                app:srcCompat="@drawable/ic_go_to"
+                android:rotationY="@integer/angle_rtl_180"/>
 
             <TextView
                 android:id="@+id/Arabic"

@@ -1,7 +1,9 @@
 package com.ksu.serene.controller.main.drafts;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -15,6 +17,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.ksu.serene.R;
+import com.ksu.serene.controller.Constants;
+import com.ksu.serene.controller.liveChart.utils.Utils;
 
 import cafe.adriel.androidaudiorecorder.AndroidAudioRecorder;
 import cafe.adriel.androidaudiorecorder.model.AudioChannel;
@@ -33,6 +37,11 @@ public class AddVoiceDraftPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_recording);
         getSupportActionBar().hide();
+
+        SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+        String preferred_lng = sp.getString("PREFERRED_LANGUAGE", "en");
+        Utils.setLocale(preferred_lng, this);
+
 
         Util.requestPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         Util.requestPermission(this, Manifest.permission.RECORD_AUDIO);

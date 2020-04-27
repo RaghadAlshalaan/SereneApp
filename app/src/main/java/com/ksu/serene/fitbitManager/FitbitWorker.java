@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -31,6 +32,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.ksu.serene.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -204,7 +206,7 @@ public class FitbitWorker extends Worker {
                                                     DocumentSnapshot document = task.getResult();
 
                                                     if(document.get("first_fitbit").toString().equals("")){
-                                                        update(2);
+                                                       update(2);
                                                     }else{
                                                         update(1);
                                                     }
@@ -400,7 +402,7 @@ public class FitbitWorker extends Worker {
 
     private void executeApi(String id) {
 
-        String url = "https://9722e76b.ngrok.io/daily_report/" + id;
+        String url = "https://73f846d2.ngrok.io/daily_report/" + id;
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -411,8 +413,14 @@ public class FitbitWorker extends Worker {
                     public void onResponse(JSONObject response) {
 
                         Log.e("APII", "Success: " + response.toString());
+                        try{
+                            String n = response.get("Hello World!").toString();
+                            Toast.makeText(getApplicationContext() ,n , Toast.LENGTH_LONG).show();
 
-                        //Toast.makeText(getApplicationContext() ,context.getResources().getText(R.string.api_daily_sucess_msg) , Toast.LENGTH_LONG).show();
+                        }
+                        catch(JSONException e){
+                            Toast.makeText(getApplicationContext() ,"didn't work" , Toast.LENGTH_LONG).show();
+                        }
 
                     }
                 },

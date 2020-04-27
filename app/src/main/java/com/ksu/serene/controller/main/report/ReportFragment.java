@@ -16,6 +16,7 @@ import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -101,6 +102,7 @@ public class ReportFragment extends Fragment {
     private ProgressBar progressBar;
     private String reportStartDate;
     private String reportEndDate;
+    private TextView Info;
 
 
     // Google Calendar Events
@@ -247,7 +249,9 @@ public class ReportFragment extends Fragment {
         start = root.findViewById(R.id.start);
         datePicker = root.findViewById(R.id.data_picker);
         duration = "14";// default value
+        Info = root.findViewById(R.id.info);
         progressBar =root.findViewById(R.id.progress_bar);
+        Info.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.INVISIBLE);
     }
 
@@ -412,6 +416,7 @@ public class ReportFragment extends Fragment {
     /** Functions to handle calling API and generating the report **/
     Intent intent;
     private void generateReport() {
+        Info.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(VISIBLE);
 
         // error dialog if no selection is made
@@ -426,7 +431,9 @@ public class ReportFragment extends Fragment {
                 intent.putExtra(Constants.Keys.START_DATE, startDate);
                 intent.putExtra(Constants.Keys.END_DATE, endDate);
 
+                Info.setVisibility(View.INVISIBLE);
                 progressBar.setVisibility(VISIBLE);
+
 
                 if (GoogleCalendar) {
                     uploadGoogleEvents();
@@ -456,6 +463,7 @@ public class ReportFragment extends Fragment {
 
         }//bigger if
         else {
+            Info.setVisibility(View.INVISIBLE);
             progressBar.setVisibility(VISIBLE);
 
             setDates();
@@ -530,9 +538,9 @@ public class ReportFragment extends Fragment {
         tag("AppInfo").d("callAPI");
 
         if(duration.equals("custom")){
-            api_url = "https://ab1eef4f.ngrok.io/patient_report_custom_duration/"+mAuth.getUid()+"/"+apiStartDate+"/"+apiEndDate+"/"+GoogleCalendar;
+            api_url = "https://73f846d2.ngrok.io/patient_report_custom_duration/"+mAuth.getUid()+"/"+apiStartDate+"/"+apiEndDate+"/"+GoogleCalendar;
         }else{
-            api_url = "https://ab1eef4f.ngrok.io/patient_report/"+mAuth.getUid()+"/"+duration+"/"+GoogleCalendar;
+            api_url = "https://73f846d2.ngrok.io/patient_report/"+mAuth.getUid()+"/"+duration+"/"+GoogleCalendar;
         }
 
         executeApi();

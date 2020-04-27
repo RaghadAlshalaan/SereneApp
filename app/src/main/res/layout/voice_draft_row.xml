@@ -25,8 +25,7 @@
                 android:layout_height="30dp"
                 android:textColor="#000000"
                 android:textSize="30sp"
-                app:srcCompat="@drawable/play"
-                />
+                app:srcCompat="@drawable/play"/>
 
             <TextView
                 android:id="@+id/title_audio"
@@ -43,7 +42,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_margin="10dp"
             android:orientation="vertical">
 

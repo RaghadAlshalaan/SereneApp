@@ -50,6 +50,7 @@
         android:layout_marginBottom="10dp"
         android:ems="10"
         android:hint="@string/email"
+        android:textAlignment="viewStart"
         android:inputType="textEmailAddress"
         android:textColor="#B1B0B0" />
 
@@ -62,6 +63,7 @@
         android:layout_marginBottom="3dp"
         android:ems="10"
         android:hint="@string/password"
+        android:textAlignment="viewStart"
         android:inputType="textPassword"
         android:textColor="#B1B0B0" />
 

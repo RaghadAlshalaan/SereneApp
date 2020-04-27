@@ -12,6 +12,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
@@ -71,6 +72,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.maps.android.heatmaps.WeightedLatLng;
 import com.google.android.gms.maps.model.LatLng;
 import com.ksu.serene.controller.Constants;
+import com.ksu.serene.controller.liveChart.utils.Utils;
 import com.ksu.serene.controller.main.report.print.PdfDocumentAdapter;
 import com.ksu.serene.controller.main.report.print.PrintJobMonitorService;
 import com.ksu.serene.model.Event;
@@ -136,6 +138,10 @@ public class PatientReport extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.patient_report);
+
+        SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+        String preferred_lng = sp.getString("PREFERRED_LANGUAGE", "en");
+        Utils.setLocale(preferred_lng, this);
 
         getSupportActionBar().hide();
 
@@ -890,6 +896,7 @@ public class PatientReport extends AppCompatActivity {
 
     }
     private PrintManager mgr = null;
+
     private PrintJob doPrint(String name, PrintDocumentAdapter adapter,
                              PrintAttributes attrs) {
 

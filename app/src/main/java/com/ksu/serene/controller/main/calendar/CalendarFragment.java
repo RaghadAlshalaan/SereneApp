@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -50,6 +51,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.ksu.serene.controller.Constants;
 import com.ksu.serene.model.Event;
 import com.ksu.serene.model.Medicine;
 import com.ksu.serene.model.Reminder;
@@ -171,9 +173,14 @@ public class CalendarFragment extends Fragment {
                 Calendar today = Calendar.getInstance();
                 today.set(i, i1, i2);
 
-                day.setText(i2 + "");
-                dayN.setText(new SimpleDateFormat("EEEE", Locale.ENGLISH).format(today.getTime()));
-                month.setText(new SimpleDateFormat("MMMM", Locale.ENGLISH).format(today.getTime()));
+                SharedPreferences sp = getActivity().getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+                String lang = sp.getString("PREFERRED_LANGUAGE", "en");
+
+                Locale locale = new Locale(lang);
+
+                day.setText(new SimpleDateFormat("d", locale).format(today.getTime()));
+                dayN.setText(new SimpleDateFormat("EEEE", locale).format(today.getTime()));
+                month.setText(new SimpleDateFormat("MMMM", locale).format(today.getTime()));
 
                 currentCalendar = today;
 
@@ -210,16 +217,20 @@ public class CalendarFragment extends Fragment {
             }
         });
 
+        SharedPreferences sp = getActivity().getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+        String lang = sp.getString("PREFERRED_LANGUAGE", "en");
+
+        Locale locale = new Locale(lang);
+
         Date today = currentCalendar.getTime();
 
-        String i2 = new SimpleDateFormat("d", Locale.ENGLISH).format(today.getTime());
-        String i1 = new SimpleDateFormat("MM", Locale.ENGLISH).format(today.getTime());
-        String i = new SimpleDateFormat("yyyy", Locale.ENGLISH).format(today.getTime());
+        String i2 = new SimpleDateFormat("d", locale).format(today.getTime());
+        String i1 = new SimpleDateFormat("MM", locale).format(today.getTime());
+        String i = new SimpleDateFormat("yyyy", locale).format(today.getTime());
 
         day.setText(i2);
-        dayN.setText(new SimpleDateFormat("EEEE", Locale.ENGLISH).format(today.getTime()));
-        month.setText(new SimpleDateFormat("MMMM", Locale.ENGLISH).format(today.getTime()));
-
+        dayN.setText(new SimpleDateFormat("EEEE", locale).format(today.getTime()));
+        month.setText(new SimpleDateFormat("MMMM", locale).format(today.getTime()));
 
         SetAppRecyView(root, Integer.parseInt(i), Integer.parseInt(i1), Integer.parseInt(i2));
         SetMedRecyView(root, Integer.parseInt(i), Integer.parseInt(i1), Integer.parseInt(i2));

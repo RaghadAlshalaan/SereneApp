@@ -58,7 +58,8 @@
         android:fontFamily="@font/montserrat"
         android:hint="@string/full_name"
         android:inputType="textPersonName"
-        android:textColor="@color/Grey" />
+        android:textColor="@color/Grey"
+        android:textAlignment="viewStart"/>
 
     <EditText
         android:id="@+id/emailInput"
@@ -71,7 +72,8 @@
         android:fontFamily="@font/montserrat"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
-        android:textColor="#B1B0B0" />
+        android:textColor="#B1B0B0"
+        android:textAlignment="viewStart"/>
 
     <EditText
         android:id="@+id/passwordInput"
@@ -84,7 +86,8 @@
         android:fontFamily="@font/montserrat"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:textColor="#B1B0B0" />
+        android:textColor="#B1B0B0"
+        android:textAlignment="viewStart"/>
 
     <EditText
         android:id="@+id/CpasswordInput"
@@ -97,7 +100,8 @@
         android:fontFamily="@font/montserrat"
         android:hint="@string/confirm_password"
         android:inputType="textPassword"
-        android:textColor="#B1B0B0" />
+        android:textColor="#B1B0B0"
+        android:textAlignment="viewStart"/>
 
     <Button
         android:id="@+id/signupBtn"

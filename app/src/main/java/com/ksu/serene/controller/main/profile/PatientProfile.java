@@ -50,6 +50,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.ksu.serene.MainActivity;
 import com.ksu.serene.controller.Constants;
+import com.ksu.serene.controller.liveChart.utils.Utils;
 import com.ksu.serene.controller.signup.GoogleCalendarConnection;
 import com.ksu.serene.model.Token;
 import com.ksu.serene.WelcomePage;
@@ -91,6 +92,10 @@ public class PatientProfile extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_page);
+
+        SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+        String preferred_lng = sp.getString("PREFERRED_LANGUAGE", "en");
+        Utils.setLocale(preferred_lng, this);
 
         // Inflate the layout for this fragment
         getSupportActionBar().hide();
@@ -277,6 +282,9 @@ public class PatientProfile extends AppCompatActivity {
 
                             name.setText(documentSnapshot.getString("name"));
                             email.setText(documentSnapshot.getString("email"));
+
+                            MySharedPreference.putString(PatientProfile.this, "name", documentSnapshot.getString("name"));
+                            MySharedPreference.putString(PatientProfile.this, "email", documentSnapshot.getString("email"));
                         }
                     }
                 });
@@ -422,6 +430,9 @@ public class PatientProfile extends AppCompatActivity {
                         if (mAuth.getCurrentUser() == null) {
                             Toast.makeText(PatientProfile.this, R.string.LogOutSuccess, Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(PatientProfile.this, WelcomePage.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|
+                                    Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                                    Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             finish();
                         }

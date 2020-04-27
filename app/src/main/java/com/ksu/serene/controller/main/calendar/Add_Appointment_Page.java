@@ -3,7 +3,9 @@ package com.ksu.serene.controller.main.calendar;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -22,7 +24,10 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
+import com.ksu.serene.controller.Constants;
 import com.ksu.serene.controller.Reminder.AlarmScheduler;
+import com.ksu.serene.controller.liveChart.utils.Utils;
+
 import com.ksu.serene.model.Reminder;
 import com.ksu.serene.model.TherapySession;
 import com.ksu.serene.R;
@@ -91,6 +96,10 @@ public class Add_Appointment_Page extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_appointment_page);
+
+        SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+        String preferred_lng = sp.getString("PREFERRED_LANGUAGE", "en");
+        Utils.setLocale(preferred_lng, this);
         getSupportActionBar().hide();
 
         back = findViewById(R.id.backButton);

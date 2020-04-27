@@ -37,6 +37,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.ksu.serene.controller.Constants;
 import com.ksu.serene.LogInPage;
 
+import com.ksu.serene.controller.liveChart.utils.Utils;
 import com.ksu.serene.model.Patient;
 import com.ksu.serene.model.Token;
 import com.ksu.serene.R;
@@ -71,6 +72,10 @@ public class Signup extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
+        SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+        String preferred_lng = sp.getString("PREFERRED_LANGUAGE", "en");
+        Utils.setLocale(preferred_lng, this);
 
         getSupportActionBar().hide();
 
@@ -233,7 +238,7 @@ public class Signup extends AppCompatActivity {
                                         }
                                     });*/
 
-                            updateToken(FirebaseInstanceId.getInstance().getToken());
+                            updateToken("");
                             SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sp.edit();
                             editor.putString("CURRENT_USERID", mAuth.getCurrentUser().getUid());

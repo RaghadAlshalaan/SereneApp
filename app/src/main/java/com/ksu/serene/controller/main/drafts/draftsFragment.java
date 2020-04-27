@@ -1,6 +1,8 @@
 package com.ksu.serene.controller.main.drafts;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ksu.serene.R;
 
 import com.google.android.material.tabs.TabLayout;
+import com.ksu.serene.controller.Constants;
+import com.ksu.serene.controller.liveChart.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +40,10 @@ public class draftsFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         root = inflater.inflate(R.layout.fragment_drafts, container, false);
+
+        SharedPreferences sp = getActivity().getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+        String preferred_lng = sp.getString("PREFERRED_LANGUAGE", "en");
+        Utils.setLocale(preferred_lng, getActivity());
 
         ViewPager viewPager = root.findViewById(R.id.ViewPagerDraft);
 

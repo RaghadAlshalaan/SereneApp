@@ -50,6 +50,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.ksu.serene.MainActivity;
 import com.ksu.serene.controller.Constants;
+import com.ksu.serene.controller.liveChart.utils.Utils;
 import com.ksu.serene.model.MySharedPreference;
 import com.ksu.serene.R;
 import com.ksu.serene.WelcomePage;
@@ -89,6 +90,10 @@ public class Editprofile extends AppCompatActivity {
         setContentView(R.layout.edit_profile);
         // Inflate the layout for this fragment
         getSupportActionBar().hide();
+
+        SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+        String preferred_lng = sp.getString("PREFERRED_LANGUAGE", "en");
+        Utils.setLocale(preferred_lng, this);
 
         // Change status bar color
         Window window = this.getWindow();
@@ -295,7 +300,7 @@ public class Editprofile extends AppCompatActivity {
             public void onClick(View view) {
                 Eng.setVisibility(View.INVISIBLE);
                 Ar.setVisibility(View.VISIBLE);
-                setLocale("values");
+                setLocale("en");
             }
         });
 
@@ -782,9 +787,13 @@ public class Editprofile extends AppCompatActivity {
         editor.putString("PREFERRED_LANGUAGE", lang );
         editor.apply();
 
-        Intent refresh = new Intent(this, MainActivity.class);
-        startActivity(refresh);
         finish();
+
+        Intent refresh = new Intent(this, MainActivity.class);
+        refresh.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|
+                Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(refresh);
     }
 
 }

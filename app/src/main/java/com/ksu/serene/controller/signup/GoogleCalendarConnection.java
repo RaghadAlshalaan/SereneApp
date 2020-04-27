@@ -32,6 +32,7 @@ import com.google.api.services.calendar.model.CalendarList;
 import com.ksu.serene.MainActivity;
 import com.ksu.serene.R;
 import com.ksu.serene.controller.Constants;
+import com.ksu.serene.controller.liveChart.utils.Utils;
 import com.ksu.serene.controller.main.profile.PatientProfile;
 import com.ksu.serene.model.MySharedPreference;
 import com.nabinbhandari.android.permissions.PermissionHandler;
@@ -68,6 +69,10 @@ public class GoogleCalendarConnection extends AppCompatActivity {
         setContentView(R.layout.activity_google_calendar_connection);
 
         textViewStatus = findViewById(R.id.status);
+
+        SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+        String preferred_lng = sp.getString("PREFERRED_LANGUAGE", "en");
+        Utils.setLocale(preferred_lng, this);
 
         getSupportActionBar().hide();
 

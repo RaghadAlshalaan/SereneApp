@@ -39,6 +39,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.ksu.serene.controller.Constants;
+import com.ksu.serene.controller.liveChart.utils.Utils;
 import com.ksu.serene.controller.signup.Questionnairs;
 import com.ksu.serene.controller.signup.Signup;
 import com.ksu.serene.model.Token;
@@ -62,6 +63,10 @@ public class WelcomePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_page);
+
+        SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+        String preferred_lng = sp.getString("PREFERRED_LANGUAGE", "en");
+        Utils.setLocale(preferred_lng, this);
 
         getSupportActionBar().hide();
 
@@ -92,11 +97,11 @@ public class WelcomePage extends AppCompatActivity {
             }
         });
 
-        if (checkUserLogin()) {
+       if (checkUserLogin()) {
             //user is logged in
-            Intent intent = new Intent(WelcomePage.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+         Intent intent = new Intent(WelcomePage.this, MainActivity.class);
+         startActivity(intent);
+         finish();
 
         }
 
@@ -104,7 +109,6 @@ public class WelcomePage extends AppCompatActivity {
 
     private boolean checkUserLogin(){
 
-        mAuth = FirebaseAuth.getInstance();
 
         if (mAuth.getCurrentUser() != null) {
             return true;

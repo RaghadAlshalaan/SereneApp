@@ -153,7 +153,7 @@
     <string name="LogOutMsg">هل أنت متأكد من أنك تريد تسجيل الخروج؟</string>
     <string name="LogOutOK">تسجيل خروج</string>
     <string name="LogOutCancle">إلغاء</string>
-    <string name="LogOutSuccess">تم حذف الحساب بنجاح.</string>
+    <string name="LogOutSuccess">تم الخروج من الحساب بنجاح.</string>
     <string name="LogOutFialed">لم تتم عملية حذف الحساب، الرجاء المحاولة مرة أخرى.</string>
 
     <!-- Log in Page -->
@@ -249,7 +249,7 @@
     <string name="weight">الوزن</string>
     <string name="ex_55"></string>
     <string name="cm">سم</string>
-    <string name="ex_160"></string>
+    <string name="ex_160">"؛ "</string>
     <string name="height">الطول</string>
     <string name="ex_21"></string>
     <string name="cigarette_smoker">مدخن</string>
@@ -374,6 +374,19 @@
     <string name="male">ذكر</string>
     <string name="female">أنثى</string>
     <string name="event">موعد</string>
-
+    <string name="SocioSuccess">تمت العملية بنجاح</string>
+    <string name="cancel">إلغاء</string>
+    <string name="dataFailed">فشل في جمع البيانات البيانات</string>
+    <string name="course_duration">مدة الدورة</string>
+    <string name="delete_medicine">حف الدواء</string>
+    <string name="dose">جرعة</string>
+    <string name="name">الاسم</string>
+    <string name="please_note">الرجاء ملاحظة ما يلي: - للحصول على نتائج أكثر دقة ، يرجى مزامنة بيانات الساعة الذكية.</string>
+    <string name="note_ndeleting_your_doctor_cause_stop_sending_bi_weekly_reports_to_the_doctor_s_email">"ملاحظة: حذف طبيبك يؤدي إلى إلغاء خاصية إرسال التقارير كل أسبوعين إلى البريد الإلكتروني الخاص به "</string>
+    <string name="time_from_first_reminder">الوقت منذ بداية التذكير</string>
+    <string name="GADFialed">يوجد خطأ، الرجاء المحاولة مرة أخرى</string>
+    <string name="GADSuccess">تمت العملية بنجاح</string>
+    <string name="note_delete_doctor">"ملاحظة: حذف طبيبك يؤدي إلى إلغاء خاصية إرسال التقارير كل أسبوعين إلى البريد الإلكتروني الخاص به "</string>
+    <string name="add_doctor_msg">اسمح بإرسال تقرير كل أسبوعين إلى طبيبك عبر البريد الإلكتروني من خلال تعبئة المعلومات المطلوبة أدناه.</string>
 
 </resources>
