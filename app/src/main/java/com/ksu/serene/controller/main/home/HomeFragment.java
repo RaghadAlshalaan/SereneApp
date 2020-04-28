@@ -116,6 +116,7 @@ public class HomeFragment extends Fragment {
                             AL_graph.setVisibility(View.VISIBLE);
 
                             Glide.with(getContext()).load(quote_image_url).into(AL_graph);
+                            noResult.setVisibility(View.GONE);
 
                             String improvementPercentage = document.get("improvement").toString();
                             improvement.setText(improvementPercentage);

@@ -9,11 +9,9 @@ import androidx.work.NetworkType;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.style.IconMarginSpan;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -29,9 +27,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
 import com.ksu.serene.MainActivity;
-import com.ksu.serene.fitbitManager.FitbitWorker;
+import com.ksu.serene.fitbitManager.DailyWorker;
 import com.ksu.serene.model.FitbitAuthentication;
 import com.ksu.serene.R;
 
@@ -182,7 +179,7 @@ public class FitbitConnection extends AppCompatActivity implements View.OnClickL
                     .build();
 
             PeriodicWorkRequest fitbitUpload = new PeriodicWorkRequest
-                    .Builder(FitbitWorker.class, 20, TimeUnit.MINUTES).setConstraints(constraints).build();
+                    .Builder(DailyWorker.class, 20, TimeUnit.MINUTES).setConstraints(constraints).build();
             fitbitWorkManager.enqueue(fitbitUpload);
 
             if (main!= null && main.equals("MainActivity")) {

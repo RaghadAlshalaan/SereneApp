@@ -243,11 +243,7 @@ public class PatientReport extends AppCompatActivity {
 
         // Three dots options SHARE & PRINT
         threeDots = findViewById(R.id.more);
-        optionsRV = findViewById(R.id.options_list);
-        outsideOptions = findViewById(R.id.outside_options);
-        optionsRV.setLayoutManager(new LinearLayoutManager(this));
-        reportOptions = new ReportOptions(this, options);
-        optionsRV.setAdapter(reportOptions);
+
 
         threeDots.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -281,14 +277,6 @@ public class PatientReport extends AppCompatActivity {
                 //displaying the popup
                 popup.show();
 
-            }
-        });
-
-        outsideOptions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                optionsRV.setVisibility(View.GONE);
-                outsideOptions.setVisibility(View.GONE);
             }
         });
 

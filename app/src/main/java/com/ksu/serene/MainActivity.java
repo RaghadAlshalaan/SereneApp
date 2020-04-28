@@ -1,7 +1,6 @@
 package com.ksu.serene;
 
 import android.annotation.SuppressLint;
-import android.app.ActivityManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -20,10 +19,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -33,15 +30,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.RequestFuture;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -59,19 +53,13 @@ import com.ksu.serene.locationManager.MyLocationManager;
 import com.ksu.serene.locationManager.MyLocationManagerListener;
 import com.ksu.serene.fitbitManager.SensorService;
 import com.ksu.serene.fitbitManager.Util;
-import com.ksu.serene.fitbitManager.FitbitWorker;
+import com.ksu.serene.fitbitManager.DailyWorker;
 import com.ksu.serene.controller.main.profile.PatientProfile;
 import com.ksu.serene.controller.signup.Questionnairs;
 import com.ksu.serene.controller.signup.FitbitConnection;
-import com.ksu.serene.model.MySharedPreference;
-import com.ksu.serene.model.Patient;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -81,8 +69,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.work.Constraints;
 import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
 import org.json.JSONArray;
@@ -90,7 +76,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -98,8 +83,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements
         View.OnClickListener, MyLocationManagerListener {
@@ -160,15 +143,7 @@ public class MainActivity extends AppCompatActivity implements
 
         if (getExtras().equals("1")) {
 
-            w1.setVisibility(View.VISIBLE);
-            w2.setVisibility(View.VISIBLE);
-            overbox.setVisibility(View.VISIBLE);
-
-            overbox.setAlpha(1);
-            overbox.startAnimation(from_nothing);
-
-            w1.setAlpha(1);
-            w1.startAnimation(from_small);
+            smartwatchPrompt();
 
         } else {
             w1.setVisibility(View.GONE);
@@ -223,6 +198,18 @@ public class MainActivity extends AppCompatActivity implements
 
 
     }// end onCreate()
+
+    private void smartwatchPrompt() {
+        w1.setVisibility(View.VISIBLE);
+        w2.setVisibility(View.VISIBLE);
+        overbox.setVisibility(View.VISIBLE);
+
+        overbox.setAlpha(1);
+        overbox.startAnimation(from_nothing);
+
+        w1.setAlpha(1);
+        w1.startAnimation(from_small);
+    }
 
     private void init() {
 
@@ -352,7 +339,7 @@ public class MainActivity extends AppCompatActivity implements
         Log.e("AppInfo", "[" + Util.getCurrentDateTime() + "] >>>> Saving Data");
 
         fitBitWorker =
-                new OneTimeWorkRequest.Builder(FitbitWorker.class)
+                new OneTimeWorkRequest.Builder(DailyWorker.class)
                         .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
                         .build();
 
