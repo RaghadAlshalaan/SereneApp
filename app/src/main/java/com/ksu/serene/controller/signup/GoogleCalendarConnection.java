@@ -49,7 +49,7 @@ public class GoogleCalendarConnection extends AppCompatActivity {
 
 
     private Button finish, back, connect;
-    private ImageView backBtn;
+    private ImageView backBtn, Success, Fail;
     private LinearLayout nav;
     GoogleAccountCredential credential;
     private static final String PREF_ACCOUNT_NAME = "accountName";
@@ -80,7 +80,8 @@ public class GoogleCalendarConnection extends AppCompatActivity {
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(this.getResources().getColor(R.color.colorAccent));
+        window.setStatusBarColor(this.getResources().getColor(R.color.babyAccent
+        ));
 
         getExtra();
 
@@ -88,17 +89,23 @@ public class GoogleCalendarConnection extends AppCompatActivity {
         connect = findViewById(R.id.connectCalendar);
         finish = findViewById(R.id.finishBtn);
         back = findViewById(R.id.backBtn);
+        Success = findViewById(R.id.check);
+        Fail = findViewById(R.id.cancel);
+        Fail.setVisibility(View.VISIBLE);
+
         backBtn = findViewById(R.id.backButton);
         backBtn.setVisibility(GONE);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(fromProfile ){
-                    if (textViewStatus.getText().toString().equals("Connected")) {
+                    if (textViewStatus.getText().toString().equals(R.string.status_connected)) {
                         SharedPreferences preferences = GoogleCalendarConnection.this.getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = preferences.edit();
                         editor.putBoolean("Connect",true);
                         editor.apply();
+                        Success.setVisibility(VISIBLE);
+                        Fail.setVisibility(GONE);
                     }
                     Intent intent = new Intent(GoogleCalendarConnection.this, PatientProfile.class);
                     startActivity(intent);
@@ -179,9 +186,10 @@ public class GoogleCalendarConnection extends AppCompatActivity {
             case REQUEST_AUTHORIZATION:
                 if (resultCode == Activity.RESULT_OK) {
 
-                    textViewStatus.setText("Connected");
+                    textViewStatus.setText(R.string.status_connected);
                     connect.setVisibility(GONE);
-
+                    Success.setVisibility(VISIBLE);
+                    Fail.setVisibility(GONE);
                 } else {
                     chooseAccount();
                 }
@@ -242,8 +250,10 @@ public class GoogleCalendarConnection extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void appts) {
             super.onPostExecute(appts);
-            textViewStatus.setText("Connected");
+            textViewStatus.setText(R.string.status_connected);
             connect.setVisibility(GONE);
+            Success.setVisibility(VISIBLE);
+            Fail.setVisibility(GONE);
         }
     }
 

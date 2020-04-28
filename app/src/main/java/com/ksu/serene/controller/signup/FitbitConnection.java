@@ -13,10 +13,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.style.IconMarginSpan;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -47,7 +49,7 @@ public class FitbitConnection extends AppCompatActivity implements View.OnClickL
     private String access_token;
     private String main = "";
     private LinearLayout linearLayout;
-
+    private ImageView Success,Fail;
 
 
     @Override
@@ -66,6 +68,9 @@ public class FitbitConnection extends AppCompatActivity implements View.OnClickL
 
         next = findViewById(R.id.nextBtn);
         back = findViewById(R.id.backBtn);
+        Success = findViewById(R.id.check);
+        Fail = findViewById(R.id.cancel);
+        Fail.setVisibility(View.VISIBLE);
 
         linearLayout = findViewById(R.id.nav);
         main =  getIntent().getStringExtra("Not Connected");
@@ -162,6 +167,8 @@ public class FitbitConnection extends AppCompatActivity implements View.OnClickL
         if (!access_token.equals("The+user+denied+the+request.")) {
             statusTV.setText(R.string.status_connect);
             connectFitbit.setVisibility(View.GONE);
+            Success.setVisibility(View.VISIBLE);
+            Fail.setVisibility(View.GONE);
 
 
             // SAVE USER's FITBIT ACCESS TOKEN IN Database
@@ -187,6 +194,8 @@ public class FitbitConnection extends AppCompatActivity implements View.OnClickL
 
         } else { // IF DENIED
             statusTV.setText("Status : Not Connected, Please try again");
+            Fail.setVisibility(View.VISIBLE);
+            Success.setVisibility(View.GONE);
         }
 
     }

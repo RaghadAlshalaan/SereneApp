@@ -477,7 +477,7 @@ public class FitbitWorker extends Worker {
 
     private void executeDailyReportApi(String id){
 
-        String url = "https://ab1eef4f.ngrok.io/daily_report/" + id;
+        String url = "https://73f846d2.ngrok.io/daily_report/" + id;
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -488,15 +488,14 @@ public class FitbitWorker extends Worker {
                     public void onResponse(JSONObject response) {
 
                         Log.e("APII", "Success: " + response.toString());
-
-                        Toast.makeText(getApplicationContext() ,context.getResources().getText(R.string.api_daily_sucess_msg) , Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext() ,context.getResources().getText(R.string.api_daily_sucess_msg) , Toast.LENGTH_SHORT).show();
 
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText( getApplicationContext(), context.getResources().getText(R.string.api_daily_error_msg) , Toast.LENGTH_SHORT).show();
+                        //Toast.makeText( getApplicationContext(), context.getResources().getText(R.string.api_daily_error_msg) , Toast.LENGTH_SHORT).show();
                         Log.e("APII","ERROR: " + error.toString());
 
                     }
@@ -634,7 +633,7 @@ return "";
 
     private void executeDoctorReportApi(String id ,String doc){
 
-        String url = "https://ab1eef4f.ngrok.io/daily_report/"+id+"/"+doc;
+        String url = "https://73f846d2.ngrok.io/daily_report/"+id+"/"+doc;
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,

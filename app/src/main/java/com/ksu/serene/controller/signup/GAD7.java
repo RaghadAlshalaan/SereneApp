@@ -299,8 +299,7 @@ public class GAD7 extends Fragment {
                             }
 
                             //added this toast needed in test
-                            Toast.makeText(getActivity(), R.string.GADSuccess,
-                                    Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getActivity(), R.string.GADSuccess,Toast.LENGTH_LONG).show();
                             Intent i = new Intent(getActivity(), FitbitConnection.class);
                             getActivity().startActivity(i);
 

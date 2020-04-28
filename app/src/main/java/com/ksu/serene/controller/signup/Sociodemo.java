@@ -395,8 +395,7 @@ public class Sociodemo extends Fragment {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     //added this toast needed in test
-                                                    Toast.makeText(getActivity(), R.string.SocioSuccess,
-                                                            Toast.LENGTH_SHORT).show();
+                                                   // Toast.makeText(getActivity(), R.string.SocioSuccess,Toast.LENGTH_SHORT).show();
 
                                                     GAD7 fragmentGAD = new GAD7();
                                                     FragmentManager fm = getFragmentManager();

@@ -376,10 +376,10 @@
     <string name="event">موعد</string>
     <string name="SocioSuccess">تمت العملية بنجاح</string>
     <string name="cancel">إلغاء</string>
-    <string name="dataFailed">فشل في جمع البيانات البيانات</string>
+    <string name="dataFailed">فشل في جمع البيانات</string>
     <string name="course_duration">مدة الدورة</string>
-    <string name="delete_medicine">حف الدواء</string>
-    <string name="dose">جرعة</string>
+    <string name="delete_medicine">حذف الدواء</string>
+    <string name="dose">الجرعة</string>
     <string name="name">الاسم</string>
     <string name="please_note">الرجاء ملاحظة ما يلي: - للحصول على نتائج أكثر دقة ، يرجى مزامنة بيانات الساعة الذكية.</string>
     <string name="note_ndeleting_your_doctor_cause_stop_sending_bi_weekly_reports_to_the_doctor_s_email">"ملاحظة: حذف طبيبك يؤدي إلى إلغاء خاصية إرسال التقارير كل أسبوعين إلى البريد الإلكتروني الخاص به "</string>

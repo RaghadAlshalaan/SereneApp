@@ -42,7 +42,7 @@ public class HomeFragment extends Fragment {
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     // Next Appointment
-    private TextView nextAppointment,improvement, percent;
+    private TextView nextAppointment,improvement, percent, noResult;
     private String Name="", DTime="", id="";
     private Date DDate;
     private View card3;
@@ -86,10 +86,11 @@ public class HomeFragment extends Fragment {
         improvement = root.findViewById(R.id.improvement_num);
         quote = root.findViewById(R.id.picQ);
         percent = root.findViewById(R.id.improvement_per);
+        noResult = root.findViewById(R.id.noResult);
+        noResult.setVisibility(View.VISIBLE);
         setQuoteImage();
 
         // parse Preference file
-        SharedPreferences sp = getActivity().getSharedPreferences("user_details", Context.MODE_PRIVATE);
 
     }
 
@@ -99,31 +100,40 @@ public class HomeFragment extends Fragment {
     private void getDailyReport() {
 
         String docID = "daily" + mAuth.getUid();
+        //dailyUqTdL3T7MteuQHBe1aNfSE9u0Na2
 
-        db.collection("DailyReport").document("dailyUqTdL3T7MteuQHBe1aNfSE9u0Na2")
+        db.collection("DailyReport").document(docID)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
-
                             DocumentSnapshot document = task.getResult();
 
+                            if (document.exists()) {
+
                             String quote_image_url = document.get("AL_graph").toString();
+                            AL_graph.setVisibility(View.VISIBLE);
 
                             Glide.with(getContext()).load(quote_image_url).into(AL_graph);
 
                             String improvementPercentage = document.get("improvement").toString();
                             improvement.setText(improvementPercentage);
 
-                            if(Double.parseDouble(improvementPercentage) >= 0){
+                            if (Double.parseDouble(improvementPercentage) >= 0) {
                                 improvement.setTextColor(getActivity().getResources().getColor(R.color.green));
                                 percent.setTextColor(getActivity().getResources().getColor(R.color.green));
-                            }else{
+                            } else {
                                 improvement.setTextColor(getActivity().getResources().getColor(R.color.Error));
                                 percent.setTextColor(getActivity().getResources().getColor(R.color.Error));
                             }
-                        }
+
+                        }else{
+                                noResult.setVisibility(View.VISIBLE);
+                                Glide.with(getContext()).load(R.drawable.ic_no_graph).into(AL_graph);
+                                improvement.setText("--");
+                            }
+                        }//task successful
                     }
                 });
 
@@ -212,7 +222,7 @@ public class HomeFragment extends Fragment {
                                         String appointment;
                                         appointment = Name + " | " + D + " | " + DTime;
                                         nextAppointment.setText(appointment);
-                                        nextAppointment.setTextColor(getResources().getColor(R.color.darkAccent));
+                                        nextAppointment.setTextColor(getActivity().getResources().getColor(R.color.darkAccent));
 
                                         break;
 

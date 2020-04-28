@@ -244,7 +244,7 @@ public class Signup extends AppCompatActivity {
                             editor.putString("CURRENT_USERID", mAuth.getCurrentUser().getUid());
                             editor.apply();
 
-                            Toast.makeText(Signup.this, R.string.SignUpSuccess, Toast.LENGTH_LONG).show();
+                            //Toast.makeText(Signup.this, R.string.SignUpSuccess, Toast.LENGTH_LONG).show();
                             createAcc = true;
                             Intent i = new Intent(Signup.this, Questionnairs.class);
                             startActivity(i);
