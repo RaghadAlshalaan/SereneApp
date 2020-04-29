@@ -40,11 +40,7 @@ public class SociodemoTest {
         weight =("");
         MI =("");
         CD =("");
-        String empStatus = "";
-        String maritalStatus = "";
-        String cigaretteSmoke = "";
-        boolean isEmptyFields = socioDemo.checkSocioFields(age,height,weight,MI,CD
-                ,empStatus,maritalStatus,cigaretteSmoke);
+        boolean isEmptyFields = socioDemo.checkSocioFields(age,height,weight,MI,CD);
         assertFalse(isEmptyFields);
     }
 
@@ -55,11 +51,7 @@ public class SociodemoTest {
         weight = ("50");
         MI = ("90");
         CD = ("No");
-        String empStatus = "Student";
-        String maritalStatus = "No";
-        String cigaretteSmoke = "No";
-        boolean isEmptyFields = socioDemo.checkSocioFields(age,height,weight,MI,CD
-                ,empStatus,maritalStatus,cigaretteSmoke);
+        boolean isEmptyFields = socioDemo.checkSocioFields(age,height,weight,MI,CD);
         assertFalse(isEmptyFields);
     }
 
@@ -70,11 +62,7 @@ public class SociodemoTest {
         weight=("50");
         MI=("90");
         CD=("No");
-        String empStatus = "Student";
-        String maritalStatus = "No";
-        String cigaretteSmoke = "No";
-        boolean isEmptyFields = socioDemo.checkSocioFields(age,height,weight,MI,CD
-                ,empStatus,maritalStatus,cigaretteSmoke);
+        boolean isEmptyFields = socioDemo.checkSocioFields(age,height,weight,MI,CD);
         assertFalse(isEmptyFields);
     }
 
@@ -85,11 +73,7 @@ public class SociodemoTest {
         weight=("");
         MI=("90");
         CD=("No");
-        String empStatus = "Student";
-        String maritalStatus = "No";
-        String cigaretteSmoke = "No";
-        boolean isEmptyFields =socioDemo.checkSocioFields(age,height,weight,MI,CD
-                ,empStatus,maritalStatus,cigaretteSmoke);
+        boolean isEmptyFields =socioDemo.checkSocioFields(age,height,weight,MI,CD);
         assertFalse(isEmptyFields);
     }
 
@@ -100,11 +84,7 @@ public class SociodemoTest {
         weight=("50");
         MI=("");
         CD=("No");
-        String empStatus = "Student";
-        String maritalStatus = "No";
-        String cigaretteSmoke = "No";
-        boolean isEmptyFields = socioDemo.checkSocioFields(age,height,weight,MI,CD
-                ,empStatus,maritalStatus,cigaretteSmoke);
+        boolean isEmptyFields = socioDemo.checkSocioFields(age,height,weight,MI,CD);
         assertFalse(isEmptyFields);
     }
 
@@ -115,56 +95,7 @@ public class SociodemoTest {
         weight=("50");
         MI=("90");
         CD=("");
-        String empStatus = "Student";
-        String maritalStatus = "No";
-        String cigaretteSmoke = "No";
-        boolean isEmptyFields = socioDemo.checkSocioFields(age,height,weight,MI,CD
-                ,empStatus,maritalStatus,cigaretteSmoke);
-        assertFalse(isEmptyFields);
-    }
-
-    @Test
-    public void ESEmptyField () {
-        age=("20");
-        height=("150");
-        weight=("50");
-        MI =("90");
-        CD =("No");
-        String empStatus = "";
-        String maritalStatus = "No";
-        String cigaretteSmoke = "No";
-        boolean isEmptyFields =socioDemo.checkSocioFields(age,height,weight,MI,CD
-                ,empStatus,maritalStatus,cigaretteSmoke);
-        assertFalse(isEmptyFields);
-    }
-
-    @Test
-    public void MSEmptyField () {
-        age=("20");
-        height=("150");
-        weight=("50");
-        MI=("90");
-        CD=("No");
-        String empStatus = "Student";
-        String maritalStatus = "";
-        String cigaretteSmoke = "No";
-        boolean isEmptyFields =socioDemo.checkSocioFields(age,height,weight,MI,CD
-                ,empStatus,maritalStatus,cigaretteSmoke);
-        assertFalse(isEmptyFields);
-    }
-
-    @Test
-    public void CSEmptyField () {
-        age=("20");
-        height=("150");
-        weight=("50");
-        MI=("90");
-        CD=("No");
-        String empStatus = "Student";
-        String maritalStatus = "No";
-        String cigaretteSmoke = "";
-        boolean isEmptyFields = socioDemo.checkSocioFields(age,height,weight,MI,CD
-                ,empStatus,maritalStatus,cigaretteSmoke);
+        boolean isEmptyFields = socioDemo.checkSocioFields(age,height,weight,MI,CD);
         assertFalse(isEmptyFields);
     }
 
@@ -175,11 +106,7 @@ public class SociodemoTest {
         weight=("50");
         MI=("90");
         CD=("No");
-        String empStatus = "Student";
-        String maritalStatus = "No";
-        String cigaretteSmoke = "No";
-        boolean isFill =socioDemo.checkSocioFields(age,height,weight,MI,CD
-                ,empStatus,maritalStatus,cigaretteSmoke);
+        boolean isFill =socioDemo.checkSocioFields(age,height,weight,MI,CD);
         assertTrue(isFill);
     }
 
@@ -251,11 +178,6 @@ public class SociodemoTest {
 
     @Test
     public void notValidMI() {
-        //below
-        MI=("-1");
-        double MIMin = Double.parseDouble(MI.toString());
-        boolean notValidMin = socioDemo.isValidMonthlyIncome(MIMin);
-        assertFalse(notValidMin);
         //above
         MI=("51000000");
         double MIMax = Double.parseDouble(MI.toString());

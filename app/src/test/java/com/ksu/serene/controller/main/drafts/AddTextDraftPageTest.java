@@ -89,7 +89,7 @@ public class AddTextDraftPageTest {
         assertNotNull(textDraft.getDraftID(title));
     }
 
-    @Test
+    //@Test
     public void SaveTextDraft() {
         //TestObserver obs = TestObserver.create();
         mockSuccessfulResultForTask(mockVoidTask);

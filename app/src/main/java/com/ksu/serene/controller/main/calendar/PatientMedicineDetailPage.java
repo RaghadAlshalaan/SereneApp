@@ -143,6 +143,17 @@ public class PatientMedicineDetailPage extends AppCompatActivity {
                                                 }
 
                                                 Toast.makeText(PatientMedicineDetailPage.this, R.string.MedDeletedSuccess, Toast.LENGTH_LONG).show();
+                                                /* Resources res = getResources();
+                                                String text = String.format(res.getString(R.string.MedDeletedSuccess));
+
+                                                MotionToast.Companion.darkToast(
+                                                         PatientMedicineDetailPage.this,
+                                                         text,
+                                                         MotionToast.Companion.getTOAST_SUCCESS(),
+                                                         MotionToast.Companion.getGRAVITY_BOTTOM(),
+                                                         MotionToast.Companion.getLONG_DURATION(),
+                                                         ResourcesCompat.getFont( PatientMedicineDetailPage.this, R.font.montserrat));*/
+
                                                 finish();
                                             }
                                         })

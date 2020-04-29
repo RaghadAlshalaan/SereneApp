@@ -66,7 +66,9 @@ import com.ksu.serene.R;
 
 import java.util.HashMap;
 import java.util.Map;
-
+import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.Fragment;
+import www.sanju.motiontoast.MotionToast;
 public class PatientProfile extends AppCompatActivity {
 
     private ImageView image, SocioArrow, doctorArrow, editProfile, back, googleCalendarArrow;
@@ -202,7 +204,9 @@ public class PatientProfile extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                //finish();
+                Intent intent = new Intent(PatientProfile.this, MainActivity.class);
+                startActivity(intent);
             }
         });
         SharedPreferences preferences = PatientProfile.this.getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
@@ -223,19 +227,6 @@ public class PatientProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sendVerificationEmail();
-                /*user.sendEmailVerification()
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                Toast.makeText(PatientProfile.this, R.string.VervEmailSuccess, Toast.LENGTH_LONG).show();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(PatientProfile.this, R.string.VervEmailFialed, Toast.LENGTH_LONG).show();
-                            }
-                        });*/
             }
         });
 
@@ -336,7 +327,7 @@ public class PatientProfile extends AppCompatActivity {
                 if (e != null) {
 
                 }
-                if(!queryDocumentSnapshots.isEmpty() && queryDocumentSnapshots  != null ) {
+                if( queryDocumentSnapshots  != null && !queryDocumentSnapshots.isEmpty() ) {
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
 
                         if (doc.exists()) {
@@ -429,6 +420,19 @@ public class PatientProfile extends AppCompatActivity {
                         signOutFirebase();
                         if (mAuth.getCurrentUser() == null) {
                             Toast.makeText(PatientProfile.this, R.string.LogOutSuccess, Toast.LENGTH_LONG).show();
+                           /*Resources res = getResources();
+                            String text = String.format(res.getString(R.string.LogOutSuccess));
+                            MotionToast.Companion.darkToast(
+                                    PatientProfile.this,
+                                    text,
+                                    MotionToast.Companion.getTOAST_SUCCESS(),
+                                    MotionToast.Companion.getGRAVITY_BOTTOM(),
+                                    MotionToast.Companion.getLONG_DURATION(),
+                                    ResourcesCompat.getFont( PatientProfile.this, R.font.montserrat));
+
+                            Intent intent = new Intent(PatientProfile.this, WelcomePage.class);
+                            startActivity(intent);*/
+
                             Intent intent = new Intent(PatientProfile.this, WelcomePage.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|
                                     Intent.FLAG_ACTIVITY_CLEAR_TASK |

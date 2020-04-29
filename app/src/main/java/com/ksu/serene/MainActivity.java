@@ -82,6 +82,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements
@@ -713,27 +715,43 @@ public class MainActivity extends AppCompatActivity implements
                             Log.d("fitbit_access_token", "Not Connected");
                             //go to fit bit page
                             Toast.makeText(getApplicationContext(), R.string.SocioNotFound, Toast.LENGTH_LONG).show();
-                            Intent i = new Intent( getApplicationContext(), FitbitConnection.class );
-                            i.putExtra("Not Connected","MainActivity");
-                            startActivity(i);
-
+                            Timer timer = new Timer();
+                            timer.schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    Intent i = new Intent( getApplicationContext(), FitbitConnection.class );
+                                    i.putExtra("Not Connected","MainActivity");
+                                    startActivity(i);
+                                };
+                            },15000);
                         }
                     }
                     else {
                         Log.d("GAD-7ScaleScore", "Not Answered");
                         //go to gad page
                         Toast.makeText(getApplicationContext(), R.string.SocioNotFound, Toast.LENGTH_LONG).show();
-                        //go to socio page
-                        Intent i = new Intent( getApplicationContext(), Questionnairs.class );
-                        startActivity(i);
+                        Timer timer = new Timer();
+                        timer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                Intent i = new Intent( getApplicationContext(), Questionnairs.class );
+                                startActivity(i);
+                            };
+                        },15000);
                     }
                 }
                 else {
                     Log.d("Socio", "Not Answered");
                     Toast.makeText(getApplicationContext(), R.string.SocioNotFound, Toast.LENGTH_LONG).show();
                     //go to socio page
-                    Intent i = new Intent( getApplicationContext(), Questionnairs.class );
-                    startActivity(i);
+                    Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            Intent i = new Intent( getApplicationContext(), Questionnairs.class );
+                            startActivity(i);
+                        };
+                    },15000);
                 }
             }
         });

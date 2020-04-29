@@ -61,293 +61,301 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/nav"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/head">
-
-        <LinearLayout
-            android:id="@+id/mainLayoutQs"
-            android:layout_width="match_parent"
+        <ScrollView
+            android:layout_width="310dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingEnd="10dp">
+            app:layout_constraintBottom_toTopOf="@+id/nav"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/head">
 
             <LinearLayout
+                android:id="@+id/mainLayoutQs"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingEnd="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/q1"
+                        android:layout_width="140dp"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/montserrat"
+                        android:gravity="center_vertical"
+                        android:text="@string/age"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <EditText
+                        android:id="@+id/a1"
+                        android:layout_width="120dp"
+                        android:layout_height="35dp"
+                        android:background="@drawable/custom_edit_text"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:padding="5dp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/q2"
+                        android:layout_width="140dp"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/montserrat"
+                        android:gravity="center_vertical"
+                        android:text="@string/height"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <EditText
+                        android:id="@+id/a2"
+                        android:layout_width="120dp"
+                        android:layout_height="35dp"
+                        android:background="@drawable/custom_edit_text"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:padding="5dp" />
+
+                    <TextView
+                        android:id="@+id/e2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:fontFamily="@font/montserrat"
+                        android:gravity="center_vertical"
+                        android:text="@string/cm"
+                        android:textColor="#8A000000"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/q3"
+                        android:layout_width="140dp"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/montserrat"
+                        android:gravity="center_vertical"
+                        android:text="@string/weight"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <EditText
+                        android:id="@+id/a3"
+                        android:layout_width="120dp"
+                        android:layout_height="35dp"
+                        android:background="@drawable/custom_edit_text"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:padding="5dp" />
+
+                    <TextView
+                        android:id="@+id/e3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:fontFamily="@font/montserrat"
+                        android:gravity="center_vertical"
+                        android:text="@string/kg"
+                        android:textColor="#8A000000"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/q4"
+                        android:layout_width="140dp"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/montserrat"
+                        android:gravity="center_vertical"
+                        android:text="@string/monthly_income"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <EditText
+                        android:id="@+id/a4"
+                        android:layout_width="120dp"
+                        android:layout_height="35dp"
+                        android:background="@drawable/custom_edit_text"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:padding="5dp" />
+
+                    <TextView
+                        android:id="@+id/e4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:fontFamily="@font/montserrat"
+                        android:gravity="center_vertical"
+                        android:text="@string/sr"
+                        android:textColor="#8A000000"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/q8"
+                        android:layout_width="140dp"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/montserrat"
+                        android:gravity="center_vertical"
+                        android:text="@string/chronic_diseases"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+
+                    <EditText
+                        android:id="@+id/a8"
+                        android:layout_width="120dp"
+                        android:layout_height="35dp"
+                        android:background="@drawable/custom_edit_text"
+                        android:ems="10"
+                        android:hint="@string/ex_diabetes"
+                        android:inputType="textPersonName"
+                        android:padding="5dp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/q9"
+                        android:layout_width="140dp"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/montserrat"
+                        android:gravity="center_vertical"
+                        android:text="@string/gender"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+
+                    <Spinner
+                        android:id="@+id/a9"
+                        android:layout_width="120dp"
+                        android:layout_height="match_parent"
+                        android:ems="10" />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/q5"
+                        android:layout_width="140dp"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/montserrat"
+                        android:gravity="center_vertical"
+                        android:text="@string/martial_status"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+
+                    <Spinner
+                        android:id="@+id/a5"
+                        android:layout_width="120dp"
+                        android:layout_height="match_parent"
+                        android:ems="10" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/q6"
+                        android:layout_width="140dp"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/montserrat"
+                        android:gravity="center_vertical"
+                        android:text="@string/employment_status"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+
+                    <Spinner
+                        android:id="@+id/a6"
+                        android:layout_width="120dp"
+                        android:layout_height="match_parent"
+                        android:ems="10" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/q7"
+                        android:layout_width="140dp"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/montserrat"
+                        android:gravity="center_vertical"
+                        android:text="@string/cigarette_smoker"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+
+                    <Spinner
+                        android:id="@+id/a7"
+                        android:layout_width="120dp"
+                        android:layout_height="match_parent"
+                        android:ems="10" />
+
+
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/q1"
-                    android:layout_width="140dp"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/montserrat"
-                    android:gravity="center_vertical"
-                    android:text="@string/age"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
-                <EditText
-                    android:id="@+id/a1"
-                    android:layout_width="120dp"
-                    android:layout_height="35dp"
-                    android:padding="5dp"
-                    android:ems="10"
-                    android:background="@drawable/custom_edit_text"
-                    android:inputType="number" />
-
+                    android:id="@+id/Error"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/error"
+                    android:textColor="@color/Error" />
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/q2"
-                    android:layout_width="140dp"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/montserrat"
-                    android:gravity="center_vertical"
-                    android:text="@string/height"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
-                <EditText
-                    android:id="@+id/a2"
-                    android:layout_width="120dp"
-                    android:layout_height="35dp"
-                    android:padding="5dp"
-                    android:background="@drawable/custom_edit_text"                    android:ems="10"
-                    android:inputType="number" />
-
-                <TextView
-                    android:id="@+id/e2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/montserrat"
-                    android:gravity="center_vertical"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/cm"
-                    android:textColor="#8A000000"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/q3"
-                    android:layout_width="140dp"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/montserrat"
-                    android:gravity="center_vertical"
-                    android:text="@string/weight"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
-                <EditText
-                    android:id="@+id/a3"
-                    android:layout_width="120dp"
-                    android:layout_height="35dp"
-                    android:padding="5dp"
-                    android:background="@drawable/custom_edit_text"
-                    android:ems="10"
-                    android:inputType="number" />
-
-                <TextView
-                    android:id="@+id/e3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/montserrat"
-                    android:gravity="center_vertical"
-                    android:text="@string/kg"
-                    android:layout_marginStart="5dp"
-                    android:textColor="#8A000000"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/q4"
-                    android:layout_width="140dp"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/montserrat"
-                    android:gravity="center_vertical"
-                    android:text="@string/monthly_income"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
-                <EditText
-                    android:id="@+id/a4"
-                    android:layout_width="120dp"
-                    android:layout_height="35dp"
-                    android:padding="5dp"
-                    android:background="@drawable/custom_edit_text"
-                    android:ems="10"
-                    android:inputType="number" />
-
-                <TextView
-                    android:id="@+id/e4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/montserrat"
-                    android:gravity="center_vertical"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/sr"
-                    android:textColor="#8A000000"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/q8"
-                    android:layout_width="140dp"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/montserrat"
-                    android:gravity="center_vertical"
-                    android:text="@string/chronic_diseases"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
-
-                <EditText
-                    android:id="@+id/a8"
-                    android:layout_width="120dp"
-                    android:padding="5dp"
-                    android:layout_height="35dp"
-                    android:background="@drawable/custom_edit_text"
-                    android:ems="10"
-                    android:hint="@string/ex_diabetes"
-                    android:inputType="textPersonName" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/q9"
-                    android:layout_width="140dp"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/montserrat"
-                    android:gravity="center_vertical"
-                    android:text="@string/gender"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
-
-                <Spinner
-                    android:id="@+id/a9"
-                    android:layout_width="120dp"
-                    android:layout_height="match_parent"
-                    android:ems="10" />
-
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/q5"
-                    android:layout_width="140dp"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/montserrat"
-                    android:gravity="center_vertical"
-                    android:text="@string/martial_status"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
-
-                <Spinner
-                    android:id="@+id/a5"
-                    android:layout_width="120dp"
-                    android:layout_height="match_parent"
-                    android:ems="10" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/q6"
-                    android:layout_width="140dp"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/montserrat"
-                    android:gravity="center_vertical"
-                    android:text="@string/employment_status"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
-
-                <Spinner
-                    android:id="@+id/a6"
-                    android:layout_width="120dp"
-                    android:layout_height="match_parent"
-                    android:ems="10" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/q7"
-                    android:layout_width="140dp"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/montserrat"
-                    android:gravity="center_vertical"
-                    android:text="@string/cigarette_smoker"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
-
-                <Spinner
-                    android:id="@+id/a7"
-                    android:layout_width="120dp"
-                    android:layout_height="match_parent"
-                    android:ems="10" />
-
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-    </ScrollView><!--end main layout-->
+        </ScrollView><!--end main layout-->
 
 
     <LinearLayout

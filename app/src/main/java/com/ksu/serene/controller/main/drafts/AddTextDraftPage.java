@@ -113,7 +113,7 @@ public class AddTextDraftPage extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
 
-                        Resources res = getResources();
+                        /*Resources res = getResources();
                         String text = String.format(res.getString(R.string.TDSavedSuccess));
 
                         MotionToast.Companion.darkToast(
@@ -122,9 +122,8 @@ public class AddTextDraftPage extends AppCompatActivity {
                                 MotionToast.Companion.getTOAST_SUCCESS(),
                                 MotionToast.Companion.getGRAVITY_BOTTOM(),
                                 MotionToast.Companion.getLONG_DURATION(),
-                                ResourcesCompat.getFont( AddTextDraftPage.this, R.font.montserrat));
-
-
+                                ResourcesCompat.getFont( AddTextDraftPage.this, R.font.montserrat));*/
+                        Toast.makeText(AddTextDraftPage.this,R.string.TDSavedSuccess, Toast.LENGTH_LONG ).show();
                         finish();
                         textDraft = new TextDraft(draftId,TitleDraft,FieldValue.serverTimestamp()+"",Message, FieldValue.serverTimestamp()+"");
                     }
@@ -134,7 +133,7 @@ public class AddTextDraftPage extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(AddTextDraftPage.this, R.string.TDSavedFialed, Toast.LENGTH_LONG).show();
 
-                        Resources res = getResources();
+                       /* Resources res = getResources();
                         String text = String.format(res.getString(R.string.TDSavedFialed));
 
                         MotionToast.Companion.createToast(
@@ -143,7 +142,7 @@ public class AddTextDraftPage extends AppCompatActivity {
                                 MotionToast.Companion.getTOAST_ERROR(),
                                 MotionToast.Companion.getGRAVITY_BOTTOM(),
                                 MotionToast.Companion.getLONG_DURATION(),
-                                ResourcesCompat.getFont( AddTextDraftPage.this, R.font.montserrat));
+                                ResourcesCompat.getFont( AddTextDraftPage.this, R.font.montserrat));*/
                         textDraft = null;
                     }
                 });

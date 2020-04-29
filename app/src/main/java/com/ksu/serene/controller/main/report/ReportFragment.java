@@ -443,7 +443,7 @@ public class ReportFragment extends Fragment {
 
             } else {
 
-                switch (isDatesChoosen(startDate, endDate)) {
+                switch (isDatesChosen(startDate, endDate)) {
 
                     //here the only missing is the end StartDate
                     case -1: {
@@ -514,24 +514,6 @@ public class ReportFragment extends Fragment {
         }//end of switch
 
         
-    }
-
-    private int isDatesChoosen(String startDate, String endDate) {
-
-            if (startDate == null && endDate == null) {
-                return 2;
-            }
-            if (startDate == null && endDate != null) {
-                return 1;
-            }
-            if (startDate != null && endDate == null) {
-                //if (startDate == null && endDate != null) {return 1;}
-                if (endDate == null) {
-                    return -1;
-                }
-            }
-
-            return 0;
     }
 
     private void callAPI() {

@@ -287,6 +287,7 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
     }
 
     public void checkIfEmailVerified() {
+        String token = "";
         // TODO : MOVE IT TO MAIN PAGE
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -299,7 +300,12 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
                     Log.e("Token",mToken);
                 }
             });
-
+            if (mToken == null){
+                mToken = token;
+            }
+            else {
+                mToken = mToken;
+            }
             updateToken(mToken);
             SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sp.edit();

@@ -39,7 +39,10 @@ import com.ksu.serene.controller.liveChart.utils.Utils;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import androidx.core.content.res.ResourcesCompat;
+import www.sanju.motiontoast.MotionToast;
 
+import android.content.res.Resources;
 
 public class AddDoctor extends AppCompatActivity {
 
@@ -140,6 +143,15 @@ public class AddDoctor extends AppCompatActivity {
                                     Log.d(TAG, "DocumentSnapshot added successfully");
                                     Toast.makeText(AddDoctor.this, R.string.AddDocSuccess,
                                             Toast.LENGTH_LONG).show();
+                                    /* Resources res = getResources();
+String text = String.format(res.getString(R.string.AddDocSuccess));
+MotionToast.Companion.darkToast(
+         AddDoctor.this,
+         text,
+         MotionToast.Companion.getTOAST_SUCCESS(),
+         MotionToast.Companion.getGRAVITY_BOTTOM(),
+         MotionToast.Companion.getLONG_DURATION(),
+         ResourcesCompat.getFont( AddDoctor.this, R.font.montserrat));*/
                                     storeDoctorReport();
                                     Intent intent = new Intent(AddDoctor.this, PatientProfile.class);
                                     startActivity(intent);

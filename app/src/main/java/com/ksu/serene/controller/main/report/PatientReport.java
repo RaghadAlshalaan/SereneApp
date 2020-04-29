@@ -363,19 +363,22 @@ public class PatientReport extends AppCompatActivity {
 
                             // The patient has only one Doc contains his report info
                             DocumentSnapshot doc = task.getResult();
+                            String img = "";
 
                             // TODO : remove this part
                             // Get graphs
-                            int numberOfGraphs = Integer.parseInt(doc.get("number_of_AL_graphs").toString());
+                            if (doc.get("number_of_AL_graphs") != null) {
+                                int numberOfGraphs = Integer.parseInt(doc.get("number_of_AL_graphs").toString());
 
-                            for (int i = 0 ; i < numberOfGraphs ; i++){
+                                for (int i = 0; i < numberOfGraphs; i++) {
+                                    if (doc.get("AL_graph_" + i) != null)
+                                         img = doc.get("AL_graph_" + i).toString();
 
-                                String img = doc.get("AL_graph_"+i).toString();
+                                    addNewItem(img);
 
-                                addNewItem(img);
 
+                                }
                             }
-
 
                             recommendation(doc);
 
@@ -617,23 +620,31 @@ public class PatientReport extends AppCompatActivity {
 
         String avgSleep = "", avgSteps = "";
         String rcmndSleep = "", rcmndSteps = "";
+        boolean sleepR = false;
+        boolean stepsR = false;
 
+        if (doc.get("sleepRecomendation") != null)
+             sleepR = (boolean) doc.get("sleepRecomendation");
 
-        boolean sleepR = (boolean) doc.get("sleepRecomendation");
-        boolean stepsR = (boolean) doc.get("stepsRecomendation");
+        if (doc.get("stepsRecomendation") != null)
+        stepsR = (boolean) doc.get("stepsRecomendation");
 
 
         if (sleepR) {
             foundSleep = true;
-            avgSleep = doc.get("average_sleep_hours").toString();
-            rcmndSleep = doc.get("recommended_sleep_hours").toString();
+            if (doc.get("average_sleep_hours") != null)
+                avgSleep = doc.get("average_sleep_hours").toString();
+            if (doc.get("recommended_sleep_hours") != null)
+                rcmndSleep = doc.get("recommended_sleep_hours").toString();
 
         }
 
         if (stepsR) {
             foundSteps = true;
-            avgSteps = doc.get("average_steps").toString();
-            rcmndSteps = doc.get("recommended_steps").toString();
+            if (doc.get("average_steps") != null)
+                avgSteps = doc.get("average_steps").toString();
+            if (doc.get("recommended_steps") != null)
+                rcmndSteps = doc.get("recommended_steps").toString();
         }
 
 

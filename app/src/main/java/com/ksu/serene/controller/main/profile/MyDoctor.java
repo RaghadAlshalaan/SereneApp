@@ -33,7 +33,10 @@ import com.ksu.serene.MainActivity;
 import com.ksu.serene.R;
 import com.ksu.serene.controller.Constants;
 import com.ksu.serene.controller.liveChart.utils.Utils;
+import androidx.core.content.res.ResourcesCompat;
+import www.sanju.motiontoast.MotionToast;
 
+import android.content.res.Resources;
 
 public class MyDoctor extends AppCompatActivity {
 
@@ -106,6 +109,15 @@ public class MyDoctor extends AppCompatActivity {
                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                 Toast.makeText(MyDoctor.this,R.string.DocDeletedSuccess,
                                                                         Toast.LENGTH_LONG).show();
+                                                                /*Resources res = getResources();
+                                                                String text = String.format(res.getString(R.string.DocDeletedSuccess));
+                                                                MotionToast.Companion.darkToast(
+                                                                        MyDoctor.this,
+                                                                        text,
+                                                                        MotionToast.Companion.getTOAST_SUCCESS(),
+                                                                        MotionToast.Companion.getGRAVITY_BOTTOM(),
+                                                                        MotionToast.Companion.getLONG_DURATION(),
+                                                                        ResourcesCompat.getFont( MyDoctor.this, R.font.montserrat));*/
                                                                 Intent in = new Intent(MyDoctor.this, PatientProfile.class);
                                                                 startActivity(in);
                                                                 //finish();

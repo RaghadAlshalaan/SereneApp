@@ -225,7 +225,7 @@
         android:fontFamily="@font/montserrat"
         android:gravity="center"
         android:hint="@string/SetDoseMed"
-        android:inputType="phone"
+        android:inputType="number"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cloIcon"

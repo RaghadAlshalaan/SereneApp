@@ -190,13 +190,6 @@ public class Add_Appointment_Page extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Log.d("CurrentDate",current.get(Calendar.DAY_OF_MONTH)+"/"+(current.get(Calendar.MONTH)+1)+"/"+current.get(Calendar.YEAR));
-        Log.d("CurrentTime",current.get(Calendar.HOUR)+":"+current.get(Calendar.MINUTE));
-
-        Log.d("ChosenDate",calendarTimeStamp.get(Calendar.DAY_OF_MONTH)+"/"+(calendarTimeStamp.get(Calendar.MONTH)+1)+"/"+calendarTimeStamp.get(Calendar.YEAR));
-        Log.d("ChosenTime",AT.getHours()+":"+AT.getMinutes());
-
-
         // if the  day after current date no need for check for time
         if ( calendarTimeStamp.get(Calendar.YEAR) > current.get(Calendar.YEAR)
                 || ( calendarTimeStamp.get(Calendar.YEAR) == current.get(Calendar.YEAR)
@@ -253,6 +246,16 @@ public class Add_Appointment_Page extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             setReminder(newApp);
                             Toast.makeText(Add_Appointment_Page.this, R.string.AppSavedSuccess, Toast.LENGTH_LONG).show();
+                            /*Resources res = getResources();
+                            String text = String.format(res.getString(R.string.AppSavedSuccess));
+                            MotionToast.Companion.darkToast(
+                                    Add_Appointment_Page.this,
+                                    text,
+                                    MotionToast.Companion.getTOAST_SUCCESS(),
+                                    MotionToast.Companion.getGRAVITY_BOTTOM(),
+                                    MotionToast.Companion.getLONG_DURATION(),
+                                    ResourcesCompat.getFont( Add_Appointment_Page.this, R.font.montserrat));*/
+
                             finish();
                             added = true;
                         } else {

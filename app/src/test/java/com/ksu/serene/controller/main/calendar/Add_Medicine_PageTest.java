@@ -82,7 +82,7 @@ public class Add_Medicine_PageTest {
     public void DateEmptyField () {
         name = "New App";
         time = "13 : 00";
-        date = "Start";
+        date = "Set Date";
         dose = "1";
         interval = "Day/s";
         repeatNo = "2";

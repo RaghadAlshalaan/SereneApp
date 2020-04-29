@@ -1,4 +1,4 @@
-package com.ksu.serene.ReportF;
+package com.ksu.serene.B_Second.B_Report;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,12 +14,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
 
 import androidx.test.espresso.IdlingPolicies;
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.IdlingResource;
-import androidx.test.espresso.Root;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
@@ -34,21 +32,18 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withResourceName;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.ksu.serene.ImageViewMatcher.hasDrawable;
 import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
-
 public class PatientReportTest {
-
     @Rule
     public ActivityTestRule<PatientReport> activityTestRule = new ActivityTestRule<PatientReport>(PatientReport.class){
         @Override
         protected Intent getActivityIntent() {
             Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
             Intent intent = new Intent(context, PatientReport.class);
-            intent.putExtra(Constants.Keys.DURATION, "2week");
+            intent.putExtra(Constants.Keys.DURATION, "30");
             return intent;
         }
     };
@@ -83,7 +78,23 @@ public class PatientReportTest {
     }
 
     @Test
-    public void backButton () {
+    public void checkSetting () {
+        //chart
+        onView(withId(R.id.imageSlider)).check(matches(isDisplayed()));
+        //anxiety info
+        onView(withId(R.id.noEventResult)).check(matches(isDisplayed()));
+        //heat map button
+        //location list
+        onView(withId(R.id.recycleView)).check(matches(isDisplayed()));
+        onView(withId(R.id.heatmap)).check(matches(isDisplayed()));
+        //scroll to sleep recommendation
+        //onView(withId(R.id.scroll)).perform(scrollTo(), click());
+        //onView(withId(R.id.recommendSleep)).check(matches(isDisplayed()));
+
+    }
+
+    @Test
+    public void AbackButton () {
         onView(withId(R.id.backButton)).check(matches(isDisplayed()));
         onView(withId(R.id.backButton)).check(matches(isClickable()));
         //perform click on back button
@@ -105,7 +116,7 @@ public class PatientReportTest {
     }
 
     @Test
-    public void clickMore () {
+    public void BclickMore () {
         //click more
         onView(withId(R.id.more)).perform(click());
         //will show 2 buttons
@@ -124,10 +135,27 @@ public class PatientReportTest {
         onView(withText(R.string.print_report)).check(matches(isDisplayed()));
         //click print
         onView(withText(R.string.print_report)).perform(click());
+        //Mack sure Espresso does not time out
+        IdlingPolicies.setMasterPolicyTimeout(6000 * 2, TimeUnit.MILLISECONDS);
+        IdlingPolicies.setIdlingResourceTimeout(6000 * 2, TimeUnit.MILLISECONDS);
+        //Now we waite
+        IdlingResource idlingResource = new ElapsedTimeIdlingResource(6000);
+        try {
+            IdlingRegistry.getInstance().register(idlingResource);
+            //click the back button
+            uiDevice.pressBack();
+            //check the patient report display
+            onView(withId(R.id.PatientReport)).check(matches(isDisplayed()));
+        }
+        //clean upp
+        finally {
+            IdlingRegistry.getInstance().unregister(idlingResource);
+        }
+
     }
 
     @Test
-    public void clickMoreShare () throws UiObjectNotFoundException {
+    public void CclickMoreShare () throws UiObjectNotFoundException {
         //click more
         onView(withId(R.id.more)).perform(click());
         //will show 2 buttons
@@ -139,10 +167,4 @@ public class PatientReportTest {
         UiObject mGmail = uiDevice.findObject(new UiSelector().text("Gmail"));
         mGmail.click();
     }
-
-
-
-    /*public static Matcher<Root> isPopupWindow() {
-        return isPlatformPopup();
-    }*/
 }

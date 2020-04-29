@@ -93,7 +93,6 @@ public class LogInPageTest {
     @Test
     public void emailEmptyFieldForgetPassowrd () {
         email = "";
-        password ="pass00";
         boolean isEmailEmpty = logIn.CheckEmailField(email);
         assertFalse(isEmailEmpty);
     }

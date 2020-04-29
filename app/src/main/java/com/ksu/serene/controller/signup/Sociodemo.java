@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -44,6 +45,7 @@ public class Sociodemo extends Fragment {
     private boolean flag = true;
     private Button next;
     private int step = 1;
+    private TextView error;
 
     public Sociodemo() {
     }
@@ -89,60 +91,6 @@ public class Sociodemo extends Fragment {
                     saveSocioDB (age, chronicDisease , employmentStatus, height, maritalStatus
                             , monthlyIncome, cigaretteSmoke, weight, userEmail);
 
-                    /*final Map<String, Object> userSocio = new HashMap<>();
-                    userSocio.put("age", age);
-                    userSocio.put("chronicDiseases", chronicDisease);
-                    userSocio.put("employmentStatus", employmentStatus);
-                    userSocio.put("height", height);
-                    userSocio.put("maritalStatus", maritalStatus);
-                    userSocio.put("monthlyIncome", monthlyIncome);
-                    userSocio.put("smokeCigarettes", cigaretteSmoke);
-                    userSocio.put("weight", weight);
-
-                    db.collection("Patient").whereEqualTo("email", userEmail)
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        if (!task.getResult().isEmpty()) {
-                                            for (DocumentSnapshot document : task.getResult()) {
-
-                                                String id = document.getId();
-
-                                                db.collection("Patient")
-                                                        .document(id).update(userSocio)
-                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        //added this toast needed in test
-                                                        Toast.makeText(getActivity(), R.string.SocioSuccess,
-                                                                Toast.LENGTH_SHORT).show();
-
-                                                        GAD7 fragmentGAD = new GAD7();
-                                                        FragmentManager fm = getFragmentManager();
-                                                        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                                                        fragmentTransaction.replace(R.id.qContainer, fragmentGAD);
-                                                        fragmentTransaction.addToBackStack(null);
-                                                        fragmentTransaction.commit();
-                                                    }
-                                                }).addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Toast.makeText(getActivity(), R.string.SocioFialed,
-                                                                Toast.LENGTH_LONG).show();
-                                                    }
-                                                });
-                                            }
-                                        } else {
-
-                                            Toast.makeText(getActivity(), R.string.SocioFialed,
-                                                    Toast.LENGTH_LONG).show();
-                                        }
-                                    }
-                                }
-                            });*/
-
                 }
 
             }
@@ -165,6 +113,8 @@ public class Sociodemo extends Fragment {
         chronicDiseaseET = view.findViewById(R.id.a8);
         genderET = view.findViewById(R.id.a9);
         next = view.findViewById(R.id.nextBtn);
+        error = view.findViewById(R.id.Error);
+        error.setText("");
 
         // initiate the spinner 1
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
@@ -272,40 +222,45 @@ public class Sociodemo extends Fragment {
         monthlyIncome = monthlyIncomeET.getText().toString();
         chronicDisease = chronicDiseaseET.getText().toString();
 
-        if (! checkSocioFields (age,height,weight,monthlyIncome,chronicDisease
-                ,employmentStatus,maritalStatus, gender,cigaretteSmoke) ) {
-            Toast.makeText(getActivity(), R.string.EmptyFields,Toast.LENGTH_LONG).show();
+        if (! checkSocioFields (age,height,weight,monthlyIncome,chronicDisease) ) {
+            //Toast.makeText(getActivity(), R.string.EmptyFields,Toast.LENGTH_LONG).show();
+            error.setText(R.string.EmptyFields);
             return false;
         }
 
         // Fields Validations
         double ageI = Double.parseDouble(age);
         if ( ! isValidAge(ageI) ) {
-            Toast.makeText(getActivity(), R.string.NotValidAge,Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(), R.string.NotValidAge,Toast.LENGTH_LONG).show();
+            error.setText(R.string.NotValidAge);
             return flag;
         }
 
         double heightI = Double.parseDouble(height);
         if (!isValidHeight(heightI)){
-            Toast.makeText(getActivity(), R.string.NotValidHeight,Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(), R.string.NotValidHeight,Toast.LENGTH_LONG).show();
+            error.setText(R.string.NotValidHeight);
             return flag;
         }
 
         double weightI = Double.parseDouble(weight);
         if (!isValidWeight(weightI)){
-            Toast.makeText(getActivity(), R.string.NotValidWeight,Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(), R.string.NotValidWeight,Toast.LENGTH_LONG).show();
+            error.setText(R.string.NotValidWeight);
             return flag;
         }
 
         double monthlyIncomeI = Double.parseDouble(monthlyIncome);
         if (!isValidMonthlyIncome(monthlyIncomeI)){
-            Toast.makeText(getActivity(), R.string.NotValidMI,Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(), R.string.NotValidMI,Toast.LENGTH_LONG).show();
+            error.setText(R.string.NotValidMI);
             return flag;
         }
 
         // CHECK CHRONIC DISEASE
         if (!isValidChronicDisease(chronicDisease)){
-            Toast.makeText(getActivity(), R.string.NotValidCD,Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(), R.string.NotValidCD,Toast.LENGTH_LONG).show();
+            error.setText(R.string.NotValidCD);
             return flag;
         }
 
@@ -314,12 +269,9 @@ public class Sociodemo extends Fragment {
     }
 
     public boolean checkSocioFields (String age, String height, String weight
-            , String monthlyIncome, String chronicDiseases, String employmentStatus
-            ,String maritalStatus,String gender, String cigaretteSmoke) {
+            , String monthlyIncome, String chronicDiseases) {
         if( age.matches("") || height.matches("") || weight.matches("")
-                || monthlyIncome.matches("") || chronicDiseases.matches("")
-                    || employmentStatus.matches("") || maritalStatus.matches("")
-                 || cigaretteSmoke.matches("") || gender.matches("")) {
+                || monthlyIncome.matches("") || chronicDiseases.matches("")) {
             return false;
         }
         return true;
@@ -348,7 +300,7 @@ public class Sociodemo extends Fragment {
     }
 
     public boolean isValidMonthlyIncome (double MI) {
-        if ( (MI > 5000000) || (MI < 0) ) {
+        if ( (MI > 5000000)) {
             return false;
         }
         return true;

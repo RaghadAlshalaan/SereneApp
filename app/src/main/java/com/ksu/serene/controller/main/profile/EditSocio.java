@@ -33,7 +33,10 @@ import com.ksu.serene.controller.Constants;
 import com.ksu.serene.controller.liveChart.utils.Utils;
 import com.ksu.serene.model.MySharedPreference;
 import com.ksu.serene.R;
+import androidx.core.content.res.ResourcesCompat;
+import www.sanju.motiontoast.MotionToast;
 
+import android.content.res.Resources;
 import static android.R.layout.simple_spinner_dropdown_item;
 
 public class EditSocio extends AppCompatActivity {
@@ -306,6 +309,16 @@ public class EditSocio extends AppCompatActivity {
 
                                             Toast.makeText(EditSocio.this, R.string.SocioInfoUpdateSuccess,
                                                     Toast.LENGTH_LONG).show();
+                                             /* Resources res = getResources();
+                                            String text = String.format(res.getString(R.string.SocioInfoUpdateSuccess));
+                                            MotionToast.Companion.darkToast(
+                                                     EditSocio.this,
+                                                     text,
+                                                     MotionToast.Companion.getTOAST_SUCCESS(),
+                                                     MotionToast.Companion.getGRAVITY_BOTTOM(),
+                                                     MotionToast.Companion.getLONG_DURATION(),
+                                                     ResourcesCompat.getFont( EditSocio.this, R.font.montserrat));*/
+
                                             //finish();
                                             Intent intent = new Intent(EditSocio.this, PatientProfile.class);
                                             startActivity(intent);

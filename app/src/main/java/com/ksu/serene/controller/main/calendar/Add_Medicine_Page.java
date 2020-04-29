@@ -361,6 +361,16 @@ public class Add_Medicine_Page extends AppCompatActivity {
                             //Log.d("TAG", "DocumentSnapshot added with ID: " + documentReference.getId());
                            setReminder(newMedicine);
                            Toast.makeText(Add_Medicine_Page.this, R.string.MedSavedSuccess, Toast.LENGTH_LONG).show();
+                            /* Resources res = getResources();
+                            String text = String.format(res.getString(R.string.MedSavedSuccess));
+                            MotionToast.Companion.darkToast(
+                                     Add_Medicine_Page.this,
+                                     text,
+                                     MotionToast.Companion.getTOAST_SUCCESS(),
+                                     MotionToast.Companion.getGRAVITY_BOTTOM(),
+                                     MotionToast.Companion.getLONG_DURATION(),
+                                     ResourcesCompat.getFont(Add_Medicine_Page.this, R.font.montserrat));*/
+
                             finish();
                         } else {
                            Toast.makeText(Add_Medicine_Page.this, R.string.MedSavedFialed, Toast.LENGTH_LONG).show();

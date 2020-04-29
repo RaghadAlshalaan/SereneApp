@@ -1,5 +1,6 @@
-package com.ksu.serene.AFirst;
+package com.ksu.serene.B_Second.A_LogIn;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.*;
 import android.Manifest;
 import android.content.Intent;
@@ -30,8 +31,7 @@ import static org.hamcrest.core.AllOf.allOf;
 import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 
-public class LogInPageSuccessTest {
-
+public class LogInPageTest {
     @Rule
     public ActivityTestRule<LogInPage> activityTestRule = new ActivityTestRule<LogInPage>(LogInPage.class);
     private LogInPage logInPage = null;
@@ -52,11 +52,11 @@ public class LogInPageSuccessTest {
     @Test
     public void loginSuccess () {
         //enter registered email
-        onView(withId(R.id.Email)).perform(typeText("lama-almarshad@hotmail.com"));
+        onView(withId(R.id.Email)).perform(typeText("reemasadhan@gmail.com"));
         //close keyboard
         closeSoftKeyboard();
         //enter correct password
-        onView(withId(R.id.Password)).perform(typeText("sereneuser"));
+        onView(withId(R.id.Password)).perform(typeText("00000000"));
         //close keyboard
         closeSoftKeyboard();
         onView(withId(R.id.loginBtn)).perform(click());
@@ -83,5 +83,4 @@ public class LogInPageSuccessTest {
     public void tearDown() throws Exception {
         logInPage = null;
     }
-
 }

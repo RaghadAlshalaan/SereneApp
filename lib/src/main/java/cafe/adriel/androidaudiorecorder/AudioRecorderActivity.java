@@ -32,6 +32,7 @@ import com.cleveroad.audiovisualization.DbmHandler;
 import com.cleveroad.audiovisualization.GLAudioVisualizationView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -93,9 +94,9 @@ public class AudioRecorderActivity extends AppCompatActivity
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
-    public FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    public FirebaseFirestore firebaseFirestore;
     private StorageReference storageRef;
-    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private FirebaseStorage storage;
     public FirebaseAuth mAuth;
     private String audioUri;
     private String draftId;
@@ -110,7 +111,9 @@ public class AudioRecorderActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.aar_activity_audio_recorder);
-
+        FirebaseApp.initializeApp(this);
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        storage   = FirebaseStorage.getInstance();
 
         if (savedInstanceState != null) {
             filePath = savedInstanceState.getString(AndroidAudioRecorder.EXTRA_FILE_PATH);
@@ -243,7 +246,15 @@ public class AudioRecorderActivity extends AppCompatActivity
                     public void onSuccess(Void aVoid) {
                         //todo: progress bar
                         progressBar.setVisibility(View.INVISIBLE);
-                        finish();
+                        //TODO show dialog
+                        //showDialogWithOkButton("Yor Voice Saved");
+                        Timer timer = new Timer();
+                        timer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                finish();
+                            };
+                        },20000);
 
                     }
                 })
