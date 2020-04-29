@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -105,6 +106,9 @@ public class ReportFragment extends Fragment {
     private String reportStartDate;
     private String reportEndDate;
     private TextView Info;
+    private RadioButton radioBtn1, radioBtn2, radioBtn3;
+    private String first_fitbit= "";
+    private String last_fitbit= "";
 
 
     // Google Calendar Events
@@ -178,6 +182,7 @@ public class ReportFragment extends Fragment {
         }// onChecked
         });
 
+        getFitbitduration ();
 
         generate_report.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,37 +192,88 @@ public class ReportFragment extends Fragment {
         });
 
 
+
+
+
+
         return root;
 
     }// onCreate
 
-
-    private void checkFitbitAvailability() {
+    public void getFitbitduration (){
 
         DocumentReference patientDoc = db.collection("Patient").document(mAuth.getUid());
-
         patientDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
 
-                    String first_fitbit = document.get("first_fitbit").toString();
+                    first_fitbit = document.get("first_fitbit").toString();
+                    last_fitbit = document.get("last_fitbit").toString();
 
                     Date FF = new Date();
-
-                    Date startDate = myCalendarStart.getTime();
+                    Date LF = new Date();
 
                     try {
-                         FF = new SimpleDateFormat("dd/MM/yyyy").parse(first_fitbit);
+                        FF = new SimpleDateFormat("dd/MM/yyyy").parse(first_fitbit);
+                        LF = new SimpleDateFormat("dd/MM/yyyy").parse(last_fitbit);
 
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
 
+                    long duration = LF.getTime() - FF.getTime();
+
+                    long secondsInMilli = 1000;
+                    long minutesInMilli = secondsInMilli * 60;
+                    long hoursInMilli = minutesInMilli * 60;
+                    long daysInMilli = hoursInMilli * 24;
+
+                    long elapsedDays = duration / daysInMilli;
+
+                    if (elapsedDays < 14){
+                        radioBtn1.setEnabled(false);
+                        radioBtn2.setEnabled(false);
+                        radioBtn3.setChecked(true);}
+                    else if (elapsedDays >= 14 && elapsedDays < 30){
+                        radioBtn1.setEnabled(true);
+                        radioBtn2.setEnabled(false); }
+                    else if (elapsedDays >= 30 ){
+                        radioBtn1.setEnabled(true);
+                        radioBtn2.setEnabled(true);}
+
+
+    } } }); }
+
+
+
+
+    private void checkFitbitAvailability() {
+
+        DocumentReference patientDoc = db.collection("Patient").document(mAuth.getUid());
+        patientDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+
+                    first_fitbit = document.get("first_fitbit").toString();
+
+                    Date FF = new Date();
+                    Date startDate = myCalendarStart.getTime();
+
+                    try {
+                        FF = new SimpleDateFormat("dd/MM/yyyy").parse(first_fitbit);
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+
                     if ((FF.before(startDate))) {
                         generateReport();
-                    }else{
+                    } else {
                         String text = String.format(res.getString(R.string.date_picker));
                         text = "You don't have enough data to analyze, please choose another duration";
 
@@ -230,15 +286,16 @@ public class ReportFragment extends Fragment {
                                 ResourcesCompat.getFont(getActivity().getApplicationContext(), R.font.montserrat));
 
                     }
-
-
-                }
-
-            }
+                } }
         });
 
-
     }
+
+
+
+
+
+
 
     private void init() {
         generate_report = root.findViewById(R.id.generate_report_btn);
@@ -249,6 +306,9 @@ public class ReportFragment extends Fragment {
         duration = "14";// default value
         Info = root.findViewById(R.id.info);
         progressBar =root.findViewById(R.id.progress_bar);
+        radioBtn1 = root.findViewById(R.id.radioButton1);
+        radioBtn2 = root.findViewById(R.id.radioButton2);
+        radioBtn3 = root.findViewById(R.id.radioButton3);
         Info.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.INVISIBLE);
     }
@@ -352,7 +412,7 @@ public class ReportFragment extends Fragment {
     }
 
     private void setStartDate(DatePickerDialog.OnDateSetListener startDate) {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), startDate, myCalendarStart
+        final DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), startDate, myCalendarStart
                 .get(Calendar.YEAR), myCalendarStart.get(Calendar.MONTH),
                 myCalendarStart.get(Calendar.DAY_OF_MONTH));
 
@@ -360,15 +420,67 @@ public class ReportFragment extends Fragment {
         myCalendarStart.set(Calendar.MONTH, (Calendar.getInstance().get(Calendar.MONTH)) - 6);//
         myCalendarStart.set(Calendar.DAY_OF_MONTH, (Calendar.getInstance().get(Calendar.DAY_OF_MONTH)));
 
-        Calendar cal2 = Calendar.getInstance();
-        cal2.add(Calendar.MONTH, -3);
-        // TODO : or first fitbit
-        datePickerDialog.getDatePicker().setMinDate(cal2.getTimeInMillis());
+        DocumentReference patientDoc = db.collection("Patient").document(mAuth.getUid());
+        patientDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
 
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, -1);
-        datePickerDialog.getDatePicker().setMaxDate(cal.getTimeInMillis());
-        datePickerDialog.show();
+                    first_fitbit = document.get("first_fitbit").toString();
+                    Date FF = new Date();
+                    Date today = new Date();
+
+                    try {
+                        FF = new SimpleDateFormat("dd/MM/yyyy").parse(first_fitbit);
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    long different = today.getTime() - FF.getTime();
+                    long secondsInMilli = 1000;
+                    long minutesInMilli = secondsInMilli * 60;
+                    long hoursInMilli = minutesInMilli * 60;
+                    long daysInMilli = hoursInMilli * 24;
+
+                    long elapsedDays = different / daysInMilli;
+
+                    if(elapsedDays-1 >= 90 ){
+                        Calendar cal2 = Calendar.getInstance();
+                        cal2.add(Calendar.MONTH, -3);
+                        // TODO : or first fitbit
+
+                        datePickerDialog.getDatePicker().setMinDate(cal2.getTimeInMillis());
+
+                        Calendar cal = Calendar.getInstance();
+                        cal.add(Calendar.DATE, -1);
+                        datePickerDialog.getDatePicker().setMaxDate(cal.getTimeInMillis());
+                        datePickerDialog.show();
+
+                    }
+                    else{
+                        int days = (int) elapsedDays;
+                        Calendar cal2 = Calendar.getInstance();
+                        cal2.add(Calendar.DATE, - days);
+                        // TODO : or first fitbit
+
+                        datePickerDialog.getDatePicker().setMinDate(cal2.getTimeInMillis());
+
+                        Calendar cal = Calendar.getInstance();
+                        cal.add(Calendar.DATE, -1);
+                        datePickerDialog.getDatePicker().setMaxDate(cal.getTimeInMillis());
+                        datePickerDialog.show();
+                    }
+
+                    }
+                }
+
+            });
+
+
+
+
+
     }
 
     public boolean isStartDateSet(String startDate) {
@@ -520,9 +632,9 @@ public class ReportFragment extends Fragment {
         tag("AppInfo").d("callAPI");
 
         if(duration.equals("custom")){
-            api_url = "https://73f846d2.ngrok.io/patient_report_custom_duration/"+mAuth.getUid()+"/"+apiStartDate+"/"+apiEndDate+"/"+GoogleCalendar;
+            api_url = "https://888aa192.ngrok.io/patient_report_custom_duration/"+mAuth.getUid()+"/"+apiStartDate+"/"+apiEndDate+"/"+GoogleCalendar;
         }else{
-            api_url = "https://73f846d2.ngrok.io/patient_report/"+mAuth.getUid()+"/"+duration+"/"+GoogleCalendar;
+            api_url = "https://888aa192.ngrok.io/patient_report/"+mAuth.getUid()+"/"+duration+"/"+GoogleCalendar;
         }
 
         executeApi();

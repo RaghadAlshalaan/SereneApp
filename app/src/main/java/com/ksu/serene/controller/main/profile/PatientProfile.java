@@ -236,83 +236,66 @@ public class PatientProfile extends AppCompatActivity {
     private void checkDoctorAvailability() {
 
         db.collection("Doctor")
-                .whereEqualTo("patientID", mAuth.getUid()).
-                addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
+                .whereEqualTo("patientID", mAuth.getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (!task.getResult().isEmpty()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    if (document.exists()) {
+                                        Intent intent = new Intent(PatientProfile.this, MyDoctor.class);
+                                        startActivity(intent);
+                                    }
+                                }
+                            } else {
 
-                }
-                if (!queryDocumentSnapshots.isEmpty()) {
-                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                        if (doc.exists()) {
-                            Intent intent = new Intent(PatientProfile.this, MyDoctor.class);
-                            startActivity(intent);
+                                Intent intent = new Intent(PatientProfile.this, AddDoctor.class);
+                                startActivity(intent);
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
                         }
-
                     }
-                } else {
-                    Intent intent = new Intent(PatientProfile.this, AddDoctor.class);
-                    startActivity(intent);
-                }
-            }
-        });
-
-
+                });
     }
 
 
     public void displayName() {
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
 
-        db.collection ("Patient").document(mAuth.getUid()).
-                addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                        if (documentSnapshot != null && documentSnapshot.exists()) {
 
-                            name.setText(documentSnapshot.getString("name"));
-                            email.setText(documentSnapshot.getString("email"));
-
-                            MySharedPreference.putString(PatientProfile.this, "name", documentSnapshot.getString("name"));
-                            MySharedPreference.putString(PatientProfile.this, "email", documentSnapshot.getString("email"));
-                        }
-                    }
-                });
-
-       // FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-       // if (user != null) {
-
-        //    nameDb = user.getDisplayName();
-        //    emailDb = user.getEmail();
 
             // imageDb = user.getPhotoUrl().toString();
             // If the above were null, iterate the provider data
             // and set with the first non null data
 
-         //   for (UserInfo userInfo : user.getProviderData()) {
-         //       if (nameDb == null && userInfo.getDisplayName() != null && emailDb == null && userInfo.getEmail() != null
-           //     ) {
-           //         nameDb = userInfo.getDisplayName();
-            //        emailDb = userInfo.getEmail();
-                    // imageDb = userInfo.getPhotoUrl().toString();
-            //        MySharedPreference.putString(PatientProfile.this, "name", nameDb);
-            //        MySharedPreference.putString(PatientProfile.this, "email", emailDb);
-                    // MySharedPreference.putString(getContext(), "Image", imageDb);
+            db.collection("Patient").document(mAuth.getUid())
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            nameDb = document.get("name").toString();
+                            emailDb = document.get("email").toString();
+                            name.setText(nameDb);
+                            email.setText(emailDb);
+                        }
+                    }
+                }
+            });
 
-            //    }
-          //  }
-          //  if (nameDb != null)
-           //     name.setText(nameDb);
 
-          //  if (emailDb != null)
-          //      email.setText(emailDb);
 
             // if(imageDb !=null)
             // Picasso.get().load(imageDb).into(image);
 
 
-      //  }//end if
+        }//end if
     }
 
     @Override
@@ -320,46 +303,43 @@ public class PatientProfile extends AppCompatActivity {
         super.onResume();
 
         db.collection("Doctor")
-                .whereEqualTo("patientID", mAuth.getUid()).
-                addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
+                .whereEqualTo("patientID", mAuth.getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (!task.getResult().isEmpty()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    if (document.exists()) {
+                                        doctor.setText(document.getString("name"));
+                                    }
+                                }
+                            } else {
+                                doctor.setText(R.string.NoDoc);
+                            }
+                        } else {
 
-                }
-                if( queryDocumentSnapshots  != null && !queryDocumentSnapshots.isEmpty() ) {
-                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-
-                        if (doc.exists()) {
-                            doctor.setText(doc.getString("name"));
+                            Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
-                }
-                else {
-                    doctor.setText(R.string.NoDoc);
-                }
+                });
 
 
-            }
-        });
-
-
-
-
-        if (!MySharedPreference.getString(PatientProfile.this, "name", "").equals("")) {
-            name.setText(MySharedPreference.getString(PatientProfile.this, "name", ""));
-        }
+        ///  if (!MySharedPreference.getString(PatientProfile.this, "name", "").equals("")) {
+        //    name.setText(MySharedPreference.getString(PatientProfile.this, "name", ""));
+        // }
 
         if (!MySharedPreference.getString(PatientProfile.this, "Image", "").equals("")) {
             imageDb = MySharedPreference.getString(PatientProfile.this, "Image", "");
             if (imageDb != null)
                 Picasso.get().load(imageDb).into(image);
         }
-        if (!MySharedPreference.getString(PatientProfile.this, "email", "").equals("")) {
-            email.setText(MySharedPreference.getString(PatientProfile.this, "email", ""));
-        } else {
-            displayName();
-        }
+        //  if (!MySharedPreference.getString(PatientProfile.this, "email", "").equals("")) {
+        //     email.setText(MySharedPreference.getString(PatientProfile.this, "email", ""));
+        // } else {
+        displayName();
+        //   }
 
         user.reload();
         if (!user.isEmailVerified()) {
@@ -419,8 +399,8 @@ public class PatientProfile extends AppCompatActivity {
                         // [START auth_sign_out]
                         signOutFirebase();
                         if (mAuth.getCurrentUser() == null) {
-                            Toast.makeText(PatientProfile.this, R.string.LogOutSuccess, Toast.LENGTH_LONG).show();
-                           /*Resources res = getResources();
+                            //Toast.makeText(PatientProfile.this, R.string.LogOutSuccess, Toast.LENGTH_LONG).show();
+                           Resources res = getResources();
                             String text = String.format(res.getString(R.string.LogOutSuccess));
                             MotionToast.Companion.darkToast(
                                     PatientProfile.this,
@@ -430,8 +410,7 @@ public class PatientProfile extends AppCompatActivity {
                                     MotionToast.Companion.getLONG_DURATION(),
                                     ResourcesCompat.getFont( PatientProfile.this, R.font.montserrat));
 
-                            Intent intent = new Intent(PatientProfile.this, WelcomePage.class);
-                            startActivity(intent);*/
+
 
                             Intent intent = new Intent(PatientProfile.this, WelcomePage.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|

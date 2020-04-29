@@ -281,14 +281,14 @@
                 android:textSize="15sp"
                 tools:ignore="RtlCompat" />
 
-            <ImageView
+        <!--    <ImageView
                 android:id="@+id/go_to3"
                 android:layout_width="30dp"
                 android:layout_height="33dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/ic_go_to"
-                android:rotationY="@integer/angle_rtl_180"/>
+                android:rotationY="@integer/angle_rtl_180"/> -->
 
             <TextView
                 android:id="@+id/Arabic"

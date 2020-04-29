@@ -8,11 +8,13 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -60,6 +62,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import www.sanju.motiontoast.MotionToast;
 
 
 public class Editprofile extends AppCompatActivity {
@@ -115,6 +119,7 @@ public class Editprofile extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         email = documentSnapshot.get("email").toString();
+                        //if (email != null) { because it always true no need to check
                             resetPassword( email);
                         }
                 });
@@ -153,8 +158,10 @@ public class Editprofile extends AppCompatActivity {
                     }
                     //here the name not empty && valid check if name not equal old name
                     //update name if the edit not empty && new name not equal past name or when no past name
-                    if ( pastName == null || (pastName != null && !(pastName.equals(name.getText().toString())) ) )
+                    if (pastName == null || (pastName!= null && !(pastName.equals(name.getText().toString()))))
                         updateName(name.getText().toString());
+
+
                 }
 
                 //first check if pass/s not mepty
@@ -191,6 +198,8 @@ public class Editprofile extends AppCompatActivity {
                 uploadFile();
                 Intent intent = new Intent(Editprofile.this, PatientProfile.class);
                 startActivity(intent);
+                //remove this line
+                //finish();
 
             }
         });
@@ -205,6 +214,80 @@ public class Editprofile extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         deleteAccount ();
+                        /*mAuth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful()){
+                                    //TODO REMOVE ALL THE REMINDERS AND DRAFTS FOR THE PATIENT ID
+                                    //Remove Med Reminders
+                                    final CollectionReference referenceMedicine = FirebaseFirestore.getInstance().collection("PatientMedicin");
+                                    final Query queryPatientMedicine = referenceMedicine.whereEqualTo("patinetID",mAuth.getUid());
+                                    queryPatientMedicine.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    //Delete all the document
+                                                    referenceMedicine.document(document.getId()).delete();
+                                                }
+                                            }
+                                        }
+                                    });
+                                    //Remove App Reminders
+                                    final CollectionReference referenceApp = FirebaseFirestore.getInstance().collection("PatientSessions");
+                                    final Query queryPatientApp = referenceApp.whereEqualTo("patinetID",mAuth.getUid());
+                                    queryPatientApp.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    //Delete all the document
+                                                    referenceApp.document(document.getId()).delete();
+                                                }
+                                            }
+                                        }
+                                    });
+                                    //remove text draft
+                                    final CollectionReference referenceTDraft = FirebaseFirestore.getInstance().collection("TextDraft");
+                                    final Query queryPatientTDraft = referenceTDraft.whereEqualTo("patinetID",mAuth.getUid());
+                                    queryPatientTDraft.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    //Delete all the document
+                                                    referenceTDraft.document(document.getId()).delete();
+                                                }
+                                            }
+                                        }
+                                    });
+                                    //remove audio draft
+                                    final CollectionReference referenceADraft = FirebaseFirestore.getInstance().collection("AudioDraft");
+                                    final Query queryPatientADraft = referenceADraft.whereEqualTo("patinetID",mAuth.getUid());
+                                    queryPatientADraft.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    //Delete all the document
+                                                    referenceADraft.document(document.getId()).delete();
+                                                }
+                                            }
+                                        }
+                                    });
+                                    Toast.makeText(Editprofile.this,R.string.AccDeletedSuccess , Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(Editprofile.this, WelcomePage.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+
+                                else{
+                                    Log.d("errror Delete",task.getException().getMessage());
+                                    Toast.makeText(Editprofile.this, R.string.AccDeletedFialed,
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });*/
                     }
                 });
 
@@ -214,6 +297,11 @@ public class Editprofile extends AppCompatActivity {
                 alertDialog.show();
             }
         });
+
+        if(sp.getString("PREFERRED_LANGUAGE","").equals("en"))
+            Eng.setTypeface(null, Typeface.BOLD);
+        else
+            Ar.setTypeface(null,Typeface.BOLD);
 
         Eng.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -233,6 +321,7 @@ public class Editprofile extends AppCompatActivity {
                 setLocale("ar");
             }
         });
+
 
 
     }
@@ -390,6 +479,25 @@ public class Editprofile extends AppCompatActivity {
                         //update FirebaseUser profile
                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(newName).build();
                         changeNameFirebase (newName,profileUpdates);
+                        /*FirebaseUser userf = mAuth.getCurrentUser();
+                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(newName).build();
+                        userf.updateProfile(profileUpdates)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Log.d(TAG, "User profile updated.");
+
+                                            MySharedPreference.putString(Editprofile.this, "name", newName);
+                                            if ( TextUtils.isEmpty(oldPass.getText().toString()) && TextUtils.isEmpty(newPass.getText().toString())
+                                                    && TextUtils.isEmpty(confirmPass.getText().toString())){
+                                                Toast.makeText(Editprofile.this, R.string.UpdateNameSuccess, Toast.LENGTH_LONG).show();
+                                                finish();
+                                            }
+
+                                        }
+                                    }
+                                });*/
                         Log.d(TAG, "DocumentSnapshot successfully updated!");
                     }
                 })
@@ -431,22 +539,24 @@ public class Editprofile extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         ChangePass = true;
                                         if (pastName != null && !TextUtils.isEmpty(name.getText().toString()) && pastName.equals(name.getText().toString())) {
-                                            Toast.makeText(Editprofile.this, R.string.passwordUpdate, Toast.LENGTH_LONG).show();
-                                            /*Resources res = getResources();
+                                           // Toast.makeText(Editprofile.this, R.string.passwordUpdate, Toast.LENGTH_LONG).show();
+                                            Resources res = getResources();
                                             String text = String.format(res.getString(R.string.passwordUpdate));
+
+
                                             MotionToast.Companion.darkToast(
                                                     Editprofile.this,
                                                     text,
                                                     MotionToast.Companion.getTOAST_SUCCESS(),
                                                     MotionToast.Companion.getGRAVITY_BOTTOM(),
                                                     MotionToast.Companion.getLONG_DURATION(),
-                                                    ResourcesCompat.getFont( Editprofile.this, R.font.montserrat));*/
+                                                    ResourcesCompat.getFont( Editprofile.this, R.font.montserrat));
                                             //finish();
                                             Intent intent = new Intent(Editprofile.this, PatientProfile.class);
                                             startActivity(intent);
                                         } else {
-                                            Toast.makeText(Editprofile.this, R.string.ProfileInfoUpdateSuccess, Toast.LENGTH_LONG).show();
-                                            /*Resources res = getResources();
+                                            //Toast.makeText(Editprofile.this, R.string.ProfileInfoUpdateSuccess, Toast.LENGTH_LONG).show();
+                                            Resources res = getResources();
                                             String text = String.format(res.getString(R.string.ProfileInfoUpdateSuccess));
                                             MotionToast.Companion.darkToast(
                                                     Editprofile.this,
@@ -454,8 +564,7 @@ public class Editprofile extends AppCompatActivity {
                                                     MotionToast.Companion.getTOAST_SUCCESS(),
                                                     MotionToast.Companion.getGRAVITY_BOTTOM(),
                                                     MotionToast.Companion.getLONG_DURATION(),
-                                                    ResourcesCompat.getFont( Editprofile.this, R.font.montserrat));*/
-
+                                                    ResourcesCompat.getFont( Editprofile.this, R.font.montserrat));
                                             //finish();
                                             Intent intent = new Intent(Editprofile.this, PatientProfile.class);
                                             startActivity(intent);
@@ -512,8 +621,11 @@ public class Editprofile extends AppCompatActivity {
                         mAuth.signOut();
                         if (mAuth.getCurrentUser() == null) {
                             Intent intent = new Intent(Editprofile.this, WelcomePage.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|
+                                    Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                                    Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
-                            //finish();
+                            finish();
                         }
                         // [END auth_sign_out]
                         Log.d(TAG, "DocumentSnapshot successfully updated!");
@@ -582,8 +694,8 @@ public class Editprofile extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(Editprofile.this, R.string.ForgetPassSuccess, Toast.LENGTH_LONG).show();
-                            /*Resources res = getResources();
+                            //Toast.makeText(Editprofile.this, R.string.ForgetPassSuccess, Toast.LENGTH_LONG).show();
+                            Resources res = getResources();
                             String text = String.format(res.getString(R.string.ForgetPassSuccess));
                             MotionToast.Companion.darkToast(
                                     Editprofile.this,
@@ -591,15 +703,17 @@ public class Editprofile extends AppCompatActivity {
                                     MotionToast.Companion.getTOAST_SUCCESS(),
                                     MotionToast.Companion.getGRAVITY_BOTTOM(),
                                     MotionToast.Companion.getLONG_DURATION(),
-                                    ResourcesCompat.getFont( Editprofile.this, R.font.montserrat));*/
-                                                        //log out user
+                                    ResourcesCompat.getFont( Editprofile.this, R.font.montserrat));
+
+                            //log out user
                             logout();
                         }
                         else {
                             Toast.makeText(Editprofile.this, R.string.ForgetPassFialed, Toast.LENGTH_LONG).show();
 
                         }
-                    }});
+                    }
+                });
     }
 
     public void changeNameFirebase (final String newName, UserProfileChangeRequest profileUpdates) {
@@ -614,8 +728,8 @@ public class Editprofile extends AppCompatActivity {
 
                             MySharedPreference.putString(Editprofile.this, "name", newName);
                             if ( oldPass.getText().toString().equals("") && newPass.getText().toString().equals("") && confirmPass.getText().toString().equals("")  ){
-                                Toast.makeText(Editprofile.this, R.string.UpdateNameSuccess, Toast.LENGTH_LONG).show();
-                                /*Resources res = getResources();
+                                //Toast.makeText(Editprofile.this, R.string.UpdateNameSuccess, Toast.LENGTH_LONG).show();
+                                Resources res = getResources();
                                 String text = String.format(res.getString(R.string.UpdateNameSuccess));
                                 MotionToast.Companion.darkToast(
                                         Editprofile.this,
@@ -623,8 +737,7 @@ public class Editprofile extends AppCompatActivity {
                                         MotionToast.Companion.getTOAST_SUCCESS(),
                                         MotionToast.Companion.getGRAVITY_BOTTOM(),
                                         MotionToast.Companion.getLONG_DURATION(),
-                                        ResourcesCompat.getFont( Editprofile.this, R.font.montserrat));*/
-
+                                        ResourcesCompat.getFont( Editprofile.this, R.font.montserrat));
                                 //finish();
                                 Intent intent = new Intent(Editprofile.this, PatientProfile.class);
                                 startActivity(intent);
@@ -636,7 +749,6 @@ public class Editprofile extends AppCompatActivity {
     }
 
     public void deleteAccount () {
-        //First Delete Patient from DB
         FirebaseFirestore.getInstance().collection("Patient").document(mAuth.getCurrentUser().getUid())
                 .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -718,9 +830,9 @@ public class Editprofile extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(Editprofile.this,R.string.AccDeletedSuccess , Toast.LENGTH_LONG).show();
+                                    //Toast.makeText(Editprofile.this,R.string.AccDeletedSuccess , Toast.LENGTH_LONG).show();
 
-                            /*Resources res = getResources();
+                            Resources res = getResources();
                             String text = String.format(res.getString(R.string.AccDeletedSuccess));
                             MotionToast.Companion.darkToast(
                                     Editprofile.this,
@@ -728,7 +840,7 @@ public class Editprofile extends AppCompatActivity {
                                     MotionToast.Companion.getTOAST_SUCCESS(),
                                     MotionToast.Companion.getGRAVITY_BOTTOM(),
                                     MotionToast.Companion.getLONG_DURATION(),
-                                    ResourcesCompat.getFont( Editprofile.this, R.font.montserrat));*/
+                                    ResourcesCompat.getFont( Editprofile.this, R.font.montserrat));
 
                                     Intent intent = new Intent(Editprofile.this, WelcomePage.class);
                                     startActivity(intent);
@@ -739,13 +851,13 @@ public class Editprofile extends AppCompatActivity {
                                             Toast.LENGTH_LONG).show();
                                     logout();
                                 }
+
+
                             }
                         });
                     }
                 });
-
     }
-
 
     public void setLocale(String lang) {
         Locale myLocale = new Locale(lang);

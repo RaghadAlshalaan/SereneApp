@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -47,6 +48,7 @@ import com.ksu.serene.controller.liveChart.utils.Utils;
 import com.ksu.serene.controller.main.profile.Editprofile;
 import com.ksu.serene.controller.signup.Questionnairs;
 import com.ksu.serene.controller.signup.Signup;
+import com.ksu.serene.model.MySharedPreference;
 import com.ksu.serene.model.Token;
 
 import java.util.HashMap;
@@ -64,7 +66,7 @@ public class WelcomePage extends AppCompatActivity {
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+    private SharedPreferences sp;
 
 
     @Override
@@ -72,9 +74,10 @@ public class WelcomePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_page);
 
-        SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
+        sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
         String preferred_lng = sp.getString("PREFERRED_LANGUAGE", "en");
         Utils.setLocale(preferred_lng, this);
+
 
         getSupportActionBar().hide();
 
@@ -133,6 +136,16 @@ public class WelcomePage extends AppCompatActivity {
                 setLocale("ar");
             }
         });
+
+
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(sp.getString("PREFERRED_LANGUAGE","").equals("en"))
+            Eng.setTypeface(null, Typeface.BOLD);
+        else
+            Ar.setTypeface(null,Typeface.BOLD);
 
     }
 
