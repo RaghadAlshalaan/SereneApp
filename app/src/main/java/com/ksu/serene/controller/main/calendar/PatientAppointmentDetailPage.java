@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +36,9 @@ import com.ksu.serene.R;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
+
+import www.sanju.motiontoast.MotionToast;
 
 
 public class PatientAppointmentDetailPage extends AppCompatActivity {
@@ -138,8 +142,8 @@ public class PatientAppointmentDetailPage extends AppCompatActivity {
                                                         Log.d("Reminder deleted","The App reminder was successfully cancelled");
                                                     }
                                                 }
-                                                Toast.makeText(PatientAppointmentDetailPage.this, R.string.AppDeletedSuccess, Toast.LENGTH_LONG).show();
-                                                /* Resources res = getResources();
+                                                //Toast.makeText(PatientAppointmentDetailPage.this, R.string.AppDeletedSuccess, Toast.LENGTH_LONG).show();
+                                                 Resources res = getResources();
                                                 String text = String.format(res.getString(R.string.AppDeletedSuccess));
 
                                                 MotionToast.Companion.darkToast(
@@ -148,7 +152,7 @@ public class PatientAppointmentDetailPage extends AppCompatActivity {
                                                          MotionToast.Companion.getTOAST_SUCCESS(),
                                                          MotionToast.Companion.getGRAVITY_BOTTOM(),
                                                          MotionToast.Companion.getLONG_DURATION(),
-                                                         ResourcesCompat.getFont(PatientAppointmentDetailPage.this, R.font.montserrat));*/
+                                                         ResourcesCompat.getFont(PatientAppointmentDetailPage.this, R.font.montserrat));
 
                                                 finish();
                                             }

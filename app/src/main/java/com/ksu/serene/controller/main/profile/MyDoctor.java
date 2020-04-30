@@ -107,9 +107,9 @@ public class MyDoctor extends AppCompatActivity {
                                                         d.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                             @Override
                                                             public void onComplete(@NonNull Task<Void> task) {
-                                                                Toast.makeText(MyDoctor.this,R.string.DocDeletedSuccess,
-                                                                        Toast.LENGTH_LONG).show();
-                                                                /*Resources res = getResources();
+                                                                /*Toast.makeText(MyDoctor.this,R.string.DocDeletedSuccess,
+                                                                        Toast.LENGTH_LONG).show();*/
+                                                                Resources res = getResources();
                                                                 String text = String.format(res.getString(R.string.DocDeletedSuccess));
                                                                 MotionToast.Companion.darkToast(
                                                                         MyDoctor.this,
@@ -117,7 +117,7 @@ public class MyDoctor extends AppCompatActivity {
                                                                         MotionToast.Companion.getTOAST_SUCCESS(),
                                                                         MotionToast.Companion.getGRAVITY_BOTTOM(),
                                                                         MotionToast.Companion.getLONG_DURATION(),
-                                                                        ResourcesCompat.getFont( MyDoctor.this, R.font.montserrat));*/
+                                                                        ResourcesCompat.getFont( MyDoctor.this, R.font.montserrat));
                                                                 Intent in = new Intent(MyDoctor.this, PatientProfile.class);
                                                                 startActivity(in);
                                                                 //finish();

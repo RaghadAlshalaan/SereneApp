@@ -1,6 +1,7 @@
 package com.ksu.serene.controller.signup;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 
@@ -25,6 +27,8 @@ import com.ksu.serene.R;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import www.sanju.motiontoast.MotionToast;
 
 public class GAD7 extends Fragment {
 
@@ -49,7 +53,16 @@ public class GAD7 extends Fragment {
             @Override
             public void onClick(View v) {
                 if (!checkFields(radio1,radio2 ,radio3 ,radio4 ,radio5 ,radio6 ,radio7)){
-                    Toast.makeText(getActivity(), R.string.EmptyFields,Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getActivity(), R.string.EmptyFields,Toast.LENGTH_LONG).show();
+                    Resources res = getResources();
+                    String text = String.format(res.getString(R.string.EmptyFields));
+                    MotionToast.Companion.darkToast(
+                            getActivity(),
+                            text,
+                            MotionToast.Companion.getTOAST_ERROR(),
+                            MotionToast.Companion.getGRAVITY_BOTTOM(),
+                            MotionToast.Companion.getLONG_DURATION(),
+                            ResourcesCompat.getFont( getContext(), R.font.montserrat));
                     return;
                 }
 
@@ -305,8 +318,17 @@ public class GAD7 extends Fragment {
 
                         } else {System.out.println("Error getting documents: ");
                             //added this toast needed in test
-                            Toast.makeText(getActivity(), R.string.GADFialed,
-                                    Toast.LENGTH_LONG).show();
+                            /*Toast.makeText(getActivity(), R.string.GADFialed,
+                                    Toast.LENGTH_LONG).show();*/
+                            Resources res = getResources();
+                            String text = String.format(res.getString(R.string.GADFialed));
+                            MotionToast.Companion.darkToast(
+                                    getActivity(),
+                                    text,
+                                    MotionToast.Companion.getTOAST_ERROR(),
+                                    MotionToast.Companion.getGRAVITY_BOTTOM(),
+                                    MotionToast.Companion.getLONG_DURATION(),
+                                    ResourcesCompat.getFont( getContext(), R.font.montserrat));
                         }
 
                     }

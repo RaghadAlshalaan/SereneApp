@@ -151,14 +151,14 @@
             android:id="@+id/LastUpdated"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Last Updated: "
+            android:text="@string/last_updated"
             android:textSize="16sp" />
 
         <TextView
             android:id="@+id/DateCreated"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Date Created:  "
+            android:text="@string/date_created"
             android:textSize="16sp" />
     </LinearLayout>
 

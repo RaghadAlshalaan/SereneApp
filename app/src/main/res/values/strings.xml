@@ -102,6 +102,7 @@
     <string name="google_calendar">Google Calendar</string>
     <string name="connect_google_calendar">Connect Google Calendar</string>
     <string name="status_not_connected">Status: Not Connected</string>
+    <string name="audio_recorded_successfully">Audio recorded successfully!</string>
     <string name="generate_report">Generate Report</string>
     <string name="duration">Duration:</string>
     <string name="last_two_weeks">Last Two Weeks</string>
@@ -431,6 +432,9 @@
     <string name="add_doctor_msg">Allow a bi-weekly report to be sent to your doctor email by filling the required information below.</string>
     <string name="dataFailed">Fails to get data</string>
     <string name="please_note">Please Note :\n - To produce more accurate results, please sync your Smart-watch data.</string>
+    <string name="no_data_are_available_to_analyze">No data are available to analyze.</string>
+    <string name="last_updated">Last Updated:</string>
+    <string name="date_created">Date Created:</string>
 </resources>
 
 

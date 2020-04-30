@@ -307,9 +307,9 @@ public class EditSocio extends AppCompatActivity {
                                             MySharedPreference.putString(EditSocio.this, "maritalStatus", newMarried);
                                             MySharedPreference.putString(EditSocio.this, "smokeCigarettes", newSmoke);
 
-                                            Toast.makeText(EditSocio.this, R.string.SocioInfoUpdateSuccess,
-                                                    Toast.LENGTH_LONG).show();
-                                             /* Resources res = getResources();
+                                            /*Toast.makeText(EditSocio.this, R.string.SocioInfoUpdateSuccess,
+                                                    Toast.LENGTH_LONG).show();*/
+                                              Resources res = getResources();
                                             String text = String.format(res.getString(R.string.SocioInfoUpdateSuccess));
                                             MotionToast.Companion.darkToast(
                                                      EditSocio.this,
@@ -317,11 +317,11 @@ public class EditSocio extends AppCompatActivity {
                                                      MotionToast.Companion.getTOAST_SUCCESS(),
                                                      MotionToast.Companion.getGRAVITY_BOTTOM(),
                                                      MotionToast.Companion.getLONG_DURATION(),
-                                                     ResourcesCompat.getFont( EditSocio.this, R.font.montserrat));*/
+                                                     ResourcesCompat.getFont( EditSocio.this, R.font.montserrat));
 
-                                            //finish();
-                                            Intent intent = new Intent(EditSocio.this, PatientProfile.class);
-                                            startActivity(intent);
+                                            finish();
+                                            /*Intent intent = new Intent(EditSocio.this, PatientProfile.class);
+                                            startActivity(intent);*/
                                         }
                                     }
                                 });
@@ -332,8 +332,17 @@ public class EditSocio extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error updating document", e);
-                        Toast.makeText(EditSocio.this, R.string.SocioInfoUpdateFialed,
-                                Toast.LENGTH_LONG).show();
+                        /*Toast.makeText(EditSocio.this, R.string.SocioInfoUpdateFialed,
+                                Toast.LENGTH_LONG).show();*/
+                        Resources res = getResources();
+                        String text = String.format(res.getString(R.string.SocioInfoUpdateFialed));
+                        MotionToast.Companion.darkToast(
+                                EditSocio.this,
+                                text,
+                                MotionToast.Companion.getTOAST_ERROR(),
+                                MotionToast.Companion.getGRAVITY_BOTTOM(),
+                                MotionToast.Companion.getLONG_DURATION(),
+                                ResourcesCompat.getFont( EditSocio.this, R.font.montserrat));
 
                     }
                 });
