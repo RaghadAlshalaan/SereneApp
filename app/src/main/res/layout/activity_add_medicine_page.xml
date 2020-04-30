@@ -117,7 +117,7 @@
         android:background="@drawable/custom_edit_text"
         android:elevation="0dp"
         android:fontFamily="@font/montserrat"
-        android:text="@string/SetTimeApp"
+        android:text="@string/SetDayApp"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/calIcon"
