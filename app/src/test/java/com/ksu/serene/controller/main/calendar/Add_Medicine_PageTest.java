@@ -204,13 +204,6 @@ public class Add_Medicine_PageTest {
         medicine.checkDayandTime(date,time);
     }
 
-    //@Test(expected = Exception.class)
-    public void TimeException () {
-        date = "12/4/2021";
-        time = "hjkl";
-        medicine.checkDayandTime(date,time);
-    }
-
     @Test
     public void getRandomID () {
         assertNotNull(medicine.getRandomID());

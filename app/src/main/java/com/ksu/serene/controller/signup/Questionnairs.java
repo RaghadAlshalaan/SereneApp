@@ -35,6 +35,15 @@ public class Questionnairs extends AppCompatActivity {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.setStatusBarColor(this.getResources().getColor(R.color.colorAccent));
 
+        if (getIntent().getStringExtra("Not Connected")!= null && getIntent().getStringExtra("Not Connected").equals("MainActivity")) {
+            //go to gad fragment
+            GAD7 gad7 = new GAD7();
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.add(R.id.Questionnairs, gad7);
+            ft.commit();
+        }
+
         //step = getExtras();
 
         if (step == 1) {
@@ -52,7 +61,7 @@ public class Questionnairs extends AppCompatActivity {
 
                 }
             }
-        } /*else {
+        }/*else {
 
             GAD7 GadFragment = new GAD7();
             FragmentManager fm = getSupportFragmentManager();

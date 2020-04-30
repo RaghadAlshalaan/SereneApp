@@ -85,8 +85,8 @@ public class Add_Appointment_PageTest {
         name = "";
         time = "Set Time";
         date = "Set Date";
-        boolean isEmptyFields = therapySession.checkFields(name,time,date);
-        assertFalse(isEmptyFields);
+        boolean isNotEmptyFields = therapySession.checkFields(name,time,date);
+        assertFalse(isNotEmptyFields);
     }
 
     @Test
@@ -138,20 +138,20 @@ public class Add_Appointment_PageTest {
     public void TimePastCurrentDate () {
         date = current.get(Calendar.DAY_OF_MONTH)
                 +"/"+(current.get(Calendar.MONTH)+1)
-                +"/"+current.get(Calendar.YEAR);//"11/4/2020";
+                +"/"+current.get(Calendar.YEAR);
         time = (current.get(Calendar.HOUR)-1)+" : "+current.get(Calendar.MINUTE);//"13 : 00";
-        boolean isPastTime = therapySession.checkDayandTime(date,time);
-        assertFalse(isPastTime);
+        boolean isFutureTime = therapySession.checkDayandTime(date,time);
+        assertFalse(isFutureTime);
     }
 
     @Test
     public void CurrentTimeCurrentDate () {
         date = current.get(Calendar.DAY_OF_MONTH)
                 +"/"+(current.get(Calendar.MONTH)+1)
-                +"/"+current.get(Calendar.YEAR);//"12/4/2020";
-        time = (current.get(Calendar.HOUR)+1)+" : "+current.get(Calendar.MINUTE);//"15 : 44";
-        boolean isPastTime = therapySession.checkDayandTime(date,time);
-        assertFalse(isPastTime);
+                +"/"+current.get(Calendar.YEAR);
+        time = (current.get(Calendar.HOUR))+" : "+current.get(Calendar.MINUTE);
+        boolean isFutureTime = therapySession.checkDayandTime(date,time);
+        assertFalse(isFutureTime);
     }
 
     @Test
@@ -160,12 +160,13 @@ public class Add_Appointment_PageTest {
                 +"/"+(current.get(Calendar.MONTH)+1)
                 +"/"+current.get(Calendar.YEAR);//"12/4/2020";
         try {
-            currentTime=TimeFormat.parse(new SimpleDateFormat("HH : mm",Locale.UK).format(new Date()));
+            currentTime=TimeFormat.parse(new SimpleDateFormat("HH : mm",Locale.UK)
+                    .format(new Date()));
         }
         catch (Exception ex){
 
         }
-        time = currentTime.getHours()+" : "+(currentTime.getMinutes()+20);//"23 : 14";
+        time = currentTime.getHours()+" : "+(currentTime.getMinutes()+20);
         boolean isFutureTime = therapySession.checkDayandTime(date,time);
         assertTrue(isFutureTime);
     }
@@ -184,13 +185,6 @@ public class Add_Appointment_PageTest {
     public void DateException () {
         date = "hjkl";
         time = "23 : 14";
-        therapySession.checkDayandTime(date,time);
-    }
-
-    //@Test(expected = Exception.class)
-    public void TimeException () {
-        date = "12/4/2021";
-        time = "hjkl";
         therapySession.checkDayandTime(date,time);
     }
 

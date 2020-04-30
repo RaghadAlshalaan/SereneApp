@@ -49,6 +49,7 @@ import com.ksu.serene.controller.Constants;
 import com.ksu.serene.controller.Reminder.Notification;
 import com.ksu.serene.controller.liveChart.utils.Utils;
 import com.ksu.serene.controller.main.home.NotificationAdapter;
+import com.ksu.serene.controller.signup.GAD7;
 import com.ksu.serene.locationManager.MyLocationManager;
 import com.ksu.serene.locationManager.MyLocationManagerListener;
 import com.ksu.serene.fitbitManager.SensorService;
@@ -60,6 +61,8 @@ import com.ksu.serene.controller.signup.FitbitConnection;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -723,21 +726,23 @@ public class MainActivity extends AppCompatActivity implements
                                     i.putExtra("Not Connected","MainActivity");
                                     startActivity(i);
                                 };
-                            },15000);
+                            },10000);
                         }
                     }
                     else {
                         Log.d("GAD-7ScaleScore", "Not Answered");
                         //go to gad page
-                        Toast.makeText(getApplicationContext(), R.string.SocioNotFound, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), R.string.SocioNotFound+"GAAD", Toast.LENGTH_LONG).show();
                         Timer timer = new Timer();
                         timer.schedule(new TimerTask() {
                             @Override
                             public void run() {
                                 Intent i = new Intent( getApplicationContext(), Questionnairs.class );
+                                i.putExtra("Not Connected","MainActivity");
                                 startActivity(i);
+
                             };
-                        },15000);
+                        },10000);
                     }
                 }
                 else {
@@ -751,7 +756,7 @@ public class MainActivity extends AppCompatActivity implements
                             Intent i = new Intent( getApplicationContext(), Questionnairs.class );
                             startActivity(i);
                         };
-                    },15000);
+                    },10000);
                 }
             }
         });

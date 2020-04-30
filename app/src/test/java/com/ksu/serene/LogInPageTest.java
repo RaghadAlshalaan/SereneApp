@@ -55,8 +55,8 @@ public class LogInPageTest {
     public void EmptyFields () {
         email = "";
         password = "";
-        boolean isEmptyFields = logIn.CheckLogInFields(email,password);
-        assertFalse(isEmptyFields);
+        boolean isNotEmptyFields = logIn.CheckLogInFields(email,password);
+        assertFalse(isNotEmptyFields);
     }
 
     @Test
@@ -93,8 +93,8 @@ public class LogInPageTest {
     @Test
     public void emailEmptyFieldForgetPassowrd () {
         email = "";
-        boolean isEmailEmpty = logIn.CheckEmailField(email);
-        assertFalse(isEmailEmpty);
+        boolean isNotEmailEmpty = logIn.CheckEmailField(email);
+        assertFalse(isNotEmailEmpty);
     }
 
     @Test

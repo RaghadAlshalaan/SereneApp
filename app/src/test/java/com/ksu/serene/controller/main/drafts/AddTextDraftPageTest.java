@@ -50,8 +50,8 @@ public class AddTextDraftPageTest {
     public void EmptyFields () {
         title = "";
         msg = "";
-        boolean isEmptyFields = textDraft.CheckFields(title,msg);
-        assertFalse(isEmptyFields);
+        boolean isNotEmptyFields = textDraft.CheckFields(title,msg);
+        assertFalse(isNotEmptyFields);
     }
 
     @Test

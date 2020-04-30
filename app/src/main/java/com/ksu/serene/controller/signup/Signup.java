@@ -312,6 +312,7 @@ public class Signup extends AppCompatActivity {
         Map<String, Object> user = new HashMap<>();
         user.put("email", email);
         user.put("name", name);
+        user.put("first_fitbit","");
         // Add a new document with a generated ID
         db.collection("Patient")
                 .document(mAuth.getUid())

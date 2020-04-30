@@ -19,7 +19,7 @@ public class CalendarFragmentTest {
     }
 
     @Test
-    public void testCalendarDateNull () {
+    public void testCalendarDatePast () {
         assertNull(calendarFragment.checkCalendarDate
                 (12,4,2019));
     }

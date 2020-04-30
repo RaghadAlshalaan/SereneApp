@@ -80,9 +80,9 @@ public class SignupTest {
         email=("");
         pass=("");
         confirmPass=("");
-        boolean isEmptyFields = signup.CheckFields(name,email
+        boolean isNotEmptyFields = signup.CheckFields(name,email
                 ,pass,confirmPass);
-        assertFalse(isEmptyFields);
+        assertFalse(isNotEmptyFields);
     }
 
     @Test
@@ -91,9 +91,9 @@ public class SignupTest {
         email=("user@hotmail.com");
         pass=("pass00");
         confirmPass=("pass00");
-        boolean isNameEmpty = signup.CheckFields(name,email
+        boolean isNameNotEmpty = signup.CheckFields(name,email
                 ,pass,confirmPass);
-        assertFalse(isNameEmpty);
+        assertFalse(isNameNotEmpty);
     }
 
     @Test
@@ -102,9 +102,9 @@ public class SignupTest {
         email=("");
         pass=("pass00");
         confirmPass=("pass00");
-        boolean isEmailEmpty = signup.CheckFields(name,email
+        boolean isEmailNotEmpty = signup.CheckFields(name,email
                 ,pass,confirmPass);
-        assertFalse(isEmailEmpty);
+        assertFalse(isEmailNotEmpty);
     }
 
     @Test
@@ -113,9 +113,9 @@ public class SignupTest {
         email=("user@hotmail.com");
         pass=("");
         confirmPass=("pass00");
-        boolean isPassEmpty = signup.CheckFields(name,email
+        boolean isPassNotEmpty = signup.CheckFields(name,email
                 ,pass,confirmPass);
-        assertFalse(isPassEmpty);
+        assertFalse(isPassNotEmpty);
     }
 
     @Test
@@ -124,9 +124,9 @@ public class SignupTest {
         email=("user@hotmail.com");
         pass=("pass00");
         confirmPass=("");
-        boolean isCPEmpty = signup.CheckFields(name,email
+        boolean isCPNotEmpty = signup.CheckFields(name,email
                 ,pass,confirmPass);
-        assertFalse(isCPEmpty);
+        assertFalse(isCPNotEmpty);
     }
 
     @Test
@@ -143,8 +143,8 @@ public class SignupTest {
     @Test
     public void notValidName() {
         name=("00User");
-        boolean notValid = signup.validName(name);
-        assertFalse(notValid);
+        boolean isValid = signup.validName(name);
+        assertFalse(isValid);
     }
 
     @Test
@@ -156,8 +156,8 @@ public class SignupTest {
     @Test
     public void notValidEmail() {
         email=("user@1234.user");
-        boolean notValid = signup.isValidEmail(email);
-        assertFalse(notValid);
+        boolean isValid = signup.isValidEmail(email);
+        assertFalse(isValid);
     }
 
     @Test
@@ -172,23 +172,23 @@ public class SignupTest {
     public void passNotMatch() {
         pass=("pass00");
         confirmPass=("pass99");
-        boolean notMatch = signup.passMatch(pass,confirmPass);
-        assertFalse(notMatch);
+        boolean isMatch = signup.passMatch(pass,confirmPass);
+        assertFalse(isMatch);
     }
 
     @Test
     public void passMatch() {
         pass=("pass00");
         confirmPass=("pass00");
-        boolean Match = signup.passMatch(pass,confirmPass);
-        assertTrue(Match);
+        boolean isMatch = signup.passMatch(pass,confirmPass);
+        assertTrue(isMatch);
     }
 
     @Test
     public void shortPass() {
         pass=("pass");
-        boolean shortPass = signup.isShortPass(pass);
-        assertFalse(shortPass);
+        boolean isNotShortPass = signup.isShortPass(pass);
+        assertFalse(isNotShortPass);
 
         confirmPass=("pass");
         boolean shortConfirmPass = signup.isShortPass(confirmPass);
