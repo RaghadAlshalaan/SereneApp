@@ -86,78 +86,82 @@ public class MyDoctor extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                AlertDialog.Builder dialog = new AlertDialog.Builder(MyDoctor.this);
-                dialog.setTitle(R.string.DeleteDoc);
-                dialog.setMessage(R.string.DeleteMessageDoc);
-                dialog.setPositiveButton(R.string.DeleteOKDoc, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        db.collection("Doctor")
-                                .whereEqualTo("patientID", mAuth.getUid())
-                                .get()
-                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            if(!task.getResult().isEmpty()){
-                                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                                    if(document.exists()) {
-
-                                                        DocumentReference d= document.getReference();
-                                                        d.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                            @Override
-                                                            public void onComplete(@NonNull Task<Void> task) {
-                                                                Toast.makeText(MyDoctor.this,R.string.DocDeletedSuccess,
-                                                                        Toast.LENGTH_LONG).show();
-                                                                /*Resources res = getResources();
-                                                                String text = String.format(res.getString(R.string.DocDeletedSuccess));
-                                                                MotionToast.Companion.darkToast(
-                                                                        MyDoctor.this,
-                                                                        text,
-                                                                        MotionToast.Companion.getTOAST_SUCCESS(),
-                                                                        MotionToast.Companion.getGRAVITY_BOTTOM(),
-                                                                        MotionToast.Companion.getLONG_DURATION(),
-                                                                        ResourcesCompat.getFont( MyDoctor.this, R.font.montserrat));*/
-                                                                Intent in = new Intent(MyDoctor.this, PatientProfile.class);
-                                                                startActivity(in);
-                                                                //finish();
-                                                            }
-                                                        })
-                                                                .addOnFailureListener(new OnFailureListener() {
-                                                                    @Override
-                                                                    public void onFailure(@NonNull Exception e) {
-                                                                        Toast.makeText(MyDoctor.this,R.string.DocDeletedFialed,
-                                                                                Toast.LENGTH_LONG).show();
-                                                                    }
-                                                                });
-
-                                                    }
-                                                }
-                                            }
-
-                                        }
-                                        else {
-                                            Toast.makeText(MyDoctor.this, task.getException().getMessage(),
-                                                    Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                }); //end dialog onComplete
-                    }
-
-
-
-                });// end dialog onclick
-
-                dialog.setNegativeButton(R.string.DeleteCancleDoc,null);
-
-                AlertDialog alertDialog =  dialog.create();
-                alertDialog.show();
+                deleteDoctor();
 
             }
         });
 
         // Set name and email
         setData();
+    }
+
+    private void deleteDoctor() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(MyDoctor.this);
+        dialog.setTitle(R.string.DeleteDoc);
+        dialog.setMessage(R.string.DeleteMessageDoc);
+        dialog.setPositiveButton(R.string.DeleteOKDoc, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                db.collection("Doctor")
+                        .whereEqualTo("patientID", mAuth.getUid())
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    if(!task.getResult().isEmpty()){
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            if(document.exists()) {
+
+                                                DocumentReference d= document.getReference();
+                                                d.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        /*Toast.makeText(MyDoctor.this,R.string.DocDeletedSuccess,
+                                                                Toast.LENGTH_LONG).show();*/
+                                                        Resources res = getResources();
+                                                        String text = String.format(res.getString(R.string.DocDeletedSuccess));
+                                                        MotionToast.Companion.darkToast(
+                                                                MyDoctor.this,
+                                                                text,
+                                                                MotionToast.Companion.getTOAST_SUCCESS(),
+                                                                MotionToast.Companion.getGRAVITY_BOTTOM(),
+                                                                MotionToast.Companion.getLONG_DURATION(),
+                                                                ResourcesCompat.getFont( MyDoctor.this, R.font.montserrat));
+                                                        Intent in = new Intent(MyDoctor.this, PatientProfile.class);
+                                                        startActivity(in);
+                                                        //finish();
+                                                    }
+                                                })
+                                                        .addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                Toast.makeText(MyDoctor.this,R.string.DocDeletedFialed,
+                                                                        Toast.LENGTH_LONG).show();
+                                                            }
+                                                        });
+
+                                            }
+                                        }
+                                    }
+
+                                }
+                                else {
+                                    Toast.makeText(MyDoctor.this, task.getException().getMessage(),
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }); //end dialog onComplete
+            }
+
+
+
+        });// end dialog onclick
+
+        dialog.setNegativeButton(R.string.DeleteCancleDoc,null);
+
+        AlertDialog alertDialog =  dialog.create();
+        alertDialog.show();
     }
 
     private void setData() {

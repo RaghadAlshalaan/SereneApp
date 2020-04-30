@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -44,6 +45,9 @@ import java.util.UUID;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
+
+import www.sanju.motiontoast.MotionToast;
 
 public class Add_Appointment_Page extends AppCompatActivity {
 
@@ -245,8 +249,8 @@ public class Add_Appointment_Page extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             setReminder(newApp);
-                            Toast.makeText(Add_Appointment_Page.this, R.string.AppSavedSuccess, Toast.LENGTH_LONG).show();
-                            /*Resources res = getResources();
+                            //Toast.makeText(Add_Appointment_Page.this, R.string.AppSavedSuccess, Toast.LENGTH_LONG).show();
+                            Resources res = getResources();
                             String text = String.format(res.getString(R.string.AppSavedSuccess));
                             MotionToast.Companion.darkToast(
                                     Add_Appointment_Page.this,
@@ -254,7 +258,7 @@ public class Add_Appointment_Page extends AppCompatActivity {
                                     MotionToast.Companion.getTOAST_SUCCESS(),
                                     MotionToast.Companion.getGRAVITY_BOTTOM(),
                                     MotionToast.Companion.getLONG_DURATION(),
-                                    ResourcesCompat.getFont( Add_Appointment_Page.this, R.font.montserrat));*/
+                                    ResourcesCompat.getFont( Add_Appointment_Page.this, R.font.montserrat));
 
                             finish();
                             added = true;

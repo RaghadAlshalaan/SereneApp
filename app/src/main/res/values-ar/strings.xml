@@ -81,6 +81,7 @@
     <string name="MedSavedSuccess">تم حفظ تنبيه الدواء بنجاح</string>
     <string name="MedSavedFialed">لم يتم حفظ التنبيه، يرجى المحاولة مرة اخرى</string>
 
+
     <!-- Delete Med Reminder Page -->
     <string name="MedDetails">الدواء</string>
     <string name="DeleteMed">حذف الدواء</string>
@@ -279,6 +280,7 @@
     <string name="connect_google_calendar">الوصول لتقويم قوقل</string>
     <string name="status_not_connected">الحالة : غير متصل</string>
     <string name="success">نجاح</string>
+    <string name="audio_recorded_successfully">تم التسجيل بنجاح!</string>
     <string name="generate_report">إنشاء التقرير</string>
     <string name="duration">المدة:</string>
     <string name="last_two_weeks">آخر اسبوعين</string>
@@ -388,5 +390,8 @@
     <string name="GADSuccess">تمت العملية بنجاح</string>
     <string name="note_delete_doctor">"ملاحظة: حذف طبيبك يؤدي إلى إلغاء خاصية إرسال التقارير كل أسبوعين إلى البريد الإلكتروني الخاص به "</string>
     <string name="add_doctor_msg">اسمح بإرسال تقرير كل أسبوعين إلى طبيبك عبر البريد الإلكتروني من خلال تعبئة المعلومات المطلوبة أدناه.</string>
+    <string name="no_data_are_available_to_analyze">لا توجد بيانات قابلة للتحليل.</string>
+    <string name="last_updated">آخر تعديل:</string>
+    <string name="date_created">تاريخ الإنشاء:</string>
 
 </resources>

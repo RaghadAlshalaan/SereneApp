@@ -211,9 +211,9 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                         Toast.makeText(PatientTextDraftDetailPage.this, R.string.TDDeletedSuccess, Toast.LENGTH_LONG).show();
+                        // Toast.makeText(PatientTextDraftDetailPage.this, R.string.TDDeletedSuccess, Toast.LENGTH_LONG).show();
 
-                        /*Resources res = getResources();
+                        Resources res = getResources();
                         String text = String.format(res.getString(R.string.TDDeletedSuccess));
 
                         MotionToast.Companion.darkToast(
@@ -222,7 +222,7 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
                                 MotionToast.Companion.getTOAST_SUCCESS(),
                                 MotionToast.Companion.getGRAVITY_BOTTOM(),
                                 MotionToast.Companion.getLONG_DURATION(),
-                                ResourcesCompat.getFont( PatientTextDraftDetailPage.this, R.font.montserrat));*/
+                                ResourcesCompat.getFont( PatientTextDraftDetailPage.this, R.font.montserrat));
 
 
                         finish();
@@ -244,14 +244,37 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(PatientTextDraftDetailPage.this, R.string.TDUpdatedSuccess, Toast.LENGTH_LONG).show();
+                        //Toast.makeText(PatientTextDraftDetailPage.this, R.string.TDUpdatedSuccess, Toast.LENGTH_LONG).show();
+                        Resources res = getResources();
+                        String text = String.format(res.getString(R.string.TDUpdatedSuccess));
+
+                        MotionToast.Companion.darkToast(
+                                PatientTextDraftDetailPage.this,
+                                text,
+                                MotionToast.Companion.getTOAST_SUCCESS(),
+                                MotionToast.Companion.getGRAVITY_BOTTOM(),
+                                MotionToast.Companion.getLONG_DURATION(),
+                                ResourcesCompat.getFont( PatientTextDraftDetailPage.this, R.font.montserrat));
+
+
                         finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(PatientTextDraftDetailPage.this, R.string.TDUpdatedFialed, Toast.LENGTH_LONG).show();
+                        //Toast.makeText(PatientTextDraftDetailPage.this, R.string.TDUpdatedFialed, Toast.LENGTH_LONG).show();
+                        Resources res = getResources();
+                        String text = String.format(res.getString(R.string.TDUpdatedFialed));
+
+                        MotionToast.Companion.darkToast(
+                                PatientTextDraftDetailPage.this,
+                                text,
+                                MotionToast.Companion.getTOAST_ERROR(),
+                                MotionToast.Companion.getGRAVITY_BOTTOM(),
+                                MotionToast.Companion.getLONG_DURATION(),
+                                ResourcesCompat.getFont( PatientTextDraftDetailPage.this, R.font.montserrat));
+
                     }
                 });
         final Map<String, Object> newDate = new HashMap<>();

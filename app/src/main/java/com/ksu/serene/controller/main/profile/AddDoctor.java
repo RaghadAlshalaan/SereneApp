@@ -141,27 +141,35 @@ public class AddDoctor extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Log.d(TAG, "DocumentSnapshot added successfully");
-                                    Toast.makeText(AddDoctor.this, R.string.AddDocSuccess,
-                                            Toast.LENGTH_LONG).show();
-                                    /* Resources res = getResources();
-String text = String.format(res.getString(R.string.AddDocSuccess));
-MotionToast.Companion.darkToast(
-         AddDoctor.this,
-         text,
-         MotionToast.Companion.getTOAST_SUCCESS(),
-         MotionToast.Companion.getGRAVITY_BOTTOM(),
-         MotionToast.Companion.getLONG_DURATION(),
-         ResourcesCompat.getFont( AddDoctor.this, R.font.montserrat));*/
+                                    /*Toast.makeText(AddDoctor.this, R.string.AddDocSuccess,
+                                            Toast.LENGTH_LONG).show();*/
+                                     Resources res = getResources();
+                                    String text = String.format(res.getString(R.string.AddDocSuccess));
+                                    MotionToast.Companion.darkToast(
+                                             AddDoctor.this,
+                                             text,
+                                             MotionToast.Companion.getTOAST_SUCCESS(),
+                                             MotionToast.Companion.getGRAVITY_BOTTOM(),
+                                             MotionToast.Companion.getLONG_DURATION(),
+                                             ResourcesCompat.getFont( AddDoctor.this, R.font.montserrat));
                                     storeDoctorReport();
-                                    Intent intent = new Intent(AddDoctor.this, PatientProfile.class);
-                                    startActivity(intent);
+                                    finish();
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(AddDoctor.this, R.string.AddDocFialed,
-                                            Toast.LENGTH_LONG).show();
+                                    /*Toast.makeText(AddDoctor.this, R.string.AddDocFialed,
+                                            Toast.LENGTH_LONG).show();*/
+                                    Resources res = getResources();
+                                    String text = String.format(res.getString(R.string.AddDocFialed));
+                                    MotionToast.Companion.darkToast(
+                                            AddDoctor.this,
+                                            text,
+                                            MotionToast.Companion.getTOAST_ERROR(),
+                                            MotionToast.Companion.getGRAVITY_BOTTOM(),
+                                            MotionToast.Companion.getLONG_DURATION(),
+                                            ResourcesCompat.getFont( AddDoctor.this, R.font.montserrat));
                                 }
                             });
 

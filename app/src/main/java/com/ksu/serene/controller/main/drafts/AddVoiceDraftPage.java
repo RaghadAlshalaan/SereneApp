@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.ksu.serene.R;
 import com.ksu.serene.controller.Constants;
@@ -24,6 +26,7 @@ import cafe.adriel.androidaudiorecorder.AndroidAudioRecorder;
 import cafe.adriel.androidaudiorecorder.model.AudioChannel;
 import cafe.adriel.androidaudiorecorder.model.AudioSampleRate;
 import cafe.adriel.androidaudiorecorder.model.AudioSource;
+import www.sanju.motiontoast.MotionToast;
 
 
 public class AddVoiceDraftPage extends AppCompatActivity {
@@ -54,12 +57,23 @@ public class AddVoiceDraftPage extends AppCompatActivity {
         if (requestCode == REQUEST_RECORD_AUDIO) {
             if (resultCode == RESULT_OK) {
                 //todo: remove toast
-                Toast.makeText(this, "Audio recorded successfully!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Audio recorded successfully!", Toast.LENGTH_SHORT).show();
+                Resources res = getResources();
+                String text = String.format(res.getString(R.string.audio_recorded_successfully));
+
+                MotionToast.Companion.darkToast(
+                        AddVoiceDraftPage.this,
+                        text,
+                        MotionToast.Companion.getTOAST_SUCCESS(),
+                        MotionToast.Companion.getGRAVITY_BOTTOM(),
+                        MotionToast.Companion.getLONG_DURATION(),
+                        ResourcesCompat.getFont( AddVoiceDraftPage.this, R.font.montserrat));
+
                 finish();
             } else if (resultCode == RESULT_CANCELED) {
                // requestPermission();
-                //todo: remove toast
-                Toast.makeText(this, "Audio was not recorded", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Audio was not recorded", Toast.LENGTH_SHORT).show();
+
             }
         }
     }// onActivityResult()

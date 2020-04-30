@@ -2,10 +2,12 @@ package com.ksu.serene.controller.signup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -32,6 +34,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.ksu.serene.R;
 import java.util.HashMap;
 import java.util.Map;
+
+import www.sanju.motiontoast.MotionToast;
 
 import static android.R.layout.simple_spinner_dropdown_item;
 
@@ -224,7 +228,16 @@ public class Sociodemo extends Fragment {
 
         if (! checkSocioFields (age,height,weight,monthlyIncome,chronicDisease) ) {
             //Toast.makeText(getActivity(), R.string.EmptyFields,Toast.LENGTH_LONG).show();
-            error.setText(R.string.EmptyFields);
+            //error.setText(R.string.EmptyFields);
+            Resources res = getResources();
+            String text = String.format(res.getString(R.string.EmptyFields));
+            MotionToast.Companion.darkToast(
+                    getActivity(),
+                    text,
+                    MotionToast.Companion.getTOAST_ERROR(),
+                    MotionToast.Companion.getGRAVITY_BOTTOM(),
+                    MotionToast.Companion.getLONG_DURATION(),
+                    ResourcesCompat.getFont( getContext(), R.font.montserrat));
             return false;
         }
 
@@ -232,35 +245,80 @@ public class Sociodemo extends Fragment {
         double ageI = Double.parseDouble(age);
         if ( ! isValidAge(ageI) ) {
             //Toast.makeText(getActivity(), R.string.NotValidAge,Toast.LENGTH_LONG).show();
-            error.setText(R.string.NotValidAge);
+            //error.setText(R.string.NotValidAge);
+            Resources res = getResources();
+            String text = String.format(res.getString(R.string.NotValidAge));
+            MotionToast.Companion.darkToast(
+                    getActivity(),
+                    text,
+                    MotionToast.Companion.getTOAST_ERROR(),
+                    MotionToast.Companion.getGRAVITY_BOTTOM(),
+                    MotionToast.Companion.getLONG_DURATION(),
+                    ResourcesCompat.getFont( getContext(), R.font.montserrat));
             return flag;
         }
 
         double heightI = Double.parseDouble(height);
         if (!isValidHeight(heightI)){
             //Toast.makeText(getActivity(), R.string.NotValidHeight,Toast.LENGTH_LONG).show();
-            error.setText(R.string.NotValidHeight);
+            //error.setText(R.string.NotValidHeight);
+            Resources res = getResources();
+            String text = String.format(res.getString(R.string.NotValidHeight));
+            MotionToast.Companion.darkToast(
+                    getActivity(),
+                    text,
+                    MotionToast.Companion.getTOAST_ERROR(),
+                    MotionToast.Companion.getGRAVITY_BOTTOM(),
+                    MotionToast.Companion.getLONG_DURATION(),
+                    ResourcesCompat.getFont( getContext(), R.font.montserrat));
             return flag;
         }
 
         double weightI = Double.parseDouble(weight);
         if (!isValidWeight(weightI)){
             //Toast.makeText(getActivity(), R.string.NotValidWeight,Toast.LENGTH_LONG).show();
-            error.setText(R.string.NotValidWeight);
+            //error.setText(R.string.NotValidWeight);
+            Resources res = getResources();
+            String text = String.format(res.getString(R.string.NotValidWeight));
+            MotionToast.Companion.darkToast(
+                    getActivity(),
+                    text,
+                    MotionToast.Companion.getTOAST_ERROR(),
+                    MotionToast.Companion.getGRAVITY_BOTTOM(),
+                    MotionToast.Companion.getLONG_DURATION(),
+                    ResourcesCompat.getFont( getContext(), R.font.montserrat));
             return flag;
         }
 
         double monthlyIncomeI = Double.parseDouble(monthlyIncome);
         if (!isValidMonthlyIncome(monthlyIncomeI)){
             //Toast.makeText(getActivity(), R.string.NotValidMI,Toast.LENGTH_LONG).show();
-            error.setText(R.string.NotValidMI);
+            //error.setText(R.string.NotValidMI);
+            Resources res = getResources();
+            String text = String.format(res.getString(R.string.NotValidMI));
+            MotionToast.Companion.darkToast(
+                    getActivity(),
+                    text,
+                    MotionToast.Companion.getTOAST_ERROR(),
+                    MotionToast.Companion.getGRAVITY_BOTTOM(),
+                    MotionToast.Companion.getLONG_DURATION(),
+                    ResourcesCompat.getFont( getContext(), R.font.montserrat));
             return flag;
         }
 
         // CHECK CHRONIC DISEASE
         if (!isValidChronicDisease(chronicDisease)){
             //Toast.makeText(getActivity(), R.string.NotValidCD,Toast.LENGTH_LONG).show();
-            error.setText(R.string.NotValidCD);
+            //error.setText(R.string.NotValidCD);
+            Resources res = getResources();
+            String text = String.format(res.getString(R.string.NotValidCD));
+            MotionToast.Companion.darkToast(
+                    getActivity(),
+                    text,
+                    MotionToast.Companion.getTOAST_ERROR(),
+                    MotionToast.Companion.getGRAVITY_BOTTOM(),
+                    MotionToast.Companion.getLONG_DURATION(),
+                    ResourcesCompat.getFont( getContext(), R.font.montserrat));
             return flag;
         }
 
@@ -359,15 +417,33 @@ public class Sociodemo extends Fragment {
                                             }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(getActivity(), R.string.SocioFialed,
-                                                    Toast.LENGTH_LONG).show();
+                                            /*Toast.makeText(getActivity(), R.string.SocioFialed,
+                                                    Toast.LENGTH_LONG).show();*/
+                                            Resources res = getResources();
+                                            String text = String.format(res.getString(R.string.SocioFialed));
+                                            MotionToast.Companion.darkToast(
+                                                    getActivity(),
+                                                    text,
+                                                    MotionToast.Companion.getTOAST_ERROR(),
+                                                    MotionToast.Companion.getGRAVITY_BOTTOM(),
+                                                    MotionToast.Companion.getLONG_DURATION(),
+                                                    ResourcesCompat.getFont( getContext(), R.font.montserrat));
                                         }
                                     });
                                 }
                             } else {
 
-                                Toast.makeText(getActivity(), R.string.SocioFialed,
-                                        Toast.LENGTH_LONG).show();
+                                /*Toast.makeText(getActivity(), R.string.SocioFialed,
+                                        Toast.LENGTH_LONG).show();*/
+                                Resources res = getResources();
+                                String text = String.format(res.getString(R.string.SocioFialed));
+                                MotionToast.Companion.darkToast(
+                                        getActivity(),
+                                        text,
+                                        MotionToast.Companion.getTOAST_ERROR(),
+                                        MotionToast.Companion.getGRAVITY_BOTTOM(),
+                                        MotionToast.Companion.getLONG_DURATION(),
+                                        ResourcesCompat.getFont( getContext(), R.font.montserrat));
                             }
                         }
                     }

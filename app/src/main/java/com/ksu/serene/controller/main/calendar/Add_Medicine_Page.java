@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -46,6 +47,9 @@ import java.util.UUID;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
+
+import www.sanju.motiontoast.MotionToast;
 
 import static android.R.layout.simple_spinner_dropdown_item;
 
@@ -360,8 +364,8 @@ public class Add_Medicine_Page extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             //Log.d("TAG", "DocumentSnapshot added with ID: " + documentReference.getId());
                            setReminder(newMedicine);
-                           Toast.makeText(Add_Medicine_Page.this, R.string.MedSavedSuccess, Toast.LENGTH_LONG).show();
-                            /* Resources res = getResources();
+                           //Toast.makeText(Add_Medicine_Page.this, R.string.MedSavedSuccess, Toast.LENGTH_LONG).show();
+                             Resources res = getResources();
                             String text = String.format(res.getString(R.string.MedSavedSuccess));
                             MotionToast.Companion.darkToast(
                                      Add_Medicine_Page.this,
@@ -369,7 +373,7 @@ public class Add_Medicine_Page extends AppCompatActivity {
                                      MotionToast.Companion.getTOAST_SUCCESS(),
                                      MotionToast.Companion.getGRAVITY_BOTTOM(),
                                      MotionToast.Companion.getLONG_DURATION(),
-                                     ResourcesCompat.getFont(Add_Medicine_Page.this, R.font.montserrat));*/
+                                     ResourcesCompat.getFont(Add_Medicine_Page.this, R.font.montserrat));
 
                             finish();
                         } else {

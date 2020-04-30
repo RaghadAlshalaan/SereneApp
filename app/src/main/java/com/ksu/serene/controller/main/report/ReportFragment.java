@@ -535,7 +535,7 @@ public class ReportFragment extends Fragment {
         intent = new Intent(getContext(), PatientReport.class);
         intent.putExtra(Constants.Keys.DURATION, duration);
 
-        startActivity(intent);
+        //startActivity(intent);
         if (duration.equals("custom")) {
 
             if (isDatesChosen(startDate, endDate) == 0) {
@@ -632,9 +632,9 @@ public class ReportFragment extends Fragment {
         tag("AppInfo").d("callAPI");
 
         if(duration.equals("custom")){
-            api_url = "https://888aa192.ngrok.io/patient_report_custom_duration/"+mAuth.getUid()+"/"+apiStartDate+"/"+apiEndDate+"/"+GoogleCalendar;
+            api_url = "https://cade16c6.ngrok.io/patient_report_custom_duration/"+mAuth.getUid()+"/"+apiStartDate+"/"+apiEndDate+"/"+GoogleCalendar;
         }else{
-            api_url = "https://888aa192.ngrok.io/patient_report/"+mAuth.getUid()+"/"+duration+"/"+GoogleCalendar;
+            api_url = "https://cade16c6.ngrok.io/patient_report/"+mAuth.getUid()+"/"+duration+"/"+GoogleCalendar;
         }
 
         executeApi();
