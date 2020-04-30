@@ -215,7 +215,7 @@ public class Add_Medicine_Page extends AppCompatActivity {
     public boolean checkFields (String MName , String MDose, String interval, String repeatNo, String time, String date) {
         if ( !MName.equals("") && !MDose.equals("")
                 && !interval.equals("") && !repeatNo.equals("")
-                && !(time.equals("Set Time")) && !(date.equals("Set Date"))){
+                && !(time.equals("Set Time")) && !(date.equals("Set Day"))){
             return true;
         }
         return false;
