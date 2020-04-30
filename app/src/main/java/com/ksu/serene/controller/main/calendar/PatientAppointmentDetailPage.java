@@ -99,77 +99,81 @@ public class PatientAppointmentDetailPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //show window dialog with 2 button yes and no
-                new AlertDialog.Builder(PatientAppointmentDetailPage.this)
-                        .setTitle(R.string.DeleteApp)
-                        .setMessage(R.string.DeleteMessageApp)
-                        .setPositiveButton(R.string.DeleteOKApp, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                db.collection("PatientSessions")
-                                        .document(AppID)
-                                        .delete()
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                //delete notification
-                                                deleteNotification (AppID);
-                                                //delete scheduled reminder
-                                                //make uri with received path
-                                                Uri tempURI = Uri.parse(URI_path);//get path
-
-                                                //check if URI path actually contains a reminder
-                                                if (tempURI != null) {
-                                                    // Call the ContentResolver to delete the reminder at the given content URI.
-                                                    // Pass in null for the selection and selection args because the mCurrentreminderUri
-                                                    // content URI already identifies the reminder that we want.
-                                                    AlarmManager alarmmanager = AlarmManagerProvider.getAlarmManager(getApplicationContext());
-
-                                                    PendingIntent operation =
-                                                            ReminderAlarmService.getReminderPendingIntent(getApplicationContext(), tempURI);
-
-                                                    alarmmanager.cancel(operation);//cancels reminder alarm
-
-                                                    int rowsDeleted = getContentResolver().delete(tempURI, null, null);
-
-                                                    // Show a toast message depending on whether or not the delete was successful.
-                                                    if (rowsDeleted == 0) {
-                                                        // If no rows were deleted, then there was an error with the delete.
-                                                        //Toast.makeText(PatientAppointmentDetailPage.this, "The App reminder was not found", Toast.LENGTH_LONG);
-                                                        Log.d("Reminder deleted","The App reminder was not found");
-                                                    } else {
-                                                        // Otherwise, the delete was successful and we delete alarm and display a toast.
-                                                       // Toast.makeText(PatientAppointmentDetailPage.this, "The App reminder was successfully cancelled", Toast.LENGTH_LONG);
-                                                        Log.d("Reminder deleted","The App reminder was successfully cancelled");
-                                                    }
-                                                }
-                                                //Toast.makeText(PatientAppointmentDetailPage.this, R.string.AppDeletedSuccess, Toast.LENGTH_LONG).show();
-                                                 Resources res = getResources();
-                                                String text = String.format(res.getString(R.string.AppDeletedSuccess));
-
-                                                MotionToast.Companion.darkToast(
-                                                         PatientAppointmentDetailPage.this,
-                                                         text,
-                                                         MotionToast.Companion.getTOAST_SUCCESS(),
-                                                         MotionToast.Companion.getGRAVITY_BOTTOM(),
-                                                         MotionToast.Companion.getLONG_DURATION(),
-                                                         ResourcesCompat.getFont(PatientAppointmentDetailPage.this, R.font.montserrat));
-
-                                                finish();
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(PatientAppointmentDetailPage.this, R.string.AppDeletedFialed, Toast.LENGTH_LONG).show();
-                                            }
-                                        });
-                            }
-                        })
-                        .setNegativeButton(R.string.DeleteCancleApp, null)
-                        .show();
+                deleteAppointment();
             }
         });
 
+    }
+
+    private void deleteAppointment() {
+        new AlertDialog.Builder(PatientAppointmentDetailPage.this)
+                .setTitle(R.string.DeleteApp)
+                .setMessage(R.string.DeleteMessageApp)
+                .setPositiveButton(R.string.DeleteOKApp, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        db.collection("PatientSessions")
+                                .document(AppID)
+                                .delete()
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        //delete notification
+                                        deleteNotification (AppID);
+                                        //delete scheduled reminder
+                                        //make uri with received path
+                                        Uri tempURI = Uri.parse(URI_path);//get path
+
+                                        //check if URI path actually contains a reminder
+                                        if (tempURI != null) {
+                                            // Call the ContentResolver to delete the reminder at the given content URI.
+                                            // Pass in null for the selection and selection args because the mCurrentreminderUri
+                                            // content URI already identifies the reminder that we want.
+                                            AlarmManager alarmmanager = AlarmManagerProvider.getAlarmManager(getApplicationContext());
+
+                                            PendingIntent operation =
+                                                    ReminderAlarmService.getReminderPendingIntent(getApplicationContext(), tempURI);
+
+                                            alarmmanager.cancel(operation);//cancels reminder alarm
+
+                                            int rowsDeleted = getContentResolver().delete(tempURI, null, null);
+
+                                            // Show a toast message depending on whether or not the delete was successful.
+                                            if (rowsDeleted == 0) {
+                                                // If no rows were deleted, then there was an error with the delete.
+                                                //Toast.makeText(PatientAppointmentDetailPage.this, "The App reminder was not found", Toast.LENGTH_LONG);
+                                                Log.d("Reminder deleted","The App reminder was not found");
+                                            } else {
+                                                // Otherwise, the delete was successful and we delete alarm and display a toast.
+                                               // Toast.makeText(PatientAppointmentDetailPage.this, "The App reminder was successfully cancelled", Toast.LENGTH_LONG);
+                                                Log.d("Reminder deleted","The App reminder was successfully cancelled");
+                                            }
+                                        }
+                                        //Toast.makeText(PatientAppointmentDetailPage.this, R.string.AppDeletedSuccess, Toast.LENGTH_LONG).show();
+                                         Resources res = getResources();
+                                        String text = String.format(res.getString(R.string.AppDeletedSuccess));
+
+                                        MotionToast.Companion.darkToast(
+                                                 PatientAppointmentDetailPage.this,
+                                                 text,
+                                                 MotionToast.Companion.getTOAST_SUCCESS(),
+                                                 MotionToast.Companion.getGRAVITY_BOTTOM(),
+                                                 MotionToast.Companion.getLONG_DURATION(),
+                                                 ResourcesCompat.getFont(PatientAppointmentDetailPage.this, R.font.montserrat));
+
+                                        finish();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(PatientAppointmentDetailPage.this, R.string.AppDeletedFialed, Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                    }
+                })
+                .setNegativeButton(R.string.DeleteCancleApp, null)
+                .show();
     }
 
     public void deleteNotification (String appID) {

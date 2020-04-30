@@ -29,8 +29,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
@@ -48,7 +46,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ksu.serene.controller.Constants;
@@ -163,8 +160,8 @@ public class CalendarFragment extends Fragment {
                 googleEventsTV.setLayoutParams(eventMargins);
 
 
-                SetAppRecyView(root, i, i1 + 1, i2);
-                SetMedRecyView(root, i, i1 + 1, i2);
+                getSessions(root, i, i1 + 1, i2);
+                getMedicines(root, i, i1 + 1, i2);
 
 
                 //scrollView.smoothScrollTo(0,100);
@@ -232,8 +229,8 @@ public class CalendarFragment extends Fragment {
         dayN.setText(new SimpleDateFormat("EEEE", locale).format(today.getTime()));
         month.setText(new SimpleDateFormat("MMMM", locale).format(today.getTime()));
 
-        SetAppRecyView(root, Integer.parseInt(i), Integer.parseInt(i1), Integer.parseInt(i2));
-        SetMedRecyView(root, Integer.parseInt(i), Integer.parseInt(i1), Integer.parseInt(i2));
+        getSessions(root, Integer.parseInt(i), Integer.parseInt(i1), Integer.parseInt(i2));
+        getMedicines(root, Integer.parseInt(i), Integer.parseInt(i1), Integer.parseInt(i2));
 
 //        if (noAppointment && noMedicine){
 //            recyclerViewMedicine.setVisibility(GONE);
@@ -537,7 +534,7 @@ public class CalendarFragment extends Fragment {
     }
 
 
-    private void SetAppRecyView(View root, final int year, final int month, final int day) {
+    private void getSessions(View root, final int year, final int month, final int day) {
 
 
         final SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yy", Locale.US);
@@ -557,51 +554,6 @@ public class CalendarFragment extends Fragment {
             }
         });
 
-        //search in cloud firestore for patient sessions
-        //CollectionReference referenceSession = FirebaseFirestore.getInstance().collection("PatientSessions");
-
-        //final Query queryPatientSession = referenceSession.whereEqualTo("patinetID", patientId);
-
-        //queryPatientSession.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-         //   @Override
-          //  public void onComplete(@NonNull Task<QuerySnapshot> task) {
-             //   if (task.isSuccessful()) {
-                 //   for (QueryDocumentSnapshot document : task.getResult()) {
-
-                  //      AppID = document.getId();
-                    //    AppName = document.get("name").toString();
-                      //  AppDay = document.get("date").toString();
-                      //  AppTime = document.get("time").toString();
-
-                    //    Timestamp DTS = (Timestamp) document.get("dateTimestamp");
-                    //    Calendar appCalender = Calendar.getInstance();
-                    //    appCalender.setTimeInMillis(DTS.getSeconds() * 1000);
-
-                        //convert string to date to used in compare
-                     //   try {
-                     //       ADay = DateFormat.parse(AppDay);
-                     //       ATime = TimeFormat.parse(AppTime);
-                     //   } catch (ParseException e) {
-                     //       e.printStackTrace();
-                     //   }
-                     //   if ((appCalender.get(Calendar.YEAR) == year &&
-                            //    (appCalender.get(Calendar.MONTH) + 1) == month &&
-                            //    appCalender.get(Calendar.DAY_OF_MONTH) == day)) {
-                           // listAppointements.add(new TherapySession(AppID, AppName, AppDay, AppTime));
-
-                          //  recyclerViewSession.setVisibility(VISIBLE);
-                         //   appTV.setVisibility(VISIBLE);
-                           // noApp.setVisibility(GONE);
-                           // noMedApp.setVisibility(GONE);
-                           /// medMargins.topMargin = 420;
-                          //  medTV.setLayoutParams(medMargins);
-
-                     //   }
-                   // }
-                  //  adapterSession.notifyDataSetChanged();
-              //  }
-         //   }
-       // });
 
 
         CollectionReference referenceSession1 = FirebaseFirestore.getInstance().collection("PatientSessions");
@@ -657,7 +609,7 @@ public class CalendarFragment extends Fragment {
     }
 
 
-    private void SetMedRecyView(View root, final int year, final int month, final int day) {
+    private void getMedicines(View root, final int year, final int month, final int day) {
 
 
         final SimpleDateFormat DateFormat = new SimpleDateFormat("dd/MM/yy", Locale.US);
@@ -847,8 +799,8 @@ public class CalendarFragment extends Fragment {
         /*if (year != 0 && month!=0 && day!= 0){
             listAppointements.clear();
             listMedicines.clear();
-            SetAppRecyView(root, year, month, day);
-            SetMedRecyView(root, year, month, day);
+            getSessions(root, year, month, day);
+            getMedicines(root, year, month, day);
         }*/
     }
 

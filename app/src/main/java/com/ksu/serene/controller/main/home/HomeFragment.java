@@ -119,15 +119,8 @@ public class HomeFragment extends Fragment {
                             noResult.setVisibility(View.GONE);
 
                             String improvementPercentage = document.get("improvement").toString();
-                            improvement.setText(improvementPercentage);
+                            setImprovement(improvementPercentage);
 
-                            if (Double.parseDouble(improvementPercentage) >= 0) {
-                                improvement.setTextColor(getActivity().getResources().getColor(R.color.green));
-                                percent.setTextColor(getActivity().getResources().getColor(R.color.green));
-                            } else {
-                                improvement.setTextColor(getActivity().getResources().getColor(R.color.Error));
-                                percent.setTextColor(getActivity().getResources().getColor(R.color.Error));
-                            }
 
                         }else{
                                 noResult.setVisibility(View.VISIBLE);
@@ -139,6 +132,19 @@ public class HomeFragment extends Fragment {
                 });
 
     }
+
+    private void setImprovement(String improvementPercentage) {
+        improvement.setText(improvementPercentage);
+
+        if (Double.parseDouble(improvementPercentage) >= 0) {
+            improvement.setTextColor(getActivity().getResources().getColor(R.color.green));
+            percent.setTextColor(getActivity().getResources().getColor(R.color.green));
+        } else {
+            improvement.setTextColor(getActivity().getResources().getColor(R.color.Error));
+            percent.setTextColor(getActivity().getResources().getColor(R.color.Error));
+        }
+    }
+
 
     private void setQuoteImage() {
 

@@ -102,77 +102,81 @@ public class PatientMedicineDetailPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //show window dialog with 2 button yes and no
-                new AlertDialog.Builder(PatientMedicineDetailPage.this)
-                        .setTitle(R.string.DeleteMed)
-                        .setMessage(R.string.DeleteMessageMed)
-                        .setPositiveButton(R.string.DeleteOKMed, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                db.collection("PatientMedicin")
-                                        .document(MedID)
-                                        .delete()
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                //delete notification
-                                                deleteNotification (MedID);
-                                                Uri tempURI = Uri.parse(URI_path);//get path
-
-                                                //check if URI path actually contains a reminder
-                                                if (tempURI != null) {
-                                                    // Call the ContentResolver to delete the reminder at the given content URI.
-                                                    // Pass in null for the selection and selection args because the mCurrentreminderUri
-                                                    // content URI already identifies the reminder that we want.
-                                                    AlarmManager alarmmanager = AlarmManagerProvider.getAlarmManager(getApplicationContext());
-
-                                                    PendingIntent operation =
-                                                            ReminderAlarmService.getReminderPendingIntent(getApplicationContext(), tempURI);
-
-                                                    alarmmanager.cancel(operation);//cancels reminder alarm
-
-                                                    int rowsDeleted = getContentResolver().delete(tempURI, null, null);
-
-                                                    // Show a toast message depending on whether or not the delete was successful.
-                                                    if (rowsDeleted == 0) {
-                                                        // If no rows were deleted, then there was an error with the delete.
-                                                        //Toast.makeText(PatientMedicineDetailPage.this, "The Med reminder was not found", Toast.LENGTH_LONG);
-                                                        Log.d("Reminder","The Med reminder was not found");
-                                                    } else {
-                                                        // Otherwise, the delete was successful and we delete alarm and display a toast.
-
-
-                                                        //Toast.makeText(PatientMedicineDetailPage.this, "The Med reminder was successfully cancelled", Toast.LENGTH_LONG);
-                                                        Log.d("Reminder","The Med reminder was successfully cancelled");
-                                                    }
-                                                }
-
-                                                //Toast.makeText(PatientMedicineDetailPage.this, R.string.MedDeletedSuccess, Toast.LENGTH_LONG).show();
-                                                 Resources res = getResources();
-                                                String text = String.format(res.getString(R.string.MedDeletedSuccess));
-
-                                                MotionToast.Companion.darkToast(
-                                                         PatientMedicineDetailPage.this,
-                                                         text,
-                                                         MotionToast.Companion.getTOAST_SUCCESS(),
-                                                         MotionToast.Companion.getGRAVITY_BOTTOM(),
-                                                         MotionToast.Companion.getLONG_DURATION(),
-                                                         ResourcesCompat.getFont( PatientMedicineDetailPage.this, R.font.montserrat));
-
-                                                finish();
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(PatientMedicineDetailPage.this, R.string.MedDeletedFialed, Toast.LENGTH_LONG).show();
-                                            }
-                                        });
-                            }
-                        })
-                        .setNegativeButton(R.string.DeleteCancleMed, null)
-                        .show();
+                deleteMedicine();
             }
         });
+    }
+
+    private void deleteMedicine() {
+        new AlertDialog.Builder(PatientMedicineDetailPage.this)
+                .setTitle(R.string.DeleteMed)
+                .setMessage(R.string.DeleteMessageMed)
+                .setPositiveButton(R.string.DeleteOKMed, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        db.collection("PatientMedicin")
+                                .document(MedID)
+                                .delete()
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        //delete notification
+                                        deleteNotification (MedID);
+                                        Uri tempURI = Uri.parse(URI_path);//get path
+
+                                        //check if URI path actually contains a reminder
+                                        if (tempURI != null) {
+                                            // Call the ContentResolver to delete the reminder at the given content URI.
+                                            // Pass in null for the selection and selection args because the mCurrentreminderUri
+                                            // content URI already identifies the reminder that we want.
+                                            AlarmManager alarmmanager = AlarmManagerProvider.getAlarmManager(getApplicationContext());
+
+                                            PendingIntent operation =
+                                                    ReminderAlarmService.getReminderPendingIntent(getApplicationContext(), tempURI);
+
+                                            alarmmanager.cancel(operation);//cancels reminder alarm
+
+                                            int rowsDeleted = getContentResolver().delete(tempURI, null, null);
+
+                                            // Show a toast message depending on whether or not the delete was successful.
+                                            if (rowsDeleted == 0) {
+                                                // If no rows were deleted, then there was an error with the delete.
+                                                //Toast.makeText(PatientMedicineDetailPage.this, "The Med reminder was not found", Toast.LENGTH_LONG);
+                                                Log.d("Reminder","The Med reminder was not found");
+                                            } else {
+                                                // Otherwise, the delete was successful and we delete alarm and display a toast.
+
+
+                                                //Toast.makeText(PatientMedicineDetailPage.this, "The Med reminder was successfully cancelled", Toast.LENGTH_LONG);
+                                                Log.d("Reminder","The Med reminder was successfully cancelled");
+                                            }
+                                        }
+
+                                        //Toast.makeText(PatientMedicineDetailPage.this, R.string.MedDeletedSuccess, Toast.LENGTH_LONG).show();
+                                         Resources res = getResources();
+                                        String text = String.format(res.getString(R.string.MedDeletedSuccess));
+
+                                        MotionToast.Companion.darkToast(
+                                                 PatientMedicineDetailPage.this,
+                                                 text,
+                                                 MotionToast.Companion.getTOAST_SUCCESS(),
+                                                 MotionToast.Companion.getGRAVITY_BOTTOM(),
+                                                 MotionToast.Companion.getLONG_DURATION(),
+                                                 ResourcesCompat.getFont( PatientMedicineDetailPage.this, R.font.montserrat));
+
+                                        finish();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(PatientMedicineDetailPage.this, R.string.MedDeletedFialed, Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                    }
+                })
+                .setNegativeButton(R.string.DeleteCancleMed, null)
+                .show();
     }
 
     public void deleteNotification (String medID) {
