@@ -72,7 +72,7 @@ import www.sanju.motiontoast.MotionToast;
 public class PatientProfile extends AppCompatActivity {
 
     private ImageView image, SocioArrow, doctorArrow, editProfile, back, googleCalendarArrow;
-    private TextView name, email, doctor;
+    private TextView name, email, doctor, googleEnable;
     private LinearLayout alert, resendL;
     private String nameDb, emailDb, imageDb;
     private FirebaseAuth mAuth;
@@ -200,6 +200,7 @@ public class PatientProfile extends AppCompatActivity {
         doctorArrow = findViewById(R.id.go_to2);
         googleCalendarArrow = findViewById(R.id.go_to3);
         doctor = findViewById(R.id.doctor_text2);
+        googleEnable = findViewById(R.id.connection_status);
         back = findViewById(R.id.backButton);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -213,7 +214,10 @@ public class PatientProfile extends AppCompatActivity {
         boolean connect = preferences.getBoolean("Connect",false);
         if (connect){
             findViewById(R.id.googleCalender).setVisibility(View.GONE);
+            googleEnable.setText("Enabled");
         }
+        else
+            googleEnable.setText("Disabled");
 
         TextView edit =  findViewById(R.id.EditImg);
         //for check if image updated
