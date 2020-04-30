@@ -749,7 +749,7 @@ public class Editprofile extends AppCompatActivity {
     }
 
     public void deleteAccount () {
-        FirebaseFirestore.getInstance().collection("Patient").document(mAuth.getCurrentUser().getUid())
+        FirebaseFirestore.getInstance().collection("Patient").document(mAuth.getUid())
                 .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

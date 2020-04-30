@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,6 +30,8 @@ import com.ksu.serene.model.VoiceDraft;
 import com.ksu.serene.R;
 
 import java.util.concurrent.TimeUnit;
+
+import www.sanju.motiontoast.MotionToast;
 
 import static com.firebase.ui.auth.ui.phone.SubmitConfirmationCodeFragment.TAG;
 
@@ -279,7 +283,22 @@ public class CustomAudioDialogClass extends Dialog implements
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully deleted!");
                         Toast.makeText(getContext(), R.string.AudioDeletedSuccess, Toast.LENGTH_LONG).show();
+                        //Resources res = getContext().getResources();
+                        //String text = String.format(res.getString(R.string.AudioDeletedSuccess));
+
+                       // MotionToast.Companion.darkToast(
+                         //       getOwnerActivity(),
+                         //       text,
+                          //      MotionToast.Companion.getTOAST_SUCCESS(),
+                           //     MotionToast.Companion.getGRAVITY_BOTTOM(),
+                           //     MotionToast.Companion.getLONG_DURATION(),
+                           //     ResourcesCompat.getFont( getContext(), R.font.montserrat));
+
+
+
+
                         voiceDraftFragment.onResume();
+
 
                     }
                 })
@@ -289,6 +308,17 @@ public class CustomAudioDialogClass extends Dialog implements
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error deleting document", e);
                         Toast.makeText(getContext(), R.string.AudioDeletedFialed, Toast.LENGTH_LONG).show();
+                       // Resources res = getContext().getResources();
+                       // String text = String.format(res.getString(R.string.AudioDeletedFialed));
+
+                       // MotionToast.Companion.darkToast(
+                         //       getOwnerActivity(),
+                         //       text,
+                          //      MotionToast.Companion.getTOAST_ERROR(),
+                          //      MotionToast.Companion.getGRAVITY_BOTTOM(),
+                          //      MotionToast.Companion.getLONG_DURATION(),
+                           //     ResourcesCompat.getFont( getContext(), R.font.montserrat));
+
                     }
                 });
 

@@ -467,7 +467,7 @@ public class DailyWorker extends Worker {
 
     private void executeDailyReportApi(String id){
 
-        String url = "https://888aa192.ngrok.io/daily_report/" + id;
+        String url = "https://29833142.ngrok.io/daily_report/" + id;
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
