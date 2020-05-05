@@ -124,9 +124,19 @@ public class FGAD7SuccessTest {
         onView(withId(R.id.radioButton74)).check(matches(isNotChecked()));//radio 4
         //click button
         onView(allOf(withId(R.id.nextBtn), isDisplayed())).perform(click());
-        // check toast visibility
-        onView(withText(R.string.GADSuccess)).inRoot(new ToastMatcher()).check(matches(withText(R.string.GADSuccess)));
-        onView(withId(R.id.FitbitConnection)).check(matches(isDisplayed()));
+        //Mack sure Espresso does not time out
+        IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
+        IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
+        //Now we waite
+        IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
+        try {
+            IdlingRegistry.getInstance().register(idlingResource);
+            onView(withId(R.id.FitbitConnection)).check(matches(isDisplayed()));
+        }
+        //clean upp
+        finally {
+            IdlingRegistry.getInstance().unregister(idlingResource);
+        }
     }
 
     @After
