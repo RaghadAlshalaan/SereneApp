@@ -632,9 +632,9 @@ public class ReportFragment extends Fragment {
         tag("AppInfo").d("callAPI");
 
         if(duration.equals("custom")){
-            api_url = "https://cade14c6.ngrok.io/patient_report_custom_duration/"+mAuth.getUid()+"/"+apiStartDate+"/"+apiEndDate+"/"+GoogleCalendar;
+            api_url = "https://e8a76a2c.ngrok.io/patient_report_custom_duration/"+mAuth.getUid()+"/"+apiStartDate+"/"+apiEndDate+"/"+GoogleCalendar;
         }else{
-            api_url = "https://cade14c6.ngrok.io/patient_report/"+mAuth.getUid()+"/"+duration+"/"+GoogleCalendar;
+            api_url = "https://e8a76a2c.ngrok.io/patient_report/"+mAuth.getUid()+"/"+duration+"/"+GoogleCalendar;
         }
 
         executeApi();
@@ -886,6 +886,7 @@ public class ReportFragment extends Fragment {
             event.put("patientID", mAuth.getUid());
             event.put("name", newEvents.get(i).getSummary());
             event.put("date", newEvents.get(i).getStartTime());
+            event.put("anxietyLevel", "Not given");
 
             DocumentReference ref = db.collection("PatientEvents").document(getRandomID());
 
