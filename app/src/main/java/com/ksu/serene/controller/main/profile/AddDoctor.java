@@ -205,17 +205,12 @@ public class AddDoctor extends AppCompatActivity {
 
     public void storeDoctorReport(){
                final Map<String, Object> user = new HashMap<>();
-                    user.put("anxiety_level", -1);
-                    user.put("doctorId", ID);
-                    user.put("emailsent",Boolean.TRUE );
-                    user.put("improvement", -1);
-                    user.put("patientId", mAuth.getUid());
                     user.put("reportTime", FieldValue.serverTimestamp());
-                    user.put("reportUrl", "-1");
 
 
-                db.collection("DoctorReports")
-                            .document("Doctor"+mAuth.getUid())
+
+                db.collection("Patient")
+                            .document(mAuth.getUid())
                             .set(user)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override

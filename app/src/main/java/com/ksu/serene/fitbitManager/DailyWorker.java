@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -26,13 +27,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.ksu.serene.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,6 +55,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import static com.firebase.ui.auth.ui.phone.VerifyPhoneNumberFragment.TAG;
@@ -164,7 +170,7 @@ public class DailyWorker extends Worker {
         //to do execute
         executeDailyReportApi(user.getUid());
         /**------------------DOCTOR REPORT------------------**/
-       // isTwoWeeksPassed();
+        isTwoWeeksPassed();
 
 
 
@@ -465,9 +471,9 @@ public class DailyWorker extends Worker {
     }
 
 
-    private void executeDailyReportApi(String id){
+    private void executeDailyReportApi(String id) {
 
-        String url = "https://cade14c6.ngrok.io/daily_report/" + id;
+        String url = "https://e8a76a2c.ngrok.io/daily_report/" + id;
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -478,7 +484,7 @@ public class DailyWorker extends Worker {
                     public void onResponse(JSONObject response) {
 
                         Log.e("APII", "Success: " + response.toString());
-                        //Toast.makeText(getApplicationContext() ,context.getResources().getText(R.string.api_daily_sucess_msg) , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext() ,context.getResources().getText(R.string.api_daily_sucess_msg) , Toast.LENGTH_SHORT).show();
 
                     }
                 },
@@ -486,7 +492,7 @@ public class DailyWorker extends Worker {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         //Toast.makeText( getApplicationContext(), context.getResources().getText(R.string.api_daily_error_msg) , Toast.LENGTH_SHORT).show();
-                        Log.e("APII","ERROR: " + error.toString());
+                        Log.e("APII", "ERROR: " + error.toString());
 
                     }
                 }
@@ -511,58 +517,68 @@ public class DailyWorker extends Worker {
 
         requestQueue.add(objectRequest);
     }
-//1. is 2w has passed?
-public String isTwoWeeksPassed(){
-    //1. get last generated doctor report date
-    final DocumentReference userRev = FirebaseFirestore.getInstance().collection("DoctorReports").document("Doctor"+mAuth.getUid());
-    userRev.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-        @Override
-        public void onSuccess(DocumentSnapshot documentSnapshot) {
-            Timestamp lastReportTimestamp = (Timestamp) documentSnapshot.get("reportTime");
-            String lastReportDate = getDateFormat(lastReportTimestamp, false);
 
-            //2. get day 14
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            Calendar c = Calendar.getInstance();
-            try {
-                c.setTime(formatter.parse(lastReportDate));
-            } catch (ParseException e) {
-                e.printStackTrace();
+    //1. is 2w has passed?
+    public String isTwoWeeksPassed() {
+        //1. get last generated doctor report date
+        final DocumentReference userRev = FirebaseFirestore.getInstance().collection("Patient").document(mAuth.getUid() + "");
+        userRev.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+
+                if (documentSnapshot.get("reportTime").toString().equals("")) {
+                    Timestamp lastReportTimestamp = (Timestamp) documentSnapshot.get("reportTime");
+                    String lastReportDate = getDateFormat(lastReportTimestamp, false);
+
+                    //2. get day 14
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                    Calendar c = Calendar.getInstance();
+                    try {
+                        c.setTime(formatter.parse(lastReportDate));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    c.add(Calendar.DATE, 15);  // number of days to add
+                    day14 = formatter.format(c.getTime());
+
+                    //3. get today date
+                    Timestamp todayTimestamp = Timestamp.now();
+                    String todayDate = getDateFormat(todayTimestamp, false);
+
+                    //4. compare the two dates
+                    // if (todayDate.equals(day14))
+                    // Check if doctor is validated
+                    Toast.makeText( getApplicationContext(), "two", Toast.LENGTH_LONG).show();
+
+                    isDoctorValidated();
+                }//big if
+
             }
-            c.add(Calendar.DATE, 15);  // number of days to add
-            day14 = formatter.format(c.getTime());
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
 
-            //3. get today date
-            Timestamp todayTimestamp = Timestamp.now();
-            String todayDate = getDateFormat(todayTimestamp , false);
+            }
+        });
 
-            //4. compare the two dates
-            if(todayDate.equals(day14))
-                // Check if doctor is validated
-                isDoctorValidated();
-
-        }
-    }).addOnFailureListener(new OnFailureListener() {
-        @Override
-        public void onFailure(@NonNull Exception e) {
-
-        }
-    });
-
-return "";
-}//isTwoWeeksPassed
+        return "";
+    }//isTwoWeeksPassed
 
 
-//2. is doctor validated
+    //2. is doctor validated
     public void isDoctorValidated(){
         final Query userRev = FirebaseFirestore.getInstance().collection("Doctor").whereEqualTo("patientID", mAuth.getUid());
         userRev.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                boolean isVerified =(boolean) queryDocumentSnapshots.getDocuments().get(0).get("isVerified");
+                boolean isVerified = (boolean) queryDocumentSnapshots.getDocuments().get(0).get("isVerified");
                 doctorID = queryDocumentSnapshots.getDocuments().get(0).get("id").toString();
-                if (isVerified)
+                if (isVerified){
                     isThereEnoughDate();
+                    Toast.makeText( getApplicationContext(), "doctor is validated", Toast.LENGTH_LONG).show();
+
+                }
 
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -573,26 +589,20 @@ return "";
         });
     }//isDoctorValidated
 
-//3. is there enough data in storage
-    public void isThereEnoughDate(){
-        //1. get when was fit bit data fetch for the first time
+    //3. is there enough data in storage
+    public void isThereEnoughDate() {
         final DocumentReference userRev = FirebaseFirestore.getInstance().collection("Patient").document(mAuth.getUid());
         userRev.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String firstFit_bit = documentSnapshot.get("first_fitbit").toString();
-                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                Date date = null;
-                try {
-                    date = dateFormat.parse(firstFit_bit);
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                final String firstFit_bit = documentSnapshot.get("first_fitbit").toString();
+
+                if(!firstFit_bit.equals("")|| firstFit_bit==null){
+                    //Finally!, send Doctor report
+                    executeDoctorReportApi(user.getUid(), doctorID);
+                    Toast.makeText( getApplicationContext(), "there are enough data", Toast.LENGTH_LONG).show();
+
                 }
-              Timestamp firstFit_bitTimestamp =  new Timestamp(date);
-
-               //Finally!, send Doctor report
-                executeDoctorReportApi(user.getUid() ,doctorID);
-
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -603,27 +613,26 @@ return "";
         //2. get last generated report date
 
 
-
     }//isThereEnoughDate
 
-    private String getDateFormat(Timestamp timeStamp , boolean isReverse){
+    private String getDateFormat(Timestamp timeStamp, boolean isReverse) {
 
 
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(timeStamp.getSeconds()*1000);
+        calendar.setTimeInMillis(timeStamp.getSeconds() * 1000);
         int mYear = calendar.get(Calendar.YEAR);
         int mMonth = calendar.get(Calendar.MONTH);
         int mDay = calendar.get(Calendar.DAY_OF_MONTH);
-        if(isReverse)
-            return mYear+"/"+mMonth+"/"+mDay;
+        if (isReverse)
+            return mYear + "/" + mMonth + "/" + mDay;
         else
-            return mDay+"/"+mMonth+"/"+mYear;
+            return mDay + "/" + mMonth + "/" + mYear;
     }// getDateFormat
 
 
-    private void executeDoctorReportApi(String id ,String doc){
+    private void executeDoctorReportApi(String id, String doc) {
 
-        String url = "https://73f846d2.ngrok.io/daily_report/"+id+"/"+doc;
+        String url = "https://e8a76a2c.ngrok.io/doctor_report/" + id + "/" + doc;
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -634,6 +643,7 @@ return "";
                     public void onResponse(JSONObject response) {
 
                         Log.e("APII", "Success: " + response.toString());
+                        storeDoctorReport();
 
 
                     }
@@ -641,8 +651,8 @@ return "";
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("APII","ERROR: " + error.toString());
-                        //Toast.makeText( getApplicationContext(), context.getResources().getText(R.string.api_daily_error_msg) , Toast.LENGTH_LONG).show();
+                        Log.e("APII", "ERROR: " + error.toString());
+                        Toast.makeText( getApplicationContext(), "Doctor report send Successfully!", Toast.LENGTH_LONG).show();
                         Log.e("APII", "ERROR: " + error.toString());
 
                     }
@@ -669,6 +679,27 @@ return "";
         requestQueue.add(objectRequest);
         //todo: retrieve data
     }
+    public void storeDoctorReport(){
+        final Map<String, Object> user = new HashMap<>();
+        user.put("reportTime", FieldValue.serverTimestamp());
 
+
+        db.collection("Patient")
+                .document(mAuth.getUid())
+                .set(user , SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "init doctor report added successfully");
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+    }//storeDoctorReport
 
 }

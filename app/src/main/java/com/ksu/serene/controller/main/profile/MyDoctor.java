@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -37,6 +39,9 @@ import androidx.core.content.res.ResourcesCompat;
 import www.sanju.motiontoast.MotionToast;
 
 import android.content.res.Resources;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MyDoctor extends AppCompatActivity {
 
@@ -119,6 +124,7 @@ public class MyDoctor extends AppCompatActivity {
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         /*Toast.makeText(MyDoctor.this,R.string.DocDeletedSuccess,
                                                                 Toast.LENGTH_LONG).show();*/
+                                                        storeDoctorReport();
                                                         Resources res = getResources();
                                                         String text = String.format(res.getString(R.string.DocDeletedSuccess));
                                                         MotionToast.Companion.darkToast(
@@ -223,4 +229,31 @@ public class MyDoctor extends AppCompatActivity {
                 });
 
     }
+
+    public void storeDoctorReport(){
+        final Map<String, Object> user = new HashMap<>();
+        user.put("reportTime", "");
+
+
+
+        db.collection("Patient")
+                .document(mAuth.getUid())
+                .set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("TAG", "init doctor report deleted successfully");
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
+
+    }//storeDoctorReport
+
 }
