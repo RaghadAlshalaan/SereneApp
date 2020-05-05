@@ -47,7 +47,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.ksu.serene.controller.Constants;
 import com.ksu.serene.controller.Reminder.Notification;
-import com.ksu.serene.fitbitManager.Util;
+import com.ksu.serene.controller.liveChart.utils.Utils;
 import com.ksu.serene.controller.main.home.NotificationAdapter;
 import com.ksu.serene.controller.signup.GAD7;
 import com.ksu.serene.locationManager.MyLocationManager;
@@ -125,7 +125,8 @@ public class MainActivity extends AppCompatActivity implements
         // CHECK & SET APPLICATION LANGUAGE
         SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
         preferred_lng = sp.getString("PREFERRED_LANGUAGE", "en");
-        Util.setLocale(preferred_lng, this);
+
+        Utils.setLocale(preferred_lng, this);
 
         //create notification channel upon opening app for the first time
         createNotificationChannel();

@@ -50,7 +50,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.ksu.serene.MainActivity;
 import com.ksu.serene.controller.Constants;
-import com.ksu.serene.fitbitManager.Util;
+import com.ksu.serene.controller.liveChart.utils.Utils;
 import com.ksu.serene.controller.signup.GoogleCalendarConnection;
 import com.ksu.serene.model.Token;
 import com.ksu.serene.WelcomePage;
@@ -97,7 +97,7 @@ public class PatientProfile extends AppCompatActivity {
 
         SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
         String preferred_lng = sp.getString("PREFERRED_LANGUAGE", "en");
-        Util.setLocale(preferred_lng, this);
+        Utils.setLocale(preferred_lng, this);
 
         // Inflate the layout for this fragment
         getSupportActionBar().hide();

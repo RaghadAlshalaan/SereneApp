@@ -1,8 +1,6 @@
 package com.ksu.serene.B.B_First;
 
 import static org.junit.Assert.*;
-
-import com.ksu.serene.ElapsedTimeIdlingResource;
 import com.ksu.serene.ToastMatcher;
 import com.ksu.serene.R;
 import com.ksu.serene.controller.signup.Questionnairs;
@@ -13,11 +11,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.concurrent.TimeUnit;
-
-import androidx.test.espresso.IdlingPolicies;
-import androidx.test.espresso.IdlingRegistry;
-import androidx.test.espresso.IdlingResource;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
@@ -106,19 +99,9 @@ public class DSociodemoSuccessTest {
         closeSoftKeyboard();
         //click button
         onView(withId(R.id.nextBtn)).perform(click());
-        //Mack sure Espresso does not time out
-        IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
-        IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
-        //Now we waite
-        IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
-        try {
-            IdlingRegistry.getInstance().register(idlingResource);
-            onView(withId(R.id.fragmentGad)).check(matches(isDisplayed()));
-        }
-        //clean upp
-        finally {
-            IdlingRegistry.getInstance().unregister(idlingResource);
-        }
+        // check toast visibility
+        onView(withText(R.string.SocioSuccess)).inRoot(new ToastMatcher()).check(matches(withText(R.string.SocioSuccess)));
+        onView(withId(R.id.fragmentGad)).check(matches(isDisplayed()));
     }
 
     @After

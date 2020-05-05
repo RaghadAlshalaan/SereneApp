@@ -142,6 +142,8 @@ dependencies {
     // Heat map
     implementation 'com.google.maps.android:android-maps-utils:1.0.2'
 
+    // Calendar
+
     // Toast
     implementation 'com.github.Spikeysanju:MotionToast:1.3.1'
 
@@ -156,10 +158,10 @@ dependencies {
     implementation 'com.pixplicity.easyprefs:library:1.9.0'
 
 
-    // live chart
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    // image Slider
+    implementation 'com.github.smarteist:autoimageslider:1.3.5'
 
-
+    
     android {
         packagingOptions {
             exclude 'META-INF/DEPENDENCIES'

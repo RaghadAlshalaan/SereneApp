@@ -33,7 +33,6 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.github.mikephil.charting.data.BarEntry;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -104,9 +103,12 @@ public class ReportFragment extends Fragment {
     private SimpleDateFormat DateFormat = new SimpleDateFormat("dd/mm/yyyy", Locale.US);
     private String api_url, apiStartDate, apiEndDate;
     private ProgressBar progressBar;
+    private String reportStartDate;
+    private String reportEndDate;
     private TextView Info;
     private RadioButton radioBtn1, radioBtn2, radioBtn3;
-    private String first_fitbit= "", last_fitbit= "";
+    private String first_fitbit= "";
+    private String last_fitbit= "";
 
 
     // Google Calendar Events
@@ -169,7 +171,7 @@ public class ReportFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 setEndDate(EndDate);
-            }
+        }
         });
 
 
@@ -177,17 +179,21 @@ public class ReportFragment extends Fragment {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 setRadioButton(checkedId);
-            }// onChecked
+        }// onChecked
         });
 
-        getFitbitduration();
+        getFitbitduration ();
 
         generate_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkFitbitAvailability();
+               checkFitbitAvailability();
             }// onClick
         });
+
+
+
+
 
 
         return root;
@@ -238,7 +244,9 @@ public class ReportFragment extends Fragment {
                         radioBtn2.setEnabled(true);}
 
 
-                } } }); }
+    } } }); }
+
+
 
 
     private void checkFitbitAvailability() {
@@ -282,6 +290,11 @@ public class ReportFragment extends Fragment {
         });
 
     }
+
+
+
+
+
 
 
     private void init() {
@@ -459,10 +472,10 @@ public class ReportFragment extends Fragment {
                         datePickerDialog.show();
                     }
 
+                    }
                 }
-            }
 
-        });
+            });
 
 
 
@@ -580,7 +593,7 @@ public class ReportFragment extends Fragment {
 
         Date startD, endD;
         String start = "", end;
-
+        
         Calendar cale = Calendar.getInstance();
         cale.add(Calendar.DATE, -1);
         endD = cale.getTime();
@@ -588,7 +601,7 @@ public class ReportFragment extends Fragment {
         myCalendarEnd.set(Calendar.YEAR, 2020);
         myCalendarEnd.set(Calendar.MONTH, endD.getMonth()+1);
         myCalendarEnd.set(Calendar.DAY_OF_MONTH, endD.getDay());
-
+        
         Calendar cal = Calendar.getInstance();
 
         switch (duration) {
@@ -612,16 +625,16 @@ public class ReportFragment extends Fragment {
 
         }//end of switch
 
-
+        
     }
 
     private void callAPI() {
         tag("AppInfo").d("callAPI");
 
         if(duration.equals("custom")){
-            api_url = "https://e8a76a2c.ngrok.io/patient_report_custom_duration/"+mAuth.getUid()+"/"+apiStartDate+"/"+apiEndDate+"/"+GoogleCalendar;
+            api_url = "https://cade14c6.ngrok.io/patient_report_custom_duration/"+mAuth.getUid()+"/"+apiStartDate+"/"+apiEndDate+"/"+GoogleCalendar;
         }else{
-            api_url = "https://e8a76a2c.ngrok.io/patient_report/"+mAuth.getUid()+"/"+duration+"/"+GoogleCalendar;
+            api_url = "https://cade14c6.ngrok.io/patient_report/"+mAuth.getUid()+"/"+duration+"/"+GoogleCalendar;
         }
 
         executeApi();
@@ -633,7 +646,6 @@ public class ReportFragment extends Fragment {
         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.INTERNET}, PERMISSION_INTERNET);
         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_NETWORK_STATE}, PERMISSION_ACCESS_NETWORK_STATE);
 
-        Log.d("LOG_TAG", "executeApi url = " + api_url);
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         JsonObjectRequest objectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -644,41 +656,14 @@ public class ReportFragment extends Fragment {
                     public void onResponse(JSONObject response) {
                         Log.e("LOG", "success: " + response.toString());
 
-                        // TODO : READ the JSON data
-
                         try {
-
-                            JSONObject Dates = response.getJSONObject("date");
-                            JSONObject AnxietyLevel = response.getJSONObject("Anxiety");
-
-                            List<BarEntry> entriesBar = new ArrayList<>();
-
-                            for (int j = 0; j < 90; j++) {
-                                try {
-                                    entriesBar.add(new BarEntry(Float.parseFloat(j + "f"), (float) AnxietyLevel.getDouble(String.valueOf(j))));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-
-                            List<String> xAxisValues = new ArrayList<>();
-                            for (int n = 0; n < 90; n++) {
-                                try {
-                                    xAxisValues.add(Dates.getString(String.valueOf(n)));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            Constants.entriesBar = entriesBar;
-                            Constants.xAxisValues = xAxisValues;
+                            // Info to visualize the graph in the PatientReport Page
+                            JSONArray Dates = response.getJSONArray("date");
+                            JSONArray AnxietyLevel = response.getJSONArray("Anxiety");
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Log.d("LOG_TAG", "JSONException = " + e.getMessage());
                         }
-
 
                         // Start new Activity which present the graph
                         progressBar.setVisibility(View.INVISIBLE);
@@ -689,7 +674,7 @@ public class ReportFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(getContext(), "Processing Failed" , Toast.LENGTH_LONG).show();
-                        Log.e("LOG_TAG","executeApi ERROR: " + error.toString() );
+                        Log.e("LOG","ERROR: "+error.toString() );
                         progressBar.setVisibility(View.INVISIBLE);
 
                     }
@@ -710,7 +695,7 @@ public class ReportFragment extends Fragment {
 
             @Override
             public void retry(VolleyError error) throws VolleyError {
-                Log.e("LOG_TAG","executeApi ERROR: " + error.toString() );
+
             }
         });
         requestQueue.add(objectRequest);
@@ -818,7 +803,7 @@ public class ReportFragment extends Fragment {
                 DateTime startRange = new DateTime(startDate, TimeZone.getTimeZone("UTC"));
                 DateTime endRange = new DateTime(endDate, TimeZone.getTimeZone("UTC"));
 
-
+                
                 Events events = client.events().list(feed.getItems().get(0).getId())
                         .setMaxResults(100)
                         .setTimeMin(startRange)
@@ -863,7 +848,7 @@ public class ReportFragment extends Fragment {
                 }else{
 
                     // no new events
-                    callAPI();
+                        callAPI();
 
                 }
 
@@ -887,7 +872,7 @@ public class ReportFragment extends Fragment {
 
         }
 
-    }
+   }
 
     int i;
     boolean done = false;
@@ -901,8 +886,6 @@ public class ReportFragment extends Fragment {
             event.put("patientID", mAuth.getUid());
             event.put("name", newEvents.get(i).getSummary());
             event.put("date", newEvents.get(i).getStartTime());
-            event.put("anxietyLevel", "Not given");
-
 
             DocumentReference ref = db.collection("PatientEvents").document(getRandomID());
 
@@ -946,4 +929,6 @@ public class ReportFragment extends Fragment {
     private String getRandomID() {
         return UUID.randomUUID().toString();
     }
+
+
 }// class

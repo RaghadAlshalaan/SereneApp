@@ -38,7 +38,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.ksu.serene.controller.Constants;
-import com.ksu.serene.fitbitManager.Util;
+import com.ksu.serene.controller.liveChart.utils.Utils;
 import com.ksu.serene.controller.signup.FitbitConnection;
 import com.ksu.serene.controller.signup.Questionnairs;
 import com.ksu.serene.controller.signup.Signup;
@@ -74,7 +74,7 @@ public class LogInPage extends AppCompatActivity implements View.OnClickListener
 
         SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
         String preferred_lng = sp.getString("PREFERRED_LANGUAGE", "en");
-        Util.setLocale(preferred_lng, this);
+        Utils.setLocale(preferred_lng, this);
 
         getSupportActionBar().hide();
 

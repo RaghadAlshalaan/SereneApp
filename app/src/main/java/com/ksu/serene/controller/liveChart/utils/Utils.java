@@ -1687,6 +1687,48 @@ public class Utils {
         return chooserIntent;
     }
 
+    @Nullable
+    /**
+     * @deprecated Use {@link MediaUtils#createImageUri(Context)}
+     * Creates external content:// scheme uri to save the images at. The image saved at this
+     * {@link Uri} will be visible via the gallery application on the device.
+     */
+    public static Uri createImageUri(Context ctx) throws IOException {
+
+        if (ctx == null) {
+            throw new NullPointerException("Context cannot be null");
+        }
+
+        Uri imageUri = null;
+
+        ContentValues values = new ContentValues();
+        values.put(MediaColumns.TITLE, "");
+        values.put(ImageColumns.DESCRIPTION, "");
+        imageUri = ctx.getContentResolver().insert(Media.EXTERNAL_CONTENT_URI, values);
+
+        return imageUri;
+    }
+
+    @Nullable
+    /**
+     * @deprecated Use {@link MediaUtils#createVideoUri(Context)}
+     * Creates external content:// scheme uri to save the videos at.
+     */
+    public static Uri createVideoUri(Context ctx) throws IOException {
+
+        if (ctx == null) {
+            throw new NullPointerException("Context cannot be null");
+        }
+
+        Uri imageUri;
+
+        ContentValues values = new ContentValues();
+        values.put(MediaColumns.TITLE, "");
+        values.put(ImageColumns.DESCRIPTION, "");
+        imageUri = ctx.getContentResolver().insert(Video.Media.EXTERNAL_CONTENT_URI, values);
+
+        return imageUri;
+    }
 
     @Nullable
     /**
@@ -1713,6 +1755,100 @@ public class Utils {
         }
     }
 
+    public static Bitmap roundBitmap(Bitmap bmp, int radius) {
+        Bitmap sbmp;
+        if (bmp.getWidth() != radius || bmp.getHeight() != radius) {
+            sbmp = Bitmap.createScaledBitmap(bmp, radius, radius, false);
+        } else {
+            sbmp = bmp;
+        }
+
+        Bitmap output = Bitmap.createBitmap(sbmp.getWidth(), sbmp.getHeight(), Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, sbmp.getWidth(), sbmp.getHeight());
+
+        paint.setAntiAlias(true);
+        paint.setFilterBitmap(true);
+        paint.setDither(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(Color.parseColor("#BAB399"));
+        canvas.drawCircle(sbmp.getWidth() / 2 + 0.7f, sbmp.getHeight() / 2 + 0.7f, sbmp.getWidth() / 2 + 0.1f, paint);
+        paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+        canvas.drawBitmap(sbmp, rect, rect, paint);
+
+        return output;
+    }
+
+    /**
+     * Checks if given url is a relative path.
+     *
+     * @param url
+     * @return false if parameter url is null or false
+     */
+    public static final boolean isRelativeUrl(String url) {
+
+        if (TextUtils.isEmpty(url)) {
+            return false;
+        }
+
+        Uri uri = Uri.parse(url);
+
+        return uri.getScheme() == null;
+    }
+
+    /**
+     * Checks if the parameter {@link Uri} is a content uri.
+     **/
+    public static boolean isContentUri(Uri uri) {
+        if (!uri.toString().contains("content://")) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Hides the already popped up keyboard from the screen.
+     *
+     * @param context
+     */
+    public static void hideKeyboard(Context context) {
+        try {
+            // use application level context to avoid unnecessary leaks.
+            InputMethodManager inputManager = (InputMethodManager) context.getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(((Activity) context).getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        } catch (Exception e) {
+            Log.e(TAG, "Sigh, cant even hide keyboard " + e.getMessage());
+        }
+    }
+
+    /**
+     * Checks if the build version passed as the parameter is
+     * lower than the current build version.
+     *
+     * @param buildVersion One of the values from {@link Build.VERSION_CODES}
+     * @return
+     */
+    public static boolean isBuildBelow(int buildVersion) {
+        if (Build.VERSION.SDK_INT < buildVersion) return true;
+        else return false;
+    }
+
+    /**
+     * Sets the two parameter values to the parameter {@link TextView}
+     * in null-safe and empty-safe way. Such method can be used when setting firstname-lastname
+     * to a textview in the UI.
+     *
+     * @param textView
+     * @param firstValue  String "null" will be treated as null value.
+     * @param secondValue String "null" will be treated as null value.
+     */
+    public static void setTextValues(@NonNull TextView textView, @Nullable String firstValue, @Nullable String secondValue) {
+        String nullEmptyCheckedVal = getNullEmptyCheckedValue(firstValue, secondValue, null);
+        textView.setText(nullEmptyCheckedVal);
+    }
 
     @Nullable
     /**
@@ -1754,7 +1890,36 @@ public class Utils {
         return builder.toString();
     }
 
+    @Nullable
+    /**
+     * Partially capitalizes the string from paramter start and offset.
+     *
+     * @param string String to be formatted
+     * @param start  Starting position of the substring to be capitalized
+     * @param offset Offset of characters to be capitalized
+     * @return
+     */
+    public static String capitalizeString(String string, int start, int offset) {
+        if (TextUtils.isEmpty(string)) {
+            return null;
+        }
+        String formattedString = string.substring(start, offset).toUpperCase() + string.substring(offset, string.length());
+        return formattedString;
+    }
 
+    @Nullable
+    /**
+     * Generates SHA-512 hash for given binary data.
+     * @param stringToHash
+     * @return
+     */
+    public static String getSha512Hash(String stringToHash) {
+        if (stringToHash == null) {
+            return null;
+        } else {
+            return getSha512Hash(stringToHash.getBytes());
+        }
+    }
 
     @Nullable
     /**
@@ -1778,6 +1943,37 @@ public class Utils {
         return null;
     }
 
+    @Nullable
+    /**
+     * Gets the extension of a file.
+     */
+    public static String getExtension(File file) {
+        String ext = null;
+        String s = file.getName();
+        int i = s.lastIndexOf('.');
 
+        if (i > 0 && i < s.length() - 1) {
+            ext = s.substring(i + 1).toLowerCase();
+        }
+
+        return ext;
+    }
+
+    public static boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch(NumberFormatException e){
+            return false;
+        }
+    }
+
+    public static int getScreenWidth() {
+        return Resources.getSystem().getDisplayMetrics().widthPixels;
+    }
+
+    public static int getScreenHeight() {
+        return Resources.getSystem().getDisplayMetrics().heightPixels;
+    }
 
 }

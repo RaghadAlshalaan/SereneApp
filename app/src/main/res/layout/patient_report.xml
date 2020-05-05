@@ -175,6 +175,20 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text1" />
 
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/AL_graph"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="240dp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_marginStart="24dp"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:layout_marginEnd="24dp"-->
+<!--                    android:paddingTop="10dp"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/view" />-->
+
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardView2"
                     android:layout_width="match_parent"
@@ -185,14 +199,23 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view">
 
-
-                    <com.github.mikephil.charting.charts.BarChart
-                        android:id="@+id/chartReport"
+                    <com.smarteist.autoimageslider.SliderView
+                        android:id="@+id/imageSlider"
                         android:layout_width="match_parent"
                         android:layout_height="300dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:sliderAnimationDuration="600"
+                        app:sliderAutoCycleDirection="back_and_forth"
+                        app:sliderAutoCycleEnabled="true"
+                        app:sliderIndicatorAnimationDuration="600"
+                        app:sliderIndicatorGravity="center_horizontal|bottom"
+                        app:sliderIndicatorMargin="15dp"
+                        app:sliderIndicatorOrientation="horizontal"
+                        app:sliderIndicatorPadding="3dp"
+                        app:sliderIndicatorRadius="2dp"
+                        app:sliderIndicatorSelectedColor="#5A5A5A"
+                        app:sliderIndicatorUnselectedColor="#FFF"
+                        app:sliderScrollTimeInSec="1"
+                        app:sliderStartAutoCycle="true" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -243,18 +266,15 @@
 
                 <Button
                     android:id="@+id/heatmap"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:layout_marginTop="19dp"
                     android:background="@drawable/custom_edit_text"
                     android:enabled="false"
                     android:fontFamily="@font/montserrat"
                     android:padding="5dp"
                     android:text="@string/show_map"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recycleView" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <View
                     android:id="@+id/view2"
@@ -287,11 +307,11 @@
                     android:id="@+id/recycleView"
                     android:layout_width="0dp"
                     android:layout_height="150dp"
+                    android:layout_marginTop="10dp"
                     android:visibility="gone"
-                    android:layout_marginTop="3dp"
-                    app:layout_constraintBottom_toTopOf="@+id/heatmap"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view2" />
 
 

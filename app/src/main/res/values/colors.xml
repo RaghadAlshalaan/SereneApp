@@ -43,9 +43,4 @@
     <color name="selected_date_circle_color_app">#FF5252</color>
     <color name="range_bg_color_app">#FFCDD2</color>
 
-    <color name="low_chart_color">#9dd6f5</color>
-    <color name="med_chart_color">#4ba0d1</color>
-    <color name="high_chart_color">#23495f</color>
-
-
 </resources>

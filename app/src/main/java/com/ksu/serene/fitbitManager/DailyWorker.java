@@ -330,6 +330,36 @@ public class DailyWorker extends Worker {
         }
     }
 
+    // This method extracts information from json string and stores them in a json object
+    public static JSONObject convertStringToJson(String jsonString) {
+        try {
+            JSONObject jsonObject = new JSONObject(jsonString);
+            return jsonObject;
+        } catch (JSONException e) {
+            Log.e("ERROR", e.getMessage(), e);
+            return null;
+        }
+    }
+
+
+    // this method revokes current access token
+    public static void revokeToken(String aToken, String id, String secret) {
+        urlString = "https://api.fitbit.com/oauth2/revoke";
+        accessToken = aToken;
+        requestMethod = "POST";
+        authHeader = "Basic";
+        isRevoke = true;
+        clientId = id;
+        clientSecret = secret;
+
+        try {
+            new DailyWorker.RetrieveDataFromApi().execute().get();
+        } catch (InterruptedException e) {
+            Log.e("ERROR", e.getMessage(), e);
+        } catch (ExecutionException e) {
+            Log.e("ERROR", e.getMessage(), e);
+        }
+    }
 
 
     // INNER CLASS
@@ -478,8 +508,8 @@ public class DailyWorker extends Worker {
     }//isTwoWeeksPassed
 
 
-//2. is doctor validated
-    public void isDoctorValidated(){
+    //2. is doctor validated
+    public void isDoctorValidated() {
         final Query userRev = FirebaseFirestore.getInstance().collection("Doctor").whereEqualTo("patientID", mAuth.getUid());
         userRev.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -589,7 +619,6 @@ public class DailyWorker extends Worker {
         });
 
         requestQueue.add(objectRequest);
-        //todo: retrieve data
     }
     public void storeDoctorReport(){
         final Map<String, Object> user = new HashMap<>();

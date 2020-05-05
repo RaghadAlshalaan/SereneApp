@@ -31,7 +31,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.SetOptions;
 import com.ksu.serene.controller.Constants;
 import com.ksu.serene.controller.Reminder.AlarmScheduler;
-import com.ksu.serene.fitbitManager.Util;
+import com.ksu.serene.controller.liveChart.utils.Utils;
 import com.ksu.serene.model.Medicine;
 import com.ksu.serene.R;
 import com.ksu.serene.model.Reminder;
@@ -114,7 +114,7 @@ public class Add_Medicine_Page extends AppCompatActivity {
 
         SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
         String preferred_lng = sp.getString("PREFERRED_LANGUAGE", "en");
-        Util.setLocale(preferred_lng, this);
+        Utils.setLocale(preferred_lng, this);
 
         getSupportActionBar().hide();
 

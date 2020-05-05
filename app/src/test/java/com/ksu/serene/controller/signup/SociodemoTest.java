@@ -111,16 +111,12 @@ public class SociodemoTest {
     }
 
     @Test
-    public void notValidAgeLess() {
+    public void notValidAge() {
         //below
-        age = ("3");
+        age=("3");
         double ageMin = Double.parseDouble(age.toString());
         boolean notValidMin = socioDemo.isValidAge(ageMin);
         assertFalse(notValidMin);
-    }
-
-    @Test
-    public void notValidAgeMore() {
         //above
         age=("115");
         double ageMax = Double.parseDouble(age.toString());
@@ -137,16 +133,12 @@ public class SociodemoTest {
     }
 
     @Test
-    public void notValidHeightLess() {
+    public void notValidHeight() {
         //below
-        height = ("15");
+        height=("15");
         double heightMin = Double.parseDouble(height.toString());
         boolean notValidMin = socioDemo.isValidHeight(heightMin);
         assertFalse(notValidMin);
-    }
-
-    @Test
-    public void notValidHeightMore() {
         //above
         height=("305");
         double heightMax = Double.parseDouble(height.toString());
@@ -163,15 +155,12 @@ public class SociodemoTest {
     }
 
     @Test
-    public void notValidWeightLess() {
+    public void notValidWeight() {
         //below
-        weight = ("15");
+        weight=("15");
         double weightMin = Double.parseDouble(weight.toString());
         boolean notValidMin = socioDemo.isValidWeight(weightMin);
         assertFalse(notValidMin);
-    }
-    @Test
-    public void notValidWeightMore() {
         //above
         weight=("305");
         double weightMax = Double.parseDouble(weight.toString());
