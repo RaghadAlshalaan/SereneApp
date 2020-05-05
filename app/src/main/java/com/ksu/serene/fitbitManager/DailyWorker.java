@@ -102,62 +102,6 @@ public class DailyWorker extends Worker {
         this.context = context;
     }
 
-    private void executeApi(String id) {
-
-        String url = "https://73f846d2.ngrok.io/daily_report/" + id;
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-        JsonObjectRequest objectRequest = new JsonObjectRequest(
-                Request.Method.GET,
-                url,
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.e("API", "Success: " + response.toString());
-
-//                        try {
-//                            // Info to visualize the graph in the Home Fragment
-//
-//                            JSONArray Dates = response.getJSONArray("date");
-//                            JSONArray AnxietyLevel = response.getJSONArray("Anxiety");
-//
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("API", "ERROR: " + error.toString());
-
-                    }
-                }
-        );
-
-        objectRequest.setRetryPolicy(new RetryPolicy() {
-            @Override
-            public int getCurrentTimeout() {
-                return 100000;
-            }
-
-            @Override
-            public int getCurrentRetryCount() {
-                return 100000;
-            }
-
-            @Override
-            public void retry(VolleyError error) throws VolleyError {
-
-            }
-        });
-
-        requestQueue.add(objectRequest);
-        // TODO: Retrieve JSON data ( Date , value )
-    }
-
     /**
      * This will be called whenever work manager run the work (24-hour).
      */
@@ -170,6 +114,7 @@ public class DailyWorker extends Worker {
         //to do execute
         executeDailyReportApi(user.getUid());
         /**------------------DOCTOR REPORT------------------**/
+        Toast.makeText(getApplicationContext() ,"start doctor", Toast.LENGTH_SHORT).show();
         isTwoWeeksPassed();
 
 
@@ -484,7 +429,6 @@ public class DailyWorker extends Worker {
                     public void onResponse(JSONObject response) {
 
                         Log.e("APII", "Success: " + response.toString());
-                        Toast.makeText(getApplicationContext() ,context.getResources().getText(R.string.api_daily_sucess_msg) , Toast.LENGTH_SHORT).show();
 
                     }
                 },
@@ -552,6 +496,7 @@ public class DailyWorker extends Worker {
                     Toast.makeText( getApplicationContext(), "two", Toast.LENGTH_LONG).show();
 
                     isDoctorValidated();
+                    Toast.makeText(getApplicationContext() ,"passed", Toast.LENGTH_SHORT).show();
                 }//big if
 
             }
@@ -575,8 +520,8 @@ public class DailyWorker extends Worker {
                 boolean isVerified = (boolean) queryDocumentSnapshots.getDocuments().get(0).get("isVerified");
                 doctorID = queryDocumentSnapshots.getDocuments().get(0).get("id").toString();
                 if (isVerified){
-                    isThereEnoughDate();
                     Toast.makeText( getApplicationContext(), "doctor is validated", Toast.LENGTH_LONG).show();
+                    isThereEnoughDate();
 
                 }
 
@@ -599,8 +544,8 @@ public class DailyWorker extends Worker {
 
                 if(!firstFit_bit.equals("")|| firstFit_bit==null){
                     //Finally!, send Doctor report
-                    executeDoctorReportApi(user.getUid(), doctorID);
                     Toast.makeText( getApplicationContext(), "there are enough data", Toast.LENGTH_LONG).show();
+                    executeDoctorReportApi(user.getUid(), doctorID);
 
                 }
             }
@@ -643,6 +588,8 @@ public class DailyWorker extends Worker {
                     public void onResponse(JSONObject response) {
 
                         Log.e("APII", "Success: " + response.toString());
+                        Toast.makeText( getApplicationContext(), "DOCTOR SEND", Toast.LENGTH_LONG).show();
+
                         storeDoctorReport();
 
 

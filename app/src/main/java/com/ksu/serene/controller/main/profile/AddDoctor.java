@@ -30,6 +30,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.ksu.serene.MainActivity;
 import com.ksu.serene.R;
 import com.ksu.serene.WelcomePage;
@@ -211,7 +212,7 @@ public class AddDoctor extends AppCompatActivity {
 
                 db.collection("Patient")
                             .document(mAuth.getUid())
-                            .set(user)
+                            .set(user , SetOptions.merge())
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
