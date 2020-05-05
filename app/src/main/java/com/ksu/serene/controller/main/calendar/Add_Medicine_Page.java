@@ -178,14 +178,19 @@ public class Add_Medicine_Page extends AppCompatActivity {
         Confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!checkFields(MedicineName.getText().toString(), Dose.getText().toString(), repeatIntervalET.getText().toString(),repeatNOET.getText().toString(), Time.getText().toString(), FromDay.getText().toString())){
+                if (!checkFields(MedicineName.getText().toString(), Dose.getText().toString(),
+                        repeatIntervalET.getText().toString(),
+                        repeatNOET.getText().toString(), Time.getText().toString(), FromDay.getText().toString())){
                     Toast.makeText(Add_Medicine_Page.this,R.string.EmptyFields, Toast.LENGTH_LONG).show();
                     return;
                 }
-                //chack all filed filled
-                if (checkFields(MedicineName.getText().toString(), Dose.getText().toString(), repeatIntervalET.getText().toString(),repeatNOET.getText().toString(), Time.getText().toString(), FromDay.getText().toString())) {
+                //check all filed filled
+                if (checkFields(MedicineName.getText().toString(), Dose.getText().toString(),
+                        repeatIntervalET.getText().toString(),
+                        repeatNOET.getText().toString(), Time.getText().toString(), FromDay.getText().toString())) {
                     if (!checkDayandTime(FromDay.getText().toString() , Time.getText().toString())){
-                        Toast.makeText(Add_Medicine_Page.this,R.string.CurrentTime, Toast.LENGTH_LONG).show();
+                        Toast.makeText(Add_Medicine_Page.this,R.string.CurrentTime
+                                , Toast.LENGTH_LONG).show();
                         return;
                     }
                     //check the day and time in future or the day now but time in future
@@ -194,7 +199,8 @@ public class Add_Medicine_Page extends AppCompatActivity {
                         repeatNO = Integer.parseInt(repeatNOET.getText().toString());//get repeat number (how many times reminder repeats)
 
                         // if all checked successfully save medicine in firestore with user id
-                        SaveNewMed (MedicineName.getText().toString(),FromDay.getText().toString() ,Time.getText().toString() , Integer.parseInt(Dose.getText().toString()));
+                        SaveNewMed (MedicineName.getText().toString(),FromDay.getText().toString() ,
+                                Time.getText().toString() , Integer.parseInt(Dose.getText().toString()));
 
 
                     } //checkdayandtime if

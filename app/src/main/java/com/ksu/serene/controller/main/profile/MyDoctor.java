@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -29,6 +31,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.ksu.serene.MainActivity;
 import com.ksu.serene.R;
 import com.ksu.serene.controller.Constants;
@@ -37,6 +40,9 @@ import androidx.core.content.res.ResourcesCompat;
 import www.sanju.motiontoast.MotionToast;
 
 import android.content.res.Resources;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MyDoctor extends AppCompatActivity {
 
@@ -117,6 +123,7 @@ public class MyDoctor extends AppCompatActivity {
                                                 d.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
+                                                        storeDoctorReport();
                                                         /*Toast.makeText(MyDoctor.this,R.string.DocDeletedSuccess,
                                                                 Toast.LENGTH_LONG).show();*/
                                                         Resources res = getResources();
@@ -163,6 +170,28 @@ public class MyDoctor extends AppCompatActivity {
         AlertDialog alertDialog =  dialog.create();
         alertDialog.show();
     }
+
+    public void storeDoctorReport(){
+        final Map<String, Object> user = new HashMap<>();
+        user.put("reportTime", "");
+
+
+        db.collection("Patient")
+                .document(mAuth.getUid()+"")
+                .set(user , SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+    }//storeDoctorReport
 
     private void setData() {
 

@@ -30,6 +30,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.ksu.serene.MainActivity;
 import com.ksu.serene.R;
 import com.ksu.serene.WelcomePage;
@@ -205,18 +206,12 @@ public class AddDoctor extends AppCompatActivity {
 
     public void storeDoctorReport(){
                final Map<String, Object> user = new HashMap<>();
-                    user.put("anxiety_level", -1);
-                    user.put("doctorId", ID);
-                    user.put("emailsent",Boolean.TRUE );
-                    user.put("improvement", -1);
-                    user.put("patientId", mAuth.getUid());
                     user.put("reportTime", FieldValue.serverTimestamp());
-                    user.put("reportUrl", "-1");
 
 
-                db.collection("DoctorReports")
-                            .document("Doctor"+mAuth.getUid())
-                            .set(user)
+                db.collection("Patient")
+                            .document(mAuth.getUid()+"")
+                            .set(user , SetOptions.merge())
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
@@ -230,8 +225,6 @@ public class AddDoctor extends AppCompatActivity {
 
                                 }
                             });
-
-
                 }//storeDoctorReport
 
 
