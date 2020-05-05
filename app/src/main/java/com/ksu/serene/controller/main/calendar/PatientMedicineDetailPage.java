@@ -29,7 +29,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.ksu.serene.controller.Constants;
 import com.ksu.serene.controller.Reminder.AlarmManagerProvider;
 import com.ksu.serene.controller.Reminder.ReminderAlarmService;
-import com.ksu.serene.controller.liveChart.utils.Utils;
+import com.ksu.serene.fitbitManager.Util;
 import com.ksu.serene.model.Medicine;
 import com.ksu.serene.R;
 
@@ -61,7 +61,7 @@ public class PatientMedicineDetailPage extends AppCompatActivity {
 
         SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
         String preferred_lng = sp.getString("PREFERRED_LANGUAGE", "en");
-        Utils.setLocale(preferred_lng, this);
+        Util.setLocale(preferred_lng, this);
 
         setContentView(R.layout.activity_patient_medicine_detail_page);
         MedID = getIntent().getStringExtra("MedicineID");

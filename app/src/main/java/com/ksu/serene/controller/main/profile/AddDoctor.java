@@ -34,7 +34,7 @@ import com.ksu.serene.MainActivity;
 import com.ksu.serene.R;
 import com.ksu.serene.WelcomePage;
 import com.ksu.serene.controller.Constants;
-import com.ksu.serene.controller.liveChart.utils.Utils;
+import com.ksu.serene.fitbitManager.Util;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -64,7 +64,7 @@ public class AddDoctor extends AppCompatActivity {
 
         SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
         String preferred_lng = sp.getString("PREFERRED_LANGUAGE", "en");
-        Utils.setLocale(preferred_lng, this);
+        Util.setLocale(preferred_lng, this);
 
         getSupportActionBar().hide();
 

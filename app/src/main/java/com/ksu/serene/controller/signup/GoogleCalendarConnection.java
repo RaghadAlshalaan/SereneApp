@@ -1,5 +1,4 @@
 package com.ksu.serene.controller.signup;
-import static com.ksu.serene.model.MySharedPreference.getInstance;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -32,7 +31,7 @@ import com.google.api.services.calendar.model.CalendarList;
 import com.ksu.serene.MainActivity;
 import com.ksu.serene.R;
 import com.ksu.serene.controller.Constants;
-import com.ksu.serene.controller.liveChart.utils.Utils;
+import com.ksu.serene.fitbitManager.Util;
 import com.ksu.serene.controller.main.profile.PatientProfile;
 import com.ksu.serene.model.MySharedPreference;
 import com.nabinbhandari.android.permissions.PermissionHandler;
@@ -72,7 +71,7 @@ public class GoogleCalendarConnection extends AppCompatActivity {
 
         SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
         String preferred_lng = sp.getString("PREFERRED_LANGUAGE", "en");
-        Utils.setLocale(preferred_lng, this);
+        Util.setLocale(preferred_lng, this);
 
         getSupportActionBar().hide();
 

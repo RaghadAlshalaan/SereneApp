@@ -1,5 +1,9 @@
 package com.ksu.serene.controller;
 
+import com.github.mikephil.charting.data.BarEntry;
+
+import java.util.List;
+
 public class Constants{
 
     public interface Keys{
@@ -13,4 +17,6 @@ public class Constants{
 
 
     }
+    public static List<BarEntry> entriesBar;
+    public static List<String> xAxisValues;
 }

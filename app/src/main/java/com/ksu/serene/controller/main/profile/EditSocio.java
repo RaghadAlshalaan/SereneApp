@@ -30,7 +30,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ksu.serene.controller.Constants;
-import com.ksu.serene.controller.liveChart.utils.Utils;
+import com.ksu.serene.fitbitManager.Util;
 import com.ksu.serene.model.MySharedPreference;
 import com.ksu.serene.R;
 import androidx.core.content.res.ResourcesCompat;
@@ -51,12 +51,6 @@ public class EditSocio extends AppCompatActivity {
     private String TAG = EditSocio.class.getSimpleName();
     private boolean flag = false;
     private ImageView back;
-    /*private ArrayAdapter <CharSequence> adapter = ArrayAdapter.createFromResource(EditSocio.this,
-            R.array.employmentStatus, android.R.layout.simple_spinner_item);
-    private ArrayAdapter<CharSequence> adapterM = ArrayAdapter.createFromResource(EditSocio.this,
-            R.array.yes_no, android.R.layout.simple_spinner_item);
-    private ArrayAdapter<CharSequence> adapterS = ArrayAdapter.createFromResource(EditSocio.this,
-            R.array.yes_no, android.R.layout.simple_spinner_item);*/
 
 
     @Override
@@ -66,7 +60,7 @@ public class EditSocio extends AppCompatActivity {
 
         SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
         String preferred_lng = sp.getString("PREFERRED_LANGUAGE", "en");
-        Utils.setLocale(preferred_lng, this);
+        Util.setLocale(preferred_lng, this);
 
         // Inflate the layout for this fragment
         getSupportActionBar().hide();

@@ -73,15 +73,6 @@ public class Sociodemo extends Fragment {
         chronicDiseaseET.addTextChangedListener(signUpTextWatcher);
 
 
-        // TODO : DO SP
-        // TODO : SAVE FRAGMENT STATUS ON DB
-
-/*        updateToken(FirebaseInstanceId.getInstance().getToken());
-        SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString("CURRENT_USERID",mAuth.getCurrentUser().getUid());
-        editor.apply();*/
-
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

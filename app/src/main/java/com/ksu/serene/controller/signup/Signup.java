@@ -37,7 +37,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.ksu.serene.controller.Constants;
 import com.ksu.serene.LogInPage;
 
-import com.ksu.serene.controller.liveChart.utils.Utils;
+import com.ksu.serene.fitbitManager.Util;
 import com.ksu.serene.model.Patient;
 import com.ksu.serene.model.Token;
 import com.ksu.serene.R;
@@ -75,7 +75,7 @@ public class Signup extends AppCompatActivity {
 
         SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
         String preferred_lng = sp.getString("PREFERRED_LANGUAGE", "en");
-        Utils.setLocale(preferred_lng, this);
+        Util.setLocale(preferred_lng, this);
 
         getSupportActionBar().hide();
 
