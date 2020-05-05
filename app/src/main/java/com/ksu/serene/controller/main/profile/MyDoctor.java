@@ -35,7 +35,7 @@ import com.google.firebase.firestore.SetOptions;
 import com.ksu.serene.MainActivity;
 import com.ksu.serene.R;
 import com.ksu.serene.controller.Constants;
-import com.ksu.serene.controller.liveChart.utils.Utils;
+import com.ksu.serene.fitbitManager.Util;
 import androidx.core.content.res.ResourcesCompat;
 import www.sanju.motiontoast.MotionToast;
 
@@ -60,7 +60,7 @@ public class MyDoctor extends AppCompatActivity {
 
         SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
         String preferred_lng = sp.getString("PREFERRED_LANGUAGE", "en");
-        Utils.setLocale(preferred_lng, this);
+        Util.setLocale(preferred_lng, this);
 
 
         // Inflate the layout for this fragment

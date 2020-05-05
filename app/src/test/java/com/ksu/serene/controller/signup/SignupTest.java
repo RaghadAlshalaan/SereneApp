@@ -155,7 +155,7 @@ public class SignupTest {
 
     @Test
     public void notValidEmail() {
-        email=("user@1234.user");
+        email=("user@1234/user");
         boolean isValid = signup.isValidEmail(email);
         assertFalse(isValid);
     }

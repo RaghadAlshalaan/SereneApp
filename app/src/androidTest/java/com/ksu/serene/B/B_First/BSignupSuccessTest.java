@@ -1,6 +1,8 @@
 package com.ksu.serene.B.B_First;
 
 import static org.junit.Assert.*;
+
+import com.ksu.serene.ElapsedTimeIdlingResource;
 import com.ksu.serene.R;
 import com.ksu.serene.ToastMatcher;
 import com.ksu.serene.controller.signup.Signup;
@@ -10,6 +12,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.concurrent.TimeUnit;
+
+import androidx.test.espresso.IdlingPolicies;
+import androidx.test.espresso.IdlingRegistry;
+import androidx.test.espresso.IdlingResource;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
@@ -54,10 +61,20 @@ public class BSignupSuccessTest {
         //close keyboard
         closeSoftKeyboard();
         onView(withId(R.id.signupBtn)).perform(click());
-        // check toast visibility
-        onView(withText(R.string.SignUpSuccess)).inRoot(new ToastMatcher()).check(matches(withText(R.string.SignUpSuccess)));
-        //check socio activity display
-        onView(withId(R.id.socio)).check(matches(isDisplayed()));
+        //Mack sure Espresso does not time out
+        IdlingPolicies.setMasterPolicyTimeout(5000 * 2, TimeUnit.MILLISECONDS);
+        IdlingPolicies.setIdlingResourceTimeout(5000 * 2, TimeUnit.MILLISECONDS);
+        //Now we waite
+        IdlingResource idlingResource = new ElapsedTimeIdlingResource(5000);
+        try {
+            IdlingRegistry.getInstance().register(idlingResource);
+            //check socio activity display
+            onView(withId(R.id.socio)).check(matches(isDisplayed()));
+        }
+        //clean upp
+        finally {
+            IdlingRegistry.getInstance().unregister(idlingResource);
+        }
     }
 
 

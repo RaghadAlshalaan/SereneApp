@@ -52,7 +52,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.ksu.serene.MainActivity;
 import com.ksu.serene.controller.Constants;
-import com.ksu.serene.controller.liveChart.utils.Utils;
+import com.ksu.serene.fitbitManager.Util;
 import com.ksu.serene.model.MySharedPreference;
 import com.ksu.serene.R;
 import com.ksu.serene.WelcomePage;
@@ -83,6 +83,7 @@ public class Editprofile extends AppCompatActivity {
     private String pastName;
     private boolean ChangePass = false;
     private String editImage;
+    private  String id;
 
     public void setmAuth(FirebaseAuth mockMAuth) {
         this.mAuth = mockMAuth;
@@ -97,7 +98,7 @@ public class Editprofile extends AppCompatActivity {
 
         SharedPreferences sp = getSharedPreferences(Constants.Keys.USER_DETAILS, Context.MODE_PRIVATE);
         String preferred_lng = sp.getString("PREFERRED_LANGUAGE", "en");
-        Utils.setLocale(preferred_lng, this);
+        Util.setLocale(preferred_lng, this);
 
         // Change status bar color
         Window window = this.getWindow();
@@ -213,81 +214,8 @@ public class Editprofile extends AppCompatActivity {
                 dialog.setPositiveButton(R.string.DeleteOKAcc, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        deleteAccount ();
-                        /*mAuth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isSuccessful()){
-                                    //TODO REMOVE ALL THE REMINDERS AND DRAFTS FOR THE PATIENT ID
-                                    //Remove Med Reminders
-                                    final CollectionReference referenceMedicine = FirebaseFirestore.getInstance().collection("PatientMedicin");
-                                    final Query queryPatientMedicine = referenceMedicine.whereEqualTo("patinetID",mAuth.getUid());
-                                    queryPatientMedicine.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                            if (task.isSuccessful()) {
-                                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                                    //Delete all the document
-                                                    referenceMedicine.document(document.getId()).delete();
-                                                }
-                                            }
-                                        }
-                                    });
-                                    //Remove App Reminders
-                                    final CollectionReference referenceApp = FirebaseFirestore.getInstance().collection("PatientSessions");
-                                    final Query queryPatientApp = referenceApp.whereEqualTo("patinetID",mAuth.getUid());
-                                    queryPatientApp.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                            if (task.isSuccessful()) {
-                                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                                    //Delete all the document
-                                                    referenceApp.document(document.getId()).delete();
-                                                }
-                                            }
-                                        }
-                                    });
-                                    //remove text draft
-                                    final CollectionReference referenceTDraft = FirebaseFirestore.getInstance().collection("TextDraft");
-                                    final Query queryPatientTDraft = referenceTDraft.whereEqualTo("patinetID",mAuth.getUid());
-                                    queryPatientTDraft.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                            if (task.isSuccessful()) {
-                                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                                    //Delete all the document
-                                                    referenceTDraft.document(document.getId()).delete();
-                                                }
-                                            }
-                                        }
-                                    });
-                                    //remove audio draft
-                                    final CollectionReference referenceADraft = FirebaseFirestore.getInstance().collection("AudioDraft");
-                                    final Query queryPatientADraft = referenceADraft.whereEqualTo("patinetID",mAuth.getUid());
-                                    queryPatientADraft.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                            if (task.isSuccessful()) {
-                                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                                    //Delete all the document
-                                                    referenceADraft.document(document.getId()).delete();
-                                                }
-                                            }
-                                        }
-                                    });
-                                    Toast.makeText(Editprofile.this,R.string.AccDeletedSuccess , Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(Editprofile.this, WelcomePage.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-
-                                else{
-                                    Log.d("errror Delete",task.getException().getMessage());
-                                    Toast.makeText(Editprofile.this, R.string.AccDeletedFialed,
-                                            Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        });*/
+                        deleteAccountAuth();
+                        //deleteAccount ();
                     }
                 });
 
@@ -347,6 +275,7 @@ public class Editprofile extends AppCompatActivity {
         });
         Eng = findViewById(R.id.English);
         Ar = findViewById(R.id.Arabic);
+        id = mAuth.getUid();
 
     }
 
@@ -479,25 +408,6 @@ public class Editprofile extends AppCompatActivity {
                         //update FirebaseUser profile
                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(newName).build();
                         changeNameFirebase (newName,profileUpdates);
-                        /*FirebaseUser userf = mAuth.getCurrentUser();
-                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(newName).build();
-                        userf.updateProfile(profileUpdates)
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            Log.d(TAG, "User profile updated.");
-
-                                            MySharedPreference.putString(Editprofile.this, "name", newName);
-                                            if ( TextUtils.isEmpty(oldPass.getText().toString()) && TextUtils.isEmpty(newPass.getText().toString())
-                                                    && TextUtils.isEmpty(confirmPass.getText().toString())){
-                                                Toast.makeText(Editprofile.this, R.string.UpdateNameSuccess, Toast.LENGTH_LONG).show();
-                                                finish();
-                                            }
-
-                                        }
-                                    }
-                                });*/
                         Log.d(TAG, "DocumentSnapshot successfully updated!");
                     }
                 })
@@ -748,16 +658,50 @@ public class Editprofile extends AppCompatActivity {
                 });
     }
 
-    public void deleteAccount () {
-        FirebaseFirestore.getInstance().collection("Patient").document(mAuth.getUid())
+    public void deleteAccountAuth() {
+        final String userID = mAuth.getCurrentUser().getUid();
+        // Delete the patient fron authentication
+        mAuth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    //Toast.makeText(Editprofile.this,R.string.AccDeletedSuccess , Toast.LENGTH_LONG).show();
+                    deleteAccount (userID);
+                    Resources res = getResources();
+                    String text = String.format(res.getString(R.string.AccDeletedSuccess));
+                    MotionToast.Companion.darkToast(
+                            Editprofile.this,
+                            text,
+                            MotionToast.Companion.getTOAST_SUCCESS(),
+                            MotionToast.Companion.getGRAVITY_BOTTOM(),
+                            MotionToast.Companion.getLONG_DURATION(),
+                            ResourcesCompat.getFont( Editprofile.this, R.font.montserrat));
+
+                    Intent intent = new Intent(Editprofile.this, WelcomePage.class);
+                    startActivity(intent);
+                }
+                else{
+                    Log.d("errror Delete",task.getException().getMessage());
+                    Toast.makeText(Editprofile.this, R.string.AccDeletedFialed,
+                            Toast.LENGTH_LONG).show();
+                }
+
+
+            }
+        });
+
+    }
+
+    public void deleteAccount (final String idUser) {
+        db.collection("Patient").document(idUser)
                 .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         //Second Delete all the reminders and drafts of patient from DB
                         //Remove Med Reminders
-                        final CollectionReference referenceMedicine = FirebaseFirestore.getInstance().collection("PatientMedicin");
-                        final Query queryPatientMedicine = referenceMedicine.whereEqualTo("patinetID",mAuth.getCurrentUser().getUid());
+                        final CollectionReference referenceMedicine = db.collection("PatientMedicin");
+                        final Query queryPatientMedicine = referenceMedicine.whereEqualTo("patinetID",idUser);
                         queryPatientMedicine.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -770,8 +714,8 @@ public class Editprofile extends AppCompatActivity {
                             }
                         });
                         //Remove App Reminders
-                        final CollectionReference referenceApp = FirebaseFirestore.getInstance().collection("PatientSessions");
-                        final Query queryPatientApp = referenceApp.whereEqualTo("patinetID",mAuth.getCurrentUser().getUid());
+                        final CollectionReference referenceApp = db.collection("PatientSessions");
+                        final Query queryPatientApp = referenceApp.whereEqualTo("patinetID",idUser);
                         queryPatientApp.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -784,8 +728,8 @@ public class Editprofile extends AppCompatActivity {
                             }
                         });
                         //remove notification
-                        final CollectionReference referenceNot = FirebaseFirestore.getInstance().collection("Notifications");
-                        final Query queryPatientNot = referenceNot.whereEqualTo("userID",mAuth.getCurrentUser().getUid());
+                        final CollectionReference referenceNot = db.collection("Notifications");
+                        final Query queryPatientNot = referenceNot.whereEqualTo("userID",idUser);
                         queryPatientNot.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -798,8 +742,8 @@ public class Editprofile extends AppCompatActivity {
                             }
                         });
                         //remove text draft
-                        final CollectionReference referenceTDraft = FirebaseFirestore.getInstance().collection("TextDraft");
-                        final Query queryPatientTDraft = referenceTDraft.whereEqualTo("patinetID",mAuth.getCurrentUser().getUid());
+                        final CollectionReference referenceTDraft = db.collection("TextDraft");
+                        final Query queryPatientTDraft = referenceTDraft.whereEqualTo("patinetID",idUser);
                         queryPatientTDraft.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -812,8 +756,8 @@ public class Editprofile extends AppCompatActivity {
                             }
                         });
                         //remove audio draft
-                        final CollectionReference referenceADraft = FirebaseFirestore.getInstance().collection("AudioDraft");
-                        final Query queryPatientADraft = referenceADraft.whereEqualTo("patientID",mAuth.getCurrentUser().getUid());
+                        final CollectionReference referenceADraft = db.collection("AudioDraft");
+                        final Query queryPatientADraft = referenceADraft.whereEqualTo("patientID",idUser);
                         queryPatientADraft.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -823,36 +767,6 @@ public class Editprofile extends AppCompatActivity {
                                         referenceADraft.document(document.getId()).delete();
                                     }
                                 }
-                            }
-                        });
-                        //Third Delete the patient fron authentication
-                        mAuth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    //Toast.makeText(Editprofile.this,R.string.AccDeletedSuccess , Toast.LENGTH_LONG).show();
-
-                            Resources res = getResources();
-                            String text = String.format(res.getString(R.string.AccDeletedSuccess));
-                            MotionToast.Companion.darkToast(
-                                    Editprofile.this,
-                                    text,
-                                    MotionToast.Companion.getTOAST_SUCCESS(),
-                                    MotionToast.Companion.getGRAVITY_BOTTOM(),
-                                    MotionToast.Companion.getLONG_DURATION(),
-                                    ResourcesCompat.getFont( Editprofile.this, R.font.montserrat));
-
-                                    Intent intent = new Intent(Editprofile.this, WelcomePage.class);
-                                    startActivity(intent);
-                                }
-                                else{
-                                    Log.d("errror Delete",task.getException().getMessage());
-                                    Toast.makeText(Editprofile.this, R.string.AccDeletedFialed,
-                                            Toast.LENGTH_LONG).show();
-                                    logout();
-                                }
-
-
                             }
                         });
                     }
