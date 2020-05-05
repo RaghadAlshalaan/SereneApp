@@ -113,7 +113,7 @@ public class DailyWorker extends Worker {
         executeDailyReportApi(user.getUid());
         /**------------------DOCTOR REPORT------------------**/
         Toast.makeText(context, "Start", Toast.LENGTH_SHORT).show();
-        //isTwoWeeksPassed();
+        isTwoWeeksPassed();
 
 
         /**--------------------QUOTE--------------------**/
