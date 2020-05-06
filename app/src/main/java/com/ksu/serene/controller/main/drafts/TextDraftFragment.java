@@ -26,6 +26,7 @@ import com.ksu.serene.model.TextDraft;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -102,6 +103,8 @@ public class TextDraftFragment extends Fragment {
                         TextDate = getDateFormat(Texttimestap);
                         TextTime = getTimeFormat(Texttimestap);
                         listTextDrafts.add(new TextDraft(TextID, TextTitle, TextDate, TextMessage,TextTime));
+                        Collections.sort(listTextDrafts, TextDraft.BY_NAME_ALPHABETICAL);
+                        Collections.reverse(listTextDrafts);
                         adapterTextDraft.notifyDataSetChanged();
 
                     }// for
@@ -117,8 +120,20 @@ public class TextDraftFragment extends Fragment {
         int mYear = calendar.get(Calendar.YEAR);
         int mMonth = calendar.get(Calendar.MONTH);
         int mDay = calendar.get(Calendar.DAY_OF_MONTH);
+        if((mMonth+1) > 10){
+            if ( mDay > 10 )
+                return mDay+"/"+(mMonth+1)+"/"+mYear;
+            if (mDay < 10)
+                return "0"+mDay+"/"+(mMonth+1)+"/"+mYear;
+        }
+        if ((mMonth+1) < 10){
+            if ( mDay > 10 )
+                return mDay+"/"+"0"+(mMonth+1)+"/"+mYear;
+            if (mDay < 10)
+                return "0"+mDay+"/"+"0"+(mMonth+1)+"/"+mYear;
+        }
 
-        return mDay+"/"+(mMonth+1)+"/"+mYear;
+        return null;
     }// getDateFormat
 
     private String getTimeFormat(Timestamp timeStamp){

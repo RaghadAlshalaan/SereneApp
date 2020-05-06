@@ -21,6 +21,7 @@ import com.ksu.serene.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -84,6 +85,8 @@ public class VoiceDraftFragment extends Fragment {
                         VoiceTime = getTimeFormat(Voicetimestap);
                         VoiceDate = getDateFormat(Voicetimestap);
                         listVoiceDrafts.add(new VoiceDraft(VoiceID, VoiceTitle, VoiceDate, VoiceAudio,VoiceTime));
+                        Collections.sort(listVoiceDrafts, VoiceDraft.BY_NAME_ALPHABETICAL);
+                        Collections.reverse(listVoiceDrafts);
                         adapterVoiceDraft.notifyDataSetChanged();
 
                     }// for
@@ -99,8 +102,20 @@ public class VoiceDraftFragment extends Fragment {
         int mYear = calendar.get(Calendar.YEAR);
         int mMonth = calendar.get(Calendar.MONTH);
         int mDay = calendar.get(Calendar.DAY_OF_MONTH);
+        if((mMonth+1) > 10){
+            if ( mDay > 10 )
+                return mDay+"/"+(mMonth+1)+"/"+mYear;
+            if (mDay < 10)
+                return "0"+mDay+"/"+(mMonth+1)+"/"+mYear;
+        }
+        if ((mMonth+1) < 10){
+            if ( mDay > 10 )
+                return mDay+"/"+"0"+(mMonth+1)+"/"+mYear;
+            if (mDay < 10)
+                return "0"+mDay+"/"+"0"+(mMonth+1)+"/"+mYear;
+        }
 
-        return mDay+"/"+mMonth+"/"+mYear;
+        return null;
     }// getDateFormat
 
     private String getTimeFormat(Timestamp timeStamp){

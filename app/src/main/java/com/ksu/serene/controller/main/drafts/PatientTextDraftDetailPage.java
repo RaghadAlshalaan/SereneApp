@@ -78,20 +78,6 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
         });
 
         retrieveData ();
-        /*db.collection("TextDraft")
-                .document(TDID)
-                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                title.setText(documentSnapshot.get("title").toString());
-                subj.setText(documentSnapshot.get("text").toString());
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                //Toast.makeText(PatientTextDraftDetailPage.this, "Fails to get data", Toast.LENGTH_LONG);
-            }
-        });*/
 
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,35 +90,6 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, final int i) {
                                 deleteDraft ();
-                                /*db.collection("TextDraft")
-                                        .document(TDID)
-                                        .delete()
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                               // Toast.makeText(PatientTextDraftDetailPage.this, R.string.TDDeletedSuccess, Toast.LENGTH_LONG).show();
-
-                                                Resources res = getResources();
-                                                String text = String.format(res.getString(R.string.TDDeletedSuccess));
-
-                                                MotionToast.Companion.darkToast(
-                                                        PatientTextDraftDetailPage.this,
-                                                        text,
-                                                        MotionToast.Companion.getTOAST_SUCCESS(),
-                                                        MotionToast.Companion.getGRAVITY_BOTTOM(),
-                                                        MotionToast.Companion.getLONG_DURATION(),
-                                                        ResourcesCompat.getFont( PatientTextDraftDetailPage.this, R.font.montserrat));
-
-
-                                                finish();
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(PatientTextDraftDetailPage.this, R.string.TDDeletedFialed, Toast.LENGTH_LONG).show();
-                                            }
-                                        });*/
                             }
                         })
                         .setNegativeButton(R.string.DeleteCancleTD, null)
@@ -149,23 +106,6 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
                 }
                 if ( CheckFields (title.getText().toString(), subj.getText().toString())) {
                     editDraft (title.getText().toString(), subj.getText().toString()) ;
-                   /* db.collection("TextDraft")
-                            .document(TDID)
-                            .update("title", title.getText().toString(),
-                                    "text", subj.getText().toString())
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    Toast.makeText(PatientTextDraftDetailPage.this, R.string.TDUpdatedSuccess, Toast.LENGTH_LONG).show();
-                                    finish();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(PatientTextDraftDetailPage.this, R.string.TDUpdatedFialed, Toast.LENGTH_LONG).show();
-                                }
-                            });*/
                 }
 
             }
@@ -199,7 +139,6 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                //Toast.makeText(PatientTextDraftDetailPage.this, "Fails to get data", Toast.LENGTH_LONG);
             }
         });
     }
@@ -231,7 +170,16 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(PatientTextDraftDetailPage.this, R.string.TDDeletedFialed, Toast.LENGTH_LONG).show();
+                        Resources res = getResources();
+                        String text = String.format(res.getString(R.string.TDDeletedFialed));
+
+                        MotionToast.Companion.createToast(
+                                PatientTextDraftDetailPage.this,
+                                text,
+                                MotionToast.Companion.getTOAST_ERROR(),
+                                MotionToast.Companion.getGRAVITY_BOTTOM(),
+                                MotionToast.Companion.getLONG_DURATION(),
+                                ResourcesCompat.getFont( PatientTextDraftDetailPage.this, R.font.montserrat));
                     }
                 });
     }
@@ -244,7 +192,6 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        //Toast.makeText(PatientTextDraftDetailPage.this, R.string.TDUpdatedSuccess, Toast.LENGTH_LONG).show();
                         Resources res = getResources();
                         String text = String.format(res.getString(R.string.TDUpdatedSuccess));
 
@@ -263,7 +210,6 @@ public class PatientTextDraftDetailPage extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        //Toast.makeText(PatientTextDraftDetailPage.this, R.string.TDUpdatedFialed, Toast.LENGTH_LONG).show();
                         Resources res = getResources();
                         String text = String.format(res.getString(R.string.TDUpdatedFialed));
 
